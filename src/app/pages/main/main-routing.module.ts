@@ -16,11 +16,11 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
-  // {
-  //   path: 'profile',
-  //   loadChildren: () =>
-  //     import('./profile/profile.module').then((m) => m.ProfileModule),
-  // },
+  {
+    path: 'profile',
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfileModule),
+  },
   {
     path: 'products',
     loadChildren: () =>
