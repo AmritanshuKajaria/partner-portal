@@ -21,7 +21,7 @@ const MODE_KEY = 'mode';
 })
 export class AuthService {
   mode = localStorage.getItem('mode');
-  url = this.mode === 'live' ? environment.prodUrl : environment.baseUrl;
+  url = environment.prodUrl;
 
   constructor(private httpClient: HttpClient, private router: Router) {
     console.log(this.url);
@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   setMode() {
-    localStorage.setItem(MODE_KEY, this.mode ? this.mode : 'test');
+    localStorage.setItem(MODE_KEY, 'live');
   }
 
   clearToken() {
