@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   setMode() {
-    localStorage.setItem(MODE_KEY, this.mode ? this.mode : 'test');
+    localStorage.setItem(MODE_KEY, 'test');
   }
 
   clearToken() {
