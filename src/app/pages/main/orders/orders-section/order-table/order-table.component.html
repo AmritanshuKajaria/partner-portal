@@ -15,17 +15,12 @@
     <thead>
       <tr>
         <th>PO #</th>
+        <th>PO Date</th>
         <th>Customer Name</th>
         <th>Products</th>
         <th>PO Total</th>
 
-        <th
-          *ngIf="
-            tabName === 'new' ||
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
-          "
-        >
+        <th *ngIf="tabName === 'new' || tabName === 'pending-shipment'">
           Committed Ship Date
         </th>
         <th
@@ -77,18 +72,18 @@
                 data.po_no
               }}</a>
             </span>
-            <span class="sub-date">
+            <!-- <span class="sub-date">
               {{ data?.po_date | date : "dd-MM-yyyy hh:MM a" }}
-            </span>
+            </span> -->
             <span class="sub-date"> {{ data?.po_method }} </span>
           </div>
         </td>
         <td>
-          <div style="display: flex; flex-direction: column">
-            <div>{{ data.customer_name }}</div>
-            <div>{{ data?.customer_city }}</div>
-          </div>
+          <span class="sub-date">
+            {{ data?.po_date | date : "MM-dd-yyyy hh:MM a" }}
+          </span>
         </td>
+        <td>{{ data.customer_name }}</td>
         <td>
           {{ data.mpn }}
           <ul class="sub-section">
@@ -101,14 +96,8 @@
           </ul>
         </td>
         <td>{{ data.po_total | currency }}</td>
-        <td
-          *ngIf="
-            tabName === 'new' ||
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
-          "
-        >
-          {{ data.committed_ship_date | date : "dd-MM-yyyy" }}
+        <td *ngIf="tabName === 'new' || tabName === 'pending-shipment'">
+          {{ data.committed_ship_date | date : "MM-dd-yyyy" }}
         </td>
         <td
           *ngIf="
@@ -117,7 +106,7 @@
             tabName === 'Cancellation Requested'
           "
         >
-          {{ data.cancel_after_date | date : "dd-MM-yyyy" }}
+          {{ data.cancel_after_date | date : "MM-dd-yyyy" }}
         </td>
         <td
           *ngIf="
@@ -148,6 +137,15 @@
             >
               Acknowledge
             </button>
+            <button
+              *ngIf="tabName === 'new'"
+              class="action-button"
+              nz-button
+              nzType="primary"
+              (click)="selectAction(data?.po_no, 'Cancel Order')"
+            >
+              Cancel Order
+            </button>
             <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu>
@@ -164,11 +162,17 @@
                   Download Label
                 </li>
                 <li
+                  (click)="selectAction(data?.po_no, 'PO Clarification')"
+                  nz-menu-item
+                >
+                  PO Clarification
+                </li>
+                <!-- <li
                   (click)="selectAction(data?.po_no, 'Cancel Order')"
                   nz-menu-item
                 >
                   Cancel Order
-                </li>
+                </li> -->
               </ul>
             </nz-dropdown-menu>
           </div>
@@ -245,3 +249,16 @@
     </ng-container>
   </nz-modal>
 </div>
+
+<nz-modal
+  [(nzVisible)]="poClarification"
+  nzTitle="Create Ticket"
+  (nzOnCancel)="poClarification = false"
+>
+  <ng-container *nzModalContent>
+    <app-po-clarification
+      [poNo]="poNo"
+      (close)="poClarification = false"
+    ></app-po-clarification>
+  </ng-container>
+</nz-modal>

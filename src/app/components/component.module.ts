@@ -76,6 +76,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     ShowReferenceCodeComponent,
     EditTimeComponent,
     AsinComponent,
+    PoClarificationComponent,
   ],
 })
 export class ComponentModule {}

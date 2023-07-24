@@ -7,20 +7,36 @@
     <nz-form-item>
       <nz-form-control>
         <nz-input-group>
-          <nz-radio-group style="display: grid" formControlName="option">
-            <label nz-radio nzValue="A">Out Of Stock</label>
-            <label nz-radio nzValue="B">Restrict Product</label>
-            <label nz-radio nzValue="C">Discontinued Product</label>
-            <label nz-radio nzValue="D">Prize Error</label>
-            <label nz-radio nzValue="E">Cannot Ship Group</label>
-            <label nz-radio nzValue="F">Cannot Ship Before Cancel Data</label>
-            <label nz-radio nzValue="other">Other</label>
+          <nz-radio-group
+            style="display: grid"
+            formControlName="option"
+            (ngModelChange)="selectReason($event)"
+          >
+            <label nz-radio nzValue="01 - Out of Stock"
+              >01 - Out of Stock</label
+            >
+            <label nz-radio nzValue="02 - Restricted Product"
+              >02 - Restricted Product</label
+            >
+            <label nz-radio nzValue="03 - Discontinued Product"
+              >03 - Discontinued Product</label
+            >
+            <label nz-radio nzValue="04 - Price Error">04 - Price Error</label>
+            <label nz-radio nzValue="05 - Cannot Ship Ground "
+              >05 - Cannot Ship Ground
+            </label>
+            <label nz-radio nzValue="06 - Cannot Ship Before Cancel Date"
+              >06 - Cannot Ship Before Cancel Date</label
+            >
+            <label nz-radio nzValue="99 - Others">99 - Others</label>
           </nz-radio-group>
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
-    <nz-form-item *ngIf="cancelOrderForm.controls['option'].value === 'other'">
-      <nz-form-control>
+    <nz-form-item
+      *ngIf="cancelOrderForm.controls['option'].value === '99 - Others'"
+    >
+      <nz-form-control nzErrorTip="Please input your other reason!">
         <nz-input-group>
           <input
             type="text"
@@ -43,7 +59,13 @@
     >
       Cancel
     </button>
-    <button nz-button [nzType]="'primary'" (click)="submit()">
+    <button
+      nz-button
+      [nzType]="'primary'"
+      (click)="submit()"
+      [disabled]="!cancelOrderForm.valid || isLoading"
+      [ngClass]="{ 'disabled-btn': !cancelOrderForm.valid || isLoading }"
+    >
       <span
         *ngIf="isLoading"
         style="color: white; font-size: 16px"

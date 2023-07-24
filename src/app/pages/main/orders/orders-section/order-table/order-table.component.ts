@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -23,19 +24,26 @@ export class OrderTableComponent implements OnInit {
 
   pageSizeOptions = [100];
   poNo: string = '';
+  poClarification: boolean = false;
 
   constructor(
     private ordersService: OrdersService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modal: NzModalService
   ) {}
   ngOnInit(): void {}
 
   acknowledgeOrders(po_no: string) {
-    this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
-      console.log(res);
-      if (res.success) {
-        this.message.success('Order acknowledge successfully!');
-      }
+    this.modal.confirm({
+      nzTitle: '<i>Do you Want to Acknowledge these items?</i>',
+      nzOnOk: () => {
+        this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
+          console.log(res);
+          if (res.success) {
+            this.message.success('Order acknowledge successfully!');
+          }
+        });
+      },
     });
   }
 
@@ -76,6 +84,8 @@ export class OrderTableComponent implements OnInit {
           window.open(res.label);
         }
       });
+    } else if (type === 'PO Clarification') {
+      this.poClarification = true;
     } else {
       this.poNo = po_no;
       this.isCancelOrderVisible = true;
