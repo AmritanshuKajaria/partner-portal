@@ -2,7 +2,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { GetAllOrders } from 'src/app/shared/model/orders.model';
+import {
+  AppliedFilters,
+  GetAllOrders,
+} from 'src/app/shared/model/orders.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -32,7 +35,7 @@ export class DeliveredComponent implements OnInit {
   search_term: string = '';
   selectRangeDate: string = '';
   isExportVisible: boolean = false;
-  listOfFilter: any = '';
+  listOfFilter: AppliedFilters = {};
   statusEnum: typeof StatusEnum = StatusEnum;
 
   constructor(private ordersService: OrdersService) {
@@ -110,7 +113,7 @@ export class DeliveredComponent implements OnInit {
     this.sidenavSection.nativeElement.style.width = '0';
   }
 
-  change(data: any) {
+  change(data: { value: any; type: string }) {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'sku':

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+  ProcessedInventory,
+  RejectInventory,
+} from 'src/app/shared/model/inventory.model';
+import {
   InventoryFeed,
   InventoryService,
 } from 'src/app/shared/service/inventory.service';
@@ -11,7 +15,7 @@ import {
   styleUrls: ['./view-inventory.component.scss'],
 })
 export class ViewInventoryComponent implements OnInit {
-  editData: any = '';
+  editData: any = {};
 
   feedCode: string = '';
   isLoading: boolean = true;
@@ -33,7 +37,7 @@ export class ViewInventoryComponent implements OnInit {
     };
     if (this.feedResult.toLocaleLowerCase() === 'processed') {
       this.inventoryService.inventoryFeed(data).subscribe(
-        (res: any) => {
+        (res: ProcessedInventory) => {
           this.isLoading = false;
           this.editData = res;
           this.total =
@@ -76,9 +80,9 @@ export class ViewInventoryComponent implements OnInit {
       );
     } else {
       this.inventoryService.inventoryFeedReject(data).subscribe(
-        (res: any) => {
-          this.isLoading = false;
+        (res: RejectInventory) => {
           console.log(res);
+          this.isLoading = false;
           this.editData = res;
         },
         (err) => (this.isLoading = false)

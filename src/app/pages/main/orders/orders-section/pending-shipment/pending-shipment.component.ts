@@ -1,7 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
-import { GetAllOrders } from 'src/app/shared/model/orders.model';
+import {
+  AppliedFilters,
+  GetAllOrders,
+} from 'src/app/shared/model/orders.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -21,7 +24,7 @@ export class PendingShipmentComponent implements OnInit {
   pendingShipmentData: any = [];
   clear_btn: boolean = false;
   isExportVisible: boolean = false;
-  listOfFilter: any = '';
+  listOfFilter: AppliedFilters = {};
 
   badgeTotal: number = 0;
   locationCount: number = 0;
@@ -114,7 +117,7 @@ export class PendingShipmentComponent implements OnInit {
     this.sidenavSection.nativeElement.style.width = '0';
   }
 
-  change(data: any) {
+  change(data: { value: any; type: string }) {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'shipOutLocation':

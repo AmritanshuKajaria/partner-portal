@@ -2,7 +2,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { GetAllOrders } from 'src/app/shared/model/orders.model';
+import {
+  AppliedFilters,
+  GetAllOrders,
+} from 'src/app/shared/model/orders.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -37,7 +40,7 @@ export class NewOrdersComponent implements OnInit {
   search_term: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: any = '';
+  listOfFilter: AppliedFilters = {};
 
   constructor(
     private ordersService: OrdersService,
@@ -116,7 +119,7 @@ export class NewOrdersComponent implements OnInit {
     this.sidenavSection.nativeElement.style.width = '0';
   }
 
-  change(data: any) {
+  change(data: { value: any; type: string }) {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'shipOutLocation':

@@ -21,7 +21,7 @@ const MODE_KEY = 'mode';
 })
 export class AuthService {
   mode = localStorage.getItem('mode');
-  url = environment.prodUrl;
+  url = this.mode === 'live' ? environment.prodUrl : environment.baseUrl;
 
   constructor(private httpClient: HttpClient, private router: Router) {
     console.log(this.url);

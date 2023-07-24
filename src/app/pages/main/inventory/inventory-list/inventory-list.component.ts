@@ -2,6 +2,10 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import {
+  GetAllInventory,
+  SingleInventory,
+} from 'src/app/shared/model/inventory.model';
 import { PermissionList } from 'src/app/shared/model/permission.model';
 import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
@@ -28,7 +32,7 @@ export class InventoryListComponent implements OnInit {
   isUploadVisible: boolean = false;
   isDownloadVisible: boolean = false;
 
-  inventoryList: any[] = [];
+  inventoryList: SingleInventory[] = [];
   exportType: boolean = false;
   searchInventory!: FormGroup;
   filter!: FormGroup;
@@ -111,8 +115,8 @@ export class InventoryListComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe(
-        (res: any) => {
-          this.total = res.pagination?.total_rows;
+        (res: GetAllInventory | any) => {
+          this.total = res.pagination?.total_rows ?? 0;
           this.inventoryList = res.inventory_feeds;
           this.isLoading = false;
         },
