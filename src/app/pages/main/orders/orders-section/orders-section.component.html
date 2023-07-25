@@ -1,5 +1,5 @@
 <div class="orders-section">
-  <app-section-header [header]="'Order Section'"></app-section-header>
+  <app-section-header [header]="'Orders'"></app-section-header>
 
   <div class="body-section">
     <nz-tabset
@@ -7,19 +7,39 @@
       (nzSelectedIndexChange)="changeTabIndex($event)"
       nzType="card"
     >
-      <nz-tab nzTitle="New"
-        ><app-new-orders (changeTab)="selectedTab = 1"></app-new-orders
+      <nz-tab [nzTitle]="'New (' + newTotal + ')'"
+        ><app-new-orders
+          (changeTab)="selectedTab = 1"
+          (totalData)="getTotal($event, 'new')"
+        ></app-new-orders
       ></nz-tab>
-      <nz-tab nzTitle="Pending Shipment"
-        ><app-pending-shipment></app-pending-shipment
+      <nz-tab [nzTitle]="'Pending Shipment (' + pendingShipmentTotal + ')'"
+        ><app-pending-shipment
+          (totalData)="getTotal($event, 'pending-shipment')"
+        ></app-pending-shipment
       ></nz-tab>
-      <nz-tab nzTitle="Cancellation Requested"
-        ><app-cancellation-requested></app-cancellation-requested
+      <nz-tab
+        [nzTitle]="
+          'Cancellation Requested (' + cancellationRequestedTotal + ')'
+        "
+        ><app-cancellation-requested
+          (totalData)="getTotal($event, 'cancellation-requested')"
+        ></app-cancellation-requested
       ></nz-tab>
-      <nz-tab nzTitle="In Transit"><app-in-transit></app-in-transit></nz-tab>
-      <nz-tab nzTitle="Delivered"><app-delivered></app-delivered></nz-tab>
+      <nz-tab [nzTitle]="'In Transit (' + inTransitTotal + ')'"
+        ><app-in-transit
+          (totalData)="getTotal($event, 'in-transit')"
+        ></app-in-transit
+      ></nz-tab>
+      <nz-tab [nzTitle]="'Delivered (' + deliveredTotal + ')'"
+        ><app-delivered
+          (totalData)="getTotal($event, 'delivered')"
+        ></app-delivered
+      ></nz-tab>
       <!-- <nz-tab nzTitle="RTO"><app-rto-orders></app-rto-orders></nz-tab> -->
-      <nz-tab nzTitle="All"><app-all-orders></app-all-orders></nz-tab>
+      <nz-tab [nzTitle]="'All (' + allTotal + ')'"
+        ><app-all-orders (totalData)="getTotal($event, 'all')"></app-all-orders
+      ></nz-tab>
     </nz-tabset>
   </div>
 </div>

@@ -116,4 +116,16 @@
       }
     }
   }
+
+  @media screen and (max-width:768px) {
+    .side-image {
+      display: none;
+      // width: 55%;
+      // height: 100vh;
+      // background-image: url(../../../../assets/img/login_side.png);
+      // background-position: center 30%;
+      // background-repeat: no-repeat;
+      // background-size: cover;
+    }
+  }
 }

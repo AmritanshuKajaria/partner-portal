@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CancelOrders } from 'src/app/shared/model/orders.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -19,9 +19,21 @@ export class CancelOrderComponent implements OnInit {
 
   ngOnInit(): void {
     this.cancelOrderForm = new FormGroup({
-      option: new FormControl(''),
+      option: new FormControl('', [Validators.required]),
       otherOption: new FormControl(''),
     });
+  }
+
+  selectReason(event: string) {
+    if (event === '99 - Others') {
+      this.cancelOrderForm.controls['otherOption'].setValidators([
+        Validators.required,
+      ]);
+      this.cancelOrderForm.controls['otherOption'].updateValueAndValidity();
+    } else {
+      this.cancelOrderForm.controls['otherOption'].clearValidators();
+      this.cancelOrderForm.controls['otherOption'].updateValueAndValidity();
+    }
   }
 
   submit() {

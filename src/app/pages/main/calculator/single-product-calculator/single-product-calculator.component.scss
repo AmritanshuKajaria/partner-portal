@@ -1,0 +1,101 @@
+ @import'../../../../../assets/variable/variable.scss';
+
+ .single-product-calculator {
+     .search-section {
+         display: flex;
+         align-items: center;
+         margin-bottom: 20px;
+         //  justify-content: center;
+
+         ::ng-deep .ant-input {
+             border-radius: 5px !important;
+         }
+
+         ::ng-deep .ant-form-item {
+             margin-bottom: 0px;
+         }
+
+         nz-input-group {
+             border-radius: 5px;
+             width: 350px;
+
+             input {
+                 height: 35px;
+                 font-size: 16px;
+                 width: 100%;
+             }
+         }
+
+         button {
+             margin-top: 0;
+             margin-left: 5px;
+         }
+     }
+
+     .product-section {
+         .content {
+             display: flex;
+             align-items: center;
+
+             &-section {
+                 margin: 0 10px;
+
+                 a {
+                     margin-bottom: 10px;
+                 }
+             }
+         }
+     }
+
+     .card {
+         border-radius: 5px;
+         border: 1px solid $border;
+
+         ::ng-deep .ant-input-prefix {
+             font-size: x-large;
+             margin-right: 10px;
+         }
+
+         ::ng-deep .ant-input {
+             border-radius: 5px !important;
+         }
+
+         ::ng-deep .ant-form-item {
+             margin-bottom: 0px;
+         }
+
+         nz-input-group {
+             border-radius: 5px;
+
+             input {
+                 height: 30px;
+                 font-size: 16px;
+                 width: 100px;
+             }
+         }
+
+         .unit-price {
+             border-bottom: 1px solid $border;
+         }
+
+         .other-section {
+             padding: 5px;
+             padding-left: 0;
+         }
+
+         .retailer-price {
+             border-top: 1px solid $border;
+         }
+
+         &-content {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 5px;
+         }
+     }
+
+     .button {
+         text-align: end;
+     }
+ }

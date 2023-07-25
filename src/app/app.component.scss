@@ -30,10 +30,10 @@
     background-color: $darkBlue !important;
 }
 
-::ng-deep .ant-btn:hover,
-.ant-btn:focus {
-    border-color: $darkBlue !important;
-}
+// ::ng-deep .ant-btn:hover,
+// .ant-btn:focus {
+//     border-color: $darkBlue !important;
+// }
 
 ::ng-deep .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
     border-color: $darkBlue !important;
@@ -118,10 +118,10 @@
     display: none;
 }
 
-::ng-deep .ant-btn:hover,
-.ant-btn:focus {
-    border-color: $darkBlue;
-}
+// ::ng-deep .ant-btn:hover,
+// .ant-btn:focus {
+//     border-color: $darkBlue;
+// }
 
 ::ng-deep .ant-modal-header {
     // background-color: $header-of-tab;

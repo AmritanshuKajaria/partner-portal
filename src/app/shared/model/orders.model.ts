@@ -7,18 +7,20 @@ export interface GetAllOrders {
     total_pages: number;
   };
   filtered?: boolean;
-  applied_filters?: {
-    filter_po_list_type?: string;
-    filter_sku?: string;
-    filter_ship_out_location?: string;
-    filter_carrier?: string;
-    filter_committed_ship_date?: string;
-    filter_from_po_date?: string;
-    filter_to_po_date?: string;
-  };
+  applied_filters?: AppliedFilters;
   searched?: boolean;
   applied_search_term?: string;
   orders?: SingleOrder[];
+}
+
+export interface AppliedFilters {
+  filter_po_list_type?: string;
+  filter_sku?: string;
+  filter_ship_out_location?: string;
+  filter_carrier?: string;
+  filter_committed_ship_date?: string;
+  filter_from_po_date?: string;
+  filter_to_po_date?: string;
 }
 
 export interface SingleOrder {
