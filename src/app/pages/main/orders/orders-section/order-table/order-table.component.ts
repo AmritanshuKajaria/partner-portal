@@ -35,7 +35,7 @@ export class OrderTableComponent implements OnInit {
 
   acknowledgeOrders(po_no: string) {
     this.modal.confirm({
-      nzTitle: '<i>Do you Want to Acknowledge these items?</i>',
+      nzTitle: 'Do you Want to Acknowledge these items?',
       nzOnOk: () => {
         this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
           console.log(res);
@@ -61,11 +61,16 @@ export class OrderTableComponent implements OnInit {
   }
 
   acceptCancellation(po_no: string) {
-    this.ordersService.acceptCancellation(po_no).subscribe((res: any) => {
-      console.log(res);
-      if (res.success) {
-        this.message.success('Accept cancellation successfully!');
-      }
+    this.modal.confirm({
+      nzTitle: 'Do you Want to Cancellation these items?',
+      nzOnOk: () => {
+        this.ordersService.acceptCancellation(po_no).subscribe((res: any) => {
+          console.log(res);
+          if (res.success) {
+            this.message.success('Accept cancellation successfully!');
+          }
+        });
+      },
     });
   }
 

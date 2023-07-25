@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  Output,
+  ViewChild,
+  EventEmitter,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -15,6 +22,7 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
 })
 export class NewOrdersComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
+  @Output() totalData = new EventEmitter();
 
   total = 0;
   pageSize = 100;
@@ -88,6 +96,7 @@ export class NewOrdersComponent implements OnInit {
           if (response.success) {
             this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
+            this.totalData.emit(this.total);
             this.newOrdersData = response.orders ?? [];
           } else {
             this.isLoading = false;

@@ -1,0 +1,82 @@
+<div class="single-product-calculator">
+  <div class="search-section">
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group>
+          <input type="text" nz-input placeholder="Search ASIN, SKU" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button class="action-button" [nzType]="'primary'">
+      <span nz-icon nzType="search" nzTheme="outline"></span>
+      Search
+    </button>
+  </div>
+  <div nz-row>
+    <div nz-col [nzXl]="12" [nzXs]="24">
+      <div class="product-content">
+        <h2>Product Content</h2>
+      </div>
+    </div>
+    <div nz-col [nzXl]="12" [nzXs]="24">
+      <div class="card">
+        <div class="unit-price card-content">
+          <b>Unit Price : </b>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <input
+                  [(ngModel)]="unitPrice"
+                  type="number"
+                  nz-input
+                  placeholder="Unit Price"
+                  (input)="changePrice($event, 'unit')"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="other-section">
+          <div class="card-content">
+            <span>Shipping Cost : </span>
+            <span>{{ shippingCost }}</span>
+          </div>
+          <div class="card-content">
+            <span>Amazon Commission : </span>
+            <span>{{ amazonCommission }}%</span>
+          </div>
+          <div class="card-content">
+            <span>Order Processing Fee : </span>
+            <span>{{ orderProcessingFee }}%</span>
+          </div>
+          <div class="card-content">
+            <span>Return Processing Fee : </span>
+            <span>${{ returnProcessingFee }}</span>
+          </div>
+        </div>
+        <div class="retailer-price card-content">
+          <b>Retailer Price : </b>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <input
+                  [(ngModel)]="retailPrice"
+                  type="number"
+                  nz-input
+                  placeholder="Unit Price"
+                  (input)="changePrice($event, 'retailer')"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div class="button">
+        <button nz-button class="action-button" [nzType]="'primary'">
+          <span nz-icon nzType="file-text" nzTheme="outline"></span>
+          Save
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

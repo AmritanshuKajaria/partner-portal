@@ -237,14 +237,12 @@
               <td style="text-align: center">{{ i + 1 }}</td>
               <td>
                 <div>
-                  <b
-                    >MPN : <a class="link">{{ data?.mpn }}</a></b
-                  >
+                  <b>MPN :{{ data?.mpn }}</b>
                 </div>
                 <div>Description : {{ data?.description }}</div>
                 <div>UPC : {{ data?.upc }}</div>
                 <div>Brand : {{ data?.brand }}</div>
-                <div>ASIN : <app-asin [asin]="data?.asin"></app-asin></div>
+                <div>ASIN : {{ data?.asin }}</div>
                 <div>Total No Of Box : {{ data?.number_of_boxes }}</div>
                 <div>Unit : {{ data?.unit }}</div>
                 <div>

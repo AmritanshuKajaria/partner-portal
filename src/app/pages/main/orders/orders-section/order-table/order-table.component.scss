@@ -8,6 +8,21 @@
             border: 1px solid $darkBlue;
         }
 
+        .action-btn {
+            button {
+                border-radius: 5px;
+                font-size: 14px;
+                font-weight: 600;
+                height: 27px !important;
+                padding: 0 10px !important;
+                border: none;
+                margin-right: 5px;
+                margin-bottom: 3px;
+                color: $white;
+                // background-color: $yellow;
+            }
+        }
+
         ::ng-deep .ant-btn-round {
             padding: 4px 10px !important;
         }

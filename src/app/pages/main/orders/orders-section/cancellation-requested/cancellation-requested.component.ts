@@ -1,4 +1,11 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import {
@@ -14,6 +21,7 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
 })
 export class CancellationRequestedComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
+  @Output() totalData = new EventEmitter();
 
   total = 1;
   pageSize = 100;
@@ -65,6 +73,7 @@ export class CancellationRequestedComponent implements OnInit {
           if (response.success) {
             this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
+            this.totalData.emit(this.total);
             this.cancellationRequestedData = response.orders ?? [];
           } else {
             this.isLoading = false;
