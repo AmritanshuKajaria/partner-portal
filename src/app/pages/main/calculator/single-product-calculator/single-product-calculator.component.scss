@@ -37,8 +37,12 @@
              display: flex;
              align-items: center;
 
-             div {
-                 margin: 10px 15px;
+             &-section {
+                 margin: 0 10px;
+
+                 a {
+                     margin-bottom: 10px;
+                 }
              }
          }
      }
