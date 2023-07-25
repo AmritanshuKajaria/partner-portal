@@ -40,8 +40,7 @@ export class AuthService {
   }
 
   setMode() {
-    localStorage.setItem(MODE_KEY, 'temp');
-    // live
+    localStorage.setItem(MODE_KEY, 'live');
   }
 
   clearToken() {
