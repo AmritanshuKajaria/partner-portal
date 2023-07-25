@@ -1,8 +1,18 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { GetAllOrders } from 'src/app/shared/model/orders.model';
+import {
+  AppliedFilters,
+  GetAllOrders,
+} from 'src/app/shared/model/orders.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -12,6 +22,7 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
 })
 export class InTransitComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
+  @Output() totalData = new EventEmitter();
 
   total = 1;
   pageSize = 100;
@@ -34,7 +45,7 @@ export class InTransitComponent implements OnInit {
   search_term: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: any = '';
+  listOfFilter: AppliedFilters = {};
   statusEnum: typeof StatusEnum = StatusEnum;
 
   constructor(private ordersService: OrdersService) {
@@ -74,6 +85,7 @@ export class InTransitComponent implements OnInit {
           if (response.success) {
             this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
+            this.totalData.emit(this.total);
             this.inTransitData = response.orders ?? [];
           } else {
             this.isLoading = false;
@@ -103,7 +115,7 @@ export class InTransitComponent implements OnInit {
     this.sidenavSection.nativeElement.style.width = '0';
   }
 
-  change(data: any) {
+  change(data: { value: any; type: string }) {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'status':

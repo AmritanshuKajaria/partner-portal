@@ -8,6 +8,12 @@ import { Router } from '@angular/router';
 })
 export class OrdersSectionComponent implements OnInit {
   selectedTab: number = 0;
+  newTotal: number = 0;
+  pendingShipmentTotal: number = 0;
+  cancellationRequestedTotal: number = 0;
+  inTransitTotal: number = 0;
+  deliveredTotal: number = 0;
+  allTotal: number = 0;
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
@@ -18,6 +24,29 @@ export class OrdersSectionComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  getTotal(total: number, type: string) {
+    switch (type) {
+      case 'new':
+        this.newTotal = total;
+        break;
+      case 'pending-shipment':
+        this.pendingShipmentTotal = total;
+        break;
+      case 'cancellation-requested':
+        this.cancellationRequestedTotal = total;
+        break;
+      case 'in-transit':
+        this.inTransitTotal = total;
+        break;
+      case 'delivered':
+        this.deliveredTotal = total;
+        break;
+      case 'all':
+        this.allTotal = total;
+        break;
+    }
+  }
 
   changeTabIndex(event: number) {
     this.selectedTab = event;
