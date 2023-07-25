@@ -12,13 +12,21 @@
       Search
     </button>
   </div>
-  <div nz-row>
+  <div nz-row [nzGutter]="16">
     <div nz-col [nzXl]="12" [nzXs]="24">
-      <div class="product-content">
-        <h2>Product Content</h2>
+      <div class="product-section">
+        <h2>Product Detail</h2>
+        <div class="content">
+          <div>
+            <nz-avatar nzSize="large" nzIcon="user"></nz-avatar>
+          </div>
+          <div><b>Name : </b>User</div>
+          <div><b>ASIN : </b>B004QL3W9Y</div>
+        </div>
       </div>
     </div>
     <div nz-col [nzXl]="12" [nzXs]="24">
+      <h2>Product Calculation</h2>
       <div class="card">
         <div class="unit-price card-content">
           <b>Unit Price : </b>

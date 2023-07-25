@@ -32,6 +32,17 @@
          }
      }
 
+     .product-section {
+         .content {
+             display: flex;
+             align-items: center;
+
+             div {
+                 margin: 10px 15px;
+             }
+         }
+     }
+
      .card {
          border-radius: 5px;
          border: 1px solid $border;
