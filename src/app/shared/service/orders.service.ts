@@ -25,6 +25,9 @@ export class OrdersService {
     if (action.po_list_type) {
       params = params.append('po_list_type', action.po_list_type);
     }
+    if (action.type) {
+      params = params.append('type', action.type);
+    }
     if (action.sku) {
       params = params.append('sku', action.sku);
     }

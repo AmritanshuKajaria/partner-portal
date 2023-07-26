@@ -63,7 +63,7 @@ export class CancellationRequestedComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        po_list_type: 'Cancellation Requested',
+        type: 'Cancellation Requested',
         from_po_date: from_po_date,
         to_po_date: to_po_date,
         search_term: search_term,
