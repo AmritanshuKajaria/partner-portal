@@ -2,50 +2,66 @@
 
  .single-product-calculator {
      .search-section {
-         display: flex;
-         align-items: center;
          margin-bottom: 20px;
-         //  justify-content: center;
 
-         ::ng-deep .ant-input {
-             border-radius: 5px !important;
-         }
+         .search {
+             display: flex;
+             align-items: center;
+             margin: auto;
 
-         ::ng-deep .ant-form-item {
-             margin-bottom: 0px;
-         }
+             ::ng-deep .ant-input {
+                 border-radius: 5px !important;
+             }
 
-         nz-input-group {
-             border-radius: 5px;
-             width: 350px;
+             ::ng-deep .ant-form-item {
+                 margin-bottom: 0px;
+             }
 
-             input {
-                 height: 35px;
-                 font-size: 16px;
-                 width: 100%;
+             nz-input-group {
+                 border-radius: 5px;
+                 width: 350px;
+
+                 input {
+                     height: 35px;
+                     font-size: 16px;
+                     width: 100%;
+                 }
+             }
+
+             button {
+                 margin-top: 0;
+                 margin-left: 5px;
              }
          }
 
-         button {
-             margin-top: 0;
-             margin-left: 5px;
-         }
+     }
+
+     .section {
+         display: flex;
+         justify-content: center;
      }
 
      .product-section {
          margin-bottom: 30px;
+         border: 1px solid $border;
+         border-radius: 5px;
+         padding: 5px;
 
-         .content {
-             display: flex;
-             align-items: center;
+         h2 {
+             border-bottom: 2px solid $border;
+         }
 
-             &-section {
-                 margin: 0 10px;
+         .content-text {
+             margin: 5px 0px;
+         }
+     }
 
-                 a {
-                     margin-bottom: 10px;
-                 }
-             }
+     .user-content {
+         margin-top: 10px;
+
+         .tab-header {
+             padding: 15px;
+             padding-left: 0;
          }
      }
 

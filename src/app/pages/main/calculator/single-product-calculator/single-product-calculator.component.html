@@ -1,40 +1,145 @@
 <div class="single-product-calculator">
-  <div class="search-section">
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group>
-          <input type="text" nz-input placeholder="Search ASIN, SKU" />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
-    <button nz-button class="action-button" [nzType]="'primary'">
-      <span nz-icon nzType="search" nzTheme="outline"></span>
-      Search
-    </button>
+  <div class="search-section" nz-row [nzGutter]="16">
+    <div class="search" nz-col [nzXl]="16" [nzXs]="24">
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input type="text" nz-input placeholder="Search ASIN, SKU" />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <button nz-button class="action-button" [nzType]="'primary'">
+        <span nz-icon nzType="search" nzTheme="outline"></span>
+        Search
+      </button>
+    </div>
   </div>
-  <div nz-row [nzGutter]="16">
-    <div nz-col [nzXl]="12" [nzXs]="24">
-      <div class="product-section">
-        <h2>Product Detail</h2>
-        <div class="content">
-          <div>
-            <nz-avatar
-              [nzSize]="64"
-              nzSrc="https://m.media-amazon.com/images/I/511IXc34QHL._SL120_.jpg"
-            ></nz-avatar>
-          </div>
-          <div class="content-section">
-            <a class="link"
-              >Tachikara Institutional Quality Composite Leather Volleyball,
-              Royal-White
-            </a>
-            <div><b>ASIN </b> B004QL3W9Y</div>
-          </div>
+  <div class="section" nz-row [nzGutter]="16">
+    <div class="product-section" nz-col [nzXl]="16" [nzXs]="24">
+      <h2>Product Detail</h2>
+      <div nz-row [nzGutter]="16">
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>MPN :</b> {{ productDetails.mpn }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>Current BB Price :</b> ${{ productDetails.currentBBPrice }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>Current BB Holder :</b> {{ productDetails.currentBBHolder }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>UPC :</b> {{ productDetails.upc }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>Last 7 Days Lowest BB Price :</b> ${{
+            productDetails.last7DaysLowest
+          }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>Max BB Holder (7 Days) :</b>{{ productDetails.maxBBHolder7Days }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>Product Name :</b> {{ productDetails.productName }}
+          i
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>Last 30 Days Lowest BB Price :</b> ${{
+            productDetails.last30DaysLowestBBPrice
+          }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>Max BB Holder (30 Days) :</b>
+          {{ productDetails.maxBBHolder30Days }}
+        </div>
+        <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
+          <b>ASIN :</b> {{ productDetails.asin }}
         </div>
       </div>
     </div>
+  </div>
+  <div class="section" nz-row [nzGutter]="16">
+    <div nz-col [nzXl]="16" [nzSm]="24">
+      <nz-table
+        #nzTable
+        nzOuterBordered
+        [nzData]="calculatorList"
+        [nzFrontPagination]="false"
+        [nzShowPagination]="false"
+        [nzBordered]="true"
+      >
+        <tbody>
+          <tr>
+            <td colspan="4"><h2 style="margin-bottom: 0">Price</h2></td>
+          </tr>
+          <tr>
+            <td><b>Unit Price </b></td>
+            <td>60</td>
+            <td>
+              <nz-form-item style="margin-bottom: 10px">
+                <nz-form-control>
+                  <nz-input-group>
+                    <input
+                      [value]="60"
+                      nz-input
+                      type="number"
+                      placeholder="Unit"
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Shipping Cost </b></td>
+            <td>15%</td>
+            <td>15</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Amazon Commission </b></td>
+            <td>20</td>
+            <td>20</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Order Processing Fee </b></td>
+            <td>2</td>
+            <td>2</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Return Processing Fee </b></td>
+            <td>6%</td>
+            <td>6</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Retailer Price </b></td>
+            <td>100</td>
+            <td>
+              <nz-form-item style="margin-bottom: 10px">
+                <nz-form-control>
+                  <nz-input-group>
+                    <input
+                      [value]="100"
+                      nz-input
+                      type="number"
+                      placeholder="Unit"
+                    />
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+            </td>
+            <td></td>
+          </tr>
+        </tbody>
+      </nz-table>
+    </div>
+  </div>
+  <!-- <div class="section" nz-row [nzGutter]="16">
     <div nz-col [nzXl]="12" [nzXs]="24">
-      <h2>Product Calculation</h2>
+      <h2>Product Price</h2>
       <div class="card">
         <div class="unit-price card-content">
           <b>Unit Price : </b>
@@ -94,5 +199,5 @@
         </button>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>

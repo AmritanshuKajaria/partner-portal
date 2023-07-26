@@ -1,7 +1,16 @@
 <div class="calculator">
-  <app-section-header [header]="'Calculator'"></app-section-header>
+  <app-section-header
+    [header]="'Direct Retail Price Control'"
+  ></app-section-header>
 
   <div class="body-section">
+    <nz-form-item style="margin-bottom: 10px; width: 50%">
+      <nz-form-control>
+        <nz-input-group>
+          <textarea nz-input placeholder="Plan Detail..."></textarea>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
     <nz-tabset nzType="card">
       <nz-tab nzTitle="Single Product Calculate">
         <app-single-product-calculator></app-single-product-calculator>
