@@ -73,7 +73,7 @@ export class InTransitComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        po_list_type: 'In Transit',
+        type: 4,
         sku: sku,
         carrier: carrier,
         from_po_date: from_po_date,

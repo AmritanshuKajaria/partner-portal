@@ -40,7 +40,7 @@ export interface SingleOrder {
 export interface OrderAction {
   page: number;
   po_list_type?: string;
-  type?: string;
+  type?: number;
   sku?: string;
   ship_out_location?: string;
   carrier?: string;

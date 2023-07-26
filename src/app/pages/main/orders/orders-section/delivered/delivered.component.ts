@@ -76,7 +76,7 @@ export class DeliveredComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        po_list_type: 'Delivered',
+        type: 5,
         sku: sku,
         carrier: carrier,
         from_po_date: from_po_date,

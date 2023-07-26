@@ -71,7 +71,7 @@ export class PendingShipmentComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'SHIP',
+        type: 2,
         ship_out_location: ship_out_location,
         committed_ship_date: committed_ship_date,
         from_po_date: from_po_date,

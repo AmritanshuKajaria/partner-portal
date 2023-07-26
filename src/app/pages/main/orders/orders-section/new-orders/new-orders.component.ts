@@ -82,7 +82,7 @@ export class NewOrdersComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'NEW',
+        type: 1,
         sku: sku,
         ship_out_location: ship_out_location,
         carrier: carrier,
