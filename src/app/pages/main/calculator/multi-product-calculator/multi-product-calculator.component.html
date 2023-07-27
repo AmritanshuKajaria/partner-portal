@@ -22,16 +22,16 @@
       <tr *ngFor="let data of nzTable.data; let no = index">
         <td>{{ data?.mpn }}</td>
         <td>{{ data?.upc }}</td>
-        <td><app-asin [asin]="data?.asin"></app-asin></td>
+        <td><app-asin [asin]="data.asin"></app-asin></td>
         <td>{{ data?.productName }}</td>
-        <td style="width: 150px">
-          <nz-form-item style="margin-bottom: 0">
+        <td>
+          <nz-form-item style="margin-bottom: 0; width: 150px">
             <nz-form-control>
               <nz-input-group nzPrefix="$">
                 <input
                   [value]="data?.unitPrice"
                   [(ngModel)]="data.unitPrice"
-                  (input)="changePrice(data, 'unit', no)"
+                  (input)="changePrice($event, 'unit', no)"
                   nz-input
                   type="number"
                   placeholder="Unit"
@@ -51,14 +51,14 @@
           {{ data?.orderProcessingFee + (data?.orderProcessingFee ? "%" : "") }}
         </td>
         <td>{{ data?.returnProcessingFee | currency }}</td>
-        <td style="width: 150px">
-          <nz-form-item style="margin-bottom: 0">
+        <td>
+          <nz-form-item style="margin-bottom: 0; width: 150px">
             <nz-form-control>
               <nz-input-group nzPrefix="$">
                 <input
                   [value]="data?.retailPrice"
                   [(ngModel)]="data.retailPrice"
-                  (input)="changePrice(data, 'retail', no)"
+                  (input)="changePrice($event, 'retail', no)"
                   nz-input
                   type="number"
                   placeholder="Retail"
@@ -80,6 +80,7 @@
               style="margin: 0 5px; color: #2121c3; font-size: large"
               nz-tooltip
               nzTooltipTitle="Reset"
+              (click)="resetData(no)"
             >
               <span nz-icon nzType="reload" nzTheme="outline"></span>
             </a>
