@@ -4,7 +4,7 @@
       <nz-form-item>
         <nz-form-control>
           <nz-input-group>
-            <input type="text" nz-input placeholder="Search ASIN, SKU" />
+            <input type="text" nz-input placeholder="Search ASIN / MPN / UPC" />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -248,67 +248,4 @@
       </nz-table>
     </div>
   </div>
-  <!-- <div class="section" nz-row [nzGutter]="16">
-    <div nz-col [nzXl]="12" [nzXs]="24">
-      <h2>Product Price</h2>
-      <div class="card">
-        <div class="unit-price card-content">
-          <b>Unit Price : </b>
-          <nz-form-item>
-            <nz-form-control>
-              <nz-input-group>
-                <input
-                  [(ngModel)]="unitPrice"
-                  type="number"
-                  nz-input
-                  placeholder="Unit Price"
-                  (input)="changePrice($event, 'unit')"
-                />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-        <div class="other-section">
-          <div class="card-content">
-            <span>Shipping Cost : </span>
-            <span>{{ shippingCost }}</span>
-          </div>
-          <div class="card-content">
-            <span>Amazon Commission : </span>
-            <span>{{ amazonCommission }}%</span>
-          </div>
-          <div class="card-content">
-            <span>Order Processing Fee : </span>
-            <span>{{ orderProcessingFee }}%</span>
-          </div>
-          <div class="card-content">
-            <span>Return Processing Fee : </span>
-            <span>${{ returnProcessingFee }}</span>
-          </div>
-        </div>
-        <div class="retailer-price card-content">
-          <b>Retailer Price : </b>
-          <nz-form-item>
-            <nz-form-control>
-              <nz-input-group>
-                <input
-                  [(ngModel)]="retailPrice"
-                  type="number"
-                  nz-input
-                  placeholder="Unit Price"
-                  (input)="changePrice($event, 'retailer')"
-                />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-        </div>
-      </div>
-      <div class="button">
-        <button nz-button class="action-button" [nzType]="'primary'">
-          <span nz-icon nzType="file-text" nzTheme="outline"></span>
-          Save
-        </button>
-      </div>
-    </div>
-  </div> -->
 </div>

@@ -46,7 +46,7 @@
               (data?.amazonSalesCommission ? "%" : "")
           }}
         </td>
-        <td>{{ data?.shippingCost }}</td>
+        <td>{{ data?.shippingCost | currency }}</td>
         <td>
           {{ data?.orderProcessingFee + (data?.orderProcessingFee ? "%" : "") }}
         </td>
