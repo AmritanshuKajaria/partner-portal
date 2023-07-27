@@ -24,16 +24,17 @@
         <td>{{ data?.upc }}</td>
         <td><app-asin [asin]="data?.asin"></app-asin></td>
         <td>{{ data?.productName }}</td>
-        <td>
+        <td style="width: 150px">
           <nz-form-item style="margin-bottom: 0">
             <nz-form-control>
-              <nz-input-group>
+              <nz-input-group nzPrefix="$">
                 <input
+                  [value]="data?.unitPrice"
                   [(ngModel)]="data.unitPrice"
-                  type="number"
-                  nz-input
-                  placeholder="Unit Price"
                   (input)="changePrice(data, 'unit', no)"
+                  nz-input
+                  type="number"
+                  placeholder="Unit"
                 />
               </nz-input-group>
             </nz-form-control>
@@ -50,16 +51,17 @@
           {{ data?.orderProcessingFee + (data?.orderProcessingFee ? "%" : "") }}
         </td>
         <td>{{ data?.returnProcessingFee | currency }}</td>
-        <td>
+        <td style="width: 150px">
           <nz-form-item style="margin-bottom: 0">
             <nz-form-control>
-              <nz-input-group>
+              <nz-input-group nzPrefix="$">
                 <input
+                  [value]="data?.retailPrice"
                   [(ngModel)]="data.retailPrice"
-                  type="number"
-                  nz-input
-                  placeholder="Retail Price"
                   (input)="changePrice(data, 'retail', no)"
+                  nz-input
+                  type="number"
+                  placeholder="Retail"
                 />
               </nz-input-group>
             </nz-form-control>

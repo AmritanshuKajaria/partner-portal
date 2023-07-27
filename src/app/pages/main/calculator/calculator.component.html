@@ -4,6 +4,20 @@
   ></app-section-header>
 
   <div class="body-section">
+    <div class="description">
+      <span
+        [innerHTML]="show ? description : (description | slice : 0 : 200)"
+      ></span>
+      <span *ngIf="!show">...</span>
+      <a
+        class="link"
+        style="text-decoration: none"
+        href="javascript:;"
+        (click)="show = !show"
+      >
+        {{ show ? "Show less" : "Show More" }}</a
+      >
+    </div>
     <nz-form-item style="margin-bottom: 10px; width: 50%">
       <nz-form-control>
         <nz-input-group>
