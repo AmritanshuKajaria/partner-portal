@@ -15,10 +15,7 @@
           <nz-form-item style="margin-bottom: 0 !important">
             <nz-form-control nzErrorTip="Please input your valid code!">
               <nz-input-group nzPrefixIcon="search" class="search">
-                <input
-                  nz-input
-                  placeholder="Search..."
-                />
+                <input nz-input placeholder="Search..." />
               </nz-input-group>
             </nz-form-control>
           </nz-form-item>
@@ -40,7 +37,20 @@
     >
       <thead>
         <tr>
-          <th *ngFor="let header of header">{{ header }}</th>
+          <th>
+            <u>MPN</u>
+            <div style="font-size: 12px">Product Name</div>
+          </th>
+          <th>
+            <u>ASIN</u>
+            <div style="font-size: 12px">UPC</div>
+          </th>
+          <th>Unit Price</th>
+          <th>Estimated Amazon Selling Fees</th>
+          <th>Estimated Shipping Cost</th>
+          <th>Estimated Order Processing Fees</th>
+          <th>Estimated Return Cost</th>
+          <th>Estimated Landed Retail Price</th>
           <th nzRight class="action-column"><div>Actions</div></th>
         </tr>
       </thead>
@@ -78,57 +88,71 @@
               </nz-form-control>
             </nz-form-item>
           </td>
-          <td class="text-wrap">
-            <span>
-              {{
-                data?.amazonSalesCommission
-                  ? "$" + estimatedPrices[no].amazonSalesCommission
-                  : ""
-              }}</span
-            >
-            <span>{{
-              data?.amazonSalesCommission
-                ? " (" + data?.amazonSalesCommission + "%" + ")"
-                : ""
-            }}</span>
-          </td>
           <td>
-            <div
-              nz-col
-              style="display: flex; flex-direction: column; align-items: center"
-            >
-              <div>{{ data?.shippingCost | currency }}</div>
-              <div class="text-wrap">Boxes: {{ data?.boxes }}</div>
-              <div class="text-wrap">Size Tier: {{ data?.sizeTier }}</div>
+            <div class="exported-item-content">
+              <div>
+                {{
+                  data?.amazonSalesCommission
+                    ? "$" + estimatedPrices[no].amazonSalesCommission
+                    : ""
+                }}
+              </div>
+              <div>
+                {{
+                  data?.amazonSalesCommission
+                    ? " (" + data?.amazonSalesCommission + "%" + ")"
+                    : ""
+                }}
+              </div>
             </div>
           </td>
-          <td class="text-wrap">
-            <span>
-              {{
-                data?.orderProcessingFee
-                  ? "$" + estimatedPrices[no].orderProcessingFee
-                  : ""
-              }}</span
-            >
-            <span>{{
-              data?.orderProcessingFee
-                ? " (" + data?.orderProcessingFee + "%" + ")"
-                : ""
-            }}</span>
+          <td>
+            <div class="exported-item-content">
+              <div>{{ data?.shippingCost | currency }}</div>
+              <div class="text-wrap">
+                Boxes:
+                {{
+                  data?.boxes +
+                    (data?.sizeTier ? " (" + data?.sizeTier + ")" : "")
+                }}
+              </div>
+            </div>
           </td>
-          <td class="text-wrap">
-            <span>
-              {{
-                data?.returnProcessingFee
-                  ? "$" + estimatedPrices[no].returnProcessingFee
-                  : ""
-              }}</span
-            >
-            <span>{{
-              data?.returnProcessingFee
-                ? " (" + data?.returnProcessingFee + "%" + ")"
-                : ""
-            }}</span>
+          <td>
+            <div class="exported-item-content">
+              <div>
+                {{
+                  data?.orderProcessingFee
+                    ? "$" + estimatedPrices[no].orderProcessingFee
+                    : ""
+                }}
+              </div>
+              <div>
+                {{
+                  data?.orderProcessingFee
+                    ? " (" + data?.orderProcessingFee + "%" + ")"
+                    : ""
+                }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="exported-item-content">
+              <div>
+                {{
+                  data?.returnProcessingFee
+                    ? "$" + estimatedPrices[no].returnProcessingFee
+                    : ""
+                }}
+              </div>
+              <div>
+                {{
+                  data?.returnProcessingFee
+                    ? " (" + data?.returnProcessingFee + "%" + ")"
+                    : ""
+                }}
+              </div>
+            </div>
           </td>
           <td>
             <nz-form-item style="margin-bottom: 0; width: 150px">

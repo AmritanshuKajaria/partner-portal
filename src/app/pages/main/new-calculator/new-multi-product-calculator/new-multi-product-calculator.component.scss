@@ -34,6 +34,11 @@
     }
   }
   .multi-product-calculator-section-content {
+    .exported-item-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
 
     .action {
       display: flex;
