@@ -95,8 +95,9 @@ export class MultiProductCalculatorComponent implements OnInit {
 
     this.multiProductList[index].unitPrice = changeData.unit_price;
     this.multiProductList[index].orderProcessingFee =
-      changeData.orders_processing_fees;
-    this.multiProductList[index].amazonSalesCommission = changeData.amazon_fees;
+      this.multiData[index].orderProcessingFee;
+    this.multiProductList[index].amazonSalesCommission =
+      this.multiData[index].amazonSalesCommission;
     this.multiProductList[index].shippingCost = changeData.shipping_cost;
     this.multiProductList[index].returnProcessingFee =
       changeData.returns_processing_fees;
