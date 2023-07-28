@@ -17,7 +17,7 @@
   <div class="section" nz-row [nzGutter]="16">
     <div nz-col [nzLg]="20" [nzXs]="24">
       <div class="product-section">
-        <h2>Product Detail</h2>
+        <div class="section-header">Product Detail</div>
         <div class="content" nz-row [nzGutter]="16">
           <div
             nz-col
@@ -115,6 +115,7 @@
   </div>
   <div class="section" nz-row [nzGutter]="16">
     <div nz-col [nzLg]="20" [nzSm]="24">
+      <div class="section-header">Price</div>
       <nz-table
         #nzTable
         nzOuterBordered
@@ -124,11 +125,6 @@
         [nzBordered]="true"
       >
         <tbody>
-          <tr>
-            <td colspan="4" style="padding: 5px 10px">
-              <h2 style="margin-bottom: 0">Price</h2>
-            </td>
-          </tr>
           <tr *ngFor="let data of calculatorList">
             <td>
               <b
