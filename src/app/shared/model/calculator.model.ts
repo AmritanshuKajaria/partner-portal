@@ -13,6 +13,7 @@ export interface CalculatorMultiData {
 
 export interface NewCalculatorMultiData {
   mpn: string;
+  sku: string;
   upc: string;
   asin: string;
   productName: string;
@@ -22,4 +23,6 @@ export interface NewCalculatorMultiData {
   orderProcessingFee: number;
   returnProcessingFee: number;
   retailPrice: number;
+  boxes: number;
+  sizeTier: string;
 }

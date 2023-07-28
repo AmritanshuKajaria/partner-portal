@@ -140,3 +140,8 @@
     border-top: 3px solid #2121c3;
     background-color: rgba(33, 33, 195, 0.08) !important;
 }
+
+//To keep the text in single line
+.text-wrap {
+  text-wrap: nowrap;
+}

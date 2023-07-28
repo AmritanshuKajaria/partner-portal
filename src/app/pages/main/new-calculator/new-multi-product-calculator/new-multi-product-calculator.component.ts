@@ -16,6 +16,7 @@ export class NewMultiProductCalculatorComponent {
   multiProductList: NewCalculatorMultiData[] = [
     {
       mpn: 'AF16ALSTDWG',
+      sku: '123-NPS-DBB130',
       upc: '842158135056',
       asin: 'B07CYK3852',
       productName: '16 Round Side Table - Dark Walnut/Gold',
@@ -25,9 +26,12 @@ export class NewMultiProductCalculatorComponent {
       orderProcessingFee: 1,
       returnProcessingFee: 2,
       retailPrice: 100,
+      boxes: 1,
+      sizeTier: '2 - Medium',
     },
     {
       mpn: 'AF16ALSTGGD-2PK',
+      sku: '123-NPS-DBB130',
       upc: '840035359397',
       asin: 'B097TYQHKV',
       productName: '16in Round Side Table-Glass/Gold',
@@ -37,9 +41,12 @@ export class NewMultiProductCalculatorComponent {
       orderProcessingFee: 1.04,
       returnProcessingFee: 2,
       retailPrice: 103.57,
+      boxes: 2,
+      sizeTier: '1 - Lite',
     },
     {
       mpn: 'AF16APRSTGW',
+      sku: '123-NPS-DBB130',
       upc: '840035320717',
       asin: 'B081FTZMBG',
       productName: 'AF16APRSTGW	840035320717	B081FTZMBG',
@@ -49,26 +56,36 @@ export class NewMultiProductCalculatorComponent {
       orderProcessingFee: 0.94,
       returnProcessingFee: 2,
       retailPrice: 94.05,
+      boxes: 1,
+      sizeTier: '3 - Large',
     },
   ];
+
+  estimatedPrices: any[] = [];
 
   multiData: NewCalculatorMultiData[] = [];
 
   header: string[] = [
     'MPN',
-    'UPC',
-    'Amazon ASIN',
-    'Product Name',
+    'ASIN',
     'Unit Price	',
-    'Amazon Sales Commission	',
-    'Shipping Cost	',
-    'Order Processing Fee',
-    'Return Processing Fee',
-    'Retail Price',
+    'Estimated Amazon Selling Fees',
+    'Estimated Shipping Cost',
+    'Estimated Order Processing Fees',
+    'Estimated Return Cost',
+    'Estimated Landed Retail Price',
   ];
 
   constructor() {
     this.multiData = lodash.cloneDeep(this.multiProductList);
+    this.multiData.forEach((x: any, index) => {
+      this.estimatedPrices.push({
+        amazonSalesCommission: 0,
+        orderProcessingFee: 0,
+        returnProcessingFee: 0,
+      });
+      this.calculateEstimatedPrices(x, index);
+    });
   }
 
   ngOnInit(): void {}
@@ -94,13 +111,23 @@ export class NewMultiProductCalculatorComponent {
     }
 
     this.multiProductList[index].unitPrice = changeData.unit_price;
-    this.multiProductList[index].orderProcessingFee =
-      changeData.orders_processing_fees;
-    this.multiProductList[index].amazonSalesCommission = changeData.amazon_fees;
-    this.multiProductList[index].shippingCost = changeData.shipping_cost;
-    this.multiProductList[index].returnProcessingFee =
-      changeData.returns_processing_fees;
     this.multiProductList[index].retailPrice = changeData.retail_price;
+    this.calculateEstimatedPrices(this.multiProductList[index], index);
+  }
+
+  calculateEstimatedPrices(data: NewCalculatorMultiData, index: number) {
+    this.estimatedPrices[index].amazonSalesCommission = (
+      data.retailPrice *
+      (+this.multiData[index].amazonSalesCommission / 100)
+    ).toFixed(2);
+    this.estimatedPrices[index].orderProcessingFee = (
+      data.retailPrice *
+      (+this.multiData[index].orderProcessingFee / 100)
+    ).toFixed(2);
+    this.estimatedPrices[index].returnProcessingFee = (
+      data.retailPrice *
+      (+this.multiData[index].returnProcessingFee / 100)
+    ).toFixed(2);
   }
 
   calculatePricesFromRetailPrice(
