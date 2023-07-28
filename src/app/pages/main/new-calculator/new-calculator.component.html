@@ -1,0 +1,46 @@
+<div class="calculator">
+  <app-section-header
+    [header]="'Pricing'"
+  ></app-section-header>
+
+  <div class="body-section">
+    <div class="description">
+      <span
+        [innerHTML]="show ? description : (description | slice : 0 : 200)"
+      ></span>
+      <span *ngIf="!show">...</span>
+      <a
+        class="link"
+        style="text-decoration: none"
+        href="javascript:;"
+        (click)="show = !show"
+      >
+        {{ show ? "Show less" : "Show More" }}</a
+      >
+    </div>
+    <nz-form-item style="margin-bottom: 10px; width: 50%">
+      <div nz-col>
+        <div style="font-weight: bold; font-size: 16px;">Plan Details</div>
+        <div>Your Plus plan costs $250 or 6% of sales, whichever is greater. Enjoy the benefit of 500 free product listings.
+        </div>
+        <div>Your current return setup includes a 10% restocking fee on all buyer's remorse returns, resulting in a 2% overall Return Cost.
+        </div>
+      </div>
+      <!-- <nz-form-control>
+        <nz-input-group>
+          <textarea nz-input placeholder="Plan Detail..."></textarea>
+        </nz-input-group>
+      </nz-form-control> -->
+    </nz-form-item>
+    <nz-tabset nzType="card">
+      <nz-tab nzTitle="Single Product Calculate">
+        <app-new-multi-product-calculator></app-new-multi-product-calculator>
+        <!-- <app-single-product-calculator></app-single-product-calculator> -->
+      </nz-tab>
+      <nz-tab nzTitle="Multi Product Calculate">
+        <app-new-single-product-calculator></app-new-single-product-calculator>
+        <!-- <app-multi-product-calculator></app-multi-product-calculator> -->
+      </nz-tab>
+    </nz-tabset>
+  </div>
+</div>

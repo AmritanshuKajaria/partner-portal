@@ -56,6 +56,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./calculator/calculator.module').then((m) => m.CalculatorModule),
   },
+  {
+    path: 'new-calculator',
+    loadChildren: () =>
+      import('./new-calculator/new-calculator.module').then((m) => m.NewCalculatorModule),
+  },
 ];
 
 @NgModule({

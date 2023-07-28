@@ -1,0 +1,36 @@
+@import '../../../../../assets/variable/variable.scss';
+
+.multi-product-calculator {
+    td {
+        ::ng-deep .ant-input-prefix {
+            font-size: 18px;
+            margin-left: -11px;
+            margin-right: 10px;
+            padding: 0 10px;
+            background: $darkBlue;
+            border-radius: 4px 0 0 4px;
+            color: $white;
+        }
+
+        ::ng-deep .ant-input {
+            border-radius: 5px !important;
+        }
+
+        ::ng-deep .ant-form-item {
+            margin-bottom: 10px;
+        }
+
+        ::ng-deep .ant-input-affix-wrapper {
+            padding: 0px 11px !important;
+        }
+
+        nz-input-group {
+            border-radius: 5px;
+
+            input {
+                height: 35px;
+                font-size: 16px;
+            }
+        }
+    }
+}
