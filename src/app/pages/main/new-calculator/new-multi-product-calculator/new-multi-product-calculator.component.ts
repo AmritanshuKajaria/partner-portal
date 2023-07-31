@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import * as lodash from 'lodash';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
+import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 
 @Component({
   selector: 'app-new-multi-product-calculator',
@@ -13,120 +14,78 @@ export class NewMultiProductCalculatorComponent {
   pageSize = 100;
   pageIndex = 1;
   pageSizeOptions = [100];
-  multiProductList: NewCalculatorMultiData[] = [
-    {
-      mpn: 'AF16ALSTDWG',
-      sku: '123-NPS-DBB130',
-      upc: '842158135056',
-      asin: 'B07CYK3852',
-      productName: '16 Round Side Table - Dark Walnut/Gold',
-      unitPrice: 62,
-      amazonSalesCommission: 15,
-      shippingCost: 20,
-      orderProcessingFee: 1,
-      returnProcessingFee: 2,
-      retailPrice: 100,
-      boxes: 1,
-      sizeTier: '2 - Medium',
-    },
-    {
-      mpn: 'AF16ALSTGGD-2PK',
-      sku: '123-NPS-DBB130',
-      upc: '840035359397',
-      asin: 'B097TYQHKV',
-      productName: '16in Round Side Table-Glass/Gold',
-      unitPrice: 65,
-      amazonSalesCommission: 15.54,
-      shippingCost: 20,
-      orderProcessingFee: 1.04,
-      returnProcessingFee: 2,
-      retailPrice: 103.57,
-      boxes: 2,
-      sizeTier: '1 - Lite',
-    },
-    {
-      mpn: 'AF16APRSTGW',
-      sku: '123-NPS-DBB130',
-      upc: '840035320717',
-      asin: 'B081FTZMBG',
-      productName: 'AF16APRSTGW	840035320717	B081FTZMBG',
-      unitPrice: 57,
-      amazonSalesCommission: 14.11,
-      shippingCost: 20,
-      orderProcessingFee: 0.94,
-      returnProcessingFee: 2,
-      retailPrice: 94.05,
-      boxes: 1,
-      sizeTier: '3 - Large',
-    },
-  ];
+  multiProductList: NewCalculatorMultiData[] = [];
 
   estimatedPrices: any[] = [];
 
   multiData: NewCalculatorMultiData[] = [];
 
-  header: string[] = [
-    'MPN',
-    'ASIN',
-    'Unit Price	',
-    'Estimated Amazon Selling Fees',
-    'Estimated Shipping Cost',
-    'Estimated Order Processing Fees',
-    'Estimated Return Cost',
-    'Estimated Landed Retail Price',
-  ];
-
-  constructor() {
-    this.multiData = lodash.cloneDeep(this.multiProductList);
-    this.multiData.forEach((x: any, index) => {
-      this.estimatedPrices.push({
-        amazonSalesCommission: 0,
-        orderProcessingFee: 0,
-        returnProcessingFee: 0,
-      });
-      this.calculateEstimatedPrices(x, index);
-    });
+  constructor(private newCalculatorService: NewCalculatorService) {
+    this.getAllProductCalculatorList(1);
   }
 
   ngOnInit(): void {}
+
+  getAllProductCalculatorList(page: number) {
+    this.isLoading = true;
+    const data = {
+      page: page,
+    };
+    this.newCalculatorService.getMultiProductCalculatorList(1).subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        this.total = res.pagination?.total_rows ?? 0;
+        this.multiProductList = res.products ?? [];
+
+        this.multiData = lodash.cloneDeep(this.multiProductList);
+        this.multiData.forEach((x: any, index) => {
+          this.estimatedPrices.push({
+            amazon_fees_percentage: 0,
+            order_processing_fees_percentage: 0,
+            return_cost_percentage: 0,
+          });
+          this.calculateEstimatedPrices(x, index);
+        });
+      },
+      error: (err) => (this.isLoading = false),
+    });
+  }
 
   changePrice(price: any, type: string, index: number) {
     let changeData: any;
     if (type === 'unit') {
       changeData = this.calculatePricesFromUnitPrice(
         +price.target.value,
-        +this.multiData[index].orderProcessingFee / 100,
-        +this.multiData[index].amazonSalesCommission / 100,
-        +this.multiData[index].shippingCost,
-        +this.multiData[index].returnProcessingFee
+        +this.multiData[index].order_processing_fees_percentage,
+        +this.multiData[index].amazon_fees_percentage,
+        +this.multiData[index].shipping_cost,
+        +this.multiData[index].return_cost_percentage * 100
       );
     } else {
       changeData = this.calculatePricesFromRetailPrice(
         +price.target.value,
-        +this.multiData[index].orderProcessingFee / 100,
-        +this.multiData[index].amazonSalesCommission / 100,
-        +this.multiData[index].shippingCost,
-        +this.multiData[index].returnProcessingFee
+        +this.multiData[index].order_processing_fees_percentage,
+        +this.multiData[index].amazon_fees_percentage,
+        +this.multiData[index].shipping_cost,
+        +this.multiData[index].return_cost_percentage * 100
       );
     }
 
-    this.multiProductList[index].unitPrice = changeData.unit_price;
-    this.multiProductList[index].retailPrice = changeData.retail_price;
+    this.multiProductList[index].unit_price = changeData.unit_price;
+    this.multiProductList[index].retail_price = changeData.retail_price;
     this.calculateEstimatedPrices(this.multiProductList[index], index);
   }
 
   calculateEstimatedPrices(data: NewCalculatorMultiData, index: number) {
-    this.estimatedPrices[index].amazonSalesCommission = (
-      data.retailPrice *
-      (+this.multiData[index].amazonSalesCommission / 100)
+    this.estimatedPrices[index].amazon_fees_percentage = (
+      data.retail_price * +this.multiData[index].amazon_fees_percentage
     ).toFixed(2);
-    this.estimatedPrices[index].orderProcessingFee = (
-      data.retailPrice *
-      (+this.multiData[index].orderProcessingFee / 100)
+    this.estimatedPrices[index].order_processing_fees_percentage = (
+      data.retail_price *
+      +this.multiData[index].order_processing_fees_percentage
     ).toFixed(2);
-    this.estimatedPrices[index].returnProcessingFee = (
-      data.retailPrice *
-      (+this.multiData[index].returnProcessingFee / 100)
+    this.estimatedPrices[index].return_cost_percentage = (
+      data.retail_price * +this.multiData[index].return_cost_percentage
     ).toFixed(2);
   }
 
@@ -193,16 +152,17 @@ export class NewMultiProductCalculatorComponent {
   }
 
   resetData(index: number) {
-    this.multiProductList[index].unitPrice = this.multiData[index].unitPrice;
-    this.multiProductList[index].orderProcessingFee =
-      this.multiData[index].orderProcessingFee;
-    this.multiProductList[index].amazonSalesCommission =
-      this.multiData[index].amazonSalesCommission;
-    this.multiProductList[index].shippingCost =
-      this.multiData[index].shippingCost;
-    this.multiProductList[index].returnProcessingFee =
-      this.multiData[index].returnProcessingFee;
-    this.multiProductList[index].retailPrice =
-      this.multiData[index].retailPrice;
+    this.multiProductList[index].unit_price =
+      this.multiData[index].order_processing_fees_percentage;
+    this.multiProductList[index].order_processing_fees_percentage =
+      this.multiData[index].order_processing_fees_percentage;
+    this.multiProductList[index].amazon_fees_percentage =
+      this.multiData[index].amazon_fees_percentage;
+    this.multiProductList[index].shipping_cost =
+      this.multiData[index].shipping_cost;
+    this.multiProductList[index].return_cost_percentage =
+      this.multiData[index].return_cost_percentage;
+    this.multiProductList[index].retail_price =
+      this.multiData[index].retail_price;
   }
 }

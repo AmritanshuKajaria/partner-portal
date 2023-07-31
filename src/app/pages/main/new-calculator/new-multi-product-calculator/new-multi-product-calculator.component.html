@@ -57,13 +57,13 @@
       <tbody>
         <tr *ngFor="let data of nzTable.data; let no = index">
           <td>
-            <div nz-col>
+            <div nz-col style="min-width: 200px">
               <a
                 class="link"
                 [routerLink]="'/main/products/details/' + data?.sku"
                 >{{ data?.mpn }}</a
               >
-              <div style="padding-top: 8px">{{ data?.productName }}</div>
+              <div style="padding-top: 8px">{{ data?.name }}</div>
             </div>
           </td>
           <td>
@@ -77,8 +77,8 @@
               <nz-form-control>
                 <nz-input-group nzPrefix="$">
                   <input
-                    [value]="data?.unitPrice"
-                    [(ngModel)]="data.unitPrice"
+                    [value]="data?.unit_price"
+                    [(ngModel)]="data.unit_price"
                     (input)="changePrice($event, 'unit', no)"
                     nz-input
                     type="number"
@@ -92,15 +92,15 @@
             <div class="exported-item-content">
               <div>
                 {{
-                  data?.amazonSalesCommission
-                    ? "$" + estimatedPrices[no].amazonSalesCommission
+                  data?.amazon_fees_percentage
+                    ? "$" + estimatedPrices[no].amazon_fees_percentage
                     : ""
                 }}
               </div>
               <div>
                 {{
-                  data?.amazonSalesCommission
-                    ? " (" + data?.amazonSalesCommission + "%" + ")"
+                  data?.amazon_fees_percentage
+                    ? " (" + data?.amazon_fees_percentage + "%" + ")"
                     : ""
                 }}
               </div>
@@ -108,12 +108,12 @@
           </td>
           <td>
             <div class="exported-item-content">
-              <div>{{ data?.shippingCost | currency }}</div>
+              <div>{{ data?.shipping_cost | currency }}</div>
               <div class="text-wrap">
                 Boxes:
                 {{
                   data?.boxes +
-                    (data?.sizeTier ? " (" + data?.sizeTier + ")" : "")
+                    (data?.size_tier ? " (" + data?.size_tier + ")" : "")
                 }}
               </div>
             </div>
@@ -122,15 +122,15 @@
             <div class="exported-item-content">
               <div>
                 {{
-                  data?.orderProcessingFee
-                    ? "$" + estimatedPrices[no].orderProcessingFee
+                  data?.order_processing_fees_percentage
+                    ? "$" + estimatedPrices[no].order_processing_fees_percentage
                     : ""
                 }}
               </div>
               <div>
                 {{
-                  data?.orderProcessingFee
-                    ? " (" + data?.orderProcessingFee + "%" + ")"
+                  data?.order_processing_fees_percentage
+                    ? " (" + data?.order_processing_fees_percentage + "%" + ")"
                     : ""
                 }}
               </div>
@@ -140,15 +140,15 @@
             <div class="exported-item-content">
               <div>
                 {{
-                  data?.returnProcessingFee
-                    ? "$" + estimatedPrices[no].returnProcessingFee
+                  data?.return_cost_percentage
+                    ? "$" + estimatedPrices[no].return_cost_percentage
                     : ""
                 }}
               </div>
               <div>
                 {{
-                  data?.returnProcessingFee
-                    ? " (" + data?.returnProcessingFee + "%" + ")"
+                  data?.return_cost_percentage
+                    ? " (" + data?.return_cost_percentage + "%" + ")"
                     : ""
                 }}
               </div>
@@ -159,8 +159,8 @@
               <nz-form-control>
                 <nz-input-group nzPrefix="$">
                   <input
-                    [value]="data?.retailPrice"
-                    [(ngModel)]="data.retailPrice"
+                    [value]="data?.retail_price"
+                    [(ngModel)]="data.retail_price"
                     (input)="changePrice($event, 'retail', no)"
                     nz-input
                     type="number"

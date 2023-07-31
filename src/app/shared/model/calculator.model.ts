@@ -16,13 +16,13 @@ export interface NewCalculatorMultiData {
   sku: string;
   upc: string;
   asin: string;
-  productName: string;
-  unitPrice: number;
-  amazonSalesCommission: number;
-  shippingCost: number;
-  orderProcessingFee: number;
-  returnProcessingFee: number;
-  retailPrice: number;
+  shipping_cost: number;
   boxes: number;
-  sizeTier: string;
+  amazon_fees_percentage: number;
+  name: string;
+  order_processing_fees_percentage: number;
+  retail_price: number;
+  return_cost_percentage: number;
+  size_tier: '2 - Medium';
+  unit_price: number;
 }
