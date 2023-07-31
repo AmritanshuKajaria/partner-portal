@@ -85,7 +85,7 @@
 
  }
 
- @media screen and (max-device-width:1439px) {
+ @media screen and (max-width:1439px) {
      .plans {
          border: 0 solid rgba(0, 0, 0, 0.125);
          background-color: $white;
@@ -109,7 +109,7 @@
                  &-title {
 
                      span {
-                         font-size: 1.15rem;
+                         font-size: 1.05rem;
                      }
                  }
 
