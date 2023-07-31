@@ -12,9 +12,10 @@ import { ProductModule } from './product/product.module';
 import { HomeModule } from './home/home.module';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ComponentModule } from 'src/app/components/component.module';
+import { PlansComponent } from './plans/plans.component';
 
 @NgModule({
-  declarations: [ChangePasswordComponent],
+  declarations: [ChangePasswordComponent, PlansComponent],
   imports: [
     MainRoutingModule,
     NzLayoutModule,

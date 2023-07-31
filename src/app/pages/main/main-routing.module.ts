@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { PlansComponent } from './plans/plans.component';
 
 const routes: Routes = [
   {
@@ -59,7 +60,13 @@ const routes: Routes = [
   {
     path: 'new-calculator',
     loadChildren: () =>
-      import('./new-calculator/new-calculator.module').then((m) => m.NewCalculatorModule),
+      import('./new-calculator/new-calculator.module').then(
+        (m) => m.NewCalculatorModule
+      ),
+  },
+  {
+    path: 'plans',
+    component: PlansComponent,
   },
 ];
 
