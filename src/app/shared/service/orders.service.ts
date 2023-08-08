@@ -13,8 +13,7 @@ import { formatDate } from '@angular/common';
   providedIn: 'root',
 })
 export class OrdersService {
-  mode = localStorage.getItem('mode');
-  url = this.mode === 'live' ? environment.prodUrl : environment.baseUrl;
+  url = environment.apiUrl;
   constructor(
     private http: HttpClient,
     @Inject(LOCALE_ID) public locale: string

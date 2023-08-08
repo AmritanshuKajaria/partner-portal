@@ -22,8 +22,7 @@ export interface DownloadTemplates {
   providedIn: 'root',
 })
 export class ProductService {
-  mode = localStorage.getItem('mode');
-  url = (this.mode === "live") ? environment.prodUrl : environment.baseUrl;
+  url = environment.apiUrl;
   constructor(private httpClient: HttpClient) {}
 
   getAllProduct(action: Action) {
