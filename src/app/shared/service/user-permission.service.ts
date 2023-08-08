@@ -7,8 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class UserPermissionService {
-  mode = localStorage.getItem('mode');
-  url = (this.mode === "live") ? environment.prodUrl : environment.baseUrl;
+  url = environment.apiUrl;
   
   userPermission = new BehaviorSubject('');
   constructor(private httpClient: HttpClient) {}

@@ -19,7 +19,6 @@ export const logoutGuard = (
   if (currentUrlObj?.['return_to']?.includes('support.123stores.com')) {
     authService.logout();
     localStorage.clear();
-    authService.setMode();
   }
 
   if (!authService.getAccessToken()) {

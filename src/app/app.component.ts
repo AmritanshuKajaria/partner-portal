@@ -9,7 +9,6 @@ import { AuthService } from './shared/service/auth.service';
 })
 export class AppComponent implements OnInit {
   constructor(private userPermissionService: UserPermissionService, private authService: AuthService) {
-    this.authService.setMode();
     // this.userPermissionService.getPartnerPermission('NPS').subscribe(
     //   (res: any) => {
     //     this.userPermissionService.userPermission.next(res);

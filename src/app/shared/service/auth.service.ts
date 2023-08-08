@@ -14,14 +14,12 @@ import { Route, Router } from '@angular/router';
 const TOKEN_KEY = 'access_token';
 const REFRESHTOKEN_KEY = 'refresh_token';
 const USER_KEY = 'user_profile';
-const MODE_KEY = 'mode';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  mode = localStorage.getItem('mode');
-  url = this.mode === 'live' ? environment.prodUrl : environment.baseUrl;
+  url = environment.apiUrl;
 
   constructor(private httpClient: HttpClient, private router: Router) {
     console.log(this.url);
@@ -39,13 +37,8 @@ export class AuthService {
     localStorage.setItem(TOKEN_KEY, token);
   }
 
-  setMode() {
-    localStorage.setItem(MODE_KEY, 'test');
-  }
-
   clearToken() {
     localStorage.clear();
-    this.setMode();
   }
 
   getAccessToken() {
@@ -94,7 +87,6 @@ export class AuthService {
   logOutUser() {
     this.httpClient.post(this.url + '/logout', '');
     localStorage.clear();
-    this.setMode();
     this.router.navigate(['']);
   }
 

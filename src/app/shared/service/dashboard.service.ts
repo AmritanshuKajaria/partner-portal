@@ -21,8 +21,7 @@ export interface SalesReport {
   providedIn: 'root',
 })
 export class DashboardService {
-  mode = localStorage.getItem('mode');
-  url = (this.mode === "live") ? environment.prodUrl : environment.baseUrl;
+  url = environment.apiUrl;
   routeConfigMap: BehaviorSubject<Map<string, any>> = new BehaviorSubject(
     new Map<string, any>()
   );

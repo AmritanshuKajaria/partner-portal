@@ -6,8 +6,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class NewCalculatorService {
-  mode = localStorage.getItem('mode');
-  url = this.mode === 'live' ? environment.prodUrl : environment.baseUrl;
+  url = environment.apiUrl;
 
   constructor(private httpClient: HttpClient) {}
 

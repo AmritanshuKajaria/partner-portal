@@ -59,6 +59,33 @@
                   "maximumError": "6mb"
                 }
               ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "test": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "6mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "4mb",
+                  "maximumError": "6mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ],
               "outputHashing": "all"
             },
             "development": {
@@ -77,6 +104,9 @@
           "configurations": {
             "production": {
               "browserTarget": "portal-patner:build:production"
+            },
+            "test": {
+              "browserTarget": "portal-patner:build:test"
             },
             "development": {
               "browserTarget": "portal-patner:build:development"

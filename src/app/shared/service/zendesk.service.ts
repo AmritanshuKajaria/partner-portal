@@ -8,8 +8,7 @@ import { Route, Router } from '@angular/router';
   providedIn: 'root',
 })
 export class ZendeskService {
-  mode = localStorage.getItem('mode');
-  url = this.mode === 'live' ? environment.prodUrl : environment.baseUrl;
+  url = environment.apiUrl;
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
