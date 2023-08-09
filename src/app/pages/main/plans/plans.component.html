@@ -7,62 +7,106 @@
         <div class="card">
           <span
             nz-icon
-            nzType="dollar"
+            nzType="dollar-circle"
             class="star"
-            style="color: #1890ff"
-            nzTheme="outline"
+            style="color: #1890ff; font-size: 38px"
+            nzTheme="fill"
           ></span>
           <div class="card-title">
             <span>Basic</span>
           </div>
-          <h4>Free<span style="line-height: 3">/month</span></h4>
-          <button nz-button nzType="default">Select Plans</button>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              flex-direction: column;
+              margin-bottom: 2rem;
+            "
+          >
+            <div style="font-size: 18px; font-weight: bold">Current Plan</div>
+            <div>Renews Aug 21, 2023</div>
+          </div>
           <ul>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              Plan cost $0.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              Best for brands that don't have a dedicated Amazon Strategy.
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              100 free product listings included.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div style="font-weight: bold; font-size: 18px">
+                123Stores decides Retail Price.
+              </div>
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              123Stores Decides Retail Price.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              No minimum order processing fee commitment.
+            </li>
+            <li>
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                Up to <span style="font-weight: bold">100</span> SKUs
+                Management.
+              </div>
             </li>
           </ul>
         </div>
       </div>
+
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
         <div class="card">
           <span
             nz-icon
-            nzType="dollar"
+            nzType="dollar-circle"
             class="star"
-            style="color: #096dd9"
-            nzTheme="outline"
+            style="color: #096dd9; font-size: 38px"
+            nzTheme="fill"
           ></span>
           <div class="card-title">
             <span>Plus</span>
           </div>
-          <h4>
-            <span style="line-height: 1">$</span>250<span style="line-height: 3"
-              >/month</span
-            >
-          </h4>
-          <button nz-button nzType="default">Select Plans</button>
+          <button nz-button nzType="primary">Start 2 Week Free Trial</button>
           <ul>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              Plan cost greater of $250 or 6% of sales.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                Best for brands that sell up to
+                <span style="font-weight: bold">100</span> units or
+                <span style="font-weight: bold">$10,000</span> in a month.
+              </div>
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              500 free product listings included.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                <div style="font-weight: bold; font-size: 18px">6.0%</div>
+                order processing fee built into the retail price.
+              </div>
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              You Decide Retail Price.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                <span style="font-weight: bold">$249</span> minimum order
+                processing fees per month.
+              </div>
+            </li>
+            <li>
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                Up to <span style="font-weight: bold">500</span> SKUs
+                Management.
+              </div>
+            </li>
+            <li>
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              Set your own Retail Price.
+            </li>
+            <li style="color: #f7ad14">
+              <span
+                style="color: #f7ad14"
+                nz-icon
+                nzType="check-circle"
+                nzTheme="fill"
+              ></span>
+              Recommended Based on Last 30 days usage.
             </li>
           </ul>
         </div>
@@ -71,32 +115,54 @@
         <div class="card">
           <span
             nz-icon
-            nzType="dollar"
+            nzType="dollar-circle"
             class="star"
-            style="color: #faad14"
-            nzTheme="outline"
+            style="color: #faad14; font-size: 38px"
+            nzTheme="fill"
           ></span>
           <div class="card-title">
             <span>Premium</span>
           </div>
-          <h4>
-            <span style="line-height: 1">$</span>500<span style="line-height: 3"
-              >/month</span
-            >
-          </h4>
-          <button nz-button nzType="default">Select Plans</button>
+          <button
+            nz-button
+            nzType="default"
+            style="border: 1px solid darkBlue; color: darkblue"
+          >
+            Downgrade
+          </button>
           <ul>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              Plan cost greater of $500 or 5% of sales.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                Best for brands that sell up to
+                <span style="font-weight: bold">250</span> units or
+                <span style="font-weight: bold">$25,000</span> in a month.
+              </div>
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              1000 free product listings included.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                <div style="font-weight: bold; font-size: 18px">5.0%</div>
+                order processing fee built into the retail price.
+              </div>
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              You Decide Retail Price.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                <span style="font-weight: bold">$499</span> minimum order
+                processing fees per month.
+              </div>
+            </li>
+            <li>
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                Up to <span style="font-weight: bold">1000</span> SKUs
+                Management.
+              </div>
+            </li>
+            <li>
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              Set your own Retail Price.
             </li>
           </ul>
         </div>
@@ -105,33 +171,48 @@
         <div class="card">
           <span
             nz-icon
-            nzType="dollar"
+            nzType="dollar-circle"
             class="star"
-            style="color: #fae014"
-            nzTheme="outline"
+            style="color: #fae014; font-size: 38px"
+            nzTheme="fill"
           ></span>
           <div class="card-title">
             <span>Enterprise</span>
           </div>
-          <h4>
-            <span style="line-height: 1">$</span>1000<span
-              style="line-height: 3"
-              >/month</span
-            >
-          </h4>
-          <button nz-button nzType="default">Select Plans</button>
+          <button nz-button nzType="primary">Upgrade</button>
           <ul>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              Plan cost greater of $1000 or 4% of sales.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                Best for brands that sell more than
+                <span style="font-weight: bold">250</span> units or
+                <span style="font-weight: bold">$25,000</span> in a month.
+              </div>
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              2500 free product listings included.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                <div style="font-weight: bold; font-size: 18px">4.0%</div>
+                order processing fee built into the retail price.
+              </div>
             </li>
             <li>
-              <span nz-icon nzType="check-circle" nzTheme="twotone"></span>
-              You Decide Retail Price.
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                <span style="font-weight: bold">$999</span> minimum order
+                processing fees per month.
+              </div>
+            </li>
+            <li>
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              <div>
+                Up to <span style="font-weight: bold">2500</span> SKUs
+                Management.
+              </div>
+            </li>
+            <li>
+              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+              Set your own Retail Price.
             </li>
           </ul>
         </div>

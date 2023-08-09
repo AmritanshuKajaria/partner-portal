@@ -90,7 +90,7 @@
         <span nz-icon nzType="sound" nzTheme="outline"></span>
         <span>Promotions</span>
       </li>
-      <li
+      <!-- <li
         nz-menu-item
         [ngClass]="
           router.url.includes('/main/calculator') ? 'active' : 'inactive'
@@ -99,7 +99,7 @@
       >
         <span nz-icon nzType="calculator" nzTheme="outline"></span>
         <span>Calculator</span>
-      </li>
+      </li> -->
       <li
         nz-menu-item
         [ngClass]="
@@ -108,7 +108,7 @@
         routerLink="/main/new-calculator"
       >
         <span nz-icon nzType="calculator" nzTheme="outline"></span>
-        <span>New Calculator</span>
+        <span>Calculator</span>
       </li>
       <li
         nz-menu-item
@@ -135,6 +135,28 @@
         (click)="isCollapsed = !isCollapsed"
       ></span>
       <div class="profile-menu">
+        <span
+          style="
+            display: flex;
+            flex-direction: column;
+            line-height: normal;
+            margin-right: 16px;
+          "
+        >
+          <span style="display: flex; align-items: center">
+            <span style="margin-right: 8px">
+              <span
+                nz-icon
+                nzType="dollar-circle"
+                class="star"
+                style="color: #1890ff; font-size: 24px"
+                nzTheme="fill"
+              ></span
+            ></span>
+            <span style="font-weight: bold">Basic</span>
+          </span>
+          Plan expires Aug 21, 2023
+        </span>
         <span class="name">{{ userPartnerName }} ({{ userPartnerCode }})</span>
         <a style="color: #2121c3" target="_blank" (click)="help()">Help</a>
         <!-- href="https://flyontechsolutions.zendesk.com/hc/en-us/requests/" -->

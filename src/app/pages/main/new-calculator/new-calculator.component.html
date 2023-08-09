@@ -1,7 +1,24 @@
+<nz-alert
+  nzType="error"
+  [nzMessage]="alertMessage"
+  [nzDescription]="alertDescription"
+  [nzIcon]="alertIcon"
+  nzShowIcon
+></nz-alert>
+<ng-template #alertMessage>
+  <span style="color: red"> Upgrade Your Plan </span></ng-template
+>
+<ng-template #alertDescription>
+  <span
+    >You are currently on Basic Plan, to use this feature upgrade your plan from
+    <a routerLink="/main/plans">here.</a></span
+  >
+</ng-template>
+<ng-template #alertIcon>
+  <span nz-icon nzType="warning" nzTheme="fill" style="color: red"></span>
+</ng-template>
 <div class="calculator">
-  <app-section-header
-    [header]="'Pricing'"
-  ></app-section-header>
+  <app-section-header [header]="'Pricing'"></app-section-header>
 
   <div class="body-section">
     <div class="description">
@@ -20,10 +37,14 @@
     </div>
     <nz-form-item style="margin-bottom: 10px; width: 50%">
       <div nz-col>
-        <div style="font-weight: bold; font-size: 16px;">Plan Details</div>
-        <div>Your Plus plan costs $250 or 6% of sales, whichever is greater. Enjoy the benefit of 500 free product listings.
+        <div style="font-weight: bold; font-size: 16px">Plan Details</div>
+        <div>
+          Your Plus plan costs $250 or 6% of sales, whichever is greater. Enjoy
+          the benefit of 500 free product listings.
         </div>
-        <div>Your current return setup includes a 10% restocking fee on all buyer's remorse returns, resulting in a 2% overall Return Cost.
+        <div>
+          Your current return setup includes a 10% restocking fee on all buyer's
+          remorse returns, resulting in a 2% overall Return Cost.
         </div>
       </div>
       <!-- <nz-form-control>
