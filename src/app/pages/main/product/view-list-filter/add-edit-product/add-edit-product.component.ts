@@ -112,7 +112,7 @@ export class AddEditProductComponent implements OnInit {
       sales_tier: new FormControl('', [Validators.maxLength(34)]),
       unit_price: new FormControl('', [Validators.required]),
       map: new FormControl(''),
-      msrp: new FormControl(''),
+      // msrp: new FormControl(''),
       handling_time: new FormControl('', [
         Validators.min(1),
         Validators.max(30),
@@ -180,9 +180,9 @@ export class AddEditProductComponent implements OnInit {
                 this.addEditProductForm.controls['map'].setValue(
                   this.editData?.map
                 );
-                this.addEditProductForm.controls['msrp'].setValue(
-                  this.editData?.msrp
-                );
+                // this.addEditProductForm.controls['msrp'].setValue(
+                //   this.editData?.msrp
+                // );
                 this.addEditProductForm.controls['handling_time'].setValue(
                   this.editData?.handling_time
                 );
@@ -350,7 +350,7 @@ export class AddEditProductComponent implements OnInit {
       sales_tier: this.addEditProductForm.value.sales_tier,
       unit_price: this.addEditProductForm.value.unit_price,
       map: this.addEditProductForm.value.map,
-      msrp: this.addEditProductForm.value.msrp,
+      // msrp: this.addEditProductForm.value.msrp,
       handling_time: this.addEditProductForm.value.handling_time,
       shipping_method: this.addEditProductForm.value.shipping_Method,
       product_status: this.addEditProductForm.value.product_status,
