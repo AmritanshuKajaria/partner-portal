@@ -1,220 +1,516 @@
 <div class="plans">
-  <app-section-header [header]="'Membership'"></app-section-header>
+  <app-section-header [header]="'Plans'"></app-section-header>
+  <nz-alert
+    style="margin: 16px"
+    nzType="info"
+    nzMessage="Recommended Based on Last 30 days usage"
+  ></nz-alert>
 
-  <div class="body-section">
+  <div class="body-section" style="padding-top: 16px">
     <div nz-row [nzGutter]="16">
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
-        <div class="card">
-          <span
+        <nz-ribbon nzColor="red" style="height: 100%" nzText="Current">
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              justify-content: start;
+            "
+            class="card"
+          >
+            <!-- <span
             nz-icon
             nzType="dollar-circle"
             class="star"
             style="color: #1890ff; font-size: 38px"
             nzTheme="fill"
-          ></span>
-          <div class="card-title">
-            <span>Basic</span>
+          ></span> -->
+            <div class="card-title">
+              <span
+                style="
+                  color: #1890ff;
+                  justify-content: flex-start;
+                  display: flex;
+                "
+                >Basic</span
+              >
+            </div>
+            <h4 style="font-size: 38px">123Stores decides Retail Price.</h4>
+            <div style="margin-top: 32px; margin-bottom: 16px">
+              <button
+                *ngIf="
+                  !planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'basic'
+                "
+                nz-button
+                nzType="primary"
+                style="border: 1px solid darkBlue; color: darkblue"
+              >
+                Downgrade
+              </button>
+              <button
+                *ngIf="
+                  planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'basic'
+                "
+                nz-button
+                nzType="primary"
+              >
+                Start 2 Week Free Trial
+              </button>
+            </div>
+            <span
+              style="
+                margin-top: 22px;
+                font-size: 18px;
+                line-height: 28px;
+                margin-bottom: 16px;
+                text-align: left;
+              "
+              >Best for brands that don't have a dedicated Amazon
+              Strategy.</span
+            >
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                margin-top: 45px;
+              "
+            >
+              <ul>
+                <!-- <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                Best for brands that don't have a dedicated Amazon Strategy.
+              </li> -->
+                <!-- <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                <div style="font-weight: bold; font-size: 18px">
+                  123Stores decides Retail Price.
+                </div>
+              </li> -->
+                <li>
+                  <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                  No minimum order processing fee commitment.
+                </li>
+                <li>
+                  <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                  <div>
+                    Up to <span style="font-weight: bold">100</span> SKUs
+                    Management.
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              flex-direction: column;
-              margin-bottom: 2rem;
-            "
-          >
-            <div style="font-size: 18px; font-weight: bold">Current Plan</div>
-            <div>Renews Aug 21, 2023</div>
-          </div>
-          <ul>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              Best for brands that don't have a dedicated Amazon Strategy.
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div style="font-weight: bold; font-size: 18px">
-                123Stores decides Retail Price.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              No minimum order processing fee commitment.
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                Up to <span style="font-weight: bold">100</span> SKUs
-                Management.
-              </div>
-            </li>
-          </ul>
-        </div>
+        </nz-ribbon>
       </div>
 
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
-        <div class="card">
-          <span
-            nz-icon
-            nzType="dollar-circle"
-            class="star"
-            style="color: #096dd9; font-size: 38px"
-            nzTheme="fill"
-          ></span>
-          <div class="card-title">
-            <span>Plus</span>
-          </div>
-          <button nz-button nzType="primary">Start 2 Week Free Trial</button>
-          <ul>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                Best for brands that sell up to
-                <span style="font-weight: bold">100</span> units or
-                <span style="font-weight: bold">$10,000</span> in a month.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                <div style="font-weight: bold; font-size: 18px">6.0%</div>
-                order processing fee built into the retail price.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                <span style="font-weight: bold">$249</span> minimum order
-                processing fees per month.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                Up to <span style="font-weight: bold">500</span> SKUs
-                Management.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              Set your own Retail Price.
-            </li>
-            <li style="color: #f7ad14">
-              <span
-                style="color: #f7ad14"
-                nz-icon
-                nzType="check-circle"
-                nzTheme="fill"
-              ></span>
-              Recommended Based on Last 30 days usage.
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
-        <div class="card">
-          <span
+        <div style="display: flex; flex-direction: column" class="card">
+          <!-- <span
             nz-icon
             nzType="dollar-circle"
             class="star"
             style="color: #faad14; font-size: 38px"
             nzTheme="fill"
-          ></span>
+          ></span> -->
           <div class="card-title">
-            <span>Premium</span>
+            <span
+              style="color: #096dd9; justify-content: flex-start; display: flex"
+              >Plus</span
+            >
           </div>
-          <button
-            nz-button
-            nzType="default"
-            style="border: 1px solid darkBlue; color: darkblue"
+          <div style="display: flex; align-items: center">
+            <h4
+              style="
+                justify-content: flex-start;
+                font-size: 57px;
+                padding-right: 4px;
+              "
+            >
+              6.0%
+            </h4>
+            <span style="text-align: left"
+              >order processing fee built into the retail price.</span
+            >
+          </div>
+          <span style="padding-top: 16px; font-size: 26px">
+            Set your own Retail Price.
+          </span>
+
+          <span
+            style="
+              font-size: 18px;
+              line-height: 28px;
+              margin: 16px 0px;
+              text-align: left;
+            "
           >
-            Downgrade
-          </button>
-          <ul>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                Best for brands that sell up to
-                <span style="font-weight: bold">250</span> units or
-                <span style="font-weight: bold">$25,000</span> in a month.
+            Best for brands that sell up to
+            <span style="font-weight: bold">100</span> units or
+            <span style="font-weight: bold">$10,000</span> in a month.</span
+          >
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              margin-top: 16px;
+            "
+          >
+            <ul>
+              <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                <div>
+                  <span style="font-weight: bold">$249</span> minimum order
+                  processing fees per month.
+                </div>
+              </li>
+              <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                <div>
+                  Up to <span style="font-weight: bold">500</span> SKUs
+                  Management.
+                </div>
+              </li>
+              <!-- <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                Set your own Retail Price.
+              </li> -->
+            </ul>
+            <div style="height: 70px">
+              <div
+                *ngIf="planDataObj.plan.current_plan === 'premium'"
+                style="
+                  display: flex;
+                  align-items: center;
+                  flex-direction: column;
+                "
+              >
+                <div style="font-size: 18px; font-weight: bold">
+                  Current Plan
+                </div>
+                <div>
+                  {{
+                    planDataObj.plan.current_plan_renewal_date
+                      ? "Renews " + planDataObj.plan.current_plan_renewal_date
+                      : "Trial ends" + planDataObj.plan.trial_end_date
+                  }}
+                </div>
               </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                <div style="font-weight: bold; font-size: 18px">5.0%</div>
-                order processing fee built into the retail price.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                <span style="font-weight: bold">$499</span> minimum order
-                processing fees per month.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                Up to <span style="font-weight: bold">1000</span> SKUs
-                Management.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              Set your own Retail Price.
-            </li>
-          </ul>
+              <button
+                *ngIf="
+                  !planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'premium' &&
+                  planDataObj.plan.current_plan === 'enterprise'
+                "
+                nz-button
+                nzType="primary"
+                style="border: 1px solid darkBlue; color: darkblue"
+              >
+                Downgrade
+              </button>
+              <button
+                *ngIf="
+                  !planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'premium' &&
+                  (planDataObj.plan.current_plan === 'basic' ||
+                    planDataObj.plan.current_plan === 'plus')
+                "
+                nz-button
+                nzType="primary"
+              >
+                Upgrade
+              </button>
+              <button
+                *ngIf="
+                  planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'plus'
+                "
+                nz-button
+                nzType="primary"
+              >
+                Start 2 Week Free Trial
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
-        <div class="card">
-          <span
+        <nz-ribbon nzColor="blue" style="height: 100%" nzText="Most Popular">
+          <div style="display: flex; flex-direction: column" class="card">
+            <!-- <span
             nz-icon
             nzType="dollar-circle"
             class="star"
-            style="color: #fae014; font-size: 38px"
+            style="color: #faad14; font-size: 38px"
             nzTheme="fill"
-          ></span>
-          <div class="card-title">
-            <span>Enterprise</span>
-          </div>
-          <button nz-button nzType="primary">Upgrade</button>
-          <ul>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                Best for brands that sell more than
-                <span style="font-weight: bold">250</span> units or
-                <span style="font-weight: bold">$25,000</span> in a month.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                <div style="font-weight: bold; font-size: 18px">4.0%</div>
-                order processing fee built into the retail price.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                <span style="font-weight: bold">$999</span> minimum order
-                processing fees per month.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
-              <div>
-                Up to <span style="font-weight: bold">2500</span> SKUs
-                Management.
-              </div>
-            </li>
-            <li>
-              <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          ></span> -->
+            <div class="card-title">
+              <span
+                style="
+                  color: #faad14;
+                  justify-content: flex-start;
+                  display: flex;
+                "
+                >Premium</span
+              >
+            </div>
+            <div style="display: flex; align-items: center">
+              <h4
+                style="
+                  justify-content: flex-start;
+                  font-size: 57px;
+                  padding-right: 4px;
+                "
+              >
+                5.0%
+              </h4>
+              <span style="text-align: left"
+                >order processing fee built into the retail price.</span
+              >
+            </div>
+            <span style="padding-top: 16px; font-size: 26px">
               Set your own Retail Price.
-            </li>
-          </ul>
+            </span>
+
+            <span
+              style="
+                font-size: 18px;
+                line-height: 28px;
+                margin: 16px 0px;
+                text-align: left;
+              "
+            >
+              Best for brands that sell up to
+              <span style="font-weight: bold">250</span> units or
+              <span style="font-weight: bold">$25,000</span> in a month.</span
+            >
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                margin-top: 16px;
+              "
+            >
+              <ul>
+                <li>
+                  <!-- <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                <div>
+                  Best for brands that sell up to
+                  <span style="font-weight: bold">250</span> units or
+                  <span style="font-weight: bold">$25,000</span> in a month.
+                </div>
+              </li> -->
+                  <!-- <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                <div>
+                  <div style="font-weight: bold; font-size: 18px">5.0%</div>
+                  order processing fee built into the retail price.
+                </div>
+              </li>
+              <li> -->
+                  <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                  <div>
+                    <span style="font-weight: bold">$499</span> minimum order
+                    processing fees per month.
+                  </div>
+                </li>
+                <li>
+                  <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                  <div>
+                    Up to <span style="font-weight: bold">1000</span> SKUs
+                    Management.
+                  </div>
+                </li>
+                <!-- <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                Set your own Retail Price.
+              </li> -->
+              </ul>
+              <div style="height: 70px">
+                <div
+                  *ngIf="planDataObj.plan.current_plan === 'premium'"
+                  style="
+                    display: flex;
+                    align-items: center;
+                    flex-direction: column;
+                  "
+                >
+                  <div style="font-size: 18px; font-weight: bold">
+                    Current Plan
+                  </div>
+                  <div>
+                    {{
+                      planDataObj.plan.current_plan_renewal_date
+                        ? "Renews " + planDataObj.plan.current_plan_renewal_date
+                        : "Trial ends" + planDataObj.plan.trial_end_date
+                    }}
+                  </div>
+                </div>
+                <button
+                  *ngIf="
+                    !planDataObj.plan.currently_on_trial &&
+                    planDataObj.plan.current_plan !== 'premium' &&
+                    planDataObj.plan.current_plan === 'enterprise'
+                  "
+                  nz-button
+                  nzType="primary"
+                  style="border: 1px solid darkBlue; color: darkblue"
+                >
+                  Downgrade
+                </button>
+                <button
+                  *ngIf="
+                    !planDataObj.plan.currently_on_trial &&
+                    planDataObj.plan.current_plan !== 'premium' &&
+                    (planDataObj.plan.current_plan === 'basic' ||
+                      planDataObj.plan.current_plan === 'plus')
+                  "
+                  nz-button
+                  nzType="primary"
+                >
+                  Upgrade
+                </button>
+                <button
+                  *ngIf="
+                    planDataObj.plan.currently_on_trial &&
+                    planDataObj.plan.current_plan !== 'plus'
+                  "
+                  nz-button
+                  nzType="primary"
+                >
+                  Start 2 Week Free Trial
+                </button>
+              </div>
+            </div>
+          </div>
+        </nz-ribbon>
+      </div>
+      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+        <div style="display: flex; flex-direction: column" class="card">
+          <div class="card-title">
+            <span
+              style="color: #fae014; justify-content: flex-start; display: flex"
+              >Enterprise</span
+            >
+          </div>
+          <div style="display: flex; align-items: center">
+            <h4
+              style="
+                justify-content: flex-start;
+                font-size: 57px;
+                padding-right: 4px;
+              "
+            >
+              4.0%
+            </h4>
+            <span style="text-align: left"
+              >order processing fee built into the retail price.</span
+            >
+          </div>
+          <span style="padding-top: 16px; font-size: 26px">
+            Set your own Retail Price.
+          </span>
+
+          <span
+            style="
+              font-size: 18px;
+              line-height: 28px;
+              margin: 16px 0px;
+              text-align: left;
+            "
+          >
+            Best for brands that sell more than
+            <span style="font-weight: bold">250</span> units or
+            <span style="font-weight: bold">$25,000</span> in a month.</span
+          >
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              height: 100%;
+              margin-top: 16px;
+            "
+          >
+            <ul>
+              <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                <div>
+                  <span style="font-weight: bold">$999</span> minimum order
+                  processing fees per month.
+                </div>
+              </li>
+              <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                <div>
+                  Up to <span style="font-weight: bold">2500</span> SKUs
+                  Management.
+                </div>
+              </li>
+              <!-- <li>
+                <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+                Set your own Retail Price.
+              </li> -->
+            </ul>
+            <div style="height: 70px">
+              <div
+                *ngIf="planDataObj.plan.current_plan === 'premium'"
+                style="
+                  display: flex;
+                  align-items: center;
+                  flex-direction: column;
+                "
+              >
+                <div style="font-size: 18px; font-weight: bold">
+                  Current Plan
+                </div>
+                <div>
+                  {{
+                    planDataObj.plan.current_plan_renewal_date
+                      ? "Renews " + planDataObj.plan.current_plan_renewal_date
+                      : "Trial ends" + planDataObj.plan.trial_end_date
+                  }}
+                </div>
+              </div>
+              <button
+                *ngIf="
+                  !planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'premium' &&
+                  planDataObj.plan.current_plan === 'enterprise'
+                "
+                nz-button
+                nzType="primary"
+                style="border: 1px solid darkBlue; color: darkblue"
+              >
+                Downgrade
+              </button>
+              <button
+                *ngIf="
+                  !planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'premium' &&
+                  (planDataObj.plan.current_plan === 'basic' ||
+                    planDataObj.plan.current_plan === 'plus')
+                "
+                nz-button
+                nzType="primary"
+              >
+                Upgrade
+              </button>
+              <button
+                *ngIf="
+                  planDataObj.plan.currently_on_trial &&
+                  planDataObj.plan.current_plan !== 'plus'
+                "
+                nz-button
+                nzType="primary"
+              >
+                Start 2 Week Free Trial
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

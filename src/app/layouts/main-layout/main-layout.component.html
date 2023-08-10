@@ -143,19 +143,34 @@
             margin-right: 16px;
           "
         >
-          <span style="display: flex; align-items: center">
-            <span style="margin-right: 8px">
-              <span
-                nz-icon
-                nzType="dollar-circle"
-                class="star"
-                style="color: #1890ff; font-size: 24px"
-                nzTheme="fill"
-              ></span
-            ></span>
-            <span style="font-weight: bold">Basic</span>
-          </span>
-          Plan expires Aug 21, 2023
+          <a routerLink="/main/plans" nzType="default">
+            <span style="display: flex; align-items: center; line-height: 0">
+              <span style="margin-right: 8px">
+                <span
+                  nz-icon
+                  nzType="dollar-circle"
+                  class="star"
+                  style="color: #1890ff; font-size: 24px; line-height: 0"
+                  nzTheme="fill"
+                ></span
+              ></span>
+              <span style="font-weight: bold; line-height: 0">Basic</span>
+            </span>
+          </a>
+          <!-- <button>
+            <span style="display: flex; align-items: center">
+              <span style="margin-right: 8px">
+                <span
+                  nz-icon
+                  nzType="dollar-circle"
+                  class="star"
+                  style="color: #1890ff; font-size: 24px"
+                  nzTheme="fill"
+                ></span
+              ></span>
+              <span style="font-weight: bold">Basic</span>
+            </span>
+          </button> -->
         </span>
         <span class="name">{{ userPartnerName }} ({{ userPartnerCode }})</span>
         <a style="color: #2121c3" target="_blank" (click)="help()">Help</a>
