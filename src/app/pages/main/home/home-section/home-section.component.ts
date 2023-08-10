@@ -66,7 +66,7 @@ export class HomeSectionComponent implements OnInit {
     'Active',
     'Discontinued',
     'LTL',
-    'Restricted',
+    'Partner Restricted',
     'Suppressed',
   ];
   chartOneColor: string[] = ['green', 'red', '#DFCFBE', '#9B2335', '#5B5EA6'];

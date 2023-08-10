@@ -188,7 +188,7 @@
                 *ngIf="
                   data.product_status === 'Discontinued' ||
                   data.product_status === 'LTL' ||
-                  data.product_status === 'Restricted'
+                  data.product_status === 'Partner Restricted'
                 "
                 [type]="statusEnum.Hold"
                 [text]="data.product_status"
@@ -237,7 +237,7 @@
           <nz-option nzLabel="Active" nzValue="Active"></nz-option>
           <nz-option nzLabel="Discontinued" nzValue="Discontinued"></nz-option>
           <nz-option nzLabel="LTL" nzValue="LTL"></nz-option>
-          <nz-option nzLabel="Restricted" nzValue="Restricted"></nz-option>
+          <nz-option nzLabel="Partner Restricted" nzValue="Restricted"></nz-option>
           <nz-option nzLabel="Supressed" nzValue="Supressed"></nz-option>
         </nz-select>
 

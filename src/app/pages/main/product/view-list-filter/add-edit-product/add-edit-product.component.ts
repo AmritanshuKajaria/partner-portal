@@ -86,22 +86,23 @@ export class AddEditProductComponent implements OnInit {
     this.addEditProductForm = new FormGroup({
       mpn: new FormControl('', [
         Validators.required,
-        Validators.maxLength(24),
+        Validators.maxLength(25),
         Validators.pattern('^[A-Za-z0-9]+$'),
       ]),
       upc: new FormControl('', [
-        Validators.required,
         Validators.minLength(12),
         Validators.maxLength(14),
         Validators.pattern('^[0-9_.]+$'),
       ]),
       amazon_asin: new FormControl('', [
+        Validators.minLength(10),
         Validators.maxLength(10),
         Validators.pattern('^[A-Z0-9_.]+$'),
       ]),
       product_name: new FormControl('', [
         Validators.required,
-        Validators.maxLength(34),
+        Validators.minLength(3),
+        Validators.maxLength(150),
       ]),
       brand: new FormControl('', [
         Validators.required,
@@ -112,7 +113,7 @@ export class AddEditProductComponent implements OnInit {
       sales_tier: new FormControl('', [Validators.maxLength(34)]),
       unit_price: new FormControl('', [Validators.required]),
       map: new FormControl(''),
-      msrp: new FormControl(''),
+      // msrp: new FormControl(''),
       handling_time: new FormControl('', [
         Validators.min(1),
         Validators.max(30),
@@ -180,9 +181,9 @@ export class AddEditProductComponent implements OnInit {
                 this.addEditProductForm.controls['map'].setValue(
                   this.editData?.map
                 );
-                this.addEditProductForm.controls['msrp'].setValue(
-                  this.editData?.msrp
-                );
+                // this.addEditProductForm.controls['msrp'].setValue(
+                //   this.editData?.msrp
+                // );
                 this.addEditProductForm.controls['handling_time'].setValue(
                   this.editData?.handling_time
                 );
@@ -350,7 +351,7 @@ export class AddEditProductComponent implements OnInit {
       sales_tier: this.addEditProductForm.value.sales_tier,
       unit_price: this.addEditProductForm.value.unit_price,
       map: this.addEditProductForm.value.map,
-      msrp: this.addEditProductForm.value.msrp,
+      // msrp: this.addEditProductForm.value.msrp,
       handling_time: this.addEditProductForm.value.handling_time,
       shipping_method: this.addEditProductForm.value.shipping_Method,
       product_status: this.addEditProductForm.value.product_status,
@@ -387,8 +388,9 @@ export class AddEditProductComponent implements OnInit {
         (res: any) => {
           console.log(res);
           if (res.success) {
-            this.backButton();
+            this.resReferenceCode = res?.reference_code;
             this.message.create('success', 'Add product successfully!');
+            this.backButton();
           }
           this.isLoading = false;
         },
@@ -411,7 +413,9 @@ export class AddEditProductComponent implements OnInit {
         state: { code: this.resReferenceCode },
       });
     } else {
-      this.router.navigate([`/main/products`]);
+      this.router.navigate([`/main/products`], {
+        state: { code: this.resReferenceCode },
+      });
     }
   }
 }

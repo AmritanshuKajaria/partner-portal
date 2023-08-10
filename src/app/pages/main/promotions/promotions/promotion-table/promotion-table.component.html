@@ -240,7 +240,7 @@
 
 <nz-modal
   [(nzVisible)]="isExportVisible"
-  nzTitle="Which Promotion would you like to export?"
+  nzTitle="Which Promotion Details would you like to export?"
   (nzOnCancel)="handleCancel()"
 >
   <ng-container *nzModalContent>
@@ -248,7 +248,7 @@
       [exportType]="false"
       [sectionName]="'promotion'"
       [description]="
-        'Your Promotion will be exported as a CSV file and sent to your email.'
+        'Your Promotion Details will be exported as a CSV file and sent to your email.'
       "
       [listOfFilter]="listOfFilter"
       [noOfFilter]="total"
