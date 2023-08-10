@@ -13,44 +13,7 @@ export class MultiProductCalculatorComponent implements OnInit {
   pageSize = 100;
   pageIndex = 1;
   pageSizeOptions = [100];
-  multiProductList: CalculatorMultiData[] = [
-    {
-      mpn: 'AF16ALSTDWG',
-      upc: '842158135056',
-      asin: 'B07CYK3852',
-      productName: '16 Round Side Table - Dark Walnut/Gold',
-      unitPrice: 62,
-      amazonSalesCommission: 15,
-      shippingCost: 20,
-      orderProcessingFee: 1,
-      returnProcessingFee: 2,
-      retailPrice: 100,
-    },
-    {
-      mpn: 'AF16ALSTGGD-2PK',
-      upc: '840035359397',
-      asin: 'B097TYQHKV',
-      productName: '16in Round Side Table-Glass/Gold',
-      unitPrice: 65,
-      amazonSalesCommission: 15.54,
-      shippingCost: 20,
-      orderProcessingFee: 1.04,
-      returnProcessingFee: 2,
-      retailPrice: 103.57,
-    },
-    {
-      mpn: 'AF16APRSTGW',
-      upc: '840035320717',
-      asin: 'B081FTZMBG',
-      productName: 'AF16APRSTGW	840035320717	B081FTZMBG',
-      unitPrice: 57,
-      amazonSalesCommission: 14.11,
-      shippingCost: 20,
-      orderProcessingFee: 0.94,
-      returnProcessingFee: 2,
-      retailPrice: 94.05,
-    },
-  ];
+  multiProductList: CalculatorMultiData[] = [];
 
   multiData: CalculatorMultiData[] = [];
 
