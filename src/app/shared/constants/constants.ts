@@ -10,3 +10,22 @@ export const planDataObj = {
     trial_end_date: '2023-07-05',
   },
 };
+
+export const PlanLabels: any = {
+  basic: {
+    label: 'Basic',
+    color: '#1890ff',
+  },
+  plus: {
+    label: 'Plus',
+    color: '#096dd9',
+  },
+  premium: {
+    label: 'Premium',
+    color: '#faad14',
+  },
+  enterprise: {
+    label: 'Enterprice',
+    color: '#fae014',
+  },
+};

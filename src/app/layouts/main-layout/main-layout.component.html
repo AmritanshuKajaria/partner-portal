@@ -143,18 +143,27 @@
             margin-right: 16px;
           "
         >
-          <a routerLink="/main/plans" nzType="default">
+          <a
+            *ngIf="userPartnerDetails?.current_plan"
+            routerLink="/main/plans"
+            nzType="default"
+          >
             <span style="display: flex; align-items: center; line-height: 0">
               <span style="margin-right: 8px">
                 <span
                   nz-icon
                   nzType="dollar-circle"
                   class="star"
+                  [style.color]="
+                    PlanLabels[userPartnerDetails?.current_plan].color
+                  "
                   style="color: #1890ff; font-size: 24px; line-height: 0"
                   nzTheme="fill"
                 ></span
               ></span>
-              <span style="font-weight: bold; line-height: 0">Basic</span>
+              <span style="font-weight: bold; line-height: 0">{{
+                PlanLabels[userPartnerDetails?.current_plan].label
+              }}</span>
             </span>
           </a>
           <!-- <button>

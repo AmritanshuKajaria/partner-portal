@@ -14,128 +14,74 @@
     }
 
     .card {
-      text-align: center;
-      padding: 10px 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      padding: 20px 20px;
       border: 1px solid $lightgrey;
       border-radius: 10px;
-      // margin: 5px;
       height: 100%;
 
-      .star {
-        font-size: xx-large;
-      }
-
       &-title {
-        margin-bottom: 0.5rem;
-        margin-top: 0.5rem;
-
-        span {
-          font-weight: 500;
-          font-size: 26px;
-        }
-      }
-
-      h4 {
-        margin-bottom: 0px;
         font-weight: 500;
         font-size: 26px;
-        line-height: 36px;
-        // letter-spacing: -0.2px;
+        color: #1890ff;
+        justify-content: flex-start;
         display: flex;
+        margin-bottom: 28px;
+      }
+
+      &-subtitle {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 72px;
         justify-content: center;
-
-        span {
-          font-size: 1rem;
-          font-weight: 500;
-          color: $gray;
-        }
-      }
-
-      button {
-        //  background-color: $darkBlue;
-        // border: 1px solid $darkBlue;
-        // color: $darkBlue;
-        width: 100%;
-        height: 40px;
-        font-size: 18px;
-        font-weight: 600;
-        border-radius: 3px;
-        // margin-bottom: 2rem;
-      }
-
-      ul {
-        padding: 0;
-        margin-bottom: 1rem;
-        text-align: start;
-
-        li {
-          padding-left: 0;
-          list-style: none;
-          font-size: 14px;
-          margin-bottom: 0.625rem;
-          display: flex;
-          align-items: start;
-          .anticon {
-            margin-right: 12px;
-            margin-top: 4px;
-            font-size: 14px;
-            color: #2121c3;
-          }
-        }
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1439px) {
-  .plans {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    background-color: $white;
-    background-clip: border-box;
-    border-radius: 5px;
-
-    .body-section {
-      padding: 5%;
-
-      .card {
-        text-align: center;
-        padding: 30px 20px;
-        border: 1px solid $lightgrey;
-        border-radius: 10px;
-        margin: 5px;
-
-        .star {
-          font-size: x-large;
+        @media screen and (max-width: 1894px) {
+          min-height: 108px;
         }
 
-        &-title {
-          span {
-            font-size: 1.05rem;
-          }
+        @media screen and (max-width: 1347) {
+          min-height: 144px;
         }
 
+        @media screen and (max-width: 991) {
+          min-height: 108px;
+        }
         h4 {
-          font-size: 26px;
           margin-bottom: 0px;
-
-          span {
-            font-size: 1rem;
-            font-weight: 500;
-            color: $gray;
-          }
+          font-weight: 500;
+          line-height: 36px;
+          display: flex;
+          text-align: center;
         }
-
-        button {
-          font-size: 16px;
-          font-weight: 600;
-          margin-bottom: 1rem;
+        .small-title {
+          font-size: 38px;
         }
+        .big-title {
+          font-size: 57px;
+        }
+        .big-title + span {
+          text-align: center;
+        }
+      }
 
+      &-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        margin-top: 39px;
+        justify-content: space-between;
         ul {
+          padding: 0;
+          margin-bottom: 0;
+          text-align: start;
+
           li {
             padding-left: 0;
             list-style: none;
-            font-size: 12px;
+            font-size: 14px;
+            margin-bottom: 0.625rem;
             display: flex;
             align-items: start;
             .anticon {
@@ -146,6 +92,33 @@
             }
           }
         }
+      }
+
+      &-actions {
+        margin: 24px 0 32px 0;
+      }
+
+      &-footer-content {
+        font-size: 14px;
+        line-height: 28px;
+        margin: 16px 0px;
+        text-align: left;
+      }
+
+      button {
+        width: 100%;
+        height: 40px;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 3px;
+        white-space: break-spaces;
+        height: 100%;
+      }
+
+      .button-outlined {
+        background: white !important;
+        color: #2121c3 !important;
+        border: 1px solid darkBlue !important;
       }
     }
   }
