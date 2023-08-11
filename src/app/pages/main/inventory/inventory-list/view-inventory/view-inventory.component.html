@@ -173,15 +173,15 @@
             <tr>
               <td>Partner Restricted</td>
               <td class="text-end">
-                {{ editData?.restricted_in_stock ?? 0 }}
+                {{ editData?.partner_restricted_in_stock ?? 0 }}
               </td>
               <td class="text-end">
-                {{ editData?.restricted_out_of_stock ?? 0 }}
+                {{ editData?.partner_restricted_out_of_stock ?? 0 }}
               </td>
               <td class="text-end">
                 {{
-                  (editData?.restricted_in_stock ?? 0) +
-                    (editData?.restricted_out_of_stock ?? 0)
+                  (editData?.partner_restricted_in_stock ?? 0) +
+                    (editData?.partner_restricted_out_of_stock ?? 0)
                 }}
               </td>
             </tr>
