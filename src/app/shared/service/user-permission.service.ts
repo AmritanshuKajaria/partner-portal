@@ -16,8 +16,4 @@ export class UserPermissionService {
     return this.httpClient.get(this.url + '/partner-details');
     // return this.httpClient.get('https://api.123stores.com/partner-details');
   }
-
-  updatePartnerDetails(data: any) {
-    return this.httpClient.post(this.url + '/partner-details', data);
-  }
 }

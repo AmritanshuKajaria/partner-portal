@@ -39,10 +39,5 @@ export class PlansComponent implements OnInit, OnDestroy {
       current_plan: plan,
       free_trial_eligible: false,
     };
-    this.userPermissionService
-      .updatePartnerDetails(data)
-      .subscribe((res: any) => {
-        console.log(res);
-      });
   }
 }
