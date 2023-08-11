@@ -22,9 +22,9 @@ export class PlansComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         if (res) {
           this.userPartnerDetails = res;
-          this.currentPlan = res?.current_plan;
+          this.currentPlan = 'premium';
           this.planRecommendationText = res?.plan_recommendation_text;
-          this.freeTrialEligible = res?.free_trial_eligible;
+          this.freeTrialEligible = false;
         }
       });
   }
