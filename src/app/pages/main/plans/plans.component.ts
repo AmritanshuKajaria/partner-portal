@@ -24,7 +24,7 @@ export class PlansComponent implements OnInit, OnDestroy {
           this.userPartnerDetails = res;
           this.currentPlan = res?.current_plan;
           this.planRecommendationText = res?.plan_recommendation_text;
-          this.freeTrialEligible = false;
+          this.freeTrialEligible = res?.free_trial_eligible;
         }
       });
   }
