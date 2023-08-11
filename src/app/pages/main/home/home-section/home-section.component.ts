@@ -150,7 +150,7 @@ export class HomeSectionComponent implements OnInit {
           result?.catalog_overview?.Active,
           result?.catalog_overview?.Discontinued,
           result?.catalog_overview?.LTL,
-          result?.catalog_overview?.Restricted,
+          result?.catalog_overview['Partner Restricted'],
           result?.catalog_overview?.Suppressed,
         ];
         await this.chartOneLabel.map((res: string, index) => {
