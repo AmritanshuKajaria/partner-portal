@@ -111,7 +111,7 @@ export class AddEditProductComponent implements OnInit {
       collection: new FormControl('', [Validators.maxLength(34)]),
       product_category: new FormControl('', [Validators.maxLength(34)]),
       sales_tier: new FormControl('', [Validators.maxLength(34)]),
-      unit_price: new FormControl('', [Validators.required]),
+      unit_price: new FormControl('', [Validators.required, Validators.min(1), Validators.max(2500)]),
       map: new FormControl(''),
       // msrp: new FormControl(''),
       handling_time: new FormControl('', [

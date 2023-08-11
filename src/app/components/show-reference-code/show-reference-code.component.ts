@@ -9,6 +9,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 export class ShowReferenceCodeComponent implements OnInit {
   @Input() isVisible: boolean = false;
   @Input() referenceCode: string = '';
+  @Input() subTitle: string = '';
 
   @Output() close = new EventEmitter();
 

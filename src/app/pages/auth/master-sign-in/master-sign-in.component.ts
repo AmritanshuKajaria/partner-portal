@@ -68,7 +68,7 @@ export class MasterSignInComponent implements OnInit {
       this.authService.masterLogin(dataReq).subscribe(
         (result: any) => {
           if (result.success) {
-            this.message.success('User login successfully!!');
+            this.message.success('User Login Successful');
             this.authService.setAccessToken(result.access_token);
             this.authService.setRefreshToken(result.refresh_token);
             this.authService.saveUser(result.user_profile);
@@ -98,7 +98,7 @@ export class MasterSignInComponent implements OnInit {
         },
         (err) => {
           this.isLoading = false;
-          this.message.success('User login fail!!');
+          this.message.success('User Login Fail');
         }
       );
     }

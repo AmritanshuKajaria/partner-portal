@@ -287,6 +287,12 @@
                   appTwoDigitDecimaNumber
                 />
                 <ng-template #unit_price let-control>
+                  <ng-container *ngIf="control.hasError('min')"
+                    >Unit Price cannot be 0<br
+                  /></ng-container>
+                  <ng-container *ngIf="control.hasError('max')"
+                    >Unit Price cannot exceed $ 2,500<br
+                  /></ng-container>
                   <ng-container *ngIf="control.hasError('pattern')"
                     >Please input more than 2 decimal!<br
                   /></ng-container>
