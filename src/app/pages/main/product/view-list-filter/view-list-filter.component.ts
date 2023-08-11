@@ -418,7 +418,7 @@ export class ViewListFilterComponent implements OnInit {
             value == 'Discontinued' ||
             value == 'LTL' ||
             value == 'Partner Restricted' ||
-            value == 'Supressed'
+            value == 'Suppressed'
           ) {
             this.clear_btn = true;
             this.selectStatus = value;
