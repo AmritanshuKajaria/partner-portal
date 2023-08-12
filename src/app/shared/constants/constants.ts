@@ -25,7 +25,7 @@ export const PlanLabels: any = {
     color: '#faad14',
   },
   enterprise: {
-    label: 'Enterprice',
+    label: 'Enterprise',
     color: '#fae014',
   },
 };

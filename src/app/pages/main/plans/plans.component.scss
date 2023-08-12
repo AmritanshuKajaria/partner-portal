@@ -41,13 +41,6 @@
           min-height: 108px;
         }
 
-        @media screen and (max-width: 1347) {
-          min-height: 144px;
-        }
-
-        @media screen and (max-width: 991) {
-          min-height: 108px;
-        }
         h4 {
           margin-bottom: 0px;
           font-weight: 500;
@@ -100,9 +93,23 @@
 
       &-footer-content {
         font-size: 14px;
-        line-height: 28px;
-        margin: 16px 0px;
         text-align: left;
+        display: flex;
+        @media screen and (max-width: 2447px) {
+          min-height: 44px;
+        }
+        @media screen and (max-width: 1470px) {
+          min-height: 66px;
+        }
+        @media screen and (max-width: 1162px) {
+          min-height: 83px;
+        }
+        @media screen and (max-width: 1148px) {
+          min-height: 105px;
+        }
+        @media screen and (max-width: 991px) {
+          min-height: 0;
+        }
       }
 
       button {
