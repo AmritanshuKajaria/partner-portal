@@ -83,7 +83,7 @@ export class AddEditProductComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.addEditProductForm = new FormGroup({
+    this.addEditProductForm = this.formBuilder.group({
       mpn: new FormControl('', [
         Validators.required,
         Validators.maxLength(25),
@@ -108,10 +108,17 @@ export class AddEditProductComponent implements OnInit {
         Validators.required,
         Validators.maxLength(34),
       ]),
-      collection: new FormControl('', [Validators.maxLength(34)]),
+      collection: new FormControl('', [
+        Validators.minLength(3),
+        Validators.maxLength(34),
+      ]),
       product_category: new FormControl('', [Validators.maxLength(34)]),
       sales_tier: new FormControl('', [Validators.maxLength(34)]),
-      unit_price: new FormControl('', [Validators.required, Validators.min(1), Validators.max(2500)]),
+      unit_price: new FormControl('', [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(2500),
+      ]),
       map: new FormControl(''),
       // msrp: new FormControl(''),
       handling_time: new FormControl('', [
@@ -308,6 +315,9 @@ export class AddEditProductComponent implements OnInit {
           }
           break;
         case 'Collection':
+          if (this.setDropDownValue.length < 3) {
+            return;
+          }
           if (this.listOfCollection.indexOf(this.setDropDownValue) === -1) {
             this.listOfCollection = [
               ...this.listOfCollection,
@@ -337,65 +347,88 @@ export class AddEditProductComponent implements OnInit {
     }
   }
 
-  submit() {
-    this.isLoading = true;
-
-    let data: any = {
-      mpn: this.addEditProductForm.value.mpn,
-      upc: this.addEditProductForm.value.upc,
-      asin: this.addEditProductForm.value.amazon_asin,
-      name: this.addEditProductForm.value.product_name,
-      brand: this.addEditProductForm.value.brand,
-      collection: this.addEditProductForm.value.collection,
-      product_category: this.addEditProductForm.value.product_category,
-      sales_tier: this.addEditProductForm.value.sales_tier,
-      unit_price: this.addEditProductForm.value.unit_price,
-      map: this.addEditProductForm.value.map,
-      // msrp: this.addEditProductForm.value.msrp,
-      handling_time: this.addEditProductForm.value.handling_time,
-      shipping_method: this.addEditProductForm.value.shipping_Method,
-      product_status: this.addEditProductForm.value.product_status,
-      number_of_boxes: this.addEditProductForm.value.number_of_boxes ?? 1,
-    };
-    let dimensions: any[] = [];
-    this.shippingDimensionsOfBoxes.value.map((res: any, index: number) => {
-      dimensions.push({
-        box_no: index + 1,
-        length: +res.length,
-        width: +res.width,
-        height: +res.height,
-        weight: +res.gross_weight,
+  submitForm(): void {
+    if (this.addEditProductForm.valid) {
+      this.isLoading = true;
+      let data: any = {
+        mpn: this.addEditProductForm.value.mpn,
+        upc: this.addEditProductForm.value.upc,
+        asin: this.addEditProductForm.value.amazon_asin,
+        name: this.addEditProductForm.value.product_name,
+        brand: this.addEditProductForm.value.brand,
+        collection: this.addEditProductForm.value.collection,
+        product_category: this.addEditProductForm.value.product_category,
+        sales_tier: this.addEditProductForm.value.sales_tier,
+        unit_price: this.addEditProductForm.value.unit_price,
+        map: this.addEditProductForm.value.map,
+        // msrp: this.addEditProductForm.value.msrp,
+        handling_time: this.addEditProductForm.value.handling_time,
+        shipping_method: this.addEditProductForm.value.shipping_Method,
+        product_status: this.addEditProductForm.value.product_status,
+        number_of_boxes: this.addEditProductForm.value.number_of_boxes ?? 1,
+      };
+      let dimensions: any[] = [];
+      this.shippingDimensionsOfBoxes.value.map((res: any, index: number) => {
+        dimensions.push({
+          box_no: index + 1,
+          length: +res.length,
+          width: +res.width,
+          height: +res.height,
+          weight: +res.gross_weight,
+        });
       });
-    });
-    data['shipping_dimensions'] = dimensions;
+      data['shipping_dimensions'] = dimensions;
 
-    if (this.editSection) {
-      data['sku'] = this.sku;
-      this.productService.editProduct(data).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
-            this.resReferenceCode = res?.reference_code;
-            this.message.create('success', 'Edit product successfully!');
-            this.backButton();
-          }
-          this.isLoading = false;
-        },
-        (err) => (this.isLoading = false)
-      );
+      if (this.editSection) {
+        data['sku'] = this.sku;
+        this.productService.editProduct(data).subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.success) {
+              this.resReferenceCode = res?.reference_code;
+              this.message.create('success', 'Edit product successfully!');
+              this.backButton();
+            }
+            this.isLoading = false;
+          },
+          (err) => (this.isLoading = false)
+        );
+      } else {
+        this.productService.createProduct(data).subscribe(
+          (res: any) => {
+            console.log(res);
+            if (res.success) {
+              this.resReferenceCode = res?.reference_code;
+              this.message.create('success', 'Add product successfully!');
+              this.backButton();
+            }
+            this.isLoading = false;
+          },
+          (err) => (this.isLoading = false)
+        );
+      }
     } else {
-      this.productService.createProduct(data).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
-            this.resReferenceCode = res?.reference_code;
-            this.message.create('success', 'Add product successfully!');
-            this.backButton();
+      Object.values(this.addEditProductForm.controls).forEach((control) => {
+        if (control.invalid) {
+          if (control instanceof FormControl) {
+            control.markAsDirty();
+            control.updateValueAndValidity({ onlySelf: true });
           }
-          this.isLoading = false;
-        },
-        (err) => (this.isLoading = false)
-      );
+
+          if (control instanceof FormArray) {
+            console.log(control);
+
+            control.controls.forEach((formGroup: any) => {
+              Object.values(formGroup.controls).forEach((arrayControl: any) => {
+                if (arrayControl.invalid) {
+                  arrayControl.markAsDirty();
+                  arrayControl.updateValueAndValidity({ onlySelf: true });
+                }
+              });
+            });
+          }
+        }
+      });
     }
   }
 
