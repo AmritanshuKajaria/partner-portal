@@ -1,5 +1,5 @@
 <nz-alert
-  *ngIf="!showCalculator"
+  *ngIf="!showCalculator && isDataLoaded"
   nzType="error"
   [nzMessage]="alertMessage"
   [nzDescription]="alertDescription"
@@ -18,7 +18,7 @@
 <ng-template #alertIcon>
   <span nz-icon nzType="warning" nzTheme="fill" style="color: red"></span>
 </ng-template>
-<div class="calculator" *ngIf="showCalculator">
+<div class="calculator" *ngIf="showCalculator && isDataLoaded">
   <app-section-header [header]="'Pricing'"></app-section-header>
 
   <div class="body-section">

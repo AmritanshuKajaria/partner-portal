@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, takeUntil } from 'rxjs';
-import { planDataObj, PlanLabels } from 'src/app/shared/constants/constants';
+import { PlanLabels } from 'src/app/shared/constants/constants';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
@@ -10,7 +10,6 @@ import { UserPermissionService } from 'src/app/shared/service/user-permission.se
   styleUrls: ['./plans.component.scss'],
 })
 export class PlansComponent implements OnInit, OnDestroy {
-  planDataObj = planDataObj;
   userPartnerDetails: any;
   currentPlan: any;
   planRecommendationText: any;
