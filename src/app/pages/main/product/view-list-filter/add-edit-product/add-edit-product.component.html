@@ -54,10 +54,10 @@
                 />
                 <ng-template #mpn let-control>
                   <ng-container *ngIf="control.hasError('maxlength')"
-                    >Please input maximum 25 characters!<br
+                    >Please input maximum 25 characters<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your MPN!<br
+                    >Please input your MPN<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('pattern')"
                     >MPN can only contain Alphabets (A-Z | a-z), Digits (0-9),
@@ -81,16 +81,16 @@
                 />
                 <ng-template #upc let-control>
                   <ng-container *ngIf="control.hasError('minlength')"
-                    >Please input minimum 12 digits!<br
+                    >Please input minimum 12 digits<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('maxlength')"
-                    >Please input maximum 14 digits!<br
+                    >Please input maximum 14 digits<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your UPC!<br
+                    >Please input your UPC<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('pattern')"
-                    >Please input only digits!</ng-container
+                    >Please input only digits</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -112,13 +112,13 @@
                       control.hasError('maxlength') ||
                       control.hasError('minlength')
                     "
-                    >Amazon ASIN can only have 10 characters!<br
+                    >Amazon ASIN can only have 10 characters<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your Amazon ASIN!<br
+                    >Please input your Amazon ASIN<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('pattern')"
-                    >Please input only 0-9 & A-Z characters!</ng-container
+                    >Please input only 0-9 & A-Z characters</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -138,10 +138,10 @@
                 />
                 <ng-template #product_name let-control>
                   <ng-container *ngIf="control.hasError('minlength')"
-                    >Please input minimum 3 characters!<br
+                    >Please input minimum 3 characters<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('maxlength')"
-                    >Please input maximum 150 characters!<br
+                    >Please input maximum 150 characters<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
                     >Product Name cannot be Blank</ng-container
@@ -177,10 +177,10 @@
                 </nz-select>
                 <ng-template #brand let-control>
                   <ng-container *ngIf="control.hasError('maxlength')"
-                    >Please input maximum 34 characters!<br
+                    >Please input maximum 34 characters<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your Brand!</ng-container
+                    >Brand Name cannot be Blank</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -211,10 +211,10 @@
                 </nz-select>
                 <ng-template #collection let-control>
                   <ng-container *ngIf="control.hasError('minlength')"
-                    >Please input minimum 3 characters!</ng-container
+                    >Please input minimum 3 characters</ng-container
                   >
                   <ng-container *ngIf="control.hasError('maxlength')"
-                    >Please input maximum 34 characters!</ng-container
+                    >Please input maximum 34 characters</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -247,7 +247,7 @@
                 </nz-select>
                 <ng-template #product_category let-control>
                   <ng-container *ngIf="control.hasError('maxlength')"
-                    >Please input maximum 34 characters!</ng-container
+                    >Please input maximum 34 characters</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -273,7 +273,7 @@
                 </nz-select>
                 <ng-template #sales_tier let-control>
                   <ng-container *ngIf="control.hasError('maxlength')"
-                    >Please input maximum 34 characters!</ng-container
+                    >Please input maximum 34 characters</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -300,10 +300,10 @@
                     >Unit Price cannot exceed $ 2,500<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('pattern')"
-                    >Please input more than 2 decimal!<br
+                    >Please input more than 2 decimal<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your Unit Price!</ng-container
+                    >Please input your Unit Price</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -328,7 +328,7 @@
                 />
                 <ng-template #map let-control>
                   <ng-container *ngIf="control.hasError('pattern')"
-                    >Please input more than 2 decimal!</ng-container
+                    >Please input more than 2 decimal</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -347,7 +347,7 @@
                 />
                 <ng-template #msrp let-control>
                   <ng-container *ngIf="control.hasError('pattern')"
-                    >Please input more than 2 decimal!</ng-container
+                    >Please input more than 2 decimal</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -381,13 +381,13 @@
                 </nz-select>
                 <ng-template #handling_time let-control>
                   <ng-container *ngIf="control.hasError('min')"
-                    >Please input minimum 1 Day!<br
+                    >Please input minimum 1 Day<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('max')"
-                    >Please input maximum 30 Days!<br
+                    >Please input maximum 30 Days<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your Handling Time!<br
+                    >Please input your Handling Time<br
                   /></ng-container>
                 </ng-template>
               </nz-input-group>
@@ -414,7 +414,7 @@
                 </nz-select>
                 <ng-template #shipping_Method let-control>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please select your shipping method!</ng-container
+                    >Please select your shipping method</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -451,7 +451,7 @@
                 </nz-select>
                 <ng-template #product_status let-control>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your product status!</ng-container
+                    >Please input your product status</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -485,7 +485,7 @@
                 </nz-select>
                 <ng-template #restricted_reason let-control>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your restricted reason!</ng-container
+                    >Please input your restricted reason</ng-container
                   >
                 </ng-template>
               </nz-input-group>
@@ -509,13 +509,13 @@
                 <!-- (input)="createBoxes()" -->
                 <ng-template #number_of_boxes let-control>
                   <ng-container *ngIf="control.hasError('min')"
-                    >Please input minimum 1 Day!<br
+                    >Please input minimum 1 Day<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('max')"
-                    >Please input maximum 10 Days!<br
+                    >Please input maximum 10 Days<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your Number Of Boxes!<br
+                    >Please input your Number Of Boxes<br
                   /></ng-container>
                 </ng-template>
               </nz-input-group>
@@ -566,7 +566,7 @@
                       />
                       <ng-template #length let-control>
                         <ng-container *ngIf="control.hasError('pattern')"
-                          >Please input more than 2 decimal!<br
+                          >Please input more than 2 decimal<br
                         /></ng-container>
                         <ng-container *ngIf="control.hasError('required')"
                           >Please input Shipping Box Length
@@ -593,7 +593,7 @@
                       />
                       <ng-template #width let-control>
                         <ng-container *ngIf="control.hasError('pattern')"
-                          >Please input more than 2 decimal!<br
+                          >Please input more than 2 decimal<br
                         /></ng-container>
                         <ng-container *ngIf="control.hasError('required')"
                           >Please input Shipping Box Width
@@ -620,7 +620,7 @@
                       />
                       <ng-template #height let-control>
                         <ng-container *ngIf="control.hasError('pattern')"
-                          >Please input more than 2 decimal!<br
+                          >Please input more than 2 decimal<br
                         /></ng-container>
                         <ng-container *ngIf="control.hasError('required')"
                           >Please input Shipping Box Height
@@ -648,7 +648,7 @@
                       />
                       <ng-template #gross_weight let-control>
                         <ng-container *ngIf="control.hasError('pattern')"
-                          >Please input more than 2 decimal!<br
+                          >Please input more than 2 decimal<br
                         /></ng-container>
                         <ng-container *ngIf="control.hasError('required')"
                           >Please input Shipping Box Weight
