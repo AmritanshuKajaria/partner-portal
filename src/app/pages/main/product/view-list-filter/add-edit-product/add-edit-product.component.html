@@ -60,7 +60,10 @@
                     >Please input your MPN!<br
                   /></ng-container>
                   <ng-container *ngIf="control.hasError('pattern')"
-                    >Please input only number and characters!</ng-container
+                    >MPN can only contain Alphabets (A-Z | a-z), Digits (0-9),
+                    Period(.), Ampersand(&), Hyphen(-), Front slash (/), Space(
+                    ), Back Slash (\), Equal (=), Underscore (_), Plus (+) &
+                    Round Bracket (())</ng-container
                   >
                 </ng-template>
               </nz-input-group>

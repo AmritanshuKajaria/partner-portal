@@ -87,7 +87,7 @@ export class AddEditProductComponent implements OnInit {
       mpn: new FormControl('', [
         Validators.required,
         Validators.maxLength(25),
-        Validators.pattern('^[A-Za-z0-9]+$'),
+        Validators.pattern('^[A-Za-z0-9-=_+() \.\&\/\\\\]*$'),
       ]),
       upc: new FormControl('', [
         Validators.minLength(12),
