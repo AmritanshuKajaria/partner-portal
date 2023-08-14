@@ -131,8 +131,9 @@
   }
 
   .notes {
-    display: flex;
-    flex-direction: column;
     padding-top: 16px;
+    ol {
+      padding-left: 16px;
+    }
   }
 }
