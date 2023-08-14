@@ -87,7 +87,7 @@ export class AddEditProductComponent implements OnInit {
       mpn: new FormControl('', [
         Validators.required,
         Validators.maxLength(25),
-        Validators.pattern('^[A-Za-z0-9-=_+() \.\&\/\\\\]*$'),
+        Validators.pattern('^[A-Za-z0-9-=_+() .&/\\\\]*$'),
       ]),
       upc: new FormControl('', [
         Validators.minLength(12),
@@ -106,13 +106,16 @@ export class AddEditProductComponent implements OnInit {
       ]),
       brand: new FormControl('', [
         Validators.required,
-        Validators.maxLength(34),
+        Validators.maxLength(80),
       ]),
       collection: new FormControl('', [
         Validators.minLength(3),
-        Validators.maxLength(34),
+        Validators.maxLength(80),
       ]),
-      product_category: new FormControl('', [Validators.maxLength(34)]),
+      product_category: new FormControl('', [
+        Validators.minLength(3),
+        Validators.maxLength(80),
+      ]),
       sales_tier: new FormControl('', [Validators.maxLength(34)]),
       unit_price: new FormControl('', [
         Validators.required,
@@ -268,9 +271,6 @@ export class AddEditProductComponent implements OnInit {
           });
           break;
         default:
-          this.searchList = this.listOfSalesTier.filter((res: string) => {
-            return res.toLocaleLowerCase().includes(event.toLocaleLowerCase());
-          });
           break;
       }
     }
@@ -310,12 +310,18 @@ export class AddEditProductComponent implements OnInit {
     if (this.setDropDownValue && this.searchList.length === 0) {
       switch (type) {
         case 'Brand':
+          if (this.setDropDownValue.length > 80) {
+            return;
+          }
           if (this.listOfBrand.indexOf(this.setDropDownValue) === -1) {
             this.listOfBrand = [...this.listOfBrand, this.setDropDownValue];
           }
           break;
         case 'Collection':
-          if (this.setDropDownValue.length < 3) {
+          if (
+            this.setDropDownValue.length < 3 ||
+            this.setDropDownValue.length > 80
+          ) {
             return;
           }
           if (this.listOfCollection.indexOf(this.setDropDownValue) === -1) {
@@ -327,6 +333,12 @@ export class AddEditProductComponent implements OnInit {
           break;
         case 'Product Category':
           if (
+            this.setDropDownValue.length < 3 ||
+            this.setDropDownValue.length > 80
+          ) {
+            return;
+          }
+          if (
             this.listOfProductCategory.indexOf(this.setDropDownValue) === -1
           ) {
             this.listOfProductCategory = [
@@ -336,12 +348,6 @@ export class AddEditProductComponent implements OnInit {
           }
           break;
         default:
-          if (this.listOfSalesTier.indexOf(this.setDropDownValue) === -1) {
-            this.listOfSalesTier = [
-              ...this.listOfSalesTier,
-              this.setDropDownValue,
-            ];
-          }
           break;
       }
     }

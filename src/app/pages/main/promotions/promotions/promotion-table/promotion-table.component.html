@@ -114,6 +114,16 @@
               [type]="statusEnum.Failure"
               [text]="data.promo_status"
             ></app-status-badge>
+            <app-status-badge
+              *ngIf="data.promo_status === 'Completed'"
+              [type]="statusEnum.Success"
+              [text]="data.promo_status"
+            ></app-status-badge>
+            <app-status-badge
+              *ngIf="data.promo_status === 'Stopped'"
+              [type]="statusEnum.Stopped"
+              [text]="data.promo_status"
+            ></app-status-badge>
           </td>
           <td nzRight>
             <div style="display: flex; align-items: center">
