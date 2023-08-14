@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as lodash from 'lodash';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
@@ -9,6 +9,8 @@ import { NewCalculatorService } from 'src/app/shared/service/new-calculator.serv
   styleUrls: ['./new-multi-product-calculator.component.scss'],
 })
 export class NewMultiProductCalculatorComponent {
+  @Input('showCalculator') showCalculator: boolean = false;
+
   isLoading: boolean = false;
   total = 0;
   pageSize = 100;
@@ -20,11 +22,13 @@ export class NewMultiProductCalculatorComponent {
 
   multiData: NewCalculatorMultiData[] = [];
 
-  constructor(private newCalculatorService: NewCalculatorService) {
-    this.getAllProductCalculatorList(1);
-  }
+  constructor(private newCalculatorService: NewCalculatorService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.showCalculator) {
+      this.getAllProductCalculatorList(1);
+    }
+  }
 
   getAllProductCalculatorList(page: number) {
     this.isLoading = true;

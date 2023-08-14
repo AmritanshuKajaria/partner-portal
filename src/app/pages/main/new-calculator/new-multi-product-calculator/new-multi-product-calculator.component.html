@@ -3,10 +3,14 @@
     <div class="action">
       <div style="display: flex">
         <button
+          [disabled]="!showCalculator"
           style="margin-right: 10px"
           nz-button
           nzType="primary"
           nzShape="round"
+          [ngClass]="{
+            'button-disabled': !showCalculator
+          }"
         >
           <span nz-icon nzType="upload" nzTheme="outline"></span> Export
         </button>
@@ -15,7 +19,11 @@
           <nz-form-item style="margin-bottom: 0 !important">
             <nz-form-control nzErrorTip="Please input your valid code!">
               <nz-input-group nzPrefixIcon="search" class="search">
-                <input nz-input placeholder="Search..." />
+                <input
+                  [disabled]="!showCalculator"
+                  nz-input
+                  placeholder="Search..."
+                />
               </nz-input-group>
             </nz-form-control>
           </nz-form-item>

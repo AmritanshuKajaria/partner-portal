@@ -18,7 +18,7 @@
 <ng-template #alertIcon>
   <span nz-icon nzType="warning" nzTheme="fill" style="color: red"></span>
 </ng-template>
-<div class="calculator" *ngIf="showCalculator && isDataLoaded">
+<div class="calculator" *ngIf="isDataLoaded">
   <app-section-header [header]="'Pricing'"></app-section-header>
 
   <div class="body-section">
@@ -54,7 +54,9 @@
         </nz-input-group>
       </nz-form-control> -->
     </nz-form-item>
-    <app-new-multi-product-calculator></app-new-multi-product-calculator>
+    <app-new-multi-product-calculator
+      [showCalculator]="showCalculator"
+    ></app-new-multi-product-calculator>
     <!-- <nz-tabset nzType="card">
       <nz-tab nzTitle="Single Product Calculate">
         <app-new-single-product-calculator></app-new-single-product-calculator>

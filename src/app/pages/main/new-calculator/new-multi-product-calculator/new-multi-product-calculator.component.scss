@@ -60,6 +60,10 @@
         // width: 12%;
         border-radius: 17px;
         float: right;
+
+        .ant-input:disabled {
+          background-color: transparent !important;
+        }
       }
 
       ::ng-deep .ant-form-item {
