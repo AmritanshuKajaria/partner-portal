@@ -275,7 +275,7 @@ export class HomeSectionComponent implements OnInit {
             label: 'Chart One',
             data: data,
             backgroundColor: color,
-            hoverOffset: 4,
+            // hoverOffset: 4,
           },
         ],
       },

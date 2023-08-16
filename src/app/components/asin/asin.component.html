@@ -1,6 +1,6 @@
-<span *ngIf="asin === 'Not Approved'">{{ asin }}</span>
+<span *ngIf="asin === 'ASIN Pending'">{{ asin }}</span>
 <a
-  *ngIf="asin !== 'Not Approved'"
+  *ngIf="asin !== 'ASIN Pending'"
   class="link"
   target="_blank"
   [href]="'https://www.amazon.com/dp/' + asin"
