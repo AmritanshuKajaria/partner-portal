@@ -11,15 +11,16 @@
 >
 <ng-template #alertDescription>
   <span
-    >You are currently on Basic Plan, to use this feature upgrade your plan from
-    <a routerLink="/main/plans">here.</a></span
-  >
+    >You are currently on the "Basic" Plan. This plan doesn't allow you to set
+    your own retail price. Click <a routerLink="/main/plans">here</a> to
+    upgrade.
+  </span>
 </ng-template>
 <ng-template #alertIcon>
   <span nz-icon nzType="warning" nzTheme="fill" style="color: red"></span>
 </ng-template>
 <div class="calculator" *ngIf="isDataLoaded">
-  <app-section-header [header]="'Pricing'"></app-section-header>
+  <app-section-header [header]="'Retail Pricing'"></app-section-header>
 
   <div class="body-section">
     <div class="description">
@@ -39,13 +40,24 @@
     <nz-form-item style="margin-bottom: 10px; width: 50%">
       <div nz-col>
         <div style="font-weight: bold; font-size: 16px">Plan Details</div>
-        <div>
-          Your Plus plan costs $250 or 6% of sales, whichever is greater. Enjoy
-          the benefit of 500 free product listings.
+        <div *ngIf="currentPlan === 'basic'">
+          You are currently on the "Basic" Plan. This plan doesn't allow you to
+          set your own retail price.
         </div>
-        <div>
-          Your current return setup includes a 10% restocking fee on all buyer's
-          remorse returns, resulting in a 2% overall Return Cost.
+        <div *ngIf="currentPlan === 'plus'">
+          You are currently on the "Plus" Plan. This has a 6.0% order processing
+          fee built into the retail price. This is best for brands that sell up
+          to 100 units or $10,000 in a month.
+        </div>
+        <div *ngIf="currentPlan === 'premium'">
+          You are currently on the "Premium" Plan. This has a 5.0% order
+          processing fee built into the retail price. This is best for brands
+          that sell up to 250 units or $25,000 in a month.
+        </div>
+        <div *ngIf="currentPlan === 'enterprise'">
+          You are currently on the "Enterprise" Plan. This has a 4.0% order
+          processing fee built into the retail price. This is best for brands
+          that sell more than 250 units or $25,000 in a month.
         </div>
       </div>
       <!-- <nz-form-control>

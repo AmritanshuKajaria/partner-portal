@@ -12,8 +12,14 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
   isDataLoaded = false;
   show = false;
   destroy$: Subject<any> = new Subject();
-  description: string =
-    'Manage your Amazon Landed Retail Price with our new tool. Break down your price into five components: Unit Price, Amazon Selling Fees, Shipping, Order Processing Fees, and Return Costs. Set, view and adjust these elements yourself to achieve your desired retail price.';
+  description: string = `Set your own retail price with our "Retail Price" calculator. <br />
+    You can update the "Unit Price" which recalculates the "Estimated Landed Retail Price". You can also change the "Estimated Landed Retail Price" to see the "Unit Price" that is required to get to the "Estimated Landed Retail Price".<br />
+    The "Estimated Amazon Selling Fees" are based on the "Estimated Landed Retail Price". The Estimated Shipping Cost" is based on the products shipping dimensions.<br />
+    The "Estimated Order Processing Fees" is based on the Plan you have chosen. You can reduce these fees, by upgrading your plan. The more you sell, the lower your fees can be.<br />
+    The "Estimated Return Cost" is based on your return setup & historical return rates. You can reduce this cost by moving closer to a customer friendly return policy. Contact your CSM to update your return profile.
+    `;
+
+  currentPlan = '';
 
   constructor(private userPermissionService: UserPermissionService) {
     this.userPermissionService.userPermission
@@ -21,6 +27,7 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
       .subscribe((res: any) => {
         if (res) {
           this.isDataLoaded = true;
+          this.currentPlan = res?.current_plan;
           if (res.current_plan !== 'basic') {
             this.showCalculator = true;
           }
