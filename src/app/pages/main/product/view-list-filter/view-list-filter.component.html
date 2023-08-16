@@ -154,7 +154,7 @@
             <th>UPC</th>
             <th style="width: 150px">Amazon ASIN</th>
             <th>Product Name</th>
-            <th>Brand</th>
+            <th>Brand Name</th>
             <th style="width: 150px">Unit Price</th>
             <th *ngIf="userPermissions.partner_map" style="width: 150px">
               MAP
@@ -228,7 +228,7 @@
         <nz-divider nzText="Product Status" nzOrientation="left"></nz-divider>
         <nz-select
           nzAllowClear
-          nzPlaceHolder="Select A Product Status"
+          nzPlaceHolder="Select Product Status"
           (ngModelChange)="
             change(filter.value.productStatus ? $event : '', 'status')
           "
@@ -251,7 +251,7 @@
         ></nz-divider>
         <nz-select
           nzAllowClear
-          nzPlaceHolder="Select A Product Status"
+          nzPlaceHolder="Select Product Status"
           (ngModelChange)="
             change(filter.value.inventory ? $event : '', 'inventory')
           "
@@ -263,7 +263,7 @@
 
         <nz-divider
           style="margin-top: 20px"
-          nzText="Brand"
+          nzText="Brand Name"
           nzOrientation="left"
         ></nz-divider>
         <nz-select
@@ -271,7 +271,7 @@
           nzAllowClear
           (ngModelChange)="change(filter.value.brand ? $event : '', 'brand')"
           formControlName="brand"
-          nzPlaceHolder="Select a Brand"
+          nzPlaceHolder="Select Brand Name"
         >
           <nz-option
             *ngFor="let item of listOfBrand"
@@ -288,7 +288,7 @@
         <nz-select
           nzShowSearch
           nzAllowClear
-          nzPlaceHolder="Select a Collection"
+          nzPlaceHolder="Select Collection"
           (ngModelChange)="
             change(filter.value.collection ? $event : '', 'collection')
           "
@@ -309,7 +309,7 @@
         <nz-select
           nzShowSearch
           nzAllowClear
-          nzPlaceHolder="Select a Product Category"
+          nzPlaceHolder="Select Product Category"
           (ngModelChange)="
             change(filter.value.category ? $event : '', 'category')
           "
@@ -330,7 +330,7 @@
         <nz-select
           nzShowSearch
           nzAllowClear
-          nzPlaceHolder="Select a Sales Tier"
+          nzPlaceHolder="Select Sales Tier"
           (ngModelChange)="
             change(filter.value.salesTire ? $event : '', 'salesTire')
           "

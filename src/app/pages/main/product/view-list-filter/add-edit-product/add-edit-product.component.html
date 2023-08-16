@@ -145,13 +145,13 @@
           <nz-form-item nz-col class="gutter-row" [nzSm]="24" [nzXl]="12">
             <nz-form-control [nzErrorTip]="brand">
               <nz-form-label nzFor="brand"
-                >Brand<span style="color: red; font-weight: 500">*</span>
+                >Brand Name<span style="color: red; font-weight: 500">*</span>
               </nz-form-label>
               <nz-select
                 nzShowSearch
                 formControlName="brand"
                 nzAllowClear
-                nzPlaceHolder="Select Brand"
+                nzPlaceHolder="Select Brand Name"
                 (nzOnSearch)="searchValue($event, 'Brand')"
                 (ngModelChange)="addItem('Brand')"
               >

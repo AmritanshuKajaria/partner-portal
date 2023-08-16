@@ -216,10 +216,10 @@ export class AddEditProductComponent implements OnInit {
                   }) => {
                     this.shippingDimensionsOfBoxes.push(
                       this.formBuilder.group({
-                        length: res?.length,
-                        width: res?.width,
-                        height: res?.height,
-                        gross_weight: res?.weight,
+                        length: [res?.length, [Validators.required]],
+                        width: [res?.width, [Validators.required]],
+                        height: [res?.height, [Validators.required]],
+                        gross_weight: [res?.weight, [Validators.required]],
                       })
                     );
                   }
