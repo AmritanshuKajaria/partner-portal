@@ -12,7 +12,7 @@ import { UserPermissionService } from 'src/app/shared/service/user-permission.se
 export class PlansComponent implements OnInit, OnDestroy {
   userPartnerDetails: any;
   currentPlan: any;
-  planRecommendationText: any;
+  recommendedPlan: any;
   freeTrialEligible: boolean = false;
   dialogVisible = false;
 
@@ -32,7 +32,7 @@ export class PlansComponent implements OnInit, OnDestroy {
         if (res) {
           this.userPartnerDetails = res;
           this.currentPlan = res?.current_plan;
-          this.planRecommendationText = res?.plan_recommendation_text;
+          this.recommendedPlan = res?.recommended_plan;
           this.freeTrialEligible = res?.free_trial_eligible;
         }
       });

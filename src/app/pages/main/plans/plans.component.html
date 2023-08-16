@@ -1,10 +1,18 @@
 <div class="plans">
   <app-section-header [header]="'Plans'"></app-section-header>
   <nz-alert
-    *ngIf="planRecommendationText"
+    *ngIf="recommendedPlan"
     style="margin: 16px"
     nzType="info"
-    [nzMessage]="planRecommendationText"
+    nzMessage="Based on your last 30 days usage, your recommended plan is &quot;{{
+      recommendedPlan === 'basic'
+        ? 'Basic'
+        : recommendedPlan === 'plus'
+        ? 'Plus'
+        : recommendedPlan === 'premium'
+        ? 'Premium'
+        : 'Enterprise'
+    }}&quot;.  The more you sell, the lower your fees can be. Choosing from the Plus, Premium or Enterprise Plans gives you the power to set your own retail price."
   ></nz-alert>
 
   <div class="body-section" style="padding-top: 16px">

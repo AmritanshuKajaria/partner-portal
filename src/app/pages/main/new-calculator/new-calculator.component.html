@@ -23,20 +23,30 @@
   <app-section-header [header]="'Retail Pricing'"></app-section-header>
 
   <div class="body-section">
-    <div class="description">
-      <span
-        [innerHTML]="show ? description : (description | slice : 0 : 200)"
-      ></span>
-      <span *ngIf="!show">...</span>
-      <a
-        class="link"
-        style="text-decoration: none"
-        href="javascript:;"
-        (click)="show = !show"
-      >
-        {{ show ? "Show less" : "Show More" }}</a
-      >
-    </div>
+    <ul style="padding-left: 14px">
+      <li>Set your own retail price with our "Retail Price" calculator.</li>
+      <li>
+        You can update the "Unit Price" which recalculates the "Estimated Landed
+        Retail Price". You can also change the "Estimated Landed Retail Price"
+        to see the "Unit Price" that is required to get to the "Estimated Landed
+        Retail Price".
+      </li>
+      <li>
+        The "Estimated Amazon Selling Fees" are based on the "Estimated Landed
+        Retail Price". The Estimated Shipping Cost" is based on the products
+        shipping dimensions.
+      </li>
+      <li>
+        The "Estimated Order Processing Fees" is based on the Plan you have
+        chosen. You can reduce these fees, by upgrading your plan. The more you
+        sell, the lower your fees can be.
+      </li>
+      <li>
+        The "Estimated Return Cost" is based on your return setup & historical
+        return rates. You can reduce this cost by moving closer to a customer
+        friendly return policy. Contact your CSM to update your return profile.
+      </li>
+    </ul>
     <nz-form-item style="margin-bottom: 10px; width: 50%">
       <div nz-col>
         <div style="font-weight: bold; font-size: 16px">Plan Details</div>
