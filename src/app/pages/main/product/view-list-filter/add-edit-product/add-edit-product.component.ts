@@ -168,7 +168,10 @@ export class AddEditProductComponent implements OnInit {
                   this.editData?.upc
                 );
                 this.addEditProductForm.controls['amazon_asin'].setValue(
-                  this.editData?.asin
+                  this.editData?.asin !== 'ASIN Pending' &&
+                    this.editData?.asin !== 'Not Approved'
+                    ? this.editData?.asin
+                    : ''
                 );
                 this.addEditProductForm.controls['product_name'].setValue(
                   this.editData?.name
