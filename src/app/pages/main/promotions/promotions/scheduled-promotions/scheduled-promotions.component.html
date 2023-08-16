@@ -25,12 +25,14 @@
               >Start & End Date</nz-form-label
             >
             <nz-range-picker
+              [nzFormat]="AppDateFormate"
               formControlName="startAndEndDate"
             ></nz-range-picker>
           </nz-form-item>
           <nz-form-item *ngIf="startDate">
             <nz-form-label [nzXs]="5" nzRequired>End Date</nz-form-label>
             <nz-date-picker
+              [nzFormat]="AppDateFormate"
               [nzDisabledDate]="disabledEndDate"
               formControlName="endDate"
             ></nz-date-picker>

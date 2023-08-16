@@ -125,6 +125,7 @@
       nzOrientation="left"
     ></nz-divider>
     <nz-date-picker
+      [nzFormat]="AppDateFormate"
       *ngIf="
         tabName === 'new' ||
         tabName === 'pendingShipment' ||
@@ -143,6 +144,7 @@
       nzOrientation="left"
     ></nz-divider>
     <nz-range-picker
+      [nzFormat]="AppDateFormate"
       [(ngModel)]="rangeDate"
       (ngModelChange)="changeValue(rangeDate ? $event : '', 'rangeDate')"
     ></nz-range-picker>

@@ -7,6 +7,7 @@ import {
   SingleInventory,
 } from 'src/app/shared/model/inventory.model';
 import { PermissionList } from 'src/app/shared/model/permission.model';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
@@ -51,6 +52,7 @@ export class InventoryListComponent implements OnInit {
   statusDropdown = ['Processed', 'Rejected'];
   isVisible: boolean = false;
   referenceCode: string = '';
+  AppDateFormate = AppDateFormate;
 
   constructor(
     private router: Router,
@@ -149,7 +151,7 @@ export class InventoryListComponent implements OnInit {
   }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {

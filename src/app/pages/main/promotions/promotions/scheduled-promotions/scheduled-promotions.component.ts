@@ -6,8 +6,8 @@ import {
   EditEndDatePromotions,
   Promotions,
 } from 'src/app/shared/model/promotion.model';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
-
 @Component({
   selector: 'app-scheduled-promotions',
   templateUrl: './scheduled-promotions.component.html',
@@ -20,6 +20,7 @@ export class ScheduledPromotionsComponent implements OnInit {
   pageIndex = 1;
   pageSizeOptions = [100];
   searchForm!: FormGroup;
+  AppDateFormate = AppDateFormate;
 
   scheduledPromotionsList = [];
   addDateForm!: FormGroup;

@@ -103,7 +103,7 @@
         </td>
         <td>
           <span class="sub-date">
-            {{ data?.po_datetime | date : "MM-dd-yyyy hh:MM a" }}
+            {{ data?.po_datetime | customDate : ", y hh:MM a" }}
           </span>
         </td>
         <td>{{ data.customer_name }}</td>
@@ -125,7 +125,7 @@
         </td>
         <td>{{ data.po_total | currency }}</td>
         <td *ngIf="tabName === 'new' || tabName === 'pending-shipment'">
-          {{ data.comitted_ship_date | date : "MM-dd-yyyy" }}
+          {{ data.comitted_ship_date | customDate }}
         </td>
         <td
           *ngIf="
@@ -134,7 +134,7 @@
             tabName === 'Cancellation Requested'
           "
         >
-          {{ data.cancel_after_date | date : "MM-dd-yyyy" }}
+          {{ data.cancel_after_date | customDate }}
         </td>
         <td
           *ngIf="

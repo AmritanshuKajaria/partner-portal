@@ -22,6 +22,7 @@
             <nz-form-control nzErrorTip="Please select start and end date.">
               <nz-input-group>
                 <nz-range-picker
+                [nzFormat]="AppDateFormate"
                   formControlName="startAndEndDate"
                   style="width: 100%"
                 ></nz-range-picker>

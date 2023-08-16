@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PromoTemplate } from 'src/app/shared/model/promotion.model';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 
 @Component({
@@ -22,6 +23,8 @@ export class AddPromotionsComponent implements OnInit {
   add_promotion!: FormGroup;
   isLoading: boolean = false;
   selectFile: any = '';
+
+  AppDateFormate = AppDateFormate;
 
   constructor(
     private promotionsService: PromotionsService,

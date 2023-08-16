@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-holidays',
@@ -10,6 +11,8 @@ import { Router } from '@angular/router';
 export class HolidaysComponent implements OnInit {
   holidayForm!: FormGroup;
   isLoading: boolean = false;
+
+  AppDateFormate = AppDateFormate;
 
   constructor(private router: Router, private fb: FormBuilder) {}
 

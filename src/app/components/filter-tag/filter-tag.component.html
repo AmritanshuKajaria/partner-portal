@@ -19,7 +19,7 @@
     *ngIf="selectDate"
     nzMode="closeable"
     (nzOnClose)="close('committedShipDate')"
-    >{{ selectDate | date : "dd/MM/yyyy" }}</nz-tag
+    >{{ selectDate | customDate }}</nz-tag
   >
   <nz-tag
     *ngIf="selectStatus"
@@ -32,8 +32,8 @@
     *ngIf="selectRangeDate"
     nzMode="closeable"
     (nzOnClose)="close('rangeDate')"
-    >{{ selectRangeDate[0] | date : "dd/MM/yyyy" }} To
-    {{ selectRangeDate[1] | date : "dd/MM/yyyy" }}</nz-tag
+    >{{ selectRangeDate[0] | customDate }} To
+    {{ selectRangeDate[1] | customDate }}</nz-tag
   >
 
   <button

@@ -15,6 +15,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StopPromotions } from 'src/app/shared/model/promotion.model';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 @Component({
   selector: 'app-promotion-table',
   templateUrl: './promotion-table.component.html',
@@ -33,6 +34,8 @@ export class PromotionTableComponent implements OnInit {
   @Output() pageChange = new EventEmitter();
   @Output() filterChange = new EventEmitter();
   @Output() searchChange = new EventEmitter();
+
+  AppDateFormate = AppDateFormate;
 
   pageSizeOptions = [100];
   filter!: FormGroup;
@@ -135,7 +138,7 @@ export class PromotionTableComponent implements OnInit {
   }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {

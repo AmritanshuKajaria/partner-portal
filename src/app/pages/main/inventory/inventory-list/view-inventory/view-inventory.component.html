@@ -17,7 +17,9 @@
           <span
             ><b>Date (EST) : </b
             >{{
-              editData.feed_process_time | utcDateToLocalConverter : false
+              editData.feed_process_time
+                | utcDateToLocalConverter : false
+                | customDate
             }}</span
           >
           <span><b>Feed Method : </b>{{ editData.feed_method }}</span>

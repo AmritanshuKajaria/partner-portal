@@ -25,6 +25,7 @@ import { EditTimeComponent } from './edit-time/edit-time.component';
 import { AsinComponent } from './asin/asin.component';
 import { PoClarificationComponent } from './po-clarification/po-clarification.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     ReactiveFormsModule,
     FormsModule,
     AngularEditorModule,
+    SharedModule
   ],
   exports: [
     StatusBadgeComponent,

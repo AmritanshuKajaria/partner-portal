@@ -60,7 +60,7 @@
                   <nz-descriptions-item nzTitle="PO Date"
                     ><b>{{
                       poDetailData?.order_summary?.po_date
-                        | date : "yyyy-MM-dd hh:MM"
+                        | customDate : ', y hh:MM'
                     }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>

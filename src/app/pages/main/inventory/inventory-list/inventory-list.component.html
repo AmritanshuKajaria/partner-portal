@@ -65,8 +65,8 @@
 
     <div *ngIf="clear_btn && badgeTotal !== 0" class="tag-section">
       <nz-tag *ngIf="selectDate" nzMode="closeable" (nzOnClose)="close('Date')"
-        >{{ selectDate[0] | date : "dd/MM/yyyy" }} To
-        {{ selectDate[1] | date : "dd/MM/yyyy" }}</nz-tag
+        >{{ selectDate[0] | customDate }} To
+        {{ selectDate[1] | customDate }}</nz-tag
       >
       <nz-tag
         *ngIf="selectMethod"
@@ -127,7 +127,13 @@
       <tbody>
         <ng-template ngFor let-data [ngForOf]="inventoryList">
           <tr>
-            <td>{{ data?.feed_time | utcDateToLocalConverter : false }}</td>
+            <td>
+              {{
+                data?.feed_time
+                  | utcDateToLocalConverter : false
+                  | customDate
+              }}
+            </td>
             <td>{{ data?.feed_code }}</td>
             <td class="text-center">{{ data?.method }}</td>
             <td>{{ data?.feed_status }}</td>
@@ -170,6 +176,7 @@
     <div class="filter-content">
       <nz-divider nzText="Date" nzOrientation="left"></nz-divider>
       <nz-range-picker
+      [nzFormat]="AppDateFormate"
         formControlName="date"
         (ngModelChange)="change(filter.value.date ? $event : '', 'Date')"
       ></nz-range-picker>
