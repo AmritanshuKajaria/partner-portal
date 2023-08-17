@@ -94,7 +94,7 @@ export class AddPromotionsComponent implements OnInit {
         (res: any) => {
           this.isLoading = false;
           if (res.success) {
-            this.message.create('success', 'Add promotion successfully!');
+            this.message.create('success', 'Add Promotion Successful');
             this.handleCancel();
           }
         },
