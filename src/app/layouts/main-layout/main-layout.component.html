@@ -90,6 +90,24 @@
         <span nz-icon nzType="sound" nzTheme="outline"></span>
         <span>Promotions</span>
       </li>
+      <li
+        nz-menu-item
+        [ngClass]="
+          router.url.includes('/main/new-calculator') ? 'active' : 'inactive'
+        "
+        routerLink="/main/new-calculator"
+      >
+        <span nz-icon nzType="calculator" nzTheme="outline"></span>
+        <span>Retail Pricing</span>
+      </li>
+      <li
+        nz-menu-item
+        [ngClass]="router.url.includes('/main/plans') ? 'active' : 'inactive'"
+        routerLink="/main/plans"
+      >
+        <span nz-icon nzType="dollar" nzTheme="outline"></span>
+        <span>Plans</span>
+      </li>
       <!-- <li
         nz-menu-item
         [ngClass]="
@@ -117,6 +135,52 @@
         (click)="isCollapsed = !isCollapsed"
       ></span>
       <div class="profile-menu">
+        <span
+          style="
+            display: flex;
+            flex-direction: column;
+            line-height: normal;
+            margin-right: 16px;
+          "
+        >
+          <a
+            *ngIf="userPartnerDetails?.current_plan"
+            routerLink="/main/plans"
+            nzType="default"
+          >
+            <span style="display: flex; align-items: center; line-height: 0">
+              <span style="margin-right: 8px">
+                <span
+                  nz-icon
+                  nzType="dollar-circle"
+                  class="star"
+                  [style.color]="
+                    PlanLabels[userPartnerDetails?.current_plan].color
+                  "
+                  style="color: #1890ff; font-size: 24px; line-height: 0"
+                  nzTheme="fill"
+                ></span
+              ></span>
+              <span style="font-weight: bold; line-height: 0">{{
+                PlanLabels[userPartnerDetails?.current_plan].label
+              }}</span>
+            </span>
+          </a>
+          <!-- <button>
+            <span style="display: flex; align-items: center">
+              <span style="margin-right: 8px">
+                <span
+                  nz-icon
+                  nzType="dollar-circle"
+                  class="star"
+                  style="color: #1890ff; font-size: 24px"
+                  nzTheme="fill"
+                ></span
+              ></span>
+              <span style="font-weight: bold">Basic</span>
+            </span>
+          </button> -->
+        </span>
         <span class="name">{{ userPartnerName }} ({{ userPartnerCode }})</span>
         <a style="color: #2121c3" target="_blank" (click)="help()">Help</a>
         <!-- href="https://flyontechsolutions.zendesk.com/hc/en-us/requests/" -->

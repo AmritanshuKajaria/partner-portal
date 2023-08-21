@@ -1,0 +1,217 @@
+<div class="multi-product-calculator">
+  <div class="multi-product-calculator-section-content">
+    <div class="action">
+      <div style="display: flex">
+        <button
+          [disabled]="!showCalculator"
+          style="margin-right: 10px"
+          nz-button
+          nzType="primary"
+          nzShape="round"
+          [ngClass]="{
+            'button-disabled': !showCalculator
+          }"
+        >
+          <span nz-icon nzType="upload" nzTheme="outline"></span> Export
+        </button>
+
+        <form nz-form>
+          <nz-form-item style="margin-bottom: 0 !important">
+            <nz-form-control nzErrorTip="Please input your valid code!">
+              <nz-input-group nzPrefixIcon="search" class="search">
+                <input
+                  [disabled]="!showCalculator"
+                  nz-input
+                  placeholder="Search..."
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+    </div>
+    <nz-table
+      #nzTable
+      nzOuterBordered
+      [nzData]="multiProductList"
+      nzShowSizeChanger
+      [nzPageSizeOptions]="pageSizeOptions"
+      [nzTotal]="total"
+      [nzShowTotal]="totalTemplate"
+      [nzPageSize]="pageSize"
+      [nzPageIndex]="pageIndex"
+      [nzLoading]="isLoading"
+      [nzScroll]="{ x: '100%' }"
+    >
+      <thead>
+        <tr>
+          <th>
+            <u>MPN</u>
+            <div style="font-size: 12px">Product Name</div>
+          </th>
+          <th>
+            <u>ASIN</u>
+            <div style="font-size: 12px">UPC</div>
+          </th>
+          <th>Unit Price</th>
+          <th>Estimated Amazon Selling Fees</th>
+          <th>Estimated Shipping Cost</th>
+          <th>Estimated Order Processing Fees</th>
+          <th>Estimated Return Cost</th>
+          <th>Estimated Landed Retail Price</th>
+          <th nzRight class="action-column"><div>Actions</div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of nzTable.data; let no = index">
+          <td>
+            <div nz-col style="min-width: 200px">
+              <a
+                class="link"
+                [routerLink]="'/main/products/details/' + data?.sku"
+                >{{ data?.mpn }}</a
+              >
+              <div style="padding-top: 8px">{{ data?.name }}</div>
+            </div>
+          </td>
+          <td>
+            <div nz-col>
+              <app-asin [asin]="data.asin"></app-asin>
+              <div style="padding-top: 8px">{{ data?.upc }}</div>
+            </div>
+          </td>
+          <td>
+            <nz-form-item style="margin-bottom: 0; width: 150px">
+              <nz-form-control>
+                <nz-input-group nzPrefix="$">
+                  <input
+                    [value]="data?.unit_price"
+                    [(ngModel)]="data.unit_price"
+                    (input)="changePrice($event, 'unit', no)"
+                    nz-input
+                    type="number"
+                    placeholder="Unit"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </td>
+          <td>
+            <div class="exported-item-content">
+              <div>
+                {{
+                  data?.amazon_fees_percentage
+                    ? "$" + estimatedPrices[no].amazon_fees_percentage
+                    : ""
+                }}
+              </div>
+              <div>
+                {{
+                  data?.amazon_fees_percentage
+                    ? " (" + data?.amazon_fees_percentage + "%" + ")"
+                    : ""
+                }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="exported-item-content">
+              <div>{{ data?.shipping_cost | currency }}</div>
+              <div class="text-wrap">
+                Boxes:
+                {{
+                  data?.boxes +
+                    (data?.size_tier ? " (" + data?.size_tier + ")" : "")
+                }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="exported-item-content">
+              <div>
+                {{
+                  data?.order_processing_fees_percentage
+                    ? "$" + estimatedPrices[no].order_processing_fees_percentage
+                    : ""
+                }}
+              </div>
+              <div>
+                {{
+                  data?.order_processing_fees_percentage
+                    ? " (" + data?.order_processing_fees_percentage + "%" + ")"
+                    : ""
+                }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="exported-item-content">
+              <div>
+                {{
+                  data?.return_cost_percentage
+                    ? "$" + estimatedPrices[no].return_cost_percentage
+                    : ""
+                }}
+              </div>
+              <div>
+                {{
+                  data?.return_cost_percentage
+                    ? " (" + data?.return_cost_percentage + "%" + ")"
+                    : ""
+                }}
+              </div>
+            </div>
+          </td>
+          <td>
+            <nz-form-item style="margin-bottom: 0; width: 150px">
+              <nz-form-control>
+                <nz-input-group nzPrefix="$">
+                  <input
+                    [value]="data?.retail_price"
+                    [(ngModel)]="data.retail_price"
+                    (input)="changePrice($event, 'retail', no)"
+                    nz-input
+                    type="number"
+                    placeholder="Retail"
+                  />
+                </nz-input-group>
+              </nz-form-control>
+            </nz-form-item>
+          </td>
+          <td nzRight>
+            <div style="display: flex; align-items: center">
+              <a
+                style="margin: 0 5px; color: #2121c3; font-size: large"
+                nz-tooltip
+                nzTooltipTitle="Save"
+              >
+                <span nz-icon nzType="save" nzTheme="outline"></span>
+              </a>
+              <a
+                style="margin: 0 5px; color: #2121c3; font-size: large"
+                nz-tooltip
+                nzTooltipTitle="Reset"
+                (click)="resetData(no)"
+              >
+                <span nz-icon nzType="reload" nzTheme="outline"></span>
+              </a>
+            </div>
+            <!-- <button
+              nz-button
+              nzType="primary"
+              class="action-button"
+              style="margin-top: 0; height: 35px"
+              (click)="matchValue(data.mpn, data.handling_time)"
+            >
+              Edit Handling Time
+            </button> -->
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </div>
+
+  <ng-template #totalTemplate let-total
+    >Total <b>{{ total }}</b> items</ng-template
+  >
+</div>

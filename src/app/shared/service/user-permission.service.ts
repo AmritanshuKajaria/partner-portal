@@ -8,12 +8,16 @@ import { environment } from 'src/environments/environment';
 })
 export class UserPermissionService {
   url = environment.apiUrl;
-  
+
   userPermission = new BehaviorSubject('');
   constructor(private httpClient: HttpClient) {}
 
   getPartnerPermission() {
     return this.httpClient.get(this.url + '/partner-details');
     // return this.httpClient.get('https://api.123stores.com/partner-details');
+  }
+
+  updatePlanDetails(data: any) {
+    return this.httpClient.post(this.url + '/update-plan', data);
   }
 }

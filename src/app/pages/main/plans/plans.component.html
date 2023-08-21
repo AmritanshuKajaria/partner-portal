@@ -1,0 +1,371 @@
+<div class="plans">
+  <app-section-header [header]="'Plans'"></app-section-header>
+  <nz-alert
+    *ngIf="recommendedPlan"
+    style="margin: 16px"
+    nzType="info"
+    nzMessage="Based on your last 30 days usage, your recommended plan is &quot;{{
+      recommendedPlan === 'basic'
+        ? 'Basic'
+        : recommendedPlan === 'plus'
+        ? 'Plus'
+        : recommendedPlan === 'premium'
+        ? 'Premium'
+        : 'Enterprise'
+    }}&quot;.  The more you sell, the lower your fees can be. Choosing from the Plus, Premium or Enterprise Plans gives you the power to set your own retail price."
+  ></nz-alert>
+
+  <div class="body-section" style="padding-top: 16px">
+    <div nz-row [nzGutter]="16">
+      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+        <nz-ribbon
+          *ngIf="currentPlan === 'basic'; else basicPlan"
+          nzColor="red"
+          style="height: 100%"
+          nzText="Current"
+        >
+          <ng-container *ngTemplateOutlet="basicPlan"></ng-container>
+        </nz-ribbon>
+      </div>
+
+      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+        <nz-ribbon
+          *ngIf="currentPlan === 'plus'; else plusPlan"
+          nzColor="red"
+          style="height: 100%"
+          nzText="Current"
+        >
+          <ng-container *ngTemplateOutlet="plusPlan"></ng-container>
+        </nz-ribbon>
+      </div>
+      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+        <nz-ribbon
+          [nzColor]="currentPlan === 'premium' ? 'red' : 'blue'"
+          style="height: 100%"
+          [nzText]="currentPlan === 'premium' ? 'Current' : 'Most Popular'"
+        >
+          <ng-container *ngTemplateOutlet="premiumPlan"></ng-container>
+        </nz-ribbon>
+      </div>
+      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+        <nz-ribbon
+          *ngIf="currentPlan === 'enterprise'; else enterprisePlan"
+          nzColor="red"
+          style="height: 100%"
+          nzText="Current"
+        >
+          <ng-container *ngTemplateOutlet="enterprisePlan"></ng-container>
+        </nz-ribbon>
+      </div>
+    </div>
+    <div class="notes">
+      <h3>Notes:</h3>
+      <ol>
+        <li>
+          Order processing is added to the brand's wholesale unit cost to arrive
+          at the final retail prices. If the order processing fees exceed the
+          monthly minimum, there is no cost for the brand.
+        </li>
+        <li>
+          Additional SKUs can be added at an additional fee of $0.20 per
+          SKU/month.
+        </li>
+        <li>
+          The brand's billing relationship continues to be on wholesale unit
+          cost.
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<ng-template #basicPlan>
+  <div class="card">
+    <div class="card-title">
+      <span style="color: 1890ff"> Basic </span>
+    </div>
+
+    <div class="card-subtitle">
+      <h4 class="small-title">123Stores decides Retail Price.</h4>
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          No minimum order processing fee commitment.
+        </li>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          <div>
+            Up to <span style="font-weight: bold">100</span> SKUs Management.
+          </div>
+        </li>
+      </ul>
+      <div>
+        <div *ngIf="currentPlan !== 'basic'" class="card-actions">
+          <button
+            *ngIf="
+              currentPlan === 'plus' ||
+              currentPlan === 'premium' ||
+              currentPlan === 'enterprise'
+            "
+            nz-button
+            nzType="primary"
+            class="button-outlined"
+            (click)="updatePlanDetails('basic')"
+          >
+            Downgrade
+          </button>
+        </div>
+        <span class="card-footer-content"
+          >Best for brands that don't have a dedicated Amazon Strategy.</span
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #plusPlan>
+  <div style="display: flex; flex-direction: column" class="card">
+    <div class="card-title">
+      <span style="color: #096dd9">Plus</span>
+    </div>
+    <div class="card-subtitle">
+      <h4 class="big-title">6.0%</h4>
+      <span style="padding-top: 12px"
+        >order processing fee built into the retail price.</span
+      >
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          Set your own Retail Price.
+        </li>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          <div>
+            <span style="font-weight: bold">$249</span> minimum order processing
+            fees per month.
+          </div>
+        </li>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          <div>
+            Up to <span style="font-weight: bold">500</span> SKUs Management.
+          </div>
+        </li>
+      </ul>
+      <div>
+        <div *ngIf="currentPlan !== 'plus'" class="card-actions">
+          <button
+            *ngIf="freeTrialEligible"
+            nz-button
+            nzType="primary"
+            (click)="updatePlanDetails('plus')"
+          >
+            Start 2 Week Free Trial
+          </button>
+          <button
+            *ngIf="
+              !freeTrialEligible &&
+              (currentPlan === 'premium' || currentPlan === 'enterprise')
+            "
+            nz-button
+            nzType="primary"
+            class="button-outlined"
+            (click)="updatePlanDetails('plus')"
+          >
+            Downgrade
+          </button>
+          <button
+            *ngIf="!freeTrialEligible && currentPlan === 'basic'"
+            nz-button
+            nzType="primary"
+            (click)="updatePlanDetails('plus')"
+          >
+            Upgrade
+          </button>
+        </div>
+        <span class="card-footer-content">
+          Best for brands that sell up to 100 units or $10,000 in a month.</span
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #premiumPlan
+  ><div style="display: flex; flex-direction: column" class="card">
+    <div class="card-title">
+      <span style="color: #faad14">Premium</span>
+    </div>
+    <div class="card-subtitle">
+      <h4 class="big-title">5.0%</h4>
+      <span style="padding-top: 12px"
+        >order processing fee built into the retail price.</span
+      >
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          Set your own Retail Price.
+        </li>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          <div>
+            <span style="font-weight: bold">$499</span> minimum order processing
+            fees per month.
+          </div>
+        </li>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          <div>
+            Up to <span style="font-weight: bold">1000</span> SKUs Management.
+          </div>
+        </li>
+      </ul>
+      <div>
+        <div *ngIf="currentPlan !== 'premium'" class="card-actions">
+          <button
+            *ngIf="freeTrialEligible"
+            nz-button
+            nzType="primary"
+            (click)="updatePlanDetails('premium')"
+          >
+            Start 2 Week Free Trial
+          </button>
+          <button
+            *ngIf="!freeTrialEligible && currentPlan === 'enterprise'"
+            nz-button
+            nzType="primary"
+            class="button-outlined"
+            (click)="updatePlanDetails('premium')"
+          >
+            Downgrade
+          </button>
+          <button
+            *ngIf="
+              !freeTrialEligible &&
+              (currentPlan === 'basic' || currentPlan === 'plus')
+            "
+            nz-button
+            nzType="primary"
+            (click)="updatePlanDetails('premium')"
+          >
+            Upgrade
+          </button>
+        </div>
+        <span class="card-footer-content">
+          Best for brands that sell up to 250 units or $25,000 in a month.</span
+        >
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #enterprisePlan>
+  <div style="display: flex; flex-direction: column" class="card">
+    <div class="card-title">
+      <span style="color: #fae014">Enterprise</span>
+    </div>
+    <div class="card-subtitle">
+      <h4 class="big-title">4.0%</h4>
+      <span style="padding-top: 12px"
+        >order processing fee built into the retail price.</span
+      >
+    </div>
+    <div class="card-content">
+      <ul>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          Set your own Retail Price.
+        </li>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          <div>
+            <span style="font-weight: bold">$999</span> minimum order processing
+            fees per month.
+          </div>
+        </li>
+        <li>
+          <span nz-icon nzType="check-circle" nzTheme="fill"></span>
+          <div>
+            Up to <span style="font-weight: bold">2500</span> SKUs Management.
+          </div>
+        </li>
+      </ul>
+      <div>
+        <div *ngIf="currentPlan !== 'enterprise'" class="card-actions">
+          <button
+            *ngIf="freeTrialEligible"
+            nz-button
+            nzType="primary"
+            (click)="updatePlanDetails('enterprise')"
+          >
+            Start 2 Week Free Trial
+          </button>
+          <button
+            *ngIf="
+              !freeTrialEligible &&
+              (currentPlan === 'basic' ||
+                currentPlan === 'plus' ||
+                currentPlan === 'premium')
+            "
+            nz-button
+            nzType="primary"
+            (click)="updatePlanDetails('enterprise')"
+          >
+            Upgrade
+          </button>
+        </div>
+        <span class="card-footer-content">
+          Best for brands that sell more than 250 units or $25,000 in a
+          month.</span
+        >
+      </div>
+    </div>
+  </div></ng-template
+>
+
+<nz-modal
+  [(nzVisible)]="dialogVisible"
+  [nzTitle]="'Update Plan'"
+  (nzOnCancel)="handleCancel()"
+>
+  <ng-container *nzModalContent>
+    <div class="export-model">
+      <div style="padding: 15px">
+        <p style="margin: 0">
+          {{
+            "Do you want to convert current plan to " +
+              (PlanLabels[newPlan]?.label ? PlanLabels[newPlan]?.label : "") +
+              " plan"
+          }}
+        </p>
+      </div>
+      <div class="model-footer">
+        <div class="model-action" style="padding: 15px">
+          <button
+            nz-button
+            nzType="default"
+            style="color: hsl(0, 0%, 0%); margin-right: 5px"
+            (click)="handleCancel()"
+          >
+            Cancel
+          </button>
+          <button nz-button [nzType]="'primary'" (click)="submit()">
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 16px; margin: 0"
+              nz-icon
+              nzType="loading"
+            ></span>
+            Update
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>

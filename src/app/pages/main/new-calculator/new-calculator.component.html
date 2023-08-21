@@ -1,0 +1,91 @@
+<nz-alert
+  *ngIf="!showCalculator && isDataLoaded"
+  nzType="error"
+  [nzMessage]="alertMessage"
+  [nzDescription]="alertDescription"
+  [nzIcon]="alertIcon"
+  nzShowIcon
+></nz-alert>
+<ng-template #alertMessage>
+  <span style="color: red"> Upgrade Your Plan </span></ng-template
+>
+<ng-template #alertDescription>
+  <span
+    >You are currently on the "Basic" Plan. This plan doesn't allow you to set
+    your own retail price. Click <a routerLink="/main/plans">here</a> to
+    upgrade.
+  </span>
+</ng-template>
+<ng-template #alertIcon>
+  <span nz-icon nzType="warning" nzTheme="fill" style="color: red"></span>
+</ng-template>
+<div class="calculator" *ngIf="isDataLoaded">
+  <app-section-header [header]="'Retail Pricing'"></app-section-header>
+
+  <div class="body-section">
+    <ul style="padding-left: 14px">
+      <li>Set your own retail price with our "Retail Price" calculator.</li>
+      <li>
+        You can update the "Unit Price" which recalculates the "Estimated Landed
+        Retail Price". You can also change the "Estimated Landed Retail Price"
+        to see the "Unit Price" that is required to get to the "Estimated Landed
+        Retail Price".
+      </li>
+      <li>
+        The "Estimated Amazon Selling Fees" are based on the "Estimated Landed
+        Retail Price". The Estimated Shipping Cost" is based on the products
+        shipping dimensions.
+      </li>
+      <li>
+        The "Estimated Order Processing Fees" is based on the Plan you have
+        chosen. You can reduce these fees, by upgrading your plan. The more you
+        sell, the lower your fees can be.
+      </li>
+      <li>
+        The "Estimated Return Cost" is based on your return setup & historical
+        return rates. You can reduce this cost by moving closer to a customer
+        friendly return policy. Contact your CSM to update your return profile.
+      </li>
+    </ul>
+    <nz-form-item style="margin-bottom: 10px; width: 50%">
+      <div nz-col>
+        <div style="font-weight: bold; font-size: 16px">Plan Details</div>
+        <div *ngIf="currentPlan === 'basic'">
+          You are currently on the "Basic" Plan. This plan doesn't allow you to
+          set your own retail price.
+        </div>
+        <div *ngIf="currentPlan === 'plus'">
+          You are currently on the "Plus" Plan. This has a 6.0% order processing
+          fee built into the retail price. This is best for brands that sell up
+          to 100 units or $10,000 in a month.
+        </div>
+        <div *ngIf="currentPlan === 'premium'">
+          You are currently on the "Premium" Plan. This has a 5.0% order
+          processing fee built into the retail price. This is best for brands
+          that sell up to 250 units or $25,000 in a month.
+        </div>
+        <div *ngIf="currentPlan === 'enterprise'">
+          You are currently on the "Enterprise" Plan. This has a 4.0% order
+          processing fee built into the retail price. This is best for brands
+          that sell more than 250 units or $25,000 in a month.
+        </div>
+      </div>
+      <!-- <nz-form-control>
+        <nz-input-group>
+          <textarea nz-input placeholder="Plan Detail..."></textarea>
+        </nz-input-group>
+      </nz-form-control> -->
+    </nz-form-item>
+    <app-new-multi-product-calculator
+      [showCalculator]="showCalculator"
+    ></app-new-multi-product-calculator>
+    <!-- <nz-tabset nzType="card">
+      <nz-tab nzTitle="Single Product Calculate">
+        <app-new-single-product-calculator></app-new-single-product-calculator>
+      </nz-tab>
+      <nz-tab nzTitle="Multi Product Calculate">
+        <app-new-multi-product-calculator></app-new-multi-product-calculator>
+      </nz-tab>
+    </nz-tabset> -->
+  </div>
+</div>
