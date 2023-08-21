@@ -95,11 +95,7 @@
         <tr>
           <td>{{ data?.promo_code }}</td>
           <td>
-            {{
-              data?.added_on
-                | utcDateToLocalConverter : false
-                | customDate
-            }}
+            {{ data?.added_on | utcDateToLocalConverter : false | customDate }}
           </td>
           <td>{{ data?.start_date | customDate }}</td>
           <td>{{ data?.end_date | customDate }}</td>
@@ -206,9 +202,13 @@
     >
     <form nz-form [formGroup]="filter" style="padding-bottom: 10px">
       <div class="filter-content">
-        <nz-divider nzText="Date" nzOrientation="left"></nz-divider>
+        <nz-divider
+          nzText="Promotion Start Date"
+          nzOrientation="left"
+        ></nz-divider>
         <nz-range-picker
-        [nzFormat]="AppDateFormate"
+          [nzPlaceHolder]="['From Date', 'To Date']"
+          [nzFormat]="AppDateFormate"
           formControlName="date"
           (ngModelChange)="change(filter.value.date ? $event : '', 'date')"
         ></nz-range-picker>
