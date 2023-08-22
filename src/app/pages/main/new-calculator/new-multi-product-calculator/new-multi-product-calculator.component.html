@@ -44,6 +44,7 @@
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
       nzTableLayout="fixed"
+      [nzScroll]="addScroll ? { x: '100%' } : {}"
       (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>

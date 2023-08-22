@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Renderer2 } from '@angular/core';
 import * as lodash from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -36,11 +36,11 @@ export class NewMultiProductCalculatorComponent {
   editLabel: string[] = [];
   isEditVisible = false;
   updatingIndex: number = -1;
+  addScroll = false;
 
   constructor(
     private newCalculatorService: NewCalculatorService,
-    private productService: ProductService,
-    private message: NzMessageService
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +54,14 @@ export class NewMultiProductCalculatorComponent {
         this.searchVal = value.target.value;
         this.getAllProductCalculatorList();
       });
+
+    this.renderer.listen('window', 'resize', () => {
+      if (window.innerWidth > 1498) {
+        this.addScroll = false;
+      } else {
+        this.addScroll = true;
+      }
+    });
   }
 
   pageIndexChange(page: number) {
