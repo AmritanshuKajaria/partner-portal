@@ -38,6 +38,7 @@
       [nzData]="multiProductList"
       nzShowSizeChanger
       [nzPageSizeOptions]="pageSizeOptions"
+      [nzFrontPagination]="false"
       [nzTotal]="total"
       [nzShowTotal]="totalTemplate"
       [nzPageSize]="pageSize"
@@ -112,7 +113,7 @@
               <div>
                 {{
                   data?.amazon_fees_percentage
-                    ? " (" + data?.amazon_fees_percentage + "%" + ")"
+                    ? " (" + +data.amazon_fees_percentage * 100 + "%" + ")"
                     : ""
                 }}
               </div>
@@ -142,7 +143,10 @@
               <div>
                 {{
                   data?.order_processing_fees_percentage
-                    ? " (" + data?.order_processing_fees_percentage + "%" + ")"
+                    ? " (" +
+                      +data.order_processing_fees_percentage * 100 +
+                      "%" +
+                      ")"
                     : ""
                 }}
               </div>
@@ -160,7 +164,7 @@
               <div>
                 {{
                   data?.return_cost_percentage
-                    ? " (" + data?.return_cost_percentage + "%" + ")"
+                    ? " (" + +data.return_cost_percentage * 100 + "%" + ")"
                     : ""
                 }}
               </div>
