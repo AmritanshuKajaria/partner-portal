@@ -1,7 +1,10 @@
 import { Component, Input } from '@angular/core';
 import * as lodash from 'lodash';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
+import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
   selector: 'app-new-multi-product-calculator',
@@ -21,21 +24,41 @@ export class NewMultiProductCalculatorComponent {
   estimatedPrices: any[] = [];
 
   multiData: NewCalculatorMultiData[] = [];
+  isUploadVisible = false;
+  retailPricingSearch = new Subject<any>();
+  searchVal = '';
 
-  constructor(private newCalculatorService: NewCalculatorService) {}
+  constructor(
+    private newCalculatorService: NewCalculatorService,
+    private productService: ProductService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     if (this.showCalculator) {
-      this.getAllProductCalculatorList(1);
+      this.getAllProductCalculatorList();
     }
+    this.retailPricingSearch
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value: any) => {
+        this.pageIndex = 1;
+        this.searchVal = value.target.value;
+        this.getAllProductCalculatorList();
+      });
   }
 
-  getAllProductCalculatorList(page: number) {
+  pageIndexChange(page: number) {
+    this.pageIndex = page;
+    this.getAllProductCalculatorList();
+  }
+
+  getAllProductCalculatorList() {
     this.isLoading = true;
     const data = {
-      page: page,
+      page: this.pageIndex,
+      search_term: this.searchVal,
     };
-    this.newCalculatorService.getMultiProductCalculatorList(1).subscribe({
+    this.newCalculatorService.getMultiProductCalculatorList(data).subscribe({
       next: (res: any) => {
         this.isLoading = false;
         this.total = res.pagination?.total_rows ?? 0;
@@ -52,6 +75,27 @@ export class NewMultiProductCalculatorComponent {
         });
       },
       error: (err) => (this.isLoading = false),
+    });
+  }
+
+  saveRow(index: number) {
+    this.isLoading = true;
+    console.log(this.multiProductList[index]);
+    const data = {
+      sku: this.multiProductList[index]?.sku,
+      unit_price: this.multiProductList[index]?.unit_price,
+    };
+    this.productService.editProduct(data).subscribe({
+      next: (res) => {
+        if (res) {
+          this.message.success('Product Update Successful');
+          this.isLoading = false;
+        }
+      },
+      error: (e) => {
+        this.message.success('Product Update Fail');
+        this.isLoading = false;
+      },
     });
   }
 
@@ -156,17 +200,20 @@ export class NewMultiProductCalculatorComponent {
   }
 
   resetData(index: number) {
-    this.multiProductList[index].unit_price =
-      this.multiData[index].order_processing_fees_percentage;
+    console.log(this.multiProductList[index]);
+
+    this.multiProductList[index].unit_price = this.multiData[index].unit_price;
     this.multiProductList[index].order_processing_fees_percentage =
-      this.multiData[index].order_processing_fees_percentage;
+      this.multiProductList[index].order_processing_fees_percentage;
     this.multiProductList[index].amazon_fees_percentage =
-      this.multiData[index].amazon_fees_percentage;
+      this.multiProductList[index].amazon_fees_percentage;
     this.multiProductList[index].shipping_cost =
-      this.multiData[index].shipping_cost;
+      this.multiProductList[index].shipping_cost;
     this.multiProductList[index].return_cost_percentage =
-      this.multiData[index].return_cost_percentage;
+      this.multiProductList[index].return_cost_percentage;
     this.multiProductList[index].retail_price =
       this.multiData[index].retail_price;
+
+    this.calculateEstimatedPrices(this.multiProductList[index], index);
   }
 }
