@@ -21,6 +21,6 @@ export class NewCalculatorService {
   }
 
   exportMultiProductCalculator() {
-    return this.httpClient.get(this.url + '/pricing-export');
+    return this.httpClient.post(this.url + '/pricing-export', {});
   }
 }
