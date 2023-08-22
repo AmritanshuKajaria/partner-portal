@@ -11,6 +11,7 @@
           [ngClass]="{
             'button-disabled': !showCalculator
           }"
+          (click)="isExportVisible = true"
         >
           <span nz-icon nzType="upload" nzTheme="outline"></span> Export
         </button>
@@ -20,6 +21,7 @@
             <nz-form-control nzErrorTip="Please input your valid code!">
               <nz-input-group nzPrefixIcon="search" class="search">
                 <input
+                  (keyup)="retailPricingSearch.next($event)"
                   [disabled]="!showCalculator"
                   nz-input
                   placeholder="Search..."
@@ -41,7 +43,9 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      nzTableLayout="fixed"
+      [nzScroll]="addScroll ? { x: '100%' } : {}"
+      (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>
         <tr>
@@ -181,6 +185,7 @@
           <td nzRight>
             <div style="display: flex; align-items: center">
               <a
+                (click)="matchValue(no)"
                 style="margin: 0 5px; color: #2121c3; font-size: large"
                 nz-tooltip
                 nzTooltipTitle="Save"
@@ -214,4 +219,32 @@
   <ng-template #totalTemplate let-total
     >Total <b>{{ total }}</b> items</ng-template
   >
+</div>
+
+<nz-modal
+  [(nzVisible)]="isExportVisible"
+  [nzTitle]="'Which Products would you like to export?'"
+  (nzOnCancel)="isExportVisible = false"
+>
+  <ng-container *nzModalContent>
+    <app-export-model
+      [description]="
+        'Your Data will be exported as a CSV file and sent to your email.'
+      "
+      [showFilterOptions]="false"
+      (close)="isExportVisible = false"
+      [sectionName]="'retailPricing'"
+    ></app-export-model>
+  </ng-container>
+</nz-modal>
+
+<div *ngIf="isEditVisible">
+  <app-edit-time
+    [isVisible]="isEditVisible"
+    [editData]="editData"
+    [editLabel]="editLabel"
+    [section]="'Unit Price'"
+    (close)="isEditVisible = false"
+    (dataSavedSuccessful)="onDataSave($event)"
+  ></app-edit-time>
 </div>

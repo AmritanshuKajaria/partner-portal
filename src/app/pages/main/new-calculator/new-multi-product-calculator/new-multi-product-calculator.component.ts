@@ -1,7 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Renderer2 } from '@angular/core';
 import * as lodash from 'lodash';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
+import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
   selector: 'app-new-multi-product-calculator',
@@ -21,21 +24,58 @@ export class NewMultiProductCalculatorComponent {
   estimatedPrices: any[] = [];
 
   multiData: NewCalculatorMultiData[] = [];
+  isExportVisible = false;
+  retailPricingSearch = new Subject<any>();
+  searchVal = '';
+  editData: { mpn: string; current: number; new: number; sku: string } = {
+    mpn: 'string',
+    current: 0,
+    new: 0,
+    sku: '',
+  };
+  editLabel: string[] = [];
+  isEditVisible = false;
+  updatingIndex: number = -1;
+  addScroll = false;
 
-  constructor(private newCalculatorService: NewCalculatorService) {}
+  constructor(
+    private newCalculatorService: NewCalculatorService,
+    private renderer: Renderer2
+  ) {}
 
   ngOnInit(): void {
     if (this.showCalculator) {
-      this.getAllProductCalculatorList(1);
+      this.getAllProductCalculatorList();
     }
+    this.retailPricingSearch
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value: any) => {
+        this.pageIndex = 1;
+        this.searchVal = value.target.value;
+        this.getAllProductCalculatorList();
+      });
+
+    this.renderer.listen('window', 'resize', () => {
+      if (window.innerWidth > 1498) {
+        this.addScroll = false;
+      } else {
+        this.addScroll = true;
+      }
+    });
   }
 
-  getAllProductCalculatorList(page: number) {
+  pageIndexChange(page: number) {
+    this.pageIndex = page;
+    this.getAllProductCalculatorList();
+  }
+
+  getAllProductCalculatorList() {
     this.isLoading = true;
     const data = {
-      page: page,
+      page: this.pageIndex,
+      search_term: this.searchVal,
     };
-    this.newCalculatorService.getMultiProductCalculatorList(1).subscribe({
+    this.newCalculatorService.getMultiProductCalculatorList(data).subscribe({
       next: (res: any) => {
         this.isLoading = false;
         this.total = res.pagination?.total_rows ?? 0;
@@ -155,18 +195,37 @@ export class NewMultiProductCalculatorComponent {
     };
   }
 
+  handleError(data: any) {
+    if (this.updatingIndex > -1) {
+      this.multiProductList[this.updatingIndex].unit_price = data.current;
+    }
+  }
+
+  onDataSave(data: any) {
+    if (data) {
+      this.getAllProductCalculatorList();
+    }
+  }
+
+  matchValue(index: number) {
+    this.updatingIndex = index;
+    this.editData = {
+      mpn: this.multiData[index].mpn,
+      current: this.multiData[index].unit_price,
+      new: this.multiProductList[index].unit_price,
+      sku: this.multiData[index].sku,
+    };
+    this.editLabel = ['MPN', 'Current Unit Price', 'New Unit Price'];
+    this.isEditVisible = true;
+  }
+
   resetData(index: number) {
-    this.multiProductList[index].unit_price =
-      this.multiData[index].order_processing_fees_percentage;
-    this.multiProductList[index].order_processing_fees_percentage =
-      this.multiData[index].order_processing_fees_percentage;
-    this.multiProductList[index].amazon_fees_percentage =
-      this.multiData[index].amazon_fees_percentage;
-    this.multiProductList[index].shipping_cost =
-      this.multiData[index].shipping_cost;
-    this.multiProductList[index].return_cost_percentage =
-      this.multiData[index].return_cost_percentage;
+    console.log(this.multiProductList[index]);
+
+    this.multiProductList[index].unit_price = this.multiData[index].unit_price;
     this.multiProductList[index].retail_price =
       this.multiData[index].retail_price;
+
+    this.calculateEstimatedPrices(this.multiProductList[index], index);
   }
 }

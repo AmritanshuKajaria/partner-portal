@@ -18,6 +18,7 @@ import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 import { formatDate } from '@angular/common';
+import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 
 @Component({
   selector: 'app-export-model',
@@ -44,6 +45,7 @@ export class ExportModelComponent implements OnInit {
     private promotionsService: PromotionsService,
     private dashboardService: DashboardService,
     private ordersService: OrdersService,
+    private newCalculatorService: NewCalculatorService,
     @Inject(LOCALE_ID) public locale: string
   ) {}
   ngOnInit(): void {}
@@ -77,8 +79,8 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_sales_tier
         : '';
 
-      this.productService.exportProducts(filters).subscribe(
-        (response: any) => {
+      this.productService.exportProducts(filters).subscribe({
+        next: (response: any) => {
           console.log(response);
           if (response.success) {
             this.message.create(
@@ -89,8 +91,8 @@ export class ExportModelComponent implements OnInit {
           this.handleCancel();
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => (this.isLoading = false),
+      });
     } else if (this.sectionName === 'inventory') {
       let filters: any = {};
       filters['filter_start_date'] =
@@ -115,8 +117,8 @@ export class ExportModelComponent implements OnInit {
       filters['filter_feed_result'] = this.exportType
         ? this.listOfFilter?.filter_inventory_result
         : '';
-      this.inventoryService.inventoryFeedHistory(filters).subscribe(
-        (response: any) => {
+      this.inventoryService.inventoryFeedHistory(filters).subscribe({
+        next: (response: any) => {
           console.log(response);
           if (response.success) {
             this.message.create(
@@ -127,8 +129,8 @@ export class ExportModelComponent implements OnInit {
           this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => (this.isLoading = false),
+      });
     } else if (this.sectionName === 'promotion') {
       let filters: any = {};
 
@@ -143,8 +145,8 @@ export class ExportModelComponent implements OnInit {
         this.exportType && this.listOfFilter?.end_date
           ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
           : '';
-      this.promotionsService.exportPromo(filters).subscribe(
-        (response: any) => {
+      this.promotionsService.exportPromo(filters).subscribe({
+        next: (response: any) => {
           console.log(response);
           if (response.success) {
             this.message.create(
@@ -155,8 +157,8 @@ export class ExportModelComponent implements OnInit {
           this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => (this.isLoading = false),
+      });
     } else if (this.sectionName === 'order') {
       let filters: any = {};
 
@@ -196,8 +198,8 @@ export class ExportModelComponent implements OnInit {
               this.locale
             )
           : '';
-      this.ordersService.exportOrders(filters).subscribe(
-        (response: any) => {
+      this.ordersService.exportOrders(filters).subscribe({
+        next: (response: any) => {
           this.handleCancel();
           console.log(response);
           if (response.success) {
@@ -208,14 +210,28 @@ export class ExportModelComponent implements OnInit {
           }
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => (this.isLoading = false),
+      });
+    } else if (this.sectionName === 'retailPricing') {
+      this.newCalculatorService.exportMultiProductCalculator().subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          }
+          this.handleCancel();
+          this.isLoading = false;
+        },
+        error: (err) => (this.isLoading = false),
+      });
     } else if (!this.showFilterOptions) {
       const data: ExportDash = {
         code: this.code,
       };
-      this.dashboardService.exportData(data).subscribe(
-        (res: any) => {
+      this.dashboardService.exportData(data).subscribe({
+        next: (res: any) => {
           console.log(res);
           if (res.success) {
             this.message.create(
@@ -226,8 +242,8 @@ export class ExportModelComponent implements OnInit {
           this.handleCancel();
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => (this.isLoading = false),
+      });
     }
   }
 

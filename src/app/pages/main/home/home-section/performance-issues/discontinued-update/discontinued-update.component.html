@@ -116,6 +116,7 @@
       [editLabel]="editLabel"
       [section]="'Discontinued Update'"
       (close)="isVisible = false"
+      (dataSavedSuccessful)="onDataSave($event)"
     ></app-edit-time>
   </div>
 </div>

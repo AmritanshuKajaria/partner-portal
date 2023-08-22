@@ -145,6 +145,7 @@
       [editLabel]="editLabel"
       [section]="'Unit Price'"
       (close)="isVisible = false"
+      (dataSavedSuccessful)="dataSavedSuccessful.emit($event)"
     ></app-edit-time>
   </div>
 </div>
