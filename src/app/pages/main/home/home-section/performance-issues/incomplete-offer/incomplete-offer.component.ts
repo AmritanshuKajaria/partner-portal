@@ -69,17 +69,17 @@ export class IncompleteOfferComponent implements OnInit {
   ) {
     this.isLoading = true;
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.getData();
   }
   ngOnInit(): void {}
 
-  getData(pageIndex: number, code: string, search: string) {
+  getData() {
     this.isLoading = true;
     if (this.code) {
       const data = {
-        page: pageIndex,
-        code: code,
-        product_search: search ? search : '',
+        page: this.pageIndex,
+        code: this.code,
+        product_search: this.product_search ? this.product_search : '',
       };
       this.dashboardService.getAgendasDataByCode(data).subscribe(
         (res: any) => {
@@ -94,14 +94,20 @@ export class IncompleteOfferComponent implements OnInit {
     }
   }
 
+  onDataSave(data: any) {
+    if (data) {
+      this.getData();
+    }
+  }
+
   searchValue(event: string) {
     this.product_search = event;
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.getData();
   }
 
   pageIndexChange(page: number) {
     this.pageIndex = page;
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.getData();
   }
 
   matchValue(mpn: string, asin: number, recommendations: any, sku: string) {

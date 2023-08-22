@@ -24,9 +24,18 @@ export class NewMultiProductCalculatorComponent {
   estimatedPrices: any[] = [];
 
   multiData: NewCalculatorMultiData[] = [];
-  isUploadVisible = false;
+  isExportVisible = false;
   retailPricingSearch = new Subject<any>();
   searchVal = '';
+  editData: { mpn: string; current: number; new: number; sku: string } = {
+    mpn: 'string',
+    current: 0,
+    new: 0,
+    sku: '',
+  };
+  editLabel: string[] = [];
+  isEditVisible = false;
+  updatingIndex: number = -1;
 
   constructor(
     private newCalculatorService: NewCalculatorService,
@@ -75,27 +84,6 @@ export class NewMultiProductCalculatorComponent {
         });
       },
       error: (err) => (this.isLoading = false),
-    });
-  }
-
-  saveRow(index: number) {
-    this.isLoading = true;
-    console.log(this.multiProductList[index]);
-    const data = {
-      sku: this.multiProductList[index]?.sku,
-      unit_price: this.multiProductList[index]?.unit_price,
-    };
-    this.productService.editProduct(data).subscribe({
-      next: (res) => {
-        if (res) {
-          this.message.success('Product Update Successful');
-          this.isLoading = false;
-        }
-      },
-      error: (e) => {
-        this.message.success('Product Update Fail');
-        this.isLoading = false;
-      },
     });
   }
 
@@ -199,18 +187,34 @@ export class NewMultiProductCalculatorComponent {
     };
   }
 
+  handleError(data: any) {
+    if (this.updatingIndex > -1) {
+      this.multiProductList[this.updatingIndex].unit_price = data.current;
+    }
+  }
+
+  onDataSave(data: any) {
+    if (data) {
+      this.getAllProductCalculatorList();
+    }
+  }
+
+  matchValue(index: number) {
+    this.updatingIndex = index;
+    this.editData = {
+      mpn: this.multiData[index].mpn,
+      current: this.multiData[index].unit_price,
+      new: this.multiProductList[index].unit_price,
+      sku: this.multiData[index].sku,
+    };
+    this.editLabel = ['MPN', 'Current Unit Price', 'New Unit Price'];
+    this.isEditVisible = true;
+  }
+
   resetData(index: number) {
     console.log(this.multiProductList[index]);
 
     this.multiProductList[index].unit_price = this.multiData[index].unit_price;
-    this.multiProductList[index].order_processing_fees_percentage =
-      this.multiProductList[index].order_processing_fees_percentage;
-    this.multiProductList[index].amazon_fees_percentage =
-      this.multiProductList[index].amazon_fees_percentage;
-    this.multiProductList[index].shipping_cost =
-      this.multiProductList[index].shipping_cost;
-    this.multiProductList[index].return_cost_percentage =
-      this.multiProductList[index].return_cost_percentage;
     this.multiProductList[index].retail_price =
       this.multiData[index].retail_price;
 

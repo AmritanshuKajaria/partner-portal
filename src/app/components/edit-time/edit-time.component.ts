@@ -14,6 +14,7 @@ export class EditTimeComponent implements OnInit {
   editData!: {
     mpn: string;
     current: number;
+    new?: number;
     extraData?: any;
     sku?: string;
   };
@@ -21,6 +22,7 @@ export class EditTimeComponent implements OnInit {
   @Input() section: string = '';
   @Input() extraData: any;
   @Output() close = new EventEmitter();
+  @Output() dataSavedSuccessful = new EventEmitter();
   editTimeForm!: FormGroup;
   isLoading: boolean = false;
   submitError: boolean = false;
@@ -33,6 +35,9 @@ export class EditTimeComponent implements OnInit {
     this.editTimeForm = new FormGroup({
       new: new FormControl('', [Validators.required]),
     });
+    if (this.editData?.new) {
+      this.editTimeForm.patchValue({ new: this.editData?.new });
+    }
   }
 
   submit() {
@@ -69,12 +74,17 @@ export class EditTimeComponent implements OnInit {
         (res: any) => {
           console.log(res);
           if (res.success) {
-            this.message.create('success', 'Edit product successfully!');
+            this.message.create('success', 'Edit Product Successful');
           }
           this.isLoading = false;
           this.handleCancel();
+          this.dataSavedSuccessful.next(true);
         },
-        (err) => (this.isLoading = false)
+        (err) => {
+          this.message.error('Edit Product Fail');
+          this.isLoading = false;
+          this.dataSavedSuccessful.next(false);
+        }
       );
     }
   }

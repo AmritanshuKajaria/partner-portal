@@ -17,6 +17,8 @@ export class RecommendationIssueTableComponent implements OnInit {
 
   @Output() changePages = new EventEmitter();
 
+  @Output() dataSavedSuccessful = new EventEmitter();
+
   pageSizeOptions = [100];
   editData: { mpn: string; current: number; sku: string } = {
     mpn: 'string',

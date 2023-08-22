@@ -11,7 +11,7 @@
           [ngClass]="{
             'button-disabled': !showCalculator
           }"
-          (click)="isUploadVisible = true"
+          (click)="isExportVisible = true"
         >
           <span nz-icon nzType="upload" nzTheme="outline"></span> Export
         </button>
@@ -184,7 +184,7 @@
           <td nzRight>
             <div style="display: flex; align-items: center">
               <a
-                (click)="saveRow(no)"
+                (click)="matchValue(no)"
                 style="margin: 0 5px; color: #2121c3; font-size: large"
                 nz-tooltip
                 nzTooltipTitle="Save"
@@ -221,9 +221,9 @@
 </div>
 
 <nz-modal
-  [(nzVisible)]="isUploadVisible"
+  [(nzVisible)]="isExportVisible"
   [nzTitle]="'Which Products would you like to export?'"
-  (nzOnCancel)="isUploadVisible = false"
+  (nzOnCancel)="isExportVisible = false"
 >
   <ng-container *nzModalContent>
     <app-export-model
@@ -231,8 +231,19 @@
         'Your Data will be exported as a CSV file and sent to your email.'
       "
       [showFilterOptions]="false"
-      (close)="isUploadVisible = false"
+      (close)="isExportVisible = false"
       [sectionName]="'retailPricing'"
     ></app-export-model>
   </ng-container>
 </nz-modal>
+
+<div *ngIf="isEditVisible">
+  <app-edit-time
+    [isVisible]="isEditVisible"
+    [editData]="editData"
+    [editLabel]="editLabel"
+    [section]="'Unit Price'"
+    (close)="isEditVisible = false"
+    (dataSavedSuccessful)="onDataSave($event)"
+  ></app-edit-time>
+</div>
