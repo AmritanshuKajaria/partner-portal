@@ -91,6 +91,10 @@
         <span>Promotions</span>
       </li>
       <li
+        *ngIf="
+          userPartnerDetails?.current_plan &&
+          userPartnerDetails?.current_plan !== 'no_plan'
+        "
         nz-menu-item
         [ngClass]="
           router.url.includes('/main/new-calculator') ? 'active' : 'inactive'
@@ -101,6 +105,10 @@
         <span>Retail Pricing</span>
       </li>
       <li
+        *ngIf="
+          userPartnerDetails?.current_plan &&
+          userPartnerDetails?.current_plan !== 'no_plan'
+        "
         nz-menu-item
         [ngClass]="router.url.includes('/main/plans') ? 'active' : 'inactive'"
         routerLink="/main/plans"
@@ -144,7 +152,10 @@
           "
         >
           <a
-            *ngIf="userPartnerDetails?.current_plan"
+            *ngIf="
+              userPartnerDetails?.current_plan &&
+              userPartnerDetails?.current_plan !== 'no_plan'
+            "
             routerLink="/main/plans"
             nzType="default"
           >

@@ -1,4 +1,12 @@
 export const PlanLabels: any = {
+  '': {
+    label: '',
+    color: '',
+  },
+  no_plan: {
+    label: '',
+    color: '',
+  },
   basic: {
     label: 'Basic',
     color: '#1890ff',
