@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "portal-patner": {
+    "partner-portal": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/portal-patner",
+            "outputPath": "dist/partner-portal",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -103,13 +103,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "portal-patner:build:production"
+              "browserTarget": "partner-portal:build:production"
             },
             "test": {
-              "browserTarget": "portal-patner:build:test"
+              "browserTarget": "partner-portal:build:test"
             },
             "development": {
-              "browserTarget": "portal-patner:build:development"
+              "browserTarget": "partner-portal:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -117,7 +117,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "portal-patner:build"
+            "browserTarget": "partner-portal:build"
           }
         },
         "test": {
