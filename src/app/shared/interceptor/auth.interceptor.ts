@@ -26,27 +26,21 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): any {
     let authReq = req;
     const token = this.authService.getAccessToken();
-    if (token != null && !authReq.url.includes('api.ipify.org') && !authReq.url.includes('generate_zendesk_token')) {
+    if (
+      token != null &&
+      !authReq.url.includes('api.ipify.org') &&
+      !authReq.url.includes('generate_zendesk_token')
+    ) {
       authReq = this.addTokenHeader(req, token);
     }
 
     return next.handle(authReq).pipe(
       catchError((error) => {
-        if (error instanceof HttpErrorResponse && error.status === 403) {
-          if (
-            error instanceof HttpErrorResponse &&
-            authReq.url.includes('auth/refresh_token') &&
-            error.status === 403
-          ) {
-            this.authService.clearToken();
-
-            return (window.location.href = '/auth/login');
-          } else {
-            this.authService.clearToken();
-
-            // Reload the app
-            location.reload();
-          }
+        if (
+          error instanceof HttpErrorResponse &&
+          error.status === 401 &&
+          !authReq.url.includes('refresh-token')
+        ) {
           return this.handle401Error(authReq, next, error);
         }
         return throwError(error);
@@ -76,24 +70,31 @@ export class AuthInterceptor implements HttpInterceptor {
           }),
           catchError((err) => {
             this.isRefreshing = false;
-            this.authService.logout();
-            return throwError(err);
+            // this.authService.logout();
+            this.authService.clearToken();
+            return (window.location.href = '/auth/login');
           })
         );
+      else {
+        this.isRefreshing = false;
+        this.authService.clearToken();
+        return (window.location.href = '/auth/login');
+      }
+    } else {
+      return this.refreshTokenSubject.pipe(
+        filter((token) => token !== null),
+        take(1),
+        switchMap((token) => next.handle(this.addTokenHeader(request, token)))
+      );
     }
-
-    return this.refreshTokenSubject.pipe(
-      filter((token) => token !== null),
-      take(1),
-      switchMap((token) => next.handle(this.addTokenHeader(request, token)))
-    );
   }
 
   private addTokenHeader(request: HttpRequest<any>, token: string) {
     /* for Spring Boot back-end */
     if (
-      request.url.includes('refresh_token') &&
-      request.url.includes('login')
+      request.url.includes('refresh-token') &&
+      request.url.includes('login') &&
+      request.url.includes('reset-password')
     ) {
       return request.clone({
         headers: new HttpHeaders(),
