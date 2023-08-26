@@ -16,8 +16,9 @@ phases:
 
 artifacts:
   files:
-    - "**/*"
-  base-directory: dist/
+    - dist/**/*
+    - package.json
+    - package-lock.json
 # artifacts:
 #   files:
 #     - .elasticbeanstalk/**/*
