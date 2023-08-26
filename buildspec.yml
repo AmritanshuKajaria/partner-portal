@@ -1,9 +1,9 @@
-version: 0.1
+version: 0.2
 
 phases:
   install:
     runtime-versions:
-      nodejs: 16
+      nodejs: 18
 
     commands:
       # install npm
@@ -16,11 +16,15 @@ phases:
 
 artifacts:
   files:
-    - .elasticbeanstalk/**/*
-    - build/**/*
-    - public/**/*
-    - src/**/*
-    - package.json
-    - appspec.yml
-    - buildspec.yml
-    - scripts/**/*
+    - "**/*"
+  base-directory: dist/
+# artifacts:
+#   files:
+#     - .elasticbeanstalk/**/*
+#     - build/**/*
+#     - public/**/*
+#     - src/**/*
+#     - package.json
+#     - appspec.yml
+#     - buildspec.yml
+#     - scripts/**/*
