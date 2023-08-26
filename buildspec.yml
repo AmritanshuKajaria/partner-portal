@@ -5,13 +5,14 @@ phases:
     runtime-versions:
       nodejs: 18
 
+  pre_build:
     commands:
-      # install npm
-      - npm install --force
+      - npm install -g @angular/cli
 
   build:
     commands:
       # run build script
+      - npm install --force
       - npm run-script prod:build
 
 artifacts:
