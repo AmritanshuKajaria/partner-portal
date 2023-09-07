@@ -91,7 +91,7 @@ export class PromotionTableComponent implements OnInit {
         break;
       case 'cancel':
         this.modal.confirm({
-          nzTitle: 'Are you sure cancel this promotion?',
+          nzTitle: 'Are you sure you want to Cancel this Promotion?',
           nzContent: `Promo Code : <b>${promo_code}</b> `,
           nzOnOk: () => {
             const data: StopPromotions = {
@@ -112,7 +112,7 @@ export class PromotionTableComponent implements OnInit {
         break;
       case 'Now':
         this.modal.confirm({
-          nzTitle: 'Are you sure stop this promotion?',
+          nzTitle: 'Are you sure you want to Stop this Promotion?',
           nzContent: `Promo Code : <b>${promo_code}</b> `,
           nzOnOk: () => {
             const dataNow: StopPromotions = {

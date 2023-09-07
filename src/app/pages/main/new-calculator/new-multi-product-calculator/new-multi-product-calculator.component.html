@@ -227,13 +227,13 @@
 
 <nz-modal
   [(nzVisible)]="isExportVisible"
-  [nzTitle]="'Which Products would you like to export?'"
+  [nzTitle]="'Retail Pricing Data Export'"
   (nzOnCancel)="isExportVisible = false"
 >
   <ng-container *nzModalContent>
     <app-export-model
       [description]="
-        'Your Data will be exported as a CSV file and sent to your email.'
+        'Your Retail Pricing Data will be exported as a CSV file and sent to your email.'
       "
       [showFilterOptions]="false"
       (close)="isExportVisible = false"

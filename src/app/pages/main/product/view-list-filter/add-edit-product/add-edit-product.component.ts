@@ -56,6 +56,7 @@ export class AddEditProductComponent implements OnInit {
     'Not Available for DropShip',
     'Custom Product',
     'Partner is not the Brand Owner',
+    'Fragile',
     'Other Reason',
   ];
 
@@ -208,6 +209,9 @@ export class AddEditProductComponent implements OnInit {
                 );
                 this.addEditProductForm.controls['product_status'].setValue(
                   this.editData?.product_status
+                );
+                this.addEditProductForm.controls['restricted_reason'].setValue(
+                  this.editData?.restricted_reason
                 );
                 this.editData?.shipping_dimensions.map(
                   (res: {
@@ -375,6 +379,7 @@ export class AddEditProductComponent implements OnInit {
         shipping_method: this.addEditProductForm.value.shipping_Method,
         product_status: this.addEditProductForm.value.product_status,
         number_of_boxes: this.addEditProductForm.value.number_of_boxes ?? 1,
+        restricted_reason: this.addEditProductForm.value.restricted_reason,
       };
       let dimensions: any[] = [];
       this.shippingDimensionsOfBoxes.value.map((res: any, index: number) => {
