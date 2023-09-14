@@ -56,7 +56,7 @@ export class AddEditProductComponent implements OnInit {
     'Not Available for DropShip',
     'Custom Product',
     'Partner is not the Brand Owner',
-    'Fragile',
+    'Fragile - Cannot Ship Small Parcel',
     'Other Reason',
   ];
 
