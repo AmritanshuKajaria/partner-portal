@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+
+  pre_build:
+    commands:
+      - npm install -g @angular/cli
+
+  build:
+    commands:
+      # run build script
+      - npm install --force
+      - npm run-script prod:build
+
+artifacts:
+  files:
+    - dist/**/*
+    - package.json
+    - package-lock.json
+    - server.js
+# artifacts:
+#   files:
+#     - .elasticbeanstalk/**/*
+#     - build/**/*
+#     - public/**/*
+#     - src/**/*
+#     - package.json
+#     - appspec.yml
+#     - buildspec.yml
+#     - scripts/**/*
