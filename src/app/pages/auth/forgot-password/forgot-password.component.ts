@@ -40,7 +40,7 @@ export class ForgotPasswordComponent implements OnInit {
         (res: any) => {
           this.isLoading = false;
           if (res.success) {
-            this.message.success('Send mail successfully!!');
+            this.message.success('Sent mail successfully!!');
             this.router.navigate(['/auth/login']);
           }
         },
