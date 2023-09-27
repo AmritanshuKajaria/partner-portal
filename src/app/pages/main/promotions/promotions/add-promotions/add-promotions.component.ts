@@ -25,6 +25,7 @@ export class AddPromotionsComponent implements OnInit {
   selectFile: any = '';
 
   AppDateFormate = AppDateFormate;
+  referenceCode = '';
 
   constructor(
     private promotionsService: PromotionsService,
@@ -94,8 +95,8 @@ export class AddPromotionsComponent implements OnInit {
         (res: any) => {
           this.isLoading = false;
           if (res.success) {
-            this.message.create('success', 'Add Promotion Successful');
-            this.handleCancel();
+            // this.message.create('success', 'Add Promotion Successful');
+            this.handleCancel(res.reference_code);
           }
         },
         (err) => (this.isLoading = false)
@@ -103,7 +104,7 @@ export class AddPromotionsComponent implements OnInit {
     }
   }
 
-  handleCancel() {
-    this.close.emit();
+  handleCancel(referenceCode = '') {
+    this.close.emit(referenceCode);
   }
 }

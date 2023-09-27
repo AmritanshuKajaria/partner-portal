@@ -1,60 +1,68 @@
 <div class="plans">
-  <app-section-header [header]="'Plans'"></app-section-header>
+  <app-section-header [header]="'Plus Plans'"></app-section-header>
   <nz-alert
     *ngIf="recommendedPlan"
     style="margin: 16px"
     nzType="info"
     nzMessage="Based on your last 30 days usage, your recommended plan is &quot;{{
-      recommendedPlan === 'basic'
-        ? 'Basic'
-        : recommendedPlan === 'plus'
-        ? 'Plus'
-        : recommendedPlan === 'premium'
-        ? 'Premium'
-        : 'Enterprise'
-    }}&quot;.  The more you sell, the lower your fees can be. Choosing from the Plus, Premium or Enterprise Plans gives you the power to set your own retail price."
+      recommendedPlan === PlanLabels['tier1'].value
+        ? PlanLabels['tier1'].label
+        : recommendedPlan === PlanLabels['tier2'].value
+        ? PlanLabels['tier2'].label
+        : recommendedPlan === PlanLabels['tier3'].value
+        ? PlanLabels['tier3'].label
+        : PlanLabels['tier4'].label
+    }}&quot;.  The more you sell, the lower your fees can be. Choosing from the {{
+      PlanLabels['tier2'].label
+    }}, {{ PlanLabels['tier3'].label }} or {{
+      PlanLabels['tier4'].label
+    }} Plans gives you the power to set your own retail price."
   ></nz-alert>
 
   <div class="body-section" style="padding-top: 16px">
     <div nz-row [nzGutter]="16">
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
-          *ngIf="currentPlan === 'basic'; else basicPlan"
+          *ngIf="currentPlan === PlanLabels['tier1'].value; else tier1plan"
           nzColor="red"
           style="height: 100%"
           nzText="Current"
         >
-          <ng-container *ngTemplateOutlet="basicPlan"></ng-container>
+          <ng-container *ngTemplateOutlet="tier1plan"></ng-container>
         </nz-ribbon>
       </div>
 
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
-          *ngIf="currentPlan === 'plus'; else plusPlan"
+          *ngIf="currentPlan === PlanLabels['tier2'].value; else tier2plan"
           nzColor="red"
           style="height: 100%"
           nzText="Current"
         >
-          <ng-container *ngTemplateOutlet="plusPlan"></ng-container>
+          <ng-container *ngTemplateOutlet="tier2plan"></ng-container>
         </nz-ribbon>
       </div>
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
-          [nzColor]="currentPlan === 'premium' ? 'red' : 'blue'"
+          [nzColor]="currentPlan === PlanLabels['tier3'].value ? 'red' : 'blue'"
           style="height: 100%"
-          [nzText]="currentPlan === 'premium' ? 'Current' : 'Most Popular'"
+          [nzText]="
+            currentPlan === PlanLabels['tier3'].value
+              ? 'Current'
+              : 'Most Popular'
+          "
         >
-          <ng-container *ngTemplateOutlet="premiumPlan"></ng-container>
+          <ng-container *ngTemplateOutlet="tier3plan"></ng-container>
         </nz-ribbon>
       </div>
       <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
-          *ngIf="currentPlan === 'enterprise'; else enterprisePlan"
+          *ngIf="currentPlan === PlanLabels['tier4'].value; else tier4plan"
           nzColor="red"
           style="height: 100%"
           nzText="Current"
         >
-          <ng-container *ngTemplateOutlet="enterprisePlan"></ng-container>
+          <ng-container *ngTemplateOutlet="tier4plan"></ng-container>
         </nz-ribbon>
       </div>
     </div>
@@ -79,10 +87,12 @@
   </div>
 </div>
 
-<ng-template #basicPlan>
+<ng-template #tier1plan>
   <div class="card">
     <div class="card-title">
-      <span style="color: 1890ff"> Basic </span>
+      <span [style.color]="PlanLabels['tier1'].color">
+        {{ PlanLabels["tier1"].label }}
+      </span>
     </div>
 
     <div class="card-subtitle">
@@ -102,17 +112,20 @@
         </li>
       </ul>
       <div>
-        <div *ngIf="currentPlan !== 'basic'" class="card-actions">
+        <div
+          *ngIf="currentPlan !== PlanLabels['tier1'].value"
+          class="card-actions"
+        >
           <button
             *ngIf="
-              currentPlan === 'plus' ||
-              currentPlan === 'premium' ||
-              currentPlan === 'enterprise'
+              currentPlan === PlanLabels['tier2'].value ||
+              currentPlan === PlanLabels['tier3'].value ||
+              currentPlan === PlanLabels['tier4'].value
             "
             nz-button
             nzType="primary"
             class="button-outlined"
-            (click)="updatePlanDetails('basic')"
+            (click)="updatePlanDetails(PlanLabels['tier1'].value)"
           >
             Downgrade
           </button>
@@ -125,10 +138,12 @@
   </div>
 </ng-template>
 
-<ng-template #plusPlan>
+<ng-template #tier2plan>
   <div style="display: flex; flex-direction: column" class="card">
     <div class="card-title">
-      <span style="color: #096dd9">Plus</span>
+      <span [style.color]="PlanLabels['tier2'].color">{{
+        PlanLabels["tier2"].label
+      }}</span>
     </div>
     <div class="card-subtitle">
       <h4 class="big-title">6.0%</h4>
@@ -157,32 +172,38 @@
         </li>
       </ul>
       <div>
-        <div *ngIf="currentPlan !== 'plus'" class="card-actions">
+        <div
+          *ngIf="currentPlan !== PlanLabels['tier2'].value"
+          class="card-actions"
+        >
           <button
             *ngIf="freeTrialEligible"
             nz-button
             nzType="primary"
-            (click)="updatePlanDetails('plus')"
+            (click)="updatePlanDetails(PlanLabels['tier2'].value)"
           >
             Start 2 Week Free Trial
           </button>
           <button
             *ngIf="
               !freeTrialEligible &&
-              (currentPlan === 'premium' || currentPlan === 'enterprise')
+              (currentPlan === PlanLabels['tier3'].value ||
+                currentPlan === PlanLabels['tier4'].value)
             "
             nz-button
             nzType="primary"
             class="button-outlined"
-            (click)="updatePlanDetails('plus')"
+            (click)="updatePlanDetails(PlanLabels['tier2'].value)"
           >
             Downgrade
           </button>
           <button
-            *ngIf="!freeTrialEligible && currentPlan === 'basic'"
+            *ngIf="
+              !freeTrialEligible && currentPlan === PlanLabels['tier1'].value
+            "
             nz-button
             nzType="primary"
-            (click)="updatePlanDetails('plus')"
+            (click)="updatePlanDetails(PlanLabels['tier2'].value)"
           >
             Upgrade
           </button>
@@ -195,10 +216,12 @@
   </div>
 </ng-template>
 
-<ng-template #premiumPlan
+<ng-template #tier3plan
   ><div style="display: flex; flex-direction: column" class="card">
     <div class="card-title">
-      <span style="color: #faad14">Premium</span>
+      <span [style.color]="PlanLabels['tier3'].color">{{
+        PlanLabels["tier3"].label
+      }}</span>
     </div>
     <div class="card-subtitle">
       <h4 class="big-title">5.0%</h4>
@@ -227,32 +250,38 @@
         </li>
       </ul>
       <div>
-        <div *ngIf="currentPlan !== 'premium'" class="card-actions">
+        <div
+          *ngIf="currentPlan !== PlanLabels['tier3'].value"
+          class="card-actions"
+        >
           <button
             *ngIf="freeTrialEligible"
             nz-button
             nzType="primary"
-            (click)="updatePlanDetails('premium')"
+            (click)="updatePlanDetails(PlanLabels['tier3'].value)"
           >
             Start 2 Week Free Trial
           </button>
           <button
-            *ngIf="!freeTrialEligible && currentPlan === 'enterprise'"
+            *ngIf="
+              !freeTrialEligible && currentPlan === PlanLabels['tier4'].value
+            "
             nz-button
             nzType="primary"
             class="button-outlined"
-            (click)="updatePlanDetails('premium')"
+            (click)="updatePlanDetails(PlanLabels['tier3'].value)"
           >
             Downgrade
           </button>
           <button
             *ngIf="
               !freeTrialEligible &&
-              (currentPlan === 'basic' || currentPlan === 'plus')
+              (currentPlan === PlanLabels['tier1'].value ||
+                currentPlan === PlanLabels['tier2'].value)
             "
             nz-button
             nzType="primary"
-            (click)="updatePlanDetails('premium')"
+            (click)="updatePlanDetails(PlanLabels['tier3'].value)"
           >
             Upgrade
           </button>
@@ -265,10 +294,12 @@
   </div>
 </ng-template>
 
-<ng-template #enterprisePlan>
+<ng-template #tier4plan>
   <div style="display: flex; flex-direction: column" class="card">
     <div class="card-title">
-      <span style="color: #fae014">Enterprise</span>
+      <span [style.color]="PlanLabels['tier4'].color">{{
+        PlanLabels["tier4"].label
+      }}</span>
     </div>
     <div class="card-subtitle">
       <h4 class="big-title">4.0%</h4>
@@ -297,25 +328,28 @@
         </li>
       </ul>
       <div>
-        <div *ngIf="currentPlan !== 'enterprise'" class="card-actions">
+        <div
+          *ngIf="currentPlan !== PlanLabels['tier4'].value"
+          class="card-actions"
+        >
           <button
             *ngIf="freeTrialEligible"
             nz-button
             nzType="primary"
-            (click)="updatePlanDetails('enterprise')"
+            (click)="updatePlanDetails(PlanLabels['tier4'].value)"
           >
             Start 2 Week Free Trial
           </button>
           <button
             *ngIf="
               !freeTrialEligible &&
-              (currentPlan === 'basic' ||
-                currentPlan === 'plus' ||
-                currentPlan === 'premium')
+              (currentPlan === PlanLabels['tier1'].value ||
+                currentPlan === PlanLabels['tier2'].value ||
+                currentPlan === PlanLabels['tier3'].value)
             "
             nz-button
             nzType="primary"
-            (click)="updatePlanDetails('enterprise')"
+            (click)="updatePlanDetails(PlanLabels['tier4'].value)"
           >
             Upgrade
           </button>
@@ -340,7 +374,15 @@
         <p style="margin: 0">
           {{
             "Do you want to convert current plan to " +
-              (PlanLabels[newPlan]?.label ? PlanLabels[newPlan]?.label : "") +
+              (newPlan === PlanLabels["tier1"].value
+                ? PlanLabels["tier1"].label
+                : newPlan === PlanLabels["tier2"].value
+                ? PlanLabels["tier2"].label
+                : newPlan === PlanLabels["tier3"].value
+                ? PlanLabels["tier3"].label
+                : newPlan === PlanLabels["tier4"].value
+                ? PlanLabels["tier4"].label
+                : "") +
               " plan"
           }}
         </p>

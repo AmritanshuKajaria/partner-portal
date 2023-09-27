@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
+import { PlanLabels } from 'src/app/shared/constants/constants';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
@@ -13,6 +14,8 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
   show = false;
   destroy$: Subject<any> = new Subject();
 
+  PlanLabels = PlanLabels;
+
   currentPlan = '';
 
   constructor(private userPermissionService: UserPermissionService) {
@@ -22,7 +25,7 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
         if (res) {
           this.isDataLoaded = true;
           this.currentPlan = res?.current_plan;
-          if (res.current_plan !== 'basic') {
+          if (res.current_plan !== this.PlanLabels['tier1'].value) {
             this.showCalculator = true;
           }
         }

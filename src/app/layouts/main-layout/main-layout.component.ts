@@ -40,11 +40,12 @@ export class MainLayoutComponent implements OnInit {
   }
 
   help() {
-    this.zendeskService.zendeskHelp().subscribe((res: any) => {
-      if (res.url) {
-        window.open(res?.url);
-      }
-    });
+    // this.zendeskService.zendeskHelp().subscribe((res: any) => {
+    //   if (res.url) {
+    //     window.open(res?.url);
+    //   }
+    // });
+    window.open('https://123stores-clarification.paperform.co/');
   }
 
   getLoggedInUser() {

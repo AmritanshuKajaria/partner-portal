@@ -11,9 +11,9 @@
 >
 <ng-template #alertDescription>
   <span
-    >You are currently on the "Basic" Plan. This plan doesn't allow you to set
-    your own retail price. Click <a routerLink="/main/plans">here</a> to
-    upgrade.
+    >You are currently on the "{{ PlanLabels["tier1"].label }}" Plan. This plan
+    doesn't allow you to set your own retail price. Click
+    <a routerLink="/main/plus-plans">here</a> to upgrade.
   </span>
 </ng-template>
 <ng-template #alertIcon>
@@ -50,24 +50,24 @@
     <nz-form-item style="margin-bottom: 10px; width: 50%">
       <div nz-col>
         <div style="font-weight: bold; font-size: 16px">Plan Details</div>
-        <div *ngIf="currentPlan === 'basic'">
-          You are currently on the "Basic" Plan. This plan doesn't allow you to
-          set your own retail price.
+        <div *ngIf="currentPlan === PlanLabels['tier1'].value">
+          You are currently on the "{{ PlanLabels["tier1"].label }}" Plan. This
+          plan doesn't allow you to set your own retail price.
         </div>
-        <div *ngIf="currentPlan === 'plus'">
-          You are currently on the "Plus" Plan. This has a 6.0% order processing
-          fee built into the retail price. This is best for brands that sell up
-          to 100 units or $10,000 in a month.
+        <div *ngIf="currentPlan === PlanLabels['tier2'].value">
+          You are currently on the "{{ PlanLabels["tier2"].label }}" Plan. This
+          has a 6.0% order processing fee built into the retail price. This is
+          best for brands that sell up to 100 units or $10,000 in a month.
         </div>
-        <div *ngIf="currentPlan === 'premium'">
-          You are currently on the "Premium" Plan. This has a 5.0% order
-          processing fee built into the retail price. This is best for brands
-          that sell up to 250 units or $25,000 in a month.
+        <div *ngIf="currentPlan === PlanLabels['tier3'].value">
+          You are currently on the "{{ PlanLabels["tier3"].label }}" Plan. This
+          has a 5.0% order processing fee built into the retail price. This is
+          best for brands that sell up to 250 units or $25,000 in a month.
         </div>
-        <div *ngIf="currentPlan === 'enterprise'">
-          You are currently on the "Enterprise" Plan. This has a 4.0% order
-          processing fee built into the retail price. This is best for brands
-          that sell more than 250 units or $25,000 in a month.
+        <div *ngIf="currentPlan === PlanLabels['tier4'].value">
+          You are currently on the "{{ PlanLabels["tier4"].label }}" Plan. This
+          has a 4.0% order processing fee built into the retail price. This is
+          best for brands that sell more than 250 units or $25,000 in a month.
         </div>
       </div>
       <!-- <nz-form-control>

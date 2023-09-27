@@ -58,14 +58,14 @@ const routes: Routes = [
       import('./calculator/calculator.module').then((m) => m.CalculatorModule),
   },
   {
-    path: 'new-calculator',
+    path: 'retail-pricing',
     loadChildren: () =>
       import('./new-calculator/new-calculator.module').then(
         (m) => m.NewCalculatorModule
       ),
   },
   {
-    path: 'plans',
+    path: 'plus-plans',
     component: PlansComponent,
   },
 ];

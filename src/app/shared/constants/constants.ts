@@ -23,4 +23,24 @@ export const PlanLabels: any = {
     label: 'Enterprise',
     color: '#fae014',
   },
+  tier1: {
+    value: 'basic',
+    label: 'Basic',
+    color: '#1890ff',
+  },
+  tier2: {
+    value: 'starter',
+    label: 'Starter',
+    color: '#096dd9',
+  },
+  tier3: {
+    value: 'pro',
+    label: 'Pro',
+    color: '#faad14',
+  },
+  tier4: {
+    value: 'enterprise',
+    label: 'Enterprise',
+    color: '#fae014',
+  },
 };
