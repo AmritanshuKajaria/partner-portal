@@ -45,7 +45,8 @@ export class MainLayoutComponent implements OnInit {
     //     window.open(res?.url);
     //   }
     // });
-    window.open('https://123stores-clarification.paperform.co/');
+    const lastPart = this.router.url.replace('/main/','');
+    window.open(`https://123stores-clarification.paperform.co/?5k3ps=${lastPart}`);
   }
 
   getLoggedInUser() {
