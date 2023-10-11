@@ -4,9 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
-    "local:start": "ng serve",
+    "local:start": "ng serve --disable-host-check",
     "test:start": "ng serve --c test",
-    "prod:start": "ng serve --c production",
+    "prod:start": "ng serve --c production --disable-host-check",
     "local:build": "ng build",
     "test:build": "ng build --c test",
     "prod:build": "ng build --c production",
