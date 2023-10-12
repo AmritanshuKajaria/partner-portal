@@ -46,27 +46,36 @@
             id="filer_input2"
             multiple="multiple"
             type="file"
+            accept=".xls, .xlsx, .csv"
             formControlName="uploadCreditNote"
             #modelvel
           />
-          <div class="Neon-input-dragDrop">
-            <div
-              *ngIf="modelvel.value == ''; else elseBlock"
-              class="Neon-input-inner"
-            >
-              <div class="Neon-input-icon">
-                <i class="fa fa-file-image-o"></i>
+          <div
+            style="align-items: center; display: flex; flex-direction: column"
+          >
+            <div class="Neon-input-dragDrop">
+              <div
+                *ngIf="modelvel.value == ''; else elseBlock"
+                class="Neon-input-inner"
+              >
+                <div class="Neon-input-icon">
+                  <i class="fa fa-file-image-o"></i>
+                </div>
+                <div class="Neon-input-text">
+                  <h3>Drag&amp;Drop files here</h3>
+                  <span style="display: inline-block; margin: 15px 0">or</span>
+                </div>
+                <a class="Neon-input-choose-btn blue">Browse Files</a>
               </div>
-              <div class="Neon-input-text">
-                <h3>Drag&amp;Drop files here</h3>
-                <span style="display: inline-block; margin: 15px 0">or</span>
-              </div>
-              <a class="Neon-input-choose-btn blue">Browse Files</a>
+              <ng-template #elseBlock
+                ><span nz-icon nzType="file" nzTheme="outline"></span>
+                {{ approveCreditForm.value.uploadCreditNote }}</ng-template
+              >
             </div>
-            <ng-template #elseBlock
-              ><span nz-icon nzType="file" nzTheme="outline"></span>
-              {{ approveCreditForm.value.uploadCreditNote }}</ng-template
-            >
+            <div style="display: flex; flex-direction: column">
+              <span>*only .xls, .xlsx or .csv files supported</span>
+              <span>*max 10 MB file size allowed</span>
+            </div>
           </div>
         </div>
       </nz-form-item>

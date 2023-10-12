@@ -27,6 +27,9 @@ export class AddPromotionsComponent implements OnInit {
   AppDateFormate = AppDateFormate;
   referenceCode = '';
 
+  showFileSizeError = false;
+  maxUploadFileSize = 10;
+
   constructor(
     private promotionsService: PromotionsService,
     private message: NzMessageService,
@@ -46,6 +49,12 @@ export class AddPromotionsComponent implements OnInit {
   }
 
   selectFiles(event: any) {
+    if (event?.target?.files[0].size / 1e6 > this.maxUploadFileSize) {
+      this.showFileSizeError = true;
+      this.add_promotion.get('uploadFile')?.reset();
+      return;
+    }
+    this.showFileSizeError = false;
     this.selectFile = event?.target?.files[0];
   }
 

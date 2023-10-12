@@ -64,6 +64,9 @@ export class AddEditMultipleProductsComponent implements OnInit {
   isLoading: boolean = false;
   referenceCode: any = '';
 
+  showFileSizeError = false;
+  maxUploadFileSize = 10;
+
   constructor(
     private userPermissionService: UserPermissionService,
     private message: NzMessageService,
@@ -112,6 +115,12 @@ export class AddEditMultipleProductsComponent implements OnInit {
   }
 
   selectFiles(event: any) {
+    if (event?.target?.files[0].size / 1e6 > this.maxUploadFileSize) {
+      this.showFileSizeError = true;
+      this.multiProduct.get('uploadFile')?.reset();
+      return;
+    }
+    this.showFileSizeError = false;
     this.selectFile = event?.target?.files[0];
   }
 

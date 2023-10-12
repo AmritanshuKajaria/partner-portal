@@ -15,6 +15,8 @@ export class UploadModelComponent implements OnInit {
   isLoading: boolean = false;
   selectFile: any = '';
   uploadForm!: FormGroup;
+  showFileSizeError = false;
+  maxUploadFileSize = 10;
 
   constructor(
     private inventoryService: InventoryService,
@@ -33,6 +35,12 @@ export class UploadModelComponent implements OnInit {
   }
 
   selectFiles(event: any) {
+    if (event?.target?.files[0].size / 1e6 > this.maxUploadFileSize) {
+      this.showFileSizeError = true;
+      this.uploadForm.get('name')?.reset();
+      return;
+    }
+    this.showFileSizeError = false;
     this.selectFile = event?.target?.files[0];
   }
 
