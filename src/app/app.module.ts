@@ -23,7 +23,12 @@ import { ShowMyIpComponent } from './components/show-my-ip/show-my-ip.component'
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, MainLayoutComponent, AuthLayoutComponent, ShowMyIpComponent],
+  declarations: [
+    AppComponent,
+    MainLayoutComponent,
+    AuthLayoutComponent,
+    ShowMyIpComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -38,6 +43,7 @@ registerLocaleData(en);
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US },
+    // { provide: 'googleTagManagerId', useValue: 'GTM-KM84SJMX' },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
