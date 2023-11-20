@@ -11,6 +11,7 @@ export class OrdersSectionComponent implements OnInit {
   newTotal: number = 0;
   pendingShipmentTotal: number = 0;
   cancellationRequestedTotal: number = 0;
+  pendingInvoiceTotal: number = 0;
   inTransitTotal: number = 0;
   deliveredTotal: number = 0;
   allTotal: number = 0;
@@ -35,6 +36,9 @@ export class OrdersSectionComponent implements OnInit {
         break;
       case 'cancellation-requested':
         this.cancellationRequestedTotal = total;
+        break;
+      case 'pending-invoice':
+        this.pendingInvoiceTotal = total;
         break;
       case 'in-transit':
         this.inTransitTotal = total;

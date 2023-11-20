@@ -11,11 +11,14 @@ export class FilterSectionComponent implements OnInit {
   @Output() changeData = new EventEmitter();
 
   @Input() rangeDate: string = '';
+  @Input() shipDate: string = '';
   @Input() shipOutLocation: string = '';
-  @Input() sku: string = '';
+  @Input() mpn: string = '';
   @Input() carrier: string = '';
   @Input() committedShipDate: string = '';
   @Input() status: string = '';
+  @Input() lateStatus: string = '';
+  @Input() invoiceStatus: string = '';
 
   @Input() tabName: string = '';
   accountSearch = new Subject<any>();
@@ -24,7 +27,7 @@ export class FilterSectionComponent implements OnInit {
     this.accountSearch
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
-        this.changeValue(value.target.value ? value.target.value : '', 'sku');
+        this.changeValue(value.target.value ? value.target.value : '', 'mpn');
       });
   }
   ngOnInit(): void {}

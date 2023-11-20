@@ -20,17 +20,39 @@
         <th>Products</th>
         <th>PO Total</th>
 
-        <th *ngIf="tabName === 'new' || tabName === 'pending-shipment'">
+        <th
+          *ngIf="
+            tabName === 'new' ||
+            tabName === 'pending-shipment' ||
+            tabName === 'All'
+          "
+        >
           Committed Ship Date
         </th>
         <th
           *ngIf="
             tabName === 'new' ||
             tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
+            tabName === 'Cancellation Requested' ||
+            tabName === 'All'
           "
         >
-          Cancel After Date
+          {{
+            tabName === "Cancellation Requested"
+              ? "Action by Date"
+              : "Cancel After Date"
+          }}
+        </th>
+        <th *ngIf="tabName === 'pending-invoice'">Ship Date</th>
+        <th>Carrier</th>
+        <th
+          *ngIf="
+            tabName === 'pending-shipment' ||
+            tabName === 'Cancellation Requested' ||
+            tabName === 'pending-invoice'
+          "
+        >
+          Tracking (array)
         </th>
         <th
           *ngIf="
@@ -38,31 +60,21 @@
             tabName === 'Cancellation Requested'
           "
         >
-          Tracking
+          {{
+            tabName === "pending-shipment"
+              ? "Shipping Status"
+              : "Request Status"
+          }}
         </th>
-        <th
-          *ngIf="
-            tabName === 'new' ||
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
-          "
-        >
-          Carrier
-        </th>
-        <th
-          *ngIf="
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
-          "
-        >
-          PO Status
-        </th>
+        <th *ngIf="tabName === 'pending-shipment'">Late Status</th>
+        <th *ngIf="tabName === 'pending-invoice'">Invoice Status</th>
         <th
           style="width: 200px"
           *ngIf="
             tabName === 'new' ||
             tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
+            tabName === 'Cancellation Requested' ||
+            tabName === 'pending-invoice'
           "
         >
           Action
@@ -124,34 +136,37 @@
           </ul>
         </td>
         <td>{{ data.po_total | currency }}</td>
-        <td *ngIf="tabName === 'new' || tabName === 'pending-shipment'">
+        <td
+          *ngIf="
+            tabName === 'new' ||
+            tabName === 'pending-shipment' ||
+            tabName === 'All'
+          "
+        >
           {{ data.committed_ship_date | date : "MM-dd-yyyy" }}
         </td>
         <td
           *ngIf="
             tabName === 'new' ||
             tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
+            tabName === 'Cancellation Requested' ||
+            tabName === 'All'
           "
         >
           {{ data.cancel_after_date | date : "MM-dd-yyyy" }}
         </td>
-        <td
-          *ngIf="
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
-          "
-        >
-          {{ data?.tracking }}
+        <td *ngIf="tabName === 'pending-invoice'">Ship Date</td>
+        <td>
+          {{ data?.carrier }}
         </td>
         <td
           *ngIf="
-            tabName === 'new' ||
             tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
+            tabName === 'Cancellation Requested' ||
+            tabName === 'pending-invoice'
           "
         >
-          {{ data?.carrier }}
+          {{ data?.tracking }}
         </td>
         <td
           *ngIf="
@@ -161,11 +176,14 @@
         >
           {{ data?.po_status }}
         </td>
+        <td *ngIf="tabName === 'pending-shipment'">Late Status</td>
+        <td *ngIf="tabName === 'pending-invoice'">Invoice Status</td>
         <td
           *ngIf="
             tabName === 'new' ||
             tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
+            tabName === 'Cancellation Requested' ||
+            tabName === 'pending-invoice'
           "
         >
           <div
@@ -197,7 +215,7 @@
                 style="border: 1px solid #ffc107; color: #ffc107"
                 nz-button
               >
-                Upload invoice
+                Upload Invoice
               </button>
               <button
                 style="border: 1px solid #dc3545; color: #dc3545"
@@ -258,29 +276,88 @@
             </nz-dropdown-menu>
           </div>
 
-          <div class="action-btn" *ngIf="tabName === 'Cancellation Requested'">
-            <button
-              style="border: 1px solid #17a2b8; color: #17a2b8"
-              nz-button
-              (click)="acceptCancellation(data?.po_no)"
-            >
-              Confirm Cancellation
-            </button>
-            <button
-              *ngIf="data.already_ship_button"
-              style="border: 1px solid #28a745; color: #28a745"
-              nz-button
-              (click)="markOrderShipped(data?.po_no)"
-            >
-              Already Shipped
-            </button>
-            <button
-              *ngIf="data.already_manifest_button"
-              style="border: 1px solid #007bff; color: #007bff"
-              nz-button
-            >
-              Already Manifested
-            </button>
+          <div
+            style="display: flex"
+            *ngIf="tabName === 'Cancellation Requested'"
+          >
+            <div class="action-btn">
+              <button
+                style="border: 1px solid #17a2b8; color: #17a2b8"
+                nz-button
+                (click)="acceptCancellation(data?.po_no)"
+              >
+                Confirm Cancellation
+              </button>
+              <button
+                *ngIf="data.already_ship_button"
+                style="border: 1px solid #28a745; color: #28a745"
+                nz-button
+                (click)="markOrderShipped(data?.po_no)"
+              >
+                Already Shipped
+              </button>
+              <button
+                *ngIf="data.already_manifest_button"
+                style="border: 1px solid #007bff; color: #007bff"
+                nz-button
+              >
+                Already Manifested
+              </button>
+            </div>
+            <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li
+                  (click)="selectAction(data?.po_no, 'Download PO')"
+                  nz-menu-item
+                >
+                  Download PO
+                </li>
+                <li
+                  (click)="selectAction(data?.po_no, 'PO Clarification')"
+                  nz-menu-item
+                >
+                  PO Clarification
+                </li>
+              </ul>
+            </nz-dropdown-menu>
+          </div>
+
+          <!-- Pending invoice -->
+          <div style="display: flex" *ngIf="tabName === 'pending-invoice'">
+            <div class="action-btn">
+              <button
+                *ngIf="data?.upload_invoice_button"
+                style="border: 1px solid #ffc107; color: #ffc107"
+                nz-button
+              >
+                Upload Invoice
+              </button>
+              <button
+                style="border: 1px solid #dc3545; color: #dc3545"
+                nz-button
+                (click)="selectAction(data?.po_no, 'Cancel Order')"
+              >
+                Cancel Invoice
+              </button>
+            </div>
+            <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+              <ul nz-menu>
+                <li
+                  (click)="selectAction(data?.po_no, 'Download PO')"
+                  nz-menu-item
+                >
+                  Download PO
+                </li>
+                <li
+                  (click)="selectAction(data?.po_no, 'PO Clarification')"
+                  nz-menu-item
+                >
+                  PO Clarification
+                </li>
+              </ul>
+            </nz-dropdown-menu>
           </div>
         </td>
 

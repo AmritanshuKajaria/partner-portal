@@ -34,11 +34,11 @@ export class DeliveredComponent implements OnInit {
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
-  skuCount: number = 0;
+  mpnCount: number = 0;
   carrierCount: number = 0;
   rangeDateCount: number = 0;
 
-  selectSku: string = '';
+  selectMPN: string = '';
   selectCarrier: string = '';
   search_term: string = '';
   selectRangeDate: string = '';
@@ -49,7 +49,7 @@ export class DeliveredComponent implements OnInit {
   constructor(private ordersService: OrdersService) {
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
@@ -102,7 +102,7 @@ export class DeliveredComponent implements OnInit {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
@@ -127,9 +127,9 @@ export class DeliveredComponent implements OnInit {
       switch (data.type) {
         case 'sku':
           this.clear_btn = true;
-          this.selectSku = data.value;
-          if (this.skuCount === 0) {
-            this.skuCount++;
+          this.selectMPN = data.value;
+          if (this.mpnCount === 0) {
+            this.mpnCount++;
             this.badgeTotal++;
           }
           break;
@@ -158,7 +158,7 @@ export class DeliveredComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
@@ -166,7 +166,7 @@ export class DeliveredComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'Delivered',
-        filter_sku: this.selectSku,
+        filter_sku: this.selectMPN,
         filter_ship_out_location: '',
         filter_carrier: this.selectCarrier,
         filter_committed_ship_date: '',
@@ -177,8 +177,8 @@ export class DeliveredComponent implements OnInit {
       if (this.badgeTotal > 0 && data.value !== null) {
         switch (data.type) {
           case 'sku':
-            this.selectSku = '';
-            this.skuCount = 0;
+            this.selectMPN = '';
+            this.mpnCount = 0;
             this.badgeTotal--;
             break;
           case 'carrier':
@@ -194,7 +194,7 @@ export class DeliveredComponent implements OnInit {
         }
         this.getOrderList(
           this.pageIndex,
-          this.selectSku,
+          this.selectMPN,
           this.selectCarrier,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
@@ -202,7 +202,7 @@ export class DeliveredComponent implements OnInit {
         );
         this.listOfFilter = {
           filter_po_list_type: 'Delivered',
-          filter_sku: this.selectSku,
+          filter_sku: this.selectMPN,
           filter_ship_out_location: '',
           filter_carrier: this.selectCarrier,
           filter_committed_ship_date: '',
@@ -214,11 +214,11 @@ export class DeliveredComponent implements OnInit {
   }
 
   tagRemove() {
-    this.selectSku = '';
+    this.selectMPN = '';
     this.selectCarrier = '';
     this.selectRangeDate = '';
 
-    this.skuCount = 0;
+    this.mpnCount = 0;
     this.carrierCount = 0;
     this.rangeDateCount = 0;
 
@@ -227,7 +227,7 @@ export class DeliveredComponent implements OnInit {
     this.clear_btn = false;
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
@@ -235,7 +235,7 @@ export class DeliveredComponent implements OnInit {
     );
     this.listOfFilter = {
       filter_po_list_type: 'Delivered',
-      filter_sku: this.selectSku,
+      filter_sku: this.selectMPN,
       filter_ship_out_location: '',
       filter_carrier: this.selectCarrier,
       filter_committed_ship_date: '',
@@ -248,8 +248,8 @@ export class DeliveredComponent implements OnInit {
     if (type) {
       switch (type) {
         case 'sku':
-          this.selectSku = '';
-          this.skuCount = 0;
+          this.selectMPN = '';
+          this.mpnCount = 0;
           this.badgeTotal--;
           this.filter.controls['sku'].reset();
           break;
@@ -267,7 +267,7 @@ export class DeliveredComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
@@ -275,7 +275,7 @@ export class DeliveredComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'Delivered',
-        filter_sku: this.selectSku,
+        filter_sku: this.selectMPN,
         filter_ship_out_location: '',
         filter_carrier: this.selectCarrier,
         filter_committed_ship_date: '',

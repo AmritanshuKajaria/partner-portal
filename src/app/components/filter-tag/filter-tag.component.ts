@@ -11,11 +11,13 @@ export class FilterTagComponent implements OnInit {
   // @Input() clear_btn: boolean = false;
   @Input() badgeTotal: number = 0;
   @Input() selectLocation = '';
-  @Input() selectSku = '';
+  @Input() selectMPN = '';
   @Input() selectCarrier = '';
   @Input() selectDate = '';
   @Input() selectStatus = '';
   @Input() selectRangeDate = '';
+  @Input() selectShipDate: string = '';
+  @Input() selectInvoiceStatus: string = '';
 
   constructor() {}
 

@@ -1,14 +1,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   OnInit,
   Output,
   ViewChild,
+  EventEmitter,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { endOfMonth } from 'date-fns';
-import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -16,100 +14,94 @@ import {
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
-  selector: 'app-all-orders',
-  templateUrl: './all-orders.component.html',
-  styleUrls: ['./all-orders.component.scss'],
+  selector: 'app-pending-invoice',
+  templateUrl: './pending-invoice.component.html',
+  styleUrls: ['./pending-invoice.component.scss'],
 })
-export class AllOrdersComponent implements OnInit {
+export class PendingInvoiceComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Output() totalData = new EventEmitter();
-  total = 1;
+
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
   isLoading: boolean = false;
+  isCancelOrderVisible: boolean = false;
   mode = 'date';
-  filter!: FormGroup;
-  allOrdersData: any[] = [];
+  pendingInvoiceData: any[] = [];
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
   locationCount: number = 0;
   mpnCount: number = 0;
-  carrierCount: number = 0;
-  statusCount = 0;
-  dateCount: number = 0;
   rangeDateCount: number = 0;
+  shipDateCount: number = 0;
+  invoiceStatusCount: number = 0;
 
   selectLocation: string = '';
   selectMPN: string = '';
-  selectCarrier: string = '';
-  selectStatus = '';
-  selectDate: string = '';
-  search_term: string = '';
   selectRangeDate: string = '';
+  search_term: string = '';
+  selectShipDate: string = '';
+  selectInvoiceStatus: string = '';
+
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
-  statusEnum: typeof StatusEnum = StatusEnum;
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
-      this.selectDate,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
-      this.search_term
+      this.search_term,
+      this.selectShipDate[0],
+      this.selectShipDate[1],
+      this.selectInvoiceStatus
     );
   }
 
-  ngOnInit(): void {
-    this.filter = new FormGroup({
-      shipOutLocation: new FormControl(''),
-      sku: new FormControl(''),
-      carrier: new FormControl(''),
-      committedShipDate: new FormControl(''),
-      status: new FormControl(''),
-    });
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
     sku?: string,
     ship_out_location?: string,
-    carrier?: string,
-    committed_ship_date?: string,
     from_po_date?: string,
     to_po_date?: string,
-    search_term?: string
+    search_term?: string,
+    selectShipDate1?: string,
+    selectShipDate2?: string,
+    selectInvoiceStatus?: string
   ) {
     this.isLoading = true;
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 5,
+        type: 4,
         sku: sku,
         ship_out_location: ship_out_location,
-        carrier: carrier,
-        committed_ship_date: committed_ship_date,
         from_po_date: from_po_date,
         to_po_date: to_po_date,
         search_term: search_term,
       })
-      .subscribe(
-        (response: GetAllOrders) => {
+      .subscribe({
+        next: (response: GetAllOrders) => {
           if (response.success) {
             this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
             this.totalData.emit(this.total);
-            this.allOrdersData = response.orders ?? [];
+            this.pendingInvoiceData = response.orders ?? [];
           } else {
             this.isLoading = false;
           }
         },
-        (err) => (this.isLoading = true)
-      );
+        error: (err) => (this.isLoading = true),
+      });
   }
 
   searchDataChanges(event: string) {
@@ -118,16 +110,14 @@ export class AllOrdersComponent implements OnInit {
       this.pageIndex,
       this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
-      this.selectDate,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
-      this.search_term
+      this.search_term,
+      this.selectShipDate[0],
+      this.selectShipDate[1],
+      this.selectInvoiceStatus
     );
   }
-  // onChange(result: Date[]): void {
-  //   console.log('From: ', result[0], ', to: ', result[1]);
-  // }
 
   openNav() {
     this.sidenavSection.nativeElement.style.width = '280px';
@@ -156,7 +146,7 @@ export class AllOrdersComponent implements OnInit {
             }
           }
           break;
-        case 'sku':
+        case 'mpn':
           this.clear_btn = true;
           this.selectMPN = data.value;
           if (this.mpnCount === 0) {
@@ -164,18 +154,20 @@ export class AllOrdersComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
-        case 'carrier':
-          if (
-            data.value === 'carrier1' ||
-            data.value === 'carrier2' ||
-            data.value === 'carrier3'
-          ) {
-            this.clear_btn = true;
-            this.selectCarrier = data.value;
-            if (this.carrierCount === 0) {
-              this.carrierCount++;
-              this.badgeTotal++;
-            }
+        case 'shipDate':
+          this.clear_btn = true;
+          this.selectShipDate = data.value;
+          if (this.shipDateCount === 0) {
+            this.shipDateCount++;
+            this.badgeTotal++;
+          }
+          break;
+        case 'invoiceStatus':
+          this.clear_btn = true;
+          this.selectInvoiceStatus = data.value;
+          if (this.invoiceStatusCount === 0) {
+            this.invoiceStatusCount++;
+            this.badgeTotal++;
           }
           break;
         case 'rangeDate':
@@ -186,49 +178,23 @@ export class AllOrdersComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
-        case 'status':
-          if (
-            data.value === 'New' ||
-            data.value === 'Pending Shipment' ||
-            data.value === 'In-Transit' ||
-            data.value === 'Delivered' ||
-            data.value === 'Cancellation Requested' ||
-            data.value === 'Cancelled' ||
-            data.value === 'RTO'
-          ) {
-            this.clear_btn = true;
-            this.selectStatus = data.value;
-            if (this.statusCount === 0) {
-              this.statusCount++;
-              this.badgeTotal++;
-            }
-          }
-          break;
-        default:
-          this.clear_btn = true;
-          this.selectDate = data.value;
-          if (this.dateCount === 0) {
-            this.dateCount++;
-            this.badgeTotal++;
-          }
-          break;
       }
+
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,
         this.selectLocation,
-        this.selectCarrier,
-        this.selectDate,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
-        this.search_term
+        this.search_term,
+        this.selectShipDate[0],
+        this.selectShipDate[1],
+        this.selectInvoiceStatus
       );
       this.listOfFilter = {
-        filter_po_list_type: 'All',
+        filter_po_list_type: 'pending-invoice',
         filter_sku: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
-        filter_carrier: this.selectCarrier,
-        filter_committed_ship_date: this.selectDate,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
       };
@@ -245,43 +211,39 @@ export class AllOrdersComponent implements OnInit {
             this.mpnCount = 0;
             this.badgeTotal--;
             break;
-          case 'carrier':
-            this.selectCarrier = '';
-            this.carrierCount = 0;
-            this.badgeTotal--;
-            break;
           case 'rangeDate':
             this.selectRangeDate = '';
             this.rangeDateCount = 0;
             this.badgeTotal--;
             break;
-          case 'status':
-            this.selectStatus = '';
-            this.statusCount = 0;
+          case 'shipDate':
+            this.selectShipDate = '';
+            this.shipDateCount === 0;
             this.badgeTotal--;
+
             break;
-          default:
-            this.selectDate = '';
-            this.dateCount = 0;
+          case 'invoiceStatus':
+            this.selectInvoiceStatus = '';
+            this.invoiceStatusCount === 0;
             this.badgeTotal--;
+
             break;
         }
         this.getOrderList(
           this.pageIndex,
           this.selectMPN,
           this.selectLocation,
-          this.selectCarrier,
-          this.selectDate,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
-          this.search_term
+          this.search_term,
+          this.selectShipDate[0],
+          this.selectShipDate[1],
+          this.selectInvoiceStatus
         );
         this.listOfFilter = {
-          filter_po_list_type: 'All',
+          filter_po_list_type: 'pending-invoice',
           filter_sku: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
-          filter_carrier: this.selectCarrier,
-          filter_committed_ship_date: this.selectDate,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
         };
@@ -292,38 +254,33 @@ export class AllOrdersComponent implements OnInit {
   tagRemove() {
     this.selectLocation = '';
     this.selectMPN = '';
-    this.selectCarrier = '';
-    this.selectStatus = '';
-    this.selectDate = '';
     this.selectRangeDate = '';
+    this.selectShipDate = '';
+    this.selectInvoiceStatus = '';
 
     this.locationCount = 0;
     this.mpnCount = 0;
-    this.carrierCount = 0;
-    this.statusCount = 0;
-    this.dateCount = 0;
     this.rangeDateCount = 0;
+    this.shipDateCount = 0;
+    this.invoiceStatusCount = 0;
 
-    this.filter.reset();
     this.badgeTotal = 0;
     this.clear_btn = false;
-    console.log(this.badgeTotal);
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
-      this.selectDate,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
-      this.search_term
+      this.search_term,
+      this.selectShipDate[0],
+      this.selectShipDate[1],
+      this.selectInvoiceStatus
     );
     this.listOfFilter = {
-      filter_po_list_type: 'All',
+      filter_po_list_type: 'pending-invoice',
       filter_sku: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
-      filter_carrier: this.selectCarrier,
-      filter_committed_ship_date: this.selectDate,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
     };
@@ -342,9 +299,14 @@ export class AllOrdersComponent implements OnInit {
           this.mpnCount = 0;
           this.badgeTotal--;
           break;
-        case 'carrier':
-          this.selectCarrier = '';
-          this.carrierCount = 0;
+        case 'shipDate':
+          this.selectShipDate = '';
+          this.shipDateCount = 0;
+          this.badgeTotal--;
+          break;
+        case 'invoiceStatus':
+          this.selectInvoiceStatus = '';
+          this.invoiceStatusCount = 0;
           this.badgeTotal--;
           break;
         case 'rangeDate':
@@ -352,33 +314,22 @@ export class AllOrdersComponent implements OnInit {
           this.rangeDateCount = 0;
           this.badgeTotal--;
           break;
-        case 'status':
-          this.selectStatus = '';
-          this.statusCount = 0;
-          this.badgeTotal--;
-          break;
-        default:
-          this.selectDate = '';
-          this.dateCount = 0;
-          this.badgeTotal--;
-          break;
       }
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,
         this.selectLocation,
-        this.selectCarrier,
-        this.selectDate,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
-        this.search_term
+        this.search_term,
+        this.selectShipDate[0],
+        this.selectShipDate[1],
+        this.selectInvoiceStatus
       );
       this.listOfFilter = {
-        filter_po_list_type: 'All',
+        filter_po_list_type: 'pending-invoice',
         filter_sku: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
-        filter_carrier: this.selectCarrier,
-        filter_committed_ship_date: this.selectDate,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
       };

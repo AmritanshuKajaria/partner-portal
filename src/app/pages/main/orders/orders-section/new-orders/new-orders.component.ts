@@ -35,13 +35,13 @@ export class NewOrdersComponent implements OnInit {
 
   badgeTotal: number = 0;
   locationCount: number = 0;
-  skuCount: number = 0;
+  mpnCount: number = 0;
   carrierCount: number = 0;
   dateCount: number = 0;
   rangeDateCount: number = 0;
 
   selectLocation: string = '';
-  selectSku: string = '';
+  selectMPN: string = '';
   selectCarrier: string = '';
   selectDate: string = '';
   selectRangeDate: string = '';
@@ -56,7 +56,7 @@ export class NewOrdersComponent implements OnInit {
   ) {
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
       this.selectDate,
@@ -70,7 +70,7 @@ export class NewOrdersComponent implements OnInit {
 
   getOrderList(
     page: number,
-    sku?: string,
+    mpn?: string,
     ship_out_location?: string,
     carrier?: string,
     committed_ship_date?: string,
@@ -83,7 +83,7 @@ export class NewOrdersComponent implements OnInit {
       .getAllOrder({
         page: page,
         type: 1,
-        sku: sku,
+        sku: mpn,
         ship_out_location: ship_out_location,
         carrier: carrier,
         committed_ship_date: committed_ship_date,
@@ -110,7 +110,7 @@ export class NewOrdersComponent implements OnInit {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
       this.selectDate,
@@ -147,11 +147,11 @@ export class NewOrdersComponent implements OnInit {
             }
           }
           break;
-        case 'sku':
+        case 'mpn':
           this.clear_btn = true;
-          this.selectSku = data.value;
-          if (this.skuCount === 0) {
-            this.skuCount++;
+          this.selectMPN = data.value;
+          if (this.mpnCount === 0) {
+            this.mpnCount++;
             this.badgeTotal++;
           }
           break;
@@ -189,7 +189,7 @@ export class NewOrdersComponent implements OnInit {
 
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectLocation,
         this.selectCarrier,
         this.selectDate,
@@ -199,7 +199,7 @@ export class NewOrdersComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'New',
-        filter_sku: this.selectSku,
+        filter_sku: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
         filter_committed_ship_date: this.selectDate,
@@ -215,8 +215,8 @@ export class NewOrdersComponent implements OnInit {
             this.badgeTotal--;
             break;
           case 'sku':
-            this.selectSku = '';
-            this.skuCount = 0;
+            this.selectMPN = '';
+            this.mpnCount = 0;
             this.badgeTotal--;
             break;
           case 'carrier':
@@ -237,7 +237,7 @@ export class NewOrdersComponent implements OnInit {
         }
         this.getOrderList(
           this.pageIndex,
-          this.selectSku,
+          this.selectMPN,
           this.selectLocation,
           this.selectCarrier,
           this.selectDate,
@@ -247,7 +247,7 @@ export class NewOrdersComponent implements OnInit {
         );
         this.listOfFilter = {
           filter_po_list_type: 'New',
-          filter_sku: this.selectSku,
+          filter_sku: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
           filter_carrier: this.selectCarrier,
           filter_committed_ship_date: this.selectDate,
@@ -260,13 +260,13 @@ export class NewOrdersComponent implements OnInit {
 
   tagRemove() {
     this.selectLocation = '';
-    this.selectSku = '';
+    this.selectMPN = '';
     this.selectCarrier = '';
     this.selectDate = '';
     this.selectRangeDate = '';
 
     this.locationCount = 0;
-    this.skuCount = 0;
+    this.mpnCount = 0;
     this.carrierCount = 0;
     this.dateCount = 0;
     this.rangeDateCount = 0;
@@ -275,7 +275,7 @@ export class NewOrdersComponent implements OnInit {
     this.clear_btn = false;
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
       this.selectDate,
@@ -285,7 +285,7 @@ export class NewOrdersComponent implements OnInit {
     );
     this.listOfFilter = {
       filter_po_list_type: 'New',
-      filter_sku: this.selectSku,
+      filter_sku: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
       filter_carrier: this.selectCarrier,
       filter_committed_ship_date: this.selectDate,
@@ -303,8 +303,8 @@ export class NewOrdersComponent implements OnInit {
           this.badgeTotal--;
           break;
         case 'sku':
-          this.selectSku = '';
-          this.skuCount = 0;
+          this.selectMPN = '';
+          this.mpnCount = 0;
           this.badgeTotal--;
           break;
         case 'carrier':
@@ -325,7 +325,7 @@ export class NewOrdersComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectLocation,
         this.selectCarrier,
         this.selectDate,
@@ -335,7 +335,7 @@ export class NewOrdersComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'New',
-        filter_sku: this.selectSku,
+        filter_sku: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
         filter_committed_ship_date: this.selectDate,

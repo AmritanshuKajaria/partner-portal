@@ -1,4 +1,4 @@
-<div #section class="in-transit-section">
+<div #section class="new-order-section">
   <div class="body-section">
     <app-date-range
       (export)="isExportVisible = true"
@@ -12,32 +12,33 @@
         (closeTag)="close($event)"
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
+        [selectLocation]="selectLocation"
         [selectMPN]="selectMPN"
-        [selectCarrier]="selectCarrier"
-        [selectStatus]="selectStatus"
         [selectRangeDate]="selectRangeDate"
+        [selectShipDate]="selectShipDate"
+        [selectInvoiceStatus]="selectInvoiceStatus"
       ></app-filter-tag>
     </div>
 
     <app-order-table
-      [listOfData]="inTransitData"
+      [listOfData]="pendingInvoiceData"
       [total]="total"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       [isLoading]="isLoading"
-      [tabName]="'In Transit'"
+      [tabName]="'pending-invoice'"
     ></app-order-table>
   </div>
-
   <div #mySidenav class="filter-section">
     <app-filter-section
       (closeNav)="closeNav()"
       (changeData)="change($event)"
+      [shipOutLocation]="selectLocation"
       [mpn]="selectMPN"
-      [carrier]="selectCarrier"
-      [status]="selectStatus"
       [rangeDate]="selectRangeDate"
-      [tabName]="'inTransit'"
+      [shipDate]="selectShipDate"
+      [invoiceStatus]="selectInvoiceStatus"
+      [tabName]="'pending-invoice'"
     ></app-filter-section>
   </div>
 

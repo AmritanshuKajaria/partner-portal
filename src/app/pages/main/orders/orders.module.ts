@@ -17,6 +17,7 @@ import { AllOrdersComponent } from './orders-section/all-orders/all-orders.compo
 import { CancelOrderComponent } from './orders-section/cancel-order/cancel-order.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { OrderTableComponent } from './orders-section/order-table/order-table.component';
+import { PendingInvoiceComponent } from './orders-section/pending-invoice/pending-invoice.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { OrderTableComponent } from './orders-section/order-table/order-table.co
     AllOrdersComponent,
     CancelOrderComponent,
     OrderTableComponent,
+    PendingInvoiceComponent,
   ],
   imports: [
     CommonModule,

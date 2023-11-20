@@ -39,7 +39,7 @@ export class InTransitComponent implements OnInit {
   rangeDateCount: number = 0;
 
   selectStatus: string = '';
-  selectSku: string = '';
+  selectMPN: string = '';
   selectCarrier: string = '';
   selectRangeDate: string = '';
   search_term: string = '';
@@ -51,7 +51,7 @@ export class InTransitComponent implements OnInit {
   constructor(private ordersService: OrdersService) {
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
@@ -99,7 +99,7 @@ export class InTransitComponent implements OnInit {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
@@ -135,7 +135,7 @@ export class InTransitComponent implements OnInit {
           break;
         case 'sku':
           this.clear_btn = true;
-          this.selectSku = data.value;
+          this.selectMPN = data.value;
           if (this.skuCount === 0) {
             this.skuCount++;
             this.badgeTotal++;
@@ -166,7 +166,7 @@ export class InTransitComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
@@ -174,7 +174,7 @@ export class InTransitComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'New',
-        filter_sku: this.selectSku,
+        filter_sku: this.selectMPN,
         filter_ship_out_location: '',
         filter_carrier: this.selectCarrier,
         filter_committed_ship_date: '',
@@ -190,7 +190,7 @@ export class InTransitComponent implements OnInit {
             this.badgeTotal--;
             break;
           case 'sku':
-            this.selectSku = '';
+            this.selectMPN = '';
             this.skuCount = 0;
             this.badgeTotal--;
             break;
@@ -207,7 +207,7 @@ export class InTransitComponent implements OnInit {
         }
         this.getOrderList(
           this.pageIndex,
-          this.selectSku,
+          this.selectMPN,
           this.selectCarrier,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
@@ -215,7 +215,7 @@ export class InTransitComponent implements OnInit {
         );
         this.listOfFilter = {
           filter_po_list_type: 'New',
-          filter_sku: this.selectSku,
+          filter_sku: this.selectMPN,
           filter_ship_out_location: '',
           filter_carrier: this.selectCarrier,
           filter_committed_ship_date: '',
@@ -228,7 +228,7 @@ export class InTransitComponent implements OnInit {
 
   tagRemove() {
     this.selectStatus = '';
-    this.selectSku = '';
+    this.selectMPN = '';
     this.selectCarrier = '';
     this.selectRangeDate = '';
 
@@ -241,7 +241,7 @@ export class InTransitComponent implements OnInit {
     this.clear_btn = false;
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
@@ -249,7 +249,7 @@ export class InTransitComponent implements OnInit {
     );
     this.listOfFilter = {
       filter_po_list_type: 'New',
-      filter_sku: this.selectSku,
+      filter_sku: this.selectMPN,
       filter_ship_out_location: '',
       filter_carrier: this.selectCarrier,
       filter_committed_ship_date: '',
@@ -267,7 +267,7 @@ export class InTransitComponent implements OnInit {
           this.badgeTotal--;
           break;
         case 'sku':
-          this.selectSku = '';
+          this.selectMPN = '';
           this.skuCount = 0;
           this.badgeTotal--;
           break;
@@ -284,7 +284,7 @@ export class InTransitComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
@@ -292,7 +292,7 @@ export class InTransitComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'New',
-        filter_sku: this.selectSku,
+        filter_sku: this.selectMPN,
         filter_ship_out_location: '',
         filter_carrier: this.selectCarrier,
         filter_committed_ship_date: '',

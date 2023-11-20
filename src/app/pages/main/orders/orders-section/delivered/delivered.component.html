@@ -12,7 +12,7 @@
         (closeTag)="close($event)"
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
-        [selectSku]="selectSku"
+        [selectMPN]="selectMPN"
         [selectCarrier]="selectCarrier"
         [selectRangeDate]="selectRangeDate"
       ></app-filter-tag>
@@ -32,7 +32,7 @@
     <app-filter-section
       (closeNav)="closeNav()"
       (changeData)="change($event)"
-      [sku]="selectSku"
+      [mpn]="selectMPN"
       [carrier]="selectCarrier"
       [rangeDate]="selectRangeDate"
       [tabName]="'delivered'"

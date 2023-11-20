@@ -15,7 +15,7 @@ export class OrderTableComponent implements OnInit {
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
   @Input() listOfData: any[] = [];
-  @Input() tabName: string = '';
+  @Input() tabName: string | any = '';
 
   @Output() changeModel = new EventEmitter();
 
