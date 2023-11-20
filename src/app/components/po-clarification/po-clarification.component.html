@@ -2,29 +2,65 @@
   <div style="padding: 15px">
     <form [formGroup]="poClarificationForm">
       <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24">Subject</nz-form-label>
-        <nz-form-control [nzSm]="20" [nzXs]="24">
+        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>
+          Kindly provide some details so we could investigation issue before
+          reaching out to you
+        </nz-form-label>
+        <nz-form-control [nzSm]="24" [nzXs]="24">
           <nz-input-group>
             <input
-              formControlName="subject"
+              formControlName="detail"
               [readonly]="true"
               type="text"
               nz-input
-              placeholder="Enter subject"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <p>
+        If you'd like us to reach back to you regarding this Purchase Order,
+        kindly let us know whom we should reach out to and how we should reach
+        out.
+      </p>
+      <nz-form-item>
+        <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>Name</nz-form-label>
+        <nz-form-control [nzSm]="20" [nzXs]="24">
+          <nz-input-group>
+            <input
+              formControlName="name"
+              [readonly]="true"
+              type="text"
+              nz-input
+              placeholder="Enter Name"
             />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24">Comment</nz-form-label>
+        <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>Email</nz-form-label>
         <nz-form-control [nzSm]="20" [nzXs]="24">
           <nz-input-group>
-            <angular-editor
-              formControlName="commentBox"
-              [placeholder]="'Enter text here...'"
-              [config]="editorConfig"
-            >
-            </angular-editor>
+            <input
+              formControlName="email"
+              [readonly]="true"
+              type="text"
+              nz-input
+              placeholder="Enter Email"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>Phone</nz-form-label>
+        <nz-form-control [nzSm]="20" [nzXs]="24">
+          <nz-input-group>
+            <input
+              formControlName="phone"
+              [readonly]="true"
+              type="text"
+              nz-input
+              placeholder="Enter Phone"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
