@@ -1,11 +1,11 @@
 <div class="export-model">
   <div style="padding: 15px">
     <form [formGroup]="poClarificationForm">
+      <p>
+        Kindly provide some details so we could investigation issue before
+        reaching out to you <span style="color: red">*</span>
+      </p>
       <nz-form-item>
-        <nz-form-label [nzSm]="24" [nzXs]="24" nzRequired>
-          Kindly provide some details so we could investigation issue before
-          reaching out to you
-        </nz-form-label>
         <nz-form-control [nzSm]="24" [nzXs]="24">
           <nz-input-group>
             <input
@@ -23,7 +23,9 @@
         out.
       </p>
       <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>Name</nz-form-label>
+        <nz-form-label [nzSm]="4" [nzXs]="24"
+          >Name <span style="color: red">*</span></nz-form-label
+        >
         <nz-form-control [nzSm]="20" [nzXs]="24">
           <nz-input-group>
             <input
@@ -37,7 +39,9 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>Email</nz-form-label>
+        <nz-form-label [nzSm]="4" [nzXs]="24"
+          >Email <span style="color: red">*</span></nz-form-label
+        >
         <nz-form-control [nzSm]="20" [nzXs]="24">
           <nz-input-group>
             <input
@@ -51,7 +55,9 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24" nzRequired>Phone</nz-form-label>
+        <nz-form-label [nzSm]="4" [nzXs]="24"
+          >Phone <span style="color: red">*</span></nz-form-label
+        >
         <nz-form-control [nzSm]="20" [nzXs]="24">
           <nz-input-group>
             <input
