@@ -24,14 +24,14 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    canActivate: [logoutGuard],
+    // canActivate: [logoutGuard],
     component: AuthLayoutComponent,
     loadChildren: () =>
       import('./pages/auth/auth.module').then((modules) => modules.AuthModule),
   },
   {
     path: 'main',
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     component: MainLayoutComponent,
     loadChildren: () =>
       import('./pages/main/main.module').then((m) => m.MainModule),

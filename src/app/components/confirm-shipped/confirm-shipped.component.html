@@ -1,0 +1,157 @@
+<div class="confirm-shipped-model">
+  <div style="padding: 15px; padding-bottom: 0px">
+    <form [formGroup]="confirmShippedForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"
+          >Carrier <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Carrier is required!"
+        >
+          <nz-input-group>
+            <nz-select
+              nzShowSearch
+              nzPlaceHolder="Select A Carrier"
+              formControlName="carrier"
+            >
+              <nz-option nzLabel="Carrier 1" nzValue="carrier1"></nz-option>
+              <nz-option nzLabel="Carrier 2" nzValue="carrier2"></nz-option>
+              <nz-option nzLabel="Carrier 3" nzValue="carrier3"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"
+          >Shipping Date <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Shipping date is required!"
+        >
+          <nz-input-group>
+            <nz-date-picker formControlName="shipping_date"></nz-date-picker>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row formArrayName="trackingList">
+        <div
+          nz-col
+          class="gutter-row"
+          [nzXs]="24"
+          *ngFor="let email of trackingList.controls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <nz-form-item>
+              <nz-form-label
+                *ngIf="i === 0"
+                nz-col
+                nzFor="email"
+                [nzSm]="6"
+                [nzXs]="24"
+                >Tracking List <span style="color: red">*</span></nz-form-label
+              >
+              <div
+                *ngIf="i !== 0"
+                nz-col
+                nzFor="email"
+                [nzSm]="6"
+                [nzXs]="24"
+              ></div>
+              <div
+                style="display: flex; padding-top: 5px"
+                nz-col
+                nzFor="email"
+                [nzSm]="1"
+                [nzXs]="2"
+              >
+                <h3 style="margin-bottom: 0px">{{ i + 1 }}.</h3>
+              </div>
+
+              <nz-form-control
+                [nzSm]="15"
+                [nzXs]="20"
+                nzErrorTip="Tracking is required!"
+              >
+                <nz-input-group>
+                  <input
+                    type="text"
+                    nz-input
+                    placeholder="Enter Tracking"
+                    formControlName="tracking"
+                  />
+                </nz-input-group> </nz-form-control
+              ><button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                *ngIf="i === trackingList.controls.length - 1"
+                style="
+                  background: #00c13b !important;
+                  margin-top: 8px;
+                  margin-left: 8px;
+                  border: 0;
+                "
+                (click)="addTracking()"
+                nzSize="small"
+              >
+                <span nz-icon nzType="plus"></span>
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                *ngIf="i !== trackingList.controls.length - 1"
+                style="
+                  background: #f41e2c !important;
+                  margin-top: 8px;
+                  margin-left: 8px;
+                  border: 0;
+                "
+                (click)="removeTracking(i)"
+                nzSize="small"
+              >
+                <span nz-icon nzType="minus"></span>
+              </button>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="model-footer">
+    <div class="model-action" style="padding: 15px; padding-bottom: 0px">
+      <button
+        nz-button
+        nzType="default"
+        style="color: black; margin-right: 5px"
+        (click)="handleCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        nz-button
+        style="margin-top: 0"
+        class="action-button"
+        [nzType]="'primary'"
+        (click)="submit()"
+        [disabled]="confirmShippedForm.invalid || isLoading"
+        [ngClass]="{
+          'button-disabled': confirmShippedForm.invalid || isLoading
+        }"
+      >
+        <span
+          *ngIf="isLoading"
+          style="color: white; font-size: 16px"
+          nz-icon
+          nzType="loading"
+        ></span>
+        Submit
+      </button>
+    </div>
+  </div>
+</div>

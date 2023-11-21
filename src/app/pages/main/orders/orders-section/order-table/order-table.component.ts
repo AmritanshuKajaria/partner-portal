@@ -21,6 +21,7 @@ export class OrderTableComponent implements OnInit {
 
   statusEnum: typeof StatusEnum = StatusEnum;
   isCancelOrderVisible: boolean = false;
+  isConfirmShipped: boolean = false;
 
   pageSizeOptions = [100];
   poNo: string = '';
@@ -48,16 +49,17 @@ export class OrderTableComponent implements OnInit {
   }
 
   markOrderShipped(po_no: string) {
-    const data = {
-      po_number: po_no,
-      reason: '',
-    };
-    this.ordersService.markOrderShipped(data).subscribe((res: any) => {
-      console.log(res);
-      if (res.success) {
-        this.message.success('Mark order shipped successfully!');
-      }
-    });
+    this.isConfirmShipped = true;
+    // const data = {
+    //   po_number: po_no,
+    //   reason: '',
+    // };
+    // this.ordersService.markOrderShipped(data).subscribe((res: any) => {
+    //   console.log(res);
+    //   if (res.success) {
+    //     this.message.success('Mark order shipped successfully!');
+    //   }
+    // });
   }
 
   acceptCancellation(po_no: string) {

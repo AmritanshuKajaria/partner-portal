@@ -26,7 +26,7 @@ export class PoClarificationComponent implements OnInit {
       detail: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required]),
-      phone: new FormControl('', [Validators.required]),
+      phone: new FormControl(''),
     });
   }
 

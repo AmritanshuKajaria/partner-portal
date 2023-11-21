@@ -1,22 +1,22 @@
 <div class="export-model">
   <div style="padding: 15px">
     <form [formGroup]="poClarificationForm">
-      <p>
+      <p style="font-weight: 700">
         Kindly provide some details so we could investigation issue before
-        reaching out to you <span style="color: red">*</span>:
+        reaching out to you<span style="color: red">*</span>:
       </p>
       <nz-form-item>
-        <nz-form-control [nzSm]="24" [nzXs]="24">
+        <nz-form-control
+          [nzSm]="24"
+          [nzXs]="24"
+          nzErrorTip="Details is required!"
+        >
           <nz-input-group>
-            <textarea
-              formControlName="detail"
-              [readonly]="true"
-              nz-input
-            ></textarea>
+            <textarea formControlName="detail" nz-input></textarea>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <!-- <nz-divider></nz-divider> -->
+      <nz-divider style="margin-top: 30px"></nz-divider>
       <p>
         If you'd like us to reach back to you regarding this Purchase Order,
         kindly let us know whom we should reach out to and how we should reach
@@ -26,7 +26,7 @@
         <nz-form-label [nzSm]="4" [nzXs]="24"
           >Name <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control [nzSm]="20" [nzXs]="24">
+        <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Name is required!">
           <nz-input-group>
             <input
               formControlName="name"
@@ -42,7 +42,11 @@
         <nz-form-label [nzSm]="4" [nzXs]="24"
           >Email <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control [nzSm]="20" [nzXs]="24">
+        <nz-form-control
+          [nzSm]="20"
+          [nzXs]="24"
+          nzErrorTip="Email is required!"
+        >
           <nz-input-group>
             <input
               formControlName="email"
@@ -55,10 +59,12 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24"
-          >Phone <span style="color: red">*</span></nz-form-label
+        <nz-form-label [nzSm]="4" [nzXs]="24">Phone</nz-form-label>
+        <nz-form-control
+          [nzSm]="20"
+          [nzXs]="24"
+          nzErrorTip="Phone is required!"
         >
-        <nz-form-control [nzSm]="20" [nzXs]="24">
           <nz-input-group>
             <input
               formControlName="phone"
@@ -73,7 +79,7 @@
     </form>
   </div>
   <div class="model-footer">
-    <div class="model-action" style="padding: 15px">
+    <div class="model-action" style="padding: 15px; padding-bottom: 0px">
       <button
         nz-button
         nzType="default"

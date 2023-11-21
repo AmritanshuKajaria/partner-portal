@@ -25,6 +25,7 @@ import { EditTimeComponent } from './edit-time/edit-time.component';
 import { AsinComponent } from './asin/asin.component';
 import { PoClarificationComponent } from './po-clarification/po-clarification.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     EditTimeComponent,
     AsinComponent,
     PoClarificationComponent,
+    ConfirmShippedComponent,
   ],
   imports: [
     CommonModule,
@@ -77,6 +79,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     EditTimeComponent,
     AsinComponent,
     PoClarificationComponent,
+    ConfirmShippedComponent,
   ],
 })
 export class ComponentModule {}
