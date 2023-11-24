@@ -160,15 +160,34 @@ export class ExportModelComponent implements OnInit {
       filters['filter_sku'] = this.exportType
         ? this.listOfFilter?.filter_sku
         : '';
+      filters['filter_mpn'] = this.exportType
+        ? this.listOfFilter?.filter_mpn
+        : '';
       filters['filter_ship_out_location'] = this.exportType
         ? this.listOfFilter?.filter_ship_out_location
         : '';
       filters['filter_carrier'] = this.exportType
         ? this.listOfFilter?.filter_carrier
         : '';
-      filters['filter_committed_ship_date'] = this.exportType
+      if (this.listOfFilter?.filter_committed_ship_date) {
+        filters['filter_committed_ship_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_committed_ship_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+      filters['filter_committed_ship_from_date'] = this.exportType
         ? formatDate(
-            this.listOfFilter?.filter_committed_ship_date,
+            this.listOfFilter?.filter_committed_ship_from_date,
+            'yyyy-MM-dd',
+            this.locale
+          )
+        : '';
+      filters['filter_committed_ship_to_date'] = this.exportType
+        ? formatDate(
+            this.listOfFilter?.filter_committed_ship_to_date,
             'yyyy-MM-dd',
             this.locale
           )
@@ -186,6 +205,9 @@ export class ExportModelComponent implements OnInit {
             'yyyy-MM-dd',
             this.locale
           )
+        : '';
+      filters['filter_status_remark'] = this.exportType
+        ? this.listOfFilter?.filter_status_remark
         : '';
       this.ordersService.exportOrders(filters).subscribe(
         (response: any) => {

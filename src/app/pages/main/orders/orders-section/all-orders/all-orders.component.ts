@@ -31,22 +31,28 @@ export class AllOrdersComponent implements OnInit {
   filter!: FormGroup;
   allOrdersData: any[] = [
     {
-      po_no: 'ABW-2785',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '02-11-2023',
-      customer_name: 'Preston Charles',
-      sku: 'CH-S15',
-      porduct_mpn: 'B00012343',
-      porduct_asin: '',
-      porduct_qty: '1',
-      po_total: '20.5',
-      committed_ship_date: '08-11-2023',
-      cancel_after_date: '12-11-2023',
+      po_no: 'AVO-2693',
+      location_code: 'AVO-LOC-001',
+      po_method: 'Email',
+      po_datetime: '2023-07-08T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32925',
+      product_mpn: '32925',
+      product_asin: 'B08LTPFBTB',
+      product_qty: 1,
+      po_total: 82.62,
+      committed_ship_date: '2023-07-10',
+      cancel_after_date: '2023-07-17',
+      carrier: 'UPS',
+      tracking: [
+        '1ZRR11990392758858',
+        '1ZRR11990392502785',
+        '1ZRR11990395317686',
+      ],
+      status_remark: 'On Time',
       ship_date: '02-06-2023',
       cancel_date: '06-05-2023',
-      carrier: 'UPC',
-      tracking: 'tracking 1',
       po_status: 'Pending Shipment',
       late_status: 'Late 2 Day',
       invoice_status: 'Pending 10 days',
@@ -63,22 +69,24 @@ export class AllOrdersComponent implements OnInit {
       customer_state: 'RTS',
     },
     {
-      po_no: 'SDA-2785',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '02-11-2023',
-      customer_name: 'Preston Charles',
-      sku: 'PK-S15',
-      porduct_mpn: 'S00012343',
-      porduct_asin: '',
-      porduct_qty: '2',
-      po_total: '98.03',
-      committed_ship_date: '11-11-2023',
-      cancel_after_date: '04-11-2023',
+      po_no: 'AVO-2692',
+      location_code: 'AVO-LOC-001',
+      po_method: 'Email',
+      po_datetime: '2023-07-08T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32925',
+      product_mpn: '32925',
+      product_asin: 'B08LTPFBTB',
+      product_qty: 1,
+      po_total: 82.62,
+      committed_ship_date: '2023-07-10',
+      cancel_after_date: '2023-07-17',
+      carrier: 'FedEx',
+      tracking: ['785703529694', '773824098610'],
+      status_remark: 'Late 5 Days',
       ship_date: '21-06-2023',
       cancel_date: '01-08-2023',
-      carrier: 'PSD',
-      tracking: 'tracking 2',
       po_status: 'Pending Shipment',
       late_status: 'Late 10 Day',
       invoice_status: 'Pending 3 days',
@@ -122,7 +130,8 @@ export class AllOrdersComponent implements OnInit {
       this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
-      this.selectDate,
+      this.selectDate[0],
+      this.selectDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.search_term
@@ -137,6 +146,7 @@ export class AllOrdersComponent implements OnInit {
       committedShipDate: new FormControl(''),
       status: new FormControl(''),
     });
+    this.totalData.emit(30);
   }
 
   getOrderList(
@@ -144,7 +154,8 @@ export class AllOrdersComponent implements OnInit {
     sku?: string,
     ship_out_location?: string,
     carrier?: string,
-    committed_ship_date?: string,
+    filter_committed_ship_from_date?: string,
+    filter_committed_ship_to_date?: string,
     from_po_date?: string,
     to_po_date?: string,
     search_term?: string
@@ -157,7 +168,8 @@ export class AllOrdersComponent implements OnInit {
         sku: sku,
         ship_out_location: ship_out_location,
         carrier: carrier,
-        committed_ship_date: committed_ship_date,
+        filter_committed_ship_from_date: filter_committed_ship_from_date,
+        filter_committed_ship_to_date: filter_committed_ship_to_date,
         from_po_date: from_po_date,
         to_po_date: to_po_date,
         search_term: search_term,
@@ -166,7 +178,7 @@ export class AllOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(this.total);
+            this.totalData.emit(response?.order_count?.all);
             this.allOrdersData = response.orders ?? [];
           }
           this.isLoading = false;
@@ -182,7 +194,8 @@ export class AllOrdersComponent implements OnInit {
       this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
-      this.selectDate,
+      this.selectDate[0],
+      this.selectDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.search_term
@@ -193,7 +206,7 @@ export class AllOrdersComponent implements OnInit {
   // }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {
@@ -281,7 +294,8 @@ export class AllOrdersComponent implements OnInit {
         this.selectMPN,
         this.selectLocation,
         this.selectCarrier,
-        this.selectDate,
+        this.selectDate[0],
+        this.selectDate[1],
         this.selectRangeDate[0],
         this.selectRangeDate[1],
         this.search_term
@@ -291,7 +305,8 @@ export class AllOrdersComponent implements OnInit {
         filter_sku: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
-        filter_committed_ship_date: this.selectDate,
+        filter_committed_ship_from_date: this.selectDate[0],
+        filter_committed_ship_to_date: this.selectDate[1],
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
       };
@@ -334,7 +349,8 @@ export class AllOrdersComponent implements OnInit {
           this.selectMPN,
           this.selectLocation,
           this.selectCarrier,
-          this.selectDate,
+          this.selectDate[0],
+          this.selectDate[1],
           this.selectRangeDate[0],
           this.selectRangeDate[1],
           this.search_term
@@ -344,7 +360,8 @@ export class AllOrdersComponent implements OnInit {
           filter_sku: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
           filter_carrier: this.selectCarrier,
-          filter_committed_ship_date: this.selectDate,
+          filter_committed_ship_from_date: this.selectDate[0],
+          filter_committed_ship_to_date: this.selectDate[1],
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
         };
@@ -376,7 +393,8 @@ export class AllOrdersComponent implements OnInit {
       this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
-      this.selectDate,
+      this.selectDate[0],
+      this.selectDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.search_term
@@ -386,7 +404,8 @@ export class AllOrdersComponent implements OnInit {
       filter_sku: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
       filter_carrier: this.selectCarrier,
-      filter_committed_ship_date: this.selectDate,
+      filter_committed_ship_from_date: this.selectDate[0],
+      filter_committed_ship_to_date: this.selectDate[1],
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
     };
@@ -431,7 +450,8 @@ export class AllOrdersComponent implements OnInit {
         this.selectMPN,
         this.selectLocation,
         this.selectCarrier,
-        this.selectDate,
+        this.selectDate[0],
+        this.selectDate[1],
         this.selectRangeDate[0],
         this.selectRangeDate[1],
         this.search_term
@@ -441,7 +461,8 @@ export class AllOrdersComponent implements OnInit {
         filter_sku: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
-        filter_committed_ship_date: this.selectDate,
+        filter_committed_ship_from_date: this.selectDate[0],
+        filter_committed_ship_to_date: this.selectDate[1],
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
       };

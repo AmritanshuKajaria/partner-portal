@@ -40,12 +40,12 @@ export class OrdersSectionComponent implements OnInit {
       case 'pending-invoice':
         this.pendingInvoiceTotal = total;
         break;
-      case 'in-transit':
-        this.inTransitTotal = total;
-        break;
-      case 'delivered':
-        this.deliveredTotal = total;
-        break;
+      // case 'in-transit':
+      //   this.inTransitTotal = total;
+      //   break;
+      // case 'delivered':
+      //   this.deliveredTotal = total;
+      //   break;
       case 'all':
         this.allTotal = total;
         break;

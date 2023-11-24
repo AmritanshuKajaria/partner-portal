@@ -28,21 +28,27 @@ export class CancellationRequestedComponent implements OnInit {
   mode = 'date';
   cancellationRequestedData: any = [
     {
-      po_no: 'ABW-2785',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '02-11-2023',
-      customer_name: 'Preston Charles',
-      sku: 'CH-S15',
-      porduct_mpn: 'B00012343',
-      porduct_asin: '',
-      porduct_qty: '1',
-      po_total: '20.5',
-      committed_ship_date: '08-11-2023',
-      cancel_after_date: '12-11-2023',
-      ship_date: '02-06-2023',
-      carrier: 'PSD',
-      tracking: 'tracking 1',
+      po_no: 'AVO-2693',
+      location_code: 'AVO-LOC-001',
+      po_method: 'Email',
+      po_datetime: '2023-07-08T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32925',
+      product_mpn: '32925',
+      product_asin: 'B08LTPFBTB',
+      product_qty: 1,
+      po_total: 82.62,
+      committed_ship_date: '2023-07-10',
+      cancel_after_date: '2023-07-17',
+      carrier: 'UPS',
+      tracking: [
+        '1ZRR11990392758858',
+        '1ZRR11990392502785',
+        '1ZRR11990395317686',
+      ],
+      status_remark: 'On Time',
+      ship_date: '06-06-2023',
       po_status: 'Pending Shipment',
       late_status: 'Late 2 Day',
       invoice_status: 'Pending 10 days',
@@ -58,21 +64,23 @@ export class CancellationRequestedComponent implements OnInit {
       customer_state: 'RTS',
     },
     {
-      po_no: 'SDA-2785',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '02-11-2023',
-      customer_name: 'Preston Charles',
-      sku: 'PK-S15',
-      porduct_mpn: 'S00012343',
-      porduct_asin: '',
-      porduct_qty: '2',
-      po_total: '98.03',
-      committed_ship_date: '11-11-2023',
-      cancel_after_date: '04-11-2023',
+      po_no: 'AVO-2692',
+      location_code: 'AVO-LOC-001',
+      po_method: 'Email',
+      po_datetime: '2023-07-08T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32925',
+      product_mpn: '32925',
+      product_asin: 'B08LTPFBTB',
+      product_qty: 1,
+      po_total: 82.62,
+      committed_ship_date: '2023-07-10',
+      cancel_after_date: '2023-07-17',
+      carrier: 'FedEx',
+      tracking: ['785703529694', '773824098610'],
+      status_remark: 'Late 5 Days',
       ship_date: '21-06-2023',
-      carrier: 'UPC',
-      tracking: 'tracking 2',
       po_status: 'Pending Shipment',
       late_status: 'Late 10 Day',
       invoice_status: 'Pending 3 days',
@@ -110,7 +118,9 @@ export class CancellationRequestedComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.totalData.emit(2);
+  }
 
   getOrderList(
     page: number,
@@ -131,7 +141,7 @@ export class CancellationRequestedComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(this.total);
+            this.totalData.emit(response?.order_count?.bcr);
             this.cancellationRequestedData = response.orders ?? [];
           }
           this.isLoading = false;
@@ -151,7 +161,7 @@ export class CancellationRequestedComponent implements OnInit {
   }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {

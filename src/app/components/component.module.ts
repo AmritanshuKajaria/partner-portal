@@ -26,6 +26,7 @@ import { AsinComponent } from './asin/asin.component';
 import { PoClarificationComponent } from './po-clarification/po-clarification.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -50,16 +51,6 @@ import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.compo
     PoClarificationComponent,
     ConfirmShippedComponent,
   ],
-  imports: [
-    CommonModule,
-    ComponentRoutingModule,
-    NzLayoutModule,
-    ListNgZorroModule,
-    NzMenuModule,
-    ReactiveFormsModule,
-    FormsModule,
-    AngularEditorModule,
-  ],
   exports: [
     StatusBadgeComponent,
     ThreeDotMenuBtnComponent,
@@ -80,6 +71,17 @@ import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.compo
     AsinComponent,
     PoClarificationComponent,
     ConfirmShippedComponent,
+  ],
+  imports: [
+    CommonModule,
+    ComponentRoutingModule,
+    NzLayoutModule,
+    ListNgZorroModule,
+    NzMenuModule,
+    ReactiveFormsModule,
+    FormsModule,
+    AngularEditorModule,
+    SharedModule,
   ],
 })
 export class ComponentModule {}

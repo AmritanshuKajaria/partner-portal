@@ -11,6 +11,7 @@
     ></nz-divider>
     <nz-range-picker
       [(ngModel)]="rangeDate"
+      [nzFormat]="appDateFormate"
       (ngModelChange)="changeValue(rangeDate ? $event : '', 'rangeDate')"
     ></nz-range-picker>
 
@@ -100,49 +101,27 @@
       nzText="Committed Ship Date"
       nzOrientation="left"
     ></nz-divider>
-    <nz-date-picker
+    <nz-range-picker
       *ngIf="
         tabName === 'new' ||
         tabName === 'pendingShipment' ||
         tabName === 'allOrders'
       "
       [(ngModel)]="committedShipDate"
+      [nzFormat]="appDateFormate"
       (ngModelChange)="
         changeValue(committedShipDate ? $event : '', 'committedShipDate')
       "
-    ></nz-date-picker>
+    ></nz-range-picker>
 
     <nz-divider
-      *ngIf="
-        tabName === 'pendingShipment' ||
-        tabName === 'cancellationRequested' ||
-        tabName === 'allOrders'
-      "
+      *ngIf="tabName === 'cancellationRequested' || tabName === 'allOrders'"
       style="margin-top: 20px"
       [nzText]="
-        (tabName === 'pendingShipment'
-          ? 'Shipping'
-          : tabName === 'cancellationRequested'
-          ? 'Request'
-          : 'PO') + ' Status'
+        (tabName === 'cancellationRequested' ? 'Request' : 'PO') + ' Status'
       "
       nzOrientation="left"
     ></nz-divider>
-    <!-- pending status -->
-    <nz-select
-      *ngIf="tabName === 'pendingShipment'"
-      nzShowSearch
-      nzAllowClear
-      nzPlaceHolder="Select A status"
-      [(ngModel)]="status"
-      (ngModelChange)="changeValue(status ? $event : '', 'status')"
-    >
-      <nz-option nzLabel="Manifested" nzValue="Manifested"></nz-option>
-      <nz-option
-        nzLabel="Not yet Manifested"
-        nzValue="Not yet Manifested"
-      ></nz-option>
-    </nz-select>
 
     <!-- Cancellation Requested -->
     <nz-select
@@ -184,29 +163,25 @@
       <nz-option nzLabel="RTO" nzValue="RTO"></nz-option>
     </nz-select>
 
-    <!-- Late status -->
+    <!-- pending status -->
     <nz-divider
       *ngIf="tabName === 'pendingShipment'"
       style="margin-top: 20px"
-      nzText="Late Status"
+      nzText="Status remark"
       nzOrientation="left"
     ></nz-divider>
     <nz-select
       *ngIf="tabName === 'pendingShipment'"
       nzShowSearch
       nzAllowClear
-      nzPlaceHolder="Select A Late Status"
-      [(ngModel)]="lateStatus"
-      (ngModelChange)="changeValue(status ? $event : '', 'lateStatus')"
+      nzPlaceHolder="Select A status"
+      [(ngModel)]="remarkStatus"
+      (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
-      <nz-option nzLabel="Late" nzValue="Late"></nz-option>
-      <nz-option nzLabel="Late 2 Days" nzValue="Late 2 Days"></nz-option>
-      <nz-option nzLabel="Late 3 Days" nzValue="Late 3 Days"></nz-option>
-      <nz-option nzLabel="Late 4 Days" nzValue="Late 4 Days"></nz-option>
-      <nz-option nzLabel="Late 5 Days" nzValue="Late 5 Days"></nz-option>
+      <nz-option nzLabel="Manifested" nzValue="Manifested"></nz-option>
       <nz-option
-        nzLabel="Will be cancelled EOD"
-        nzValue="Will be cancelled EOD"
+        nzLabel="Not yet Manifested"
+        nzValue="Not yet Manifested"
       ></nz-option>
     </nz-select>
 
@@ -220,6 +195,7 @@
     <nz-range-picker
       *ngIf="tabName === 'pending-invoice'"
       [(ngModel)]="shipDate"
+      [nzFormat]="appDateFormate"
       (ngModelChange)="changeValue(shipDate ? $event : '', 'shipDate')"
     ></nz-range-picker>
 

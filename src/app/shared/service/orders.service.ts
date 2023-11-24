@@ -54,6 +54,58 @@ export class OrdersService {
         formatDate(action.to_po_date, 'yyyy-MM-dd', this.locale)
       );
     }
+
+    // filter
+    if (action.filter_from_po_date) {
+      params = params.append(
+        'filter_from_po_date',
+        formatDate(action.filter_from_po_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
+    if (action.filter_to_po_date) {
+      params = params.append(
+        'filter_to_po_date',
+        formatDate(action.filter_to_po_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
+    if (action.filter_mpn) {
+      params = params.append('filter_mpn', action.filter_mpn);
+    }
+    if (action.filter_ship_out_location) {
+      params = params.append(
+        'filter_ship_out_location',
+        action.filter_ship_out_location
+      );
+    }
+    if (action.filter_carrier) {
+      params = params.append('filter_carrier', action.filter_carrier);
+    }
+    if (action.filter_committed_ship_from_date) {
+      params = params.append(
+        'filter_committed_ship_from_date',
+        formatDate(
+          action.filter_committed_ship_from_date,
+          'yyyy-MM-dd',
+          this.locale
+        )
+      );
+    }
+    if (action.filter_committed_ship_to_date) {
+      params = params.append(
+        'filter_committed_ship_to_date',
+        formatDate(
+          action.filter_committed_ship_to_date,
+          'yyyy-MM-dd',
+          this.locale
+        )
+      );
+    }
+    if (action.filter_status_remark) {
+      params = params.append(
+        'filter_status_remark',
+        action.filter_status_remark
+      );
+    }
     if (action.search_term) {
       params = params.append('search_term', action.search_term);
     }

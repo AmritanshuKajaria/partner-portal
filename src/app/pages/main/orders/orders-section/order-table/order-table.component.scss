@@ -20,11 +20,39 @@
                 margin-bottom: 3px;
                 // color: $white;
                 // background-color: $yellow;
+                width: 140px;
             }
         }
 
         ::ng-deep .ant-btn-round {
             padding: 4px 10px !important;
+        }
+
+        .tracking {
+            display: flex;
+            flex-direction: column;
+            width: fit-content;
+
+            a {
+                text-align: end;
+                margin-top: -10px;
+            }
+        }
+    }
+
+}
+
+.tracking-id {
+    padding: 10px;
+
+    ul {
+        margin-bottom: 0px;
+
+        li {
+            list-style: none;
+            padding: 5px 0;
+            font-size: 16px;
+            // font-weight: 700;
         }
     }
 }

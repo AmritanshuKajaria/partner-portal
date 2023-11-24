@@ -58,23 +58,12 @@
         >
           Tracking
         </th>
-        <th
-          *ngIf="
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
-          "
-        >
-          {{
-            tabName === "pending-shipment"
-              ? "Shipping Status"
-              : "Request Status"
-          }}
-        </th>
-        <th *ngIf="tabName === 'pending-shipment'">Late Status</th>
+        <th *ngIf="tabName === 'Cancellation Requested'">Request Status"</th>
+        <th *ngIf="tabName === 'pending-shipment'">Remark Status</th>
         <th *ngIf="tabName === 'pending-invoice'">Invoice Status</th>
         <th *ngIf="tabName === 'All'">Invoice no</th>
         <th *ngIf="tabName === 'All'">PO Status</th>
-        <th [ngStyle]="{ width: tabName === 'All' ? '50px' : '200px' }">
+        <th [ngStyle]="{ width: tabName === 'All' ? '50px' : '190px' }">
           Action
         </th>
       </tr>
@@ -93,23 +82,22 @@
           </div>
         </td>
         <td>
-          <span class="sub-date">
-            {{ data?.po_datetime | date : "MM-dd-yyyy hh:MM a" }}
-          </span>
+          {{ data?.po_datetime | customDate : " hh:MM a" }}
         </td>
         <td>{{ data.customer_name }}</td>
         <td>
           <a
             class="link"
+            style="color: black"
             [routerLink]="'/main/products/details/' + data?.sku"
-            >{{ data.porduct_mpn }}</a
+            >{{ data.product_mpn }}</a
           ><br />
-          <app-asin [asin]="data?.porduct_asin"></app-asin>
+          <app-asin [asin]="data?.product_asin"></app-asin>
           <ul class="sub-section">
             <li class="no-wrap">
               <div class="sub-val">
                 <span class="title">Qty&nbsp;&nbsp;-&nbsp;</span
-                >{{ data?.porduct_qty }}
+                >{{ data?.product_qty }}
               </div>
             </li>
           </ul>
@@ -122,7 +110,7 @@
             tabName === 'All'
           "
         >
-          {{ data.committed_ship_date | date : "MM-dd-yyyy" }}
+          {{ data.committed_ship_date | customDate }}
         </td>
         <td
           *ngIf="
@@ -132,10 +120,10 @@
             tabName === 'All'
           "
         >
-          {{ data.cancel_after_date | date : "MM-dd-yyyy" }}
+          {{ data.cancel_after_date | customDate }}
         </td>
         <td *ngIf="tabName === 'pending-invoice' || tabName === 'All'">
-          {{ data?.ship_date | date : "dd-MM-yyyy HH:MM a" }}
+          {{ data?.ship_date | customDate : " hh:MM a" }}
         </td>
         <td *ngIf="tabName === 'All'">
           {{ data?.cancel_date | date : "dd-MM-yyyy HH:MM a" }}
@@ -143,25 +131,24 @@
         <td>
           {{ data?.carrier }}
         </td>
-        <td
-          *ngIf="
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested' ||
-            tabName === 'pending-invoice' ||
-            tabName === 'All'
-          "
-        >
-          {{ data?.tracking }}
+        <td *ngIf="tabName !== 'new'">
+          <div class="tracking">
+            {{ data?.tracking[0] }}
+            <a
+              class="link"
+              *ngIf="data?.tracking.length > 1"
+              (click)="isTracking = true; trackingList = data?.tracking"
+            >
+              ...
+            </a>
+          </div>
         </td>
-        <td
-          *ngIf="
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested'
-          "
-        >
+        <td *ngIf="tabName === 'Cancellation Requested'">
           {{ data?.po_status }}
         </td>
-        <td *ngIf="tabName === 'pending-shipment'">{{ data?.late_status }}</td>
+        <td *ngIf="tabName === 'pending-shipment'">
+          {{ data?.status_remark }}
+        </td>
         <td *ngIf="tabName === 'pending-invoice'">
           {{ data?.invoice_status }}
         </td>
@@ -189,33 +176,14 @@
             *ngIf="tabName === 'new' || tabName === 'pending-shipment'"
             style="display: flex"
           >
-            <div
-              *ngIf="tabName === 'pending-shipment'"
-              class="action-btn"
-              style="max-width: 140px"
-            >
-              <!-- *ngIf="data?.confirm_ship_button" -->
+            <div *ngIf="tabName === 'pending-shipment'" class="action-btn">
               <button
-                style="border: 1px solid #17a2b8; color: #17a2b8"
+                style="border: 1px solid #28a745; color: #28a745"
                 nz-button
                 (click)="markOrderShipped(data?.po_no)"
               >
                 Confirm Shipped
               </button>
-              <!-- <button
-                *ngIf="data?.confirm_manifest_button"
-                style="border: 1px solid #28a745; color: #28a745"
-                nz-button
-              >
-                Confirm Manifest
-              </button> -->
-              <!-- <button
-                *ngIf="data?.upload_invoice_button"
-                style="border: 1px solid #ffc107; color: #ffc107"
-                nz-button
-              >
-                Upload Invoice
-              </button> -->
               <button
                 style="border: 1px solid #dc3545; color: #dc3545"
                 nz-button
@@ -224,11 +192,7 @@
                 Cancel Order
               </button>
             </div>
-            <div
-              *ngIf="tabName === 'new'"
-              class="action-btn"
-              style="max-width: 115px"
-            >
+            <div *ngIf="tabName === 'new'" class="action-btn">
               <button
                 style="border: 1px solid #28a745; color: #28a745"
                 nz-button
@@ -244,7 +208,10 @@
                 Cancel Order
               </button>
             </div>
-            <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
+            <app-three-dot-menu-btn
+              style="margin-left: 5px"
+              [menu]="menu"
+            ></app-three-dot-menu-btn>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu>
                 <li
@@ -287,7 +254,6 @@
               >
                 Confirm Cancel
               </button>
-              <!-- *ngIf="data.already_ship_button" -->
               <button
                 style="border: 1px solid #28a745; color: #28a745"
                 nz-button
@@ -295,15 +261,11 @@
               >
                 Confirm Shipped
               </button>
-              <!-- <button
-                *ngIf="data.already_manifest_button"
-                style="border: 1px solid #007bff; color: #007bff"
-                nz-button
-              >
-                Already Manifested
-              </button> -->
             </div>
-            <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
+            <app-three-dot-menu-btn
+              style="margin-left: 5px"
+              [menu]="menu"
+            ></app-three-dot-menu-btn>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu>
                 <li
@@ -325,7 +287,6 @@
           <!-- Pending invoice -->
           <div style="display: flex" *ngIf="tabName === 'pending-invoice'">
             <div class="action-btn">
-              <!-- *ngIf="data?.upload_invoice_button" -->
               <button
                 style="border: 1px solid #ffc107; color: #ffc107"
                 nz-button
@@ -340,7 +301,10 @@
                 Cancel Invoice
               </button>
             </div>
-            <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
+            <app-three-dot-menu-btn
+              style="margin-left: 5px"
+              [menu]="menu"
+            ></app-three-dot-menu-btn>
             <nz-dropdown-menu #menu="nzDropdownMenu">
               <ul nz-menu>
                 <li
@@ -429,5 +393,21 @@
     <app-confirm-shipped
       (close)="isConfirmShipped = false"
     ></app-confirm-shipped>
+  </ng-container>
+</nz-modal>
+
+<nz-modal
+  [(nzVisible)]="isTracking"
+  nzTitle="Tracking"
+  (nzOnCancel)="isTracking = false"
+>
+  <ng-container *nzModalContent>
+    <div class="tracking-id">
+      <ul>
+        <li *ngFor="let tracking of trackingList; let no = index">
+          {{ no + 1 }}. {{ tracking }}
+        </li>
+      </ul>
+    </div>
   </ng-container>
 </nz-modal>

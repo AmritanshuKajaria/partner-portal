@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-filter-section',
@@ -17,11 +18,12 @@ export class FilterSectionComponent implements OnInit {
   @Input() carrier: string = '';
   @Input() committedShipDate: string = '';
   @Input() status: string = '';
-  @Input() lateStatus: string = '';
+  @Input() remarkStatus: string = '';
   @Input() invoiceStatus: string = '';
 
   @Input() tabName: string = '';
   accountSearch = new Subject<any>();
+  appDateFormate = AppDateFormate;
 
   constructor() {
     this.accountSearch

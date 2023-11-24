@@ -6,21 +6,33 @@ export interface GetAllOrders {
     current_page: number;
     total_pages: number;
   };
+  type?: string;
   filtered?: boolean;
   applied_filters?: AppliedFilters;
   searched?: boolean;
   applied_search_term?: string;
+  order_count?: {
+    new?: number;
+    psh?: number;
+    bcr?: number;
+    pir?: number;
+    all?: number;
+  };
   orders?: SingleOrder[];
 }
 
 export interface AppliedFilters {
   filter_po_list_type?: string;
   filter_sku?: string;
+  filter_mpn?: string;
   filter_ship_out_location?: string;
   filter_carrier?: string;
   filter_committed_ship_date?: string;
+  filter_committed_ship_from_date?: string;
+  filter_committed_ship_to_date?: string;
   filter_from_po_date?: string;
   filter_to_po_date?: string;
+  filter_status_remark?: string;
 }
 
 export interface SingleOrder {
@@ -35,6 +47,14 @@ export interface SingleOrder {
   po_total: number;
   committed_ship_date: string | Date;
   cancel_after_date: string | Date;
+  location_code?: string;
+  po_datetime?: string | Date;
+  po_timezone?: string;
+  sku?: string;
+  product_mpn?: string;
+  product_asin?: string;
+  product_qty?: number;
+  carrier?: string;
 }
 
 export interface OrderAction {
@@ -48,6 +68,14 @@ export interface OrderAction {
   from_po_date?: string;
   to_po_date?: string;
   search_term?: string;
+  filter_from_po_date?: string;
+  filter_to_po_date?: string;
+  filter_mpn?: string;
+  filter_ship_out_location?: string;
+  filter_carrier?: string;
+  filter_committed_ship_from_date?: string;
+  filter_committed_ship_to_date?: string;
+  filter_status_remark?: string;
 }
 
 export interface MarkOrderShipped {

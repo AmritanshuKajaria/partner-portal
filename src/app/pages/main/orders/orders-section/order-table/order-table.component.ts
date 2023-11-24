@@ -22,10 +22,12 @@ export class OrderTableComponent implements OnInit {
   statusEnum: typeof StatusEnum = StatusEnum;
   isCancelOrderVisible: boolean = false;
   isConfirmShipped: boolean = false;
+  isTracking: boolean = false;
 
   pageSizeOptions = [100];
   poNo: string = '';
   poClarification: boolean = false;
+  trackingList: string[] = [];
 
   constructor(
     private ordersService: OrdersService,
