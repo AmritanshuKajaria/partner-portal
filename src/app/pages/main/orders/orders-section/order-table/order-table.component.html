@@ -72,7 +72,10 @@
           </div>
         </td>
         <td>
-          <app-date-time [dateTime]="data?.po_datetime"></app-date-time>
+          <app-date-time
+            [dateTime]="data?.po_datetime"
+            [timeZone]="data?.po_timezone"
+          ></app-date-time>
         </td>
         <td>{{ data.customer_name }}</td>
         <td>
@@ -128,7 +131,7 @@
               *ngIf="data?.tracking?.length > 1"
               (click)="isTracking = true; trackingList = data?.tracking"
             >
-              [{{ "Tracking Cnt. " + data?.tracking.length}}]
+              [{{ "Tracking Cnt. " + data?.tracking.length }}]
             </a>
           </div>
         </td>
