@@ -61,7 +61,7 @@
     <tbody>
       <tr *ngFor="let data of nzTable.data">
         <td>
-          <div style="display: flex; flex-direction: column">
+          <div style="display: flex; flex-direction: column; white-space: nowrap;">
             <span>
               <a [routerLink]="'po-details/' + data?.po_no" class="link">{{
                 data.po_no
