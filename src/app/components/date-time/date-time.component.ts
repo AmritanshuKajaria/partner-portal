@@ -1,6 +1,4 @@
-import { DatePipe } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
-import * as moment from 'moment-timezone';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-date-time',
