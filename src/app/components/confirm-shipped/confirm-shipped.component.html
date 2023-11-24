@@ -63,17 +63,17 @@
                 [nzXs]="24"
               ></div>
               <div
-                style="display: flex; padding-top: 5px"
+                style="display: flex; padding-top: 5px; justify-content: center"
                 nz-col
                 nzFor="email"
-                [nzSm]="1"
+                [nzSm]="2"
                 [nzXs]="2"
               >
                 <h3 style="margin-bottom: 0px">{{ i + 1 }}.</h3>
               </div>
 
               <nz-form-control
-                [nzSm]="15"
+                [nzSm]="14"
                 [nzXs]="20"
                 nzErrorTip="Tracking is required!"
               >
@@ -89,7 +89,7 @@
                 nz-button
                 nzType="primary"
                 nzShape="circle"
-                *ngIf="i === trackingList.controls.length - 1"
+                *ngIf="i === trackingList.controls.length - 1 && i !== 9"
                 style="
                   background: #00c13b !important;
                   margin-top: 8px;
@@ -105,7 +105,7 @@
                 nz-button
                 nzType="primary"
                 nzShape="circle"
-                *ngIf="i !== trackingList.controls.length - 1"
+                *ngIf="i !== trackingList.controls.length - 1 && i !== 9"
                 style="
                   background: #f41e2c !important;
                   margin-top: 8px;
@@ -150,7 +150,13 @@
           nz-icon
           nzType="loading"
         ></span>
-        Submit
+        <span
+          *ngIf="!isLoading"
+          nz-icon
+          nzType="file-text"
+          nzTheme="outline"
+        ></span>
+        Save
       </button>
     </div>
   </div>

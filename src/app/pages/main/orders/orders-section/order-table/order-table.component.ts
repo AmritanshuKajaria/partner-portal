@@ -38,7 +38,7 @@ export class OrderTableComponent implements OnInit {
 
   acknowledgeOrders(po_no: string) {
     this.modal.confirm({
-      nzTitle: 'Do you Want to Acknowledge these items?',
+      nzTitle: 'Please click OK to Acknowledge this PO?',
       nzOnOk: () => {
         this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
           console.log(res);

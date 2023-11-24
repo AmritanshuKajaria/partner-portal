@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { ListNgZorroModule } from '../shared/list-ng-zorro/list-ng-zorro.module';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
@@ -27,6 +27,7 @@ import { PoClarificationComponent } from './po-clarification/po-clarification.co
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.component';
 import { SharedModule } from '../shared/shared.module';
+import { DateTimeComponent } from './date-time/date-time.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { SharedModule } from '../shared/shared.module';
     AsinComponent,
     PoClarificationComponent,
     ConfirmShippedComponent,
+    DateTimeComponent,
   ],
   exports: [
     StatusBadgeComponent,
@@ -71,6 +73,7 @@ import { SharedModule } from '../shared/shared.module';
     AsinComponent,
     PoClarificationComponent,
     ConfirmShippedComponent,
+    DateTimeComponent,
   ],
   imports: [
     CommonModule,
@@ -83,5 +86,6 @@ import { SharedModule } from '../shared/shared.module';
     AngularEditorModule,
     SharedModule,
   ],
+  providers: [DatePipe],
 })
 export class ComponentModule {}

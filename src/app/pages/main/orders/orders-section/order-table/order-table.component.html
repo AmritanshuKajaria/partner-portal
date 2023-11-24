@@ -48,18 +48,8 @@
         </th>
         <th *ngIf="tabName === 'All'">Cancel Date</th>
         <th>Carrier</th>
-        <th
-          *ngIf="
-            tabName === 'pending-shipment' ||
-            tabName === 'Cancellation Requested' ||
-            tabName === 'pending-invoice' ||
-            tabName === 'All'
-          "
-        >
-          Tracking
-        </th>
-        <th *ngIf="tabName === 'Cancellation Requested'">Request Status"</th>
-        <th *ngIf="tabName === 'pending-shipment'">Remark Status</th>
+        <th *ngIf="tabName === 'Cancellation Requested'">Request Status</th>
+        <th *ngIf="tabName === 'pending-shipment'">Shipping Status</th>
         <th *ngIf="tabName === 'pending-invoice'">Invoice Status</th>
         <th *ngIf="tabName === 'All'">Invoice no</th>
         <th *ngIf="tabName === 'All'">PO Status</th>
@@ -82,7 +72,7 @@
           </div>
         </td>
         <td>
-          {{ data?.po_datetime | customDate : " hh:MM a" }}
+          <app-date-time [dateTime]="data?.po_datetime"></app-date-time>
         </td>
         <td>{{ data.customer_name }}</td>
         <td>
@@ -126,20 +116,19 @@
           {{ data?.ship_date | customDate : " hh:MM a" }}
         </td>
         <td *ngIf="tabName === 'All'">
-          {{ data?.cancel_date | date : "dd-MM-yyyy HH:MM a" }}
+          {{ data?.cancel_date | customDate : " hh:MM a" }}
         </td>
         <td>
-          {{ data?.carrier }}
-        </td>
-        <td *ngIf="tabName !== 'new'">
-          <div class="tracking">
-            {{ data?.tracking[0] }}
+          <div nz-col>
+            <div>
+              {{ data?.carrier }}
+            </div>
             <a
               class="link"
-              *ngIf="data?.tracking.length > 1"
+              *ngIf="data?.tracking?.length > 1"
               (click)="isTracking = true; trackingList = data?.tracking"
             >
-              ...
+              [{{ "Tracking Cnt. " + data?.tracking.length}}]
             </a>
           </div>
         </td>
