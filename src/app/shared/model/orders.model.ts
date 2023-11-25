@@ -32,6 +32,8 @@ export interface AppliedFilters {
   filter_committed_ship_to_date?: string;
   filter_from_po_date?: string;
   filter_to_po_date?: string;
+  filter_ship_from_date?: string;
+  filter_ship_to_date?: string;
   filter_status_remark?: string;
 }
 
@@ -60,7 +62,7 @@ export interface SingleOrder {
 export interface OrderAction {
   page: number;
   po_list_type?: string;
-  type?: number;
+  type?: number | string;
   sku?: string;
   ship_out_location?: string;
   carrier?: string;
@@ -75,6 +77,8 @@ export interface OrderAction {
   filter_carrier?: string;
   filter_committed_ship_from_date?: string;
   filter_committed_ship_to_date?: string;
+  filter_ship_from_date?: string;
+  filter_ship_to_date?: string;
   filter_status_remark?: string;
 }
 

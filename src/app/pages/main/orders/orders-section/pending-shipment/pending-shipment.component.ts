@@ -142,7 +142,7 @@ export class PendingShipmentComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 2,
+        type: 'PSH',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,

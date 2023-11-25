@@ -17,7 +17,6 @@ export class FilterSectionComponent implements OnInit {
   @Input() mpn: string = '';
   @Input() carrier: string = '';
   @Input() committedShipDate: string = '';
-  @Input() status: string = '';
   @Input() remarkStatus: string = '';
   @Input() invoiceStatus: string = '';
 

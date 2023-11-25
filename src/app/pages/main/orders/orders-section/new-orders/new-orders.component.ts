@@ -119,7 +119,7 @@ export class NewOrdersComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 1,
+        type: 'NEW',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,

@@ -178,39 +178,66 @@ export class ExportModelComponent implements OnInit {
             )
           : '';
       }
-      filters['filter_committed_ship_from_date'] = this.exportType
-        ? formatDate(
-            this.listOfFilter?.filter_committed_ship_from_date,
-            'yyyy-MM-dd',
-            this.locale
-          )
-        : '';
-      filters['filter_committed_ship_to_date'] = this.exportType
-        ? formatDate(
-            this.listOfFilter?.filter_committed_ship_to_date,
-            'yyyy-MM-dd',
-            this.locale
-          )
-        : '';
-      filters['filter_from_po_date'] = this.exportType
-        ? formatDate(
-            this.listOfFilter?.filter_from_po_date,
-            'yyyy-MM-dd',
-            this.locale
-          )
-        : '';
-      filters['filter_to_po_date'] = this.exportType
-        ? formatDate(
-            this.listOfFilter?.filter_to_po_date,
-            'yyyy-MM-dd',
-            this.locale
-          )
-        : '';
+      if (this.listOfFilter?.filter_committed_ship_from_date) {
+        filters['filter_committed_ship_from_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_committed_ship_from_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+      if (this.listOfFilter?.filter_committed_ship_to_date) {
+        filters['filter_committed_ship_to_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_committed_ship_to_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+      if (this.listOfFilter?.filter_from_po_date) {
+        filters['filter_from_po_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_from_po_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+      if (this.listOfFilter?.filter_to_po_date) {
+        filters['filter_to_po_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_to_po_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.filter_ship_from_date) {
+        filters['filter_ship_from_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_ship_from_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+      if (this.listOfFilter?.filter_ship_to_date) {
+        filters['filter_ship_to_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_ship_to_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
       filters['filter_status_remark'] = this.exportType
         ? this.listOfFilter?.filter_status_remark
         : '';
-      this.ordersService.exportOrders(filters).subscribe(
-        (response: any) => {
+      this.ordersService.exportOrders(filters).subscribe({
+        next: (response: any) => {
           this.handleCancel();
           console.log(response);
           if (response.success) {
@@ -221,8 +248,8 @@ export class ExportModelComponent implements OnInit {
           }
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => (this.isLoading = false),
+      });
     } else if (!this.showFilterOptions) {
       const data: ExportDash = {
         code: this.code,

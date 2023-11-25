@@ -88,7 +88,10 @@
     (nzOnCancel)="handleCancel()"
   >
     <ng-container *nzModalContent>
-      <app-upload-model (closeModel)="handleCancel()"></app-upload-model>
+      <app-upload-model
+        [sectionType]="'pickup'"
+        (closeModel)="handleCancel()"
+      ></app-upload-model>
     </ng-container>
   </nz-modal>
 

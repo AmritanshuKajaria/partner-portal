@@ -100,6 +100,18 @@ export class OrdersService {
         )
       );
     }
+    if (action.filter_ship_from_date) {
+      params = params.append(
+        'filter_ship_from_date',
+        formatDate(action.filter_ship_from_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
+    if (action.filter_ship_to_date) {
+      params = params.append(
+        'filter_ship_to_date',
+        formatDate(action.filter_ship_to_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
     if (action.filter_status_remark) {
       params = params.append(
         'filter_status_remark',

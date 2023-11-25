@@ -99,12 +99,18 @@ export class CancellationRequestedComponent implements OnInit {
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
-  statusCount: number = 0;
+  remarkStatusCount: number = 0;
   rangeDateCount: number = 0;
+  locationCount: number = 0;
+  mpnCount: number = 0;
+  carrierCount: number = 0;
 
-  selectStatus: string = '';
   selectRangeDate: string = '';
   search_term: string = '';
+  selectMPN: string = '';
+  selectLocation: string = '';
+  selectCarrier: string = '';
+  remarkStatus: string = '';
 
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
@@ -112,8 +118,12 @@ export class CancellationRequestedComponent implements OnInit {
   constructor(private ordersService: OrdersService) {
     this.getOrderList(
       this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.remarkStatus,
       this.search_term
     );
   }
@@ -124,17 +134,25 @@ export class CancellationRequestedComponent implements OnInit {
 
   getOrderList(
     page: number,
-    from_po_date?: string,
-    to_po_date?: string,
+    filter_mpn?: string,
+    filter_ship_out_location?: string,
+    filter_carrier?: string,
+    filter_from_po_date?: string,
+    filter_to_po_date?: string,
+    filter_status_remark?: string,
     search_term?: string
   ) {
     this.isLoading = true;
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 3,
-        from_po_date: from_po_date,
-        to_po_date: to_po_date,
+        type: 'BCR',
+        filter_mpn: filter_mpn,
+        filter_ship_out_location: filter_ship_out_location,
+        filter_carrier: filter_carrier,
+        filter_from_po_date: filter_from_po_date,
+        filter_to_po_date: filter_to_po_date,
+        filter_status_remark: filter_status_remark,
         search_term: search_term,
       })
       .subscribe({
@@ -154,8 +172,12 @@ export class CancellationRequestedComponent implements OnInit {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.remarkStatus,
       this.search_term
     );
   }
@@ -170,98 +192,176 @@ export class CancellationRequestedComponent implements OnInit {
 
   change(data: { value: any; type: string }) {
     if (data.value && data.value.length !== 0) {
-      if (data.type === 'status') {
-        if (data.value === 'Accepted' || data.value === 'Already Shipped') {
+      switch (data.type) {
+        case 'shipOutLocation':
+          if (
+            data.value === 'ahmadabad' ||
+            data.value === 'surat' ||
+            data.value === 'rajkot' ||
+            data.value === 'bhavnagar'
+          ) {
+            this.clear_btn = true;
+            this.selectLocation = data.value;
+
+            if (this.locationCount === 0) {
+              this.locationCount++;
+              this.badgeTotal++;
+            }
+          }
+          break;
+        case 'mpn':
           this.clear_btn = true;
-          this.selectStatus = data.value;
-          if (this.statusCount === 0) {
-            this.statusCount++;
+          this.selectMPN = data.value;
+          if (this.mpnCount === 0) {
+            this.mpnCount++;
             this.badgeTotal++;
           }
-        }
-      } else if (data.type === 'rangeDate') {
-        this.clear_btn = true;
-        this.selectRangeDate = data.value;
-        if (this.rangeDateCount === 0) {
-          this.rangeDateCount++;
-          this.badgeTotal++;
-        }
+          break;
+        case 'carrier':
+          if (
+            data.value === 'carrier1' ||
+            data.value === 'carrier2' ||
+            data.value === 'carrier3'
+          ) {
+            this.clear_btn = true;
+            this.selectCarrier = data.value;
+            if (this.carrierCount === 0) {
+              this.carrierCount++;
+              this.badgeTotal++;
+            }
+          }
+          break;
+        case 'rangeDate':
+          this.clear_btn = true;
+          this.selectRangeDate = data.value;
+          if (this.rangeDateCount === 0) {
+            this.rangeDateCount++;
+            this.badgeTotal++;
+          }
+          break;
+        case 'remarkStatus':
+          if (data.value === 'Accepted' || data.value === 'Already Shipped') {
+            this.clear_btn = true;
+            this.remarkStatus = data.value;
+            if (this.remarkStatusCount === 0) {
+              this.remarkStatusCount++;
+              this.badgeTotal++;
+            }
+          }
+          break;
       }
       this.getOrderList(
         this.pageIndex,
+        this.selectMPN,
+        this.selectLocation,
+        this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
+        this.remarkStatus,
         this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'Cancellation Requested',
-        filter_sku: '',
-        filter_ship_out_location: '',
-        filter_carrier: '',
-        filter_committed_ship_date: '',
+        filter_mpn: this.selectMPN,
+        filter_ship_out_location: this.selectLocation,
+        filter_carrier: this.selectCarrier,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
+        filter_status_remark: this.remarkStatus,
       };
     } else {
       if (this.badgeTotal > 0 && data.value !== null) {
-        if (data.type === 'status') {
-          this.selectStatus = '';
-          this.statusCount = 0;
-          this.badgeTotal--;
-        } else if (data.type === 'rangeDate') {
-          this.selectRangeDate = '';
-          this.rangeDateCount = 0;
-          this.badgeTotal--;
+        switch (data.type) {
+          case 'shipOutLocation':
+            this.selectLocation = '';
+            this.locationCount = 0;
+            this.badgeTotal--;
+            break;
+          case 'mpn':
+            this.selectMPN = '';
+            this.mpnCount = 0;
+            this.badgeTotal--;
+            break;
+          case 'carrier':
+            this.selectCarrier = '';
+            this.carrierCount = 0;
+            this.badgeTotal--;
+            break;
+          case 'rangeDate':
+            this.selectRangeDate = '';
+            this.rangeDateCount = 0;
+            this.badgeTotal--;
+            break;
+          case 'remarkStatus':
+            this.remarkStatus = '';
+            this.remarkStatusCount = 0;
+            this.badgeTotal--;
+            break;
         }
+
         this.getOrderList(
           this.pageIndex,
+          this.selectMPN,
+          this.selectLocation,
+          this.selectCarrier,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
+          this.remarkStatus,
           this.search_term
         );
         this.listOfFilter = {
           filter_po_list_type: 'Cancellation Requested',
-          filter_sku: '',
-          filter_ship_out_location: '',
-          filter_carrier: '',
-          filter_committed_ship_date: '',
+          filter_mpn: this.selectMPN,
+          filter_ship_out_location: this.selectLocation,
+          filter_carrier: this.selectCarrier,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
+          filter_status_remark: this.remarkStatus,
         };
       }
     }
   }
 
   tagRemove() {
-    this.selectStatus = '';
+    this.remarkStatus = '';
+    this.selectLocation = '';
+    this.selectMPN = '';
+    this.selectCarrier = '';
     this.selectRangeDate = '';
 
-    this.statusCount = 0;
+    this.remarkStatusCount = 0;
+    this.locationCount = 0;
+    this.mpnCount = 0;
+    this.carrierCount = 0;
     this.rangeDateCount = 0;
 
     this.badgeTotal = 0;
     this.clear_btn = false;
     this.getOrderList(
       this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.remarkStatus,
       this.search_term
     );
     this.listOfFilter = {
       filter_po_list_type: 'Cancellation Requested',
-      filter_sku: '',
-      filter_ship_out_location: '',
-      filter_carrier: '',
-      filter_committed_ship_date: '',
+      filter_mpn: this.selectMPN,
+      filter_ship_out_location: this.selectLocation,
+      filter_carrier: this.selectCarrier,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
+      filter_status_remark: this.remarkStatus,
     };
   }
 
   close(type: string) {
     if (type === 'status') {
-      this.selectStatus = '';
-      this.statusCount = 0;
+      this.remarkStatus = '';
+      this.remarkStatusCount = 0;
       this.badgeTotal--;
     } else if (type === 'rangeDate') {
       this.selectRangeDate = '';
@@ -270,18 +370,22 @@ export class CancellationRequestedComponent implements OnInit {
     }
     this.getOrderList(
       this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.remarkStatus,
       this.search_term
     );
     this.listOfFilter = {
       filter_po_list_type: 'Cancellation Requested',
-      filter_sku: '',
-      filter_ship_out_location: '',
-      filter_carrier: '',
-      filter_committed_ship_date: '',
+      filter_mpn: this.selectMPN,
+      filter_ship_out_location: this.selectLocation,
+      filter_carrier: this.selectCarrier,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
+      filter_status_remark: this.remarkStatus,
     };
   }
 }

@@ -237,7 +237,10 @@
           <nz-option nzLabel="Active" nzValue="Active"></nz-option>
           <nz-option nzLabel="Discontinued" nzValue="Discontinued"></nz-option>
           <nz-option nzLabel="LTL" nzValue="LTL"></nz-option>
-          <nz-option nzLabel="Partner Restricted" nzValue="Restricted"></nz-option>
+          <nz-option
+            nzLabel="Partner Restricted"
+            nzValue="Restricted"
+          ></nz-option>
           <nz-option nzLabel="Supressed" nzValue="Supressed"></nz-option>
         </nz-select>
 
@@ -367,6 +370,7 @@
   >
     <ng-container *nzModalContent>
       <app-upload-model
+        [sectionType]="'view-list-filter'"
         (closeModel)="handleCancel('upload')"
       ></app-upload-model>
     </ng-container>

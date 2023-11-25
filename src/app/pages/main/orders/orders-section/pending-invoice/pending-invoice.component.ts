@@ -30,6 +30,25 @@ export class PendingInvoiceComponent implements OnInit {
   mode = 'date';
   pendingInvoiceData: any[] = [
     {
+      po_no: 'AVO-2691',
+      location_code: 'AVO-LOC-002',
+      po_method: 'Email',
+      po_datetime: '2023-07-04T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32924',
+      product_mpn: '32924',
+      product_asin: 'B0B52573JC',
+      product_qty: 2,
+      po_total: 117.04,
+      ship_date: '2023-07-06',
+      carrier: 'USPS',
+      tracking: ['9434609104250515015334'],
+      status_remark: 'Pending 10 days',
+      committed_ship_date: '2023-07-10',
+      cancel_after_date: '2023-07-17',
+    },
+    {
       po_no: 'AVO-2692',
       location_code: 'AVO-LOC-001',
       po_method: 'Email',
@@ -41,61 +60,10 @@ export class PendingInvoiceComponent implements OnInit {
       product_asin: 'B08LTPFBTB',
       product_qty: 1,
       po_total: 82.62,
-      committed_ship_date: '2023-07-10',
-      cancel_after_date: '2023-07-17',
+      ship_date: '2023-07-10',
       carrier: 'FedEx',
       tracking: ['785703529694', '773824098610'],
-      status_remark: 'Late 5 Days',
-      ship_date: '02-06-2023',
-      po_status: 'Pending Shipment',
-      late_status: 'Late 2 Day',
-      invoice_status: 'Pending 10 days',
-      confirm_ship_button: true,
-      confirm_manifest_button: false,
-      upload_invoice_button: false,
-      already_ship_button: true,
-      already_manifest_button: false,
-      shippingDetails: {
-        name: 'shipping 1',
-        number: 'S2341',
-      },
-      customer_state: 'RTS',
-    },
-    {
-      po_no: 'AVO-2693',
-      location_code: 'AVO-LOC-001',
-      po_method: 'Email',
-      po_datetime: '2023-07-08T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32925',
-      product_mpn: '32925',
-      product_asin: 'B08LTPFBTB',
-      product_qty: 1,
-      po_total: 82.62,
-      committed_ship_date: '2023-07-10',
-      cancel_after_date: '2023-07-17',
-      carrier: 'UPS',
-      tracking: [
-        '1ZRR11990392758858',
-        '1ZRR11990392502785',
-        '1ZRR11990395317686',
-      ],
-      status_remark: 'On Time',
-      ship_date: '21-06-2023',
-      po_status: 'Pending Shipment',
-      late_status: 'Late 10 Day',
-      invoice_status: 'Pending 3 days',
-      confirm_ship_button: false,
-      confirm_manifest_button: true,
-      upload_invoice_button: false,
-      already_ship_button: false,
-      already_manifest_button: true,
-      shippingDetails: {
-        name: 'shipping 2',
-        number: 'S1133',
-      },
-      customer_state: 'RTS',
+      status_remark: 'Pending 10 days',
     },
   ];
   clear_btn: boolean = false;
@@ -106,6 +74,7 @@ export class PendingInvoiceComponent implements OnInit {
   rangeDateCount: number = 0;
   shipDateCount: number = 0;
   invoiceStatusCount: number = 0;
+  carrierCount: number = 0;
 
   selectLocation: string = '';
   selectMPN: string = '';
@@ -113,6 +82,7 @@ export class PendingInvoiceComponent implements OnInit {
   search_term: string = '';
   selectShipDate: string = '';
   selectInvoiceStatus: string = '';
+  selectCarrier: string = '';
 
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
@@ -125,12 +95,13 @@ export class PendingInvoiceComponent implements OnInit {
       this.pageIndex,
       this.selectMPN,
       this.selectLocation,
-      this.selectRangeDate[0],
-      this.selectRangeDate[1],
-      this.search_term,
+      this.selectCarrier,
       this.selectShipDate[0],
       this.selectShipDate[1],
-      this.selectInvoiceStatus
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.selectInvoiceStatus,
+      this.search_term
     );
   }
 
@@ -140,24 +111,29 @@ export class PendingInvoiceComponent implements OnInit {
 
   getOrderList(
     page: number,
-    sku?: string,
-    ship_out_location?: string,
-    from_po_date?: string,
-    to_po_date?: string,
-    search_term?: string,
-    selectShipDate1?: string,
-    selectShipDate2?: string,
-    selectInvoiceStatus?: string
+    filter_mpn?: string,
+    filter_ship_out_location?: string,
+    filter_carrier?: string,
+    filter_ship_from_date?: string,
+    filter_ship_to_date?: string,
+    filter_from_po_date?: string,
+    filter_to_po_date?: string,
+    filter_status_remark?: string,
+    search_term?: string
   ) {
     this.isLoading = true;
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 4,
-        sku: sku,
-        ship_out_location: ship_out_location,
-        from_po_date: from_po_date,
-        to_po_date: to_po_date,
+        type: 'PIR',
+        filter_mpn: filter_mpn,
+        filter_ship_out_location: filter_ship_out_location,
+        filter_carrier: filter_carrier,
+        filter_ship_from_date: filter_ship_from_date,
+        filter_ship_to_date: filter_ship_to_date,
+        filter_from_po_date: filter_from_po_date,
+        filter_to_po_date: filter_to_po_date,
+        filter_status_remark: filter_status_remark,
         search_term: search_term,
       })
       .subscribe({
@@ -179,12 +155,13 @@ export class PendingInvoiceComponent implements OnInit {
       this.pageIndex,
       this.selectMPN,
       this.selectLocation,
-      this.selectRangeDate[0],
-      this.selectRangeDate[1],
-      this.search_term,
+      this.selectCarrier,
       this.selectShipDate[0],
       this.selectShipDate[1],
-      this.selectInvoiceStatus
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.selectInvoiceStatus,
+      this.search_term
     );
   }
 
@@ -231,6 +208,20 @@ export class PendingInvoiceComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
+        case 'carrier':
+          if (
+            data.value === 'carrier1' ||
+            data.value === 'carrier2' ||
+            data.value === 'carrier3'
+          ) {
+            this.clear_btn = true;
+            this.selectCarrier = data.value;
+            if (this.carrierCount === 0) {
+              this.carrierCount++;
+              this.badgeTotal++;
+            }
+          }
+          break;
         case 'invoiceStatus':
           this.clear_btn = true;
           this.selectInvoiceStatus = data.value;
@@ -253,19 +244,24 @@ export class PendingInvoiceComponent implements OnInit {
         this.pageIndex,
         this.selectMPN,
         this.selectLocation,
-        this.selectRangeDate[0],
-        this.selectRangeDate[1],
-        this.search_term,
+        this.selectCarrier,
         this.selectShipDate[0],
         this.selectShipDate[1],
-        this.selectInvoiceStatus
+        this.selectRangeDate[0],
+        this.selectRangeDate[1],
+        this.selectInvoiceStatus,
+        this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'pending-invoice',
-        filter_sku: this.selectMPN,
+        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
+        filter_carrier: this.selectCarrier,
+        filter_ship_from_date: this.selectShipDate[0],
+        filter_ship_to_date: this.selectShipDate[1],
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
+        filter_status_remark: this.selectInvoiceStatus,
       };
     } else {
       if (this.badgeTotal > 0 && data.value !== null) {
@@ -275,9 +271,14 @@ export class PendingInvoiceComponent implements OnInit {
             this.locationCount = 0;
             this.badgeTotal--;
             break;
-          case 'sku':
+          case 'mpn':
             this.selectMPN = '';
             this.mpnCount = 0;
+            this.badgeTotal--;
+            break;
+          case 'carrier':
+            this.selectCarrier = '';
+            this.carrierCount = 0;
             this.badgeTotal--;
             break;
           case 'rangeDate':
@@ -302,19 +303,24 @@ export class PendingInvoiceComponent implements OnInit {
           this.pageIndex,
           this.selectMPN,
           this.selectLocation,
-          this.selectRangeDate[0],
-          this.selectRangeDate[1],
-          this.search_term,
+          this.selectCarrier,
           this.selectShipDate[0],
           this.selectShipDate[1],
-          this.selectInvoiceStatus
+          this.selectRangeDate[0],
+          this.selectRangeDate[1],
+          this.selectInvoiceStatus,
+          this.search_term
         );
         this.listOfFilter = {
           filter_po_list_type: 'pending-invoice',
-          filter_sku: this.selectMPN,
+          filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
+          filter_carrier: this.selectCarrier,
+          filter_ship_from_date: this.selectShipDate[0],
+          filter_ship_to_date: this.selectShipDate[1],
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
+          filter_status_remark: this.selectInvoiceStatus,
         };
       }
     }
@@ -323,10 +329,12 @@ export class PendingInvoiceComponent implements OnInit {
   tagRemove() {
     this.selectLocation = '';
     this.selectMPN = '';
+    this.selectCarrier = '';
     this.selectRangeDate = '';
     this.selectShipDate = '';
     this.selectInvoiceStatus = '';
 
+    this.carrierCount = 0;
     this.locationCount = 0;
     this.mpnCount = 0;
     this.rangeDateCount = 0;
@@ -339,19 +347,24 @@ export class PendingInvoiceComponent implements OnInit {
       this.pageIndex,
       this.selectMPN,
       this.selectLocation,
-      this.selectRangeDate[0],
-      this.selectRangeDate[1],
-      this.search_term,
+      this.selectCarrier,
       this.selectShipDate[0],
       this.selectShipDate[1],
-      this.selectInvoiceStatus
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.selectInvoiceStatus,
+      this.search_term
     );
     this.listOfFilter = {
       filter_po_list_type: 'pending-invoice',
-      filter_sku: this.selectMPN,
+      filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
+      filter_carrier: this.selectCarrier,
+      filter_ship_from_date: this.selectShipDate[0],
+      filter_ship_to_date: this.selectShipDate[1],
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
+      filter_status_remark: this.selectInvoiceStatus,
     };
   }
 
@@ -388,19 +401,24 @@ export class PendingInvoiceComponent implements OnInit {
         this.pageIndex,
         this.selectMPN,
         this.selectLocation,
-        this.selectRangeDate[0],
-        this.selectRangeDate[1],
-        this.search_term,
+        this.selectCarrier,
         this.selectShipDate[0],
         this.selectShipDate[1],
-        this.selectInvoiceStatus
+        this.selectRangeDate[0],
+        this.selectRangeDate[1],
+        this.selectInvoiceStatus,
+        this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'pending-invoice',
-        filter_sku: this.selectMPN,
+        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
+        filter_carrier: this.selectCarrier,
+        filter_ship_from_date: this.selectShipDate[0],
+        filter_ship_to_date: this.selectShipDate[1],
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
+        filter_status_remark: this.selectInvoiceStatus,
       };
     }
   }
