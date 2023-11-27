@@ -287,6 +287,14 @@
                       data?.allowances?.promotional_allowance | currency
                   }}
                 </div>
+                <div
+                  *ngIf="
+                    !data?.allowances?.co_op_allowance &&
+                    !data?.allowances?.promotional_allowance
+                  "
+                >
+                  {{ 0.0 | currency }}
+                </div>
                 <div *ngIf="data?.allowances?.co_op_allowance">
                   <br />
                   (CO-OP Allowance
