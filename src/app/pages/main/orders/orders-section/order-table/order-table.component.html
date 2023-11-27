@@ -149,19 +149,13 @@
             </div>
             <a
               class="link"
-              *ngIf="
-                data?.tracking?.length > 1 ||
-                (tabName === 'All' && data?.tracking?.length > 0)
-              "
+              *ngIf="data?.tracking?.length > 0"
               (click)="isTracking = true; trackingList = data?.tracking"
             >
               [{{ "Tracking Cnt. " + data?.tracking.length }}]
             </a>
           </div>
         </td>
-        <!-- <td *ngIf="tabName === 'Cancellation Requested'">
-          {{ data?.po_status }}
-        </td> -->
         <td *ngIf="tabName === 'All'">
           <a class="link" (click)="getDownloadInvoice()">
             {{ data?.invoice_no }}
