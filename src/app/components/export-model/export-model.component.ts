@@ -169,6 +169,9 @@ export class ExportModelComponent implements OnInit {
       filters['filter_carrier'] = this.exportType
         ? this.listOfFilter?.filter_carrier
         : '';
+      filters['filter_po_status'] = this.exportType
+        ? this.listOfFilter?.filter_po_status
+        : '';
       if (this.listOfFilter?.filter_committed_ship_date) {
         filters['filter_committed_ship_date'] = this.exportType
           ? formatDate(
