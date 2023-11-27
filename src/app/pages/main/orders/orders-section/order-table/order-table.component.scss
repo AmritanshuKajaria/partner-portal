@@ -39,9 +39,10 @@
             }
         }
 
-        .date {
-            white-space: nowrap;
-        }
+    }
+
+    .date {
+        white-space: nowrap !important;
     }
 
 }

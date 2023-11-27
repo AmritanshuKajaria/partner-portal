@@ -27,34 +27,6 @@ export class OrdersService {
     if (action.type) {
       params = params.append('type', action.type);
     }
-    if (action.sku) {
-      params = params.append('sku', action.sku);
-    }
-    if (action.ship_out_location) {
-      params = params.append('ship_out_location', action.ship_out_location);
-    }
-    if (action.carrier) {
-      params = params.append('carrier', action.carrier);
-    }
-    if (action.committed_ship_date) {
-      params = params.append(
-        'committed_ship_date',
-        formatDate(action.committed_ship_date, 'yyyy-MM-dd', this.locale)
-      );
-    }
-    if (action.from_po_date) {
-      params = params.append(
-        'from_po_date',
-        formatDate(action.from_po_date, 'yyyy-MM-dd', this.locale)
-      );
-    }
-    if (action.to_po_date) {
-      params = params.append(
-        'to_po_date',
-        formatDate(action.to_po_date, 'yyyy-MM-dd', this.locale)
-      );
-    }
-
     // filter
     if (action.filter_from_po_date) {
       params = params.append(
@@ -117,6 +89,9 @@ export class OrdersService {
         'filter_status_remark',
         action.filter_status_remark
       );
+    }
+    if (action.filter_po_status) {
+      params = params.append('filter_po_status', action.filter_po_status);
     }
     if (action.search_term) {
       params = params.append('search_term', action.search_term);

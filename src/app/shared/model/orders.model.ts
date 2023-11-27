@@ -35,6 +35,7 @@ export interface AppliedFilters {
   filter_ship_from_date?: string;
   filter_ship_to_date?: string;
   filter_status_remark?: string;
+  filter_po_status?: string;
 }
 
 export interface SingleOrder {
@@ -80,6 +81,7 @@ export interface OrderAction {
   filter_ship_from_date?: string;
   filter_ship_to_date?: string;
   filter_status_remark?: string;
+  filter_po_status?: string;
 }
 
 export interface MarkOrderShipped {

@@ -91,7 +91,7 @@
               <div class="sub-section-one">
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Status"
-                    ><b>{{ poDetailData?.order_status?.status }}</b>
+                    ><b>{{ poDetailData?.order_status?.po_status }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <!-- <nz-descriptions>
@@ -109,7 +109,7 @@
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Download PO Copy"
                     ><a class="link" (click)="downloadAction('Download PO')"
-                      >Click Hear</a
+                      >Click Here</a
                     >
                   </nz-descriptions-item>
                 </nz-descriptions>
@@ -118,7 +118,7 @@
                     ><a
                       class="link"
                       (click)="downloadAction('Download Shipping Labels')"
-                      >Click Hear</a
+                      >Click Here</a
                     >
                   </nz-descriptions-item>
                 </nz-descriptions>
@@ -127,7 +127,7 @@
                     ><a
                       class="link"
                       (click)="downloadAction('PO Clarification')"
-                      >Click Hear</a
+                      >Click Here</a
                     >
                   </nz-descriptions-item>
                 </nz-descriptions>
@@ -237,45 +237,89 @@
               <td style="text-align: center">{{ i + 1 }}</td>
               <td>
                 <div>
-                  <b>MPN :{{ data?.mpn }}</b>
+                  <b>MPN: {{ data?.mpn }}</b>
                 </div>
-                <div>Description : {{ data?.description }}</div>
-                <div>UPC : {{ data?.upc }}</div>
-                <div>Brand : {{ data?.brand }}</div>
-                <div>ASIN : {{ data?.asin }}</div>
-                <div>Total No Of Box : {{ data?.number_of_boxes }}</div>
-                <div>Unit : {{ data?.unit }}</div>
-                <div>
-                  Shipping Dims : {{ data?.shipping_dimensions[0].height }} X
-                  {{ data?.shipping_dimensions[0].length }} X
-                  {{ data?.shipping_dimensions[0].weight }} X
-                  {{ data?.shipping_dimensions[0].width }}
+                <div>Item Description: {{ data?.product_name }}</div>
+                <div>UPC: {{ data?.upc }}</div>
+                <div>Brand: {{ data?.brand }}</div>
+                <div>ASIN: {{ data?.asin }}</div>
+                <br />
+                <div>Total No. of Boxes: {{ data?.number_of_boxes }}</div>
+                <br />
+                <div
+                  *ngFor="
+                    let unit of data?.shipping_dimensions;
+                    let indexU = index
+                  "
+                >
+                  <div *ngFor="let units of createArray(unit)">
+                    <div *ngFor="let box of createArray(unit[units])">
+                      <div>Unit#: {{ units }} - Box#{{ box }}</div>
+                      <div>
+                        Shipping Dims: {{ unit[units][box].height }}
+                        <span *ngIf="unit[units][box].height">"</span> x
+                        {{ unit[units][box].length
+                        }}<span *ngIf="unit[units][box].length">"</span> x
+                        {{ unit[units][box].weight
+                        }}<span *ngIf="unit[units][box].weight">"</span>
+                        x
+                        {{ unit[units][box].width }}
+                        <span *ngIf="unit[units][box].width">lbs</span>
+                      </div>
+                    </div>
+                    <br />
+                  </div>
                 </div>
-                <div>Tracking No : {{ data.trackingNo }}</div>
               </td>
               <td style="text-align: center">{{ data?.qty }}</td>
               <td style="text-align: center">
                 {{ data?.unit_price | currency }}
               </td>
               <td style="text-align: center">
-                {{ data?.unitAllowances | currency }}
+                <div>{{ data?.defective_allowance | currency }}</div>
+                <div *ngIf="data?.allowances?.co_op_allowance">
+                  <br />
+                  (CO-OP Allowance
+                  {{ data?.allowances?.co_op_allowance | currency }})
+                </div>
+                <div *ngIf="data?.allowances?.promotional_allowance">
+                  <br />
+                  (Promotional Allowance
+                  {{ data?.allowances?.promotional_allowance | currency }})
+                </div>
               </td>
               <td style="text-align: center">
-                {{ data?.unitExtendedPrice | currency }}
+                {{ data?.unit_extended_price | currency }}
               </td>
               <td style="text-align: center">
-                {{ data?.extendedTotal | currency }}
+                {{ data?.unit_extended_total | currency }}
               </td>
             </tr>
             <tr>
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end">Sub Total</td>
-              <td style="text-align: center">{{ 64.06 | currency }}</td>
+              <td style="text-align: center">
+                {{ poDetailData.order_item[0].unit_extended_total | currency }}
+              </td>
+            </tr>
+            <tr
+              *ngIf="
+                poDetailData.order_item[0].defective_allowance &&
+                poDetailData.order_item[0].defective_allowance !== 0
+              "
+            >
+              <td colspan="4"></td>
+              <td colspan="2" style="text-align: end">Defective Allowance</td>
+              <td style="text-align: center">
+                {{ poDetailData.order_item[0].defective_allowance | currency }}
+              </td>
             </tr>
             <tr>
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end"><b>PO Total</b></td>
-              <td style="text-align: center">{{ 64.06 | currency }}</td>
+              <td style="text-align: center">
+                <b>{{ poDetailData.order_item[0].po_total | currency }}</b>
+              </td>
             </tr>
           </tbody>
         </nz-table>

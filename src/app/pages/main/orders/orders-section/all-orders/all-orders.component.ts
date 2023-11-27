@@ -31,7 +31,7 @@ export class AllOrdersComponent implements OnInit {
   filter!: FormGroup;
   allOrdersData: any[] = [
     {
-      po_no: 'AVO-2691',
+      po_no: 'AVO-2690',
       location_code: 'AVO-LOC-002',
       po_method: 'Email',
       po_datetime: '2023-07-04T23:20:00.000Z',
@@ -130,7 +130,7 @@ export class AllOrdersComponent implements OnInit {
     filter_carrier?: string,
     filter_from_po_date?: string,
     filter_to_po_date?: string,
-    filter_status_remark?: string,
+    filter_po_status?: string,
     search_term?: string
   ) {
     this.isLoading = true;
@@ -143,7 +143,7 @@ export class AllOrdersComponent implements OnInit {
         filter_carrier: filter_carrier,
         filter_from_po_date: filter_from_po_date,
         filter_to_po_date: filter_to_po_date,
-        filter_status_remark: filter_status_remark,
+        filter_po_status: filter_po_status,
         search_term: search_term,
       })
       .subscribe({
@@ -269,7 +269,7 @@ export class AllOrdersComponent implements OnInit {
         filter_carrier: this.selectCarrier,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
-        filter_status_remark: this.remarkStatus,
+        filter_po_status: this.remarkStatus,
       };
     } else {
       if (this.badgeTotal > 0 && data.value !== null) {
@@ -317,7 +317,7 @@ export class AllOrdersComponent implements OnInit {
           filter_carrier: this.selectCarrier,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
-          filter_status_remark: this.remarkStatus,
+          filter_po_status: this.remarkStatus,
         };
       }
     }
@@ -357,7 +357,7 @@ export class AllOrdersComponent implements OnInit {
       filter_carrier: this.selectCarrier,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
-      filter_status_remark: this.remarkStatus,
+      filter_po_status: this.remarkStatus,
     };
   }
 
@@ -407,7 +407,7 @@ export class AllOrdersComponent implements OnInit {
         filter_carrier: this.selectCarrier,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
-        filter_status_remark: this.remarkStatus,
+        filter_po_status: this.remarkStatus,
       };
     }
   }

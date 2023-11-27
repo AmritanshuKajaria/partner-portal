@@ -81,14 +81,14 @@
     <nz-divider
       *ngIf="tabName === 'pendingShipment'"
       style="margin-top: 20px"
-      nzText="Shipping Status"
+      nzText="Remark"
       nzOrientation="left"
     ></nz-divider>
     <nz-select
       *ngIf="tabName === 'pendingShipment'"
       nzShowSearch
       nzAllowClear
-      nzPlaceHolder="Select A status"
+      nzPlaceHolder="Select A Remark"
       [(ngModel)]="remarkStatus"
       (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
@@ -103,14 +103,14 @@
     <nz-divider
       *ngIf="tabName === 'cancellationRequested'"
       style="margin-top: 20px"
-      nzText="Request Status"
+      nzText="Remark"
       nzOrientation="left"
     ></nz-divider>
     <nz-select
       *ngIf="tabName === 'cancellationRequested'"
       nzShowSearch
       nzAllowClear
-      nzPlaceHolder="Select A Status"
+      nzPlaceHolder="Select A Remark"
       [(ngModel)]="remarkStatus"
       (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
@@ -139,14 +139,14 @@
     <nz-divider
       *ngIf="tabName === 'pending-invoice'"
       style="margin-top: 20px"
-      nzText="Invoice Status"
+      nzText="Remark"
       nzOrientation="left"
     ></nz-divider>
     <nz-select
       *ngIf="tabName === 'pending-invoice'"
       nzShowSearch
       nzAllowClear
-      nzPlaceHolder="Select A Invoice Status"
+      nzPlaceHolder="Select A Remark"
       [(ngModel)]="invoiceStatus"
       (ngModelChange)="
         changeValue(invoiceStatus ? $event : '', 'invoiceStatus')
