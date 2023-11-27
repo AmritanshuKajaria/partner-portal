@@ -94,12 +94,12 @@
                     ><b>{{ poDetailData?.order_status?.po_status }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
-                <!-- <nz-descriptions>
-                  <nz-descriptions-item nzTitle="Action"
-                    ><b>{{ orderStatus.action }}</b>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Remark"
+                    ><b>{{ poDetailData?.order_status?.status_remark }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
-                <nz-descriptions>
+                <!-- <nz-descriptions>
                   <nz-descriptions-item nzTitle="Action"
                     ><b>{{ orderStatus.actions }}</b>
                   </nz-descriptions-item>
@@ -276,7 +276,17 @@
                 {{ data?.unit_price | currency }}
               </td>
               <td style="text-align: center">
-                <div>{{ data?.defective_allowance | currency }}</div>
+                <div
+                  *ngIf="
+                    data?.allowances?.co_op_allowance ||
+                    data?.allowances?.promotional_allowance
+                  "
+                >
+                  {{
+                    data?.allowances?.co_op_allowance +
+                      data?.allowances?.promotional_allowance | currency
+                  }}
+                </div>
                 <div *ngIf="data?.allowances?.co_op_allowance">
                   <br />
                   (CO-OP Allowance
