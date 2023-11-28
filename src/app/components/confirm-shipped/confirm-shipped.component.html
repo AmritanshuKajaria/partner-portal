@@ -2,18 +2,18 @@
   <div style="padding: 15px; padding-bottom: 0px">
     <form [formGroup]="confirmShippedForm">
       <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24"
+        <nz-form-label [nzSm]="6" [nzXs]="24"
           >Carrier Name <span style="color: red">*</span></nz-form-label
         >
         <nz-form-control
-          [nzSm]="16"
+          [nzSm]="18"
           [nzXs]="24"
           nzErrorTip="Carrier is required!"
         >
           <nz-input-group>
             <nz-select
               nzShowSearch
-              nzPlaceHolder="Select A Carrier"
+              nzPlaceHolder="Select A Carrier Name"
               formControlName="carrier"
               (ngModelChange)="onCarrierChanged($event)"
             >
@@ -38,23 +38,26 @@
             <input
               type="text"
               nz-input
-              placeholder="Enter Other Carrier"
+              placeholder="Enter Other Carrier Name"
               formControlName="other_carrier"
             />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24"
+        <nz-form-label [nzSm]="6" [nzXs]="24"
           >Shipping Date <span style="color: red">*</span></nz-form-label
         >
         <nz-form-control
-          [nzSm]="16"
+          [nzSm]="18"
           [nzXs]="24"
           nzErrorTip="Shipping date is required!"
         >
           <nz-input-group>
-            <nz-date-picker formControlName="shipping_date"></nz-date-picker>
+            <nz-date-picker
+              nzPlaceHolder="Select Shipping Date"
+              formControlName="shipping_date"
+            ></nz-date-picker>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -72,7 +75,7 @@
                 *ngIf="i === 0"
                 nz-col
                 nzFor="email"
-                [nzSm]="8"
+                [nzSm]="6"
                 [nzXs]="24"
                 >Tracking List <span style="color: red">*</span></nz-form-label
               >
@@ -94,7 +97,7 @@
               </div>
 
               <nz-form-control
-                [nzSm]="12"
+                [nzSm]="14"
                 [nzXs]="20"
                 nzErrorTip="Tracking is required!"
               >
