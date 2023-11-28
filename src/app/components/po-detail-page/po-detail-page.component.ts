@@ -71,7 +71,7 @@ export class PoDetailPageComponent implements OnInit {
         },
         order_status: {
           po_status: 'Pending Shipment',
-          satus_remark: 'Late',
+          status_remark: 'Late',
         },
         ship_from: {
           company_name: 'Panacea Product Corporation (ANT)',
