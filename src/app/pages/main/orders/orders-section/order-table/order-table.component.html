@@ -58,9 +58,11 @@
         <th id="Remark" *ngIf="tabName !== 'new'">Remark</th>
         <th
           id="action"
+          class="action-column"
           [ngStyle]="{ width: tabName === 'All' ? '50px' : '190px' }"
+          nzRight
         >
-          Action
+          <div>Action</div>
         </th>
       </tr>
     </thead>
@@ -172,7 +174,7 @@
         <td *ngIf="tabName !== 'new'">
           {{ data?.status_remark }}
         </td>
-        <td>
+        <td nzRight>
           <div
             *ngIf="tabName === 'new' || tabName === 'pending-shipment'"
             style="display: flex"

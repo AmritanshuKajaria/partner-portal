@@ -45,6 +45,17 @@
         white-space: nowrap !important;
     }
 
+    .action-column {
+        padding: 0;
+        background-color: rgba(239, 239, 250) !important;
+        position: sticky;
+        right: 0px;
+
+        div {
+            padding: 16px;
+        }
+    }
+
 }
 
 .tracking-id {
