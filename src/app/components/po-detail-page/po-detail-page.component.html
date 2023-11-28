@@ -59,10 +59,13 @@
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="PO Date"
                     ><b>
-                      <app-date-time
-                        [dateTime]="poDetailData?.order_summary?.po_date"
-                      ></app-date-time
-                    ></b>
+                      {{
+                        poDetailData?.order_summary?.po_date
+                          ? (poDetailData?.order_summary?.po_date
+                            | customDate : " HH:MM a")
+                          : ""
+                      }}</b
+                    >
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <nz-descriptions>
