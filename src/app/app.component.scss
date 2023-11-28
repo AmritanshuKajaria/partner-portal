@@ -29,11 +29,6 @@
     background-color: $darkBlue !important;
 }
 
-// ::ng-deep .ant-btn:hover,
-// .ant-btn:focus {
-//     border-color: $darkBlue !important;
-// }
-
 ::ng-deep .ant-select:not(.ant-select-disabled):hover .ant-select-selector {
     border-color: $darkBlue !important;
 }
@@ -87,10 +82,6 @@
 ::ng-deep .ant-picker:hover {
     border-color: $darkBlue;
     box-shadow: 0 0 0 2px rgb(24 42 255 / 20%);
-}
-
-::ng-deep .ant-picker-input>input {
-    font-size: 16px !important;
 }
 
 ::ng-deep .ant-picker-focused {

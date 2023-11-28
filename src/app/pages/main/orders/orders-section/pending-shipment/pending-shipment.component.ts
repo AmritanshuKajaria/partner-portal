@@ -182,15 +182,6 @@ export class PendingShipmentComponent implements OnInit {
     );
   }
 
-  selectAction(event: string) {
-    console.log(event);
-    if (event === 'Download PO') {
-    } else if (event === 'Download Label') {
-    } else {
-      this.isCancelOrderVisible = true;
-    }
-  }
-
   onChange(result: Date[]): void {
     console.log('From: ', result[0], ', to: ', result[1]);
   }

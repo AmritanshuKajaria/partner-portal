@@ -275,13 +275,13 @@ export class PendingInvoiceComponent implements OnInit {
             break;
           case 'shipDate':
             this.selectShipDate = '';
-            this.shipDateCount === 0;
+            this.shipDateCount = 0;
             this.badgeTotal--;
 
             break;
           case 'invoiceStatus':
             this.selectInvoiceStatus = '';
-            this.invoiceStatusCount === 0;
+            this.invoiceStatusCount = 0;
             this.badgeTotal--;
 
             break;
