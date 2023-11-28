@@ -75,7 +75,7 @@ export class AllOrdersComponent implements OnInit {
         '1ZRR11990395317686',
       ],
       invoice_no: 987514,
-      po_status: 'Canceled',
+      po_status: 'Cancelled',
       status_remark: '07 – Late PO Auto Canceled',
     },
   ];
