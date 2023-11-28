@@ -122,14 +122,15 @@
           </span>
         </td>
         <td *ngIf="tabName !== 'pending-invoice'">
-          <div
-            class="date"
-            [ngStyle]="{ 'text-align': !data.ship_date ? 'center' : '' }"
-          >
+          <div class="date">
             {{
-              data.cancel_after_date
+              tabName === "Cancellation Requested"
+                ? data.action_by_date
+                  ? (data.action_by_date | customDate)
+                  : ""
+                : data.cancel_after_date
                 ? (data.cancel_after_date | customDate)
-                : (data.action_by_date | customDate)
+                : ""
             }}
           </div>
         </td>
