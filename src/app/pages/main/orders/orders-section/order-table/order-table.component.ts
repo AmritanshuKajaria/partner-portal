@@ -101,6 +101,7 @@ export class OrderTableComponent implements OnInit {
         }
       });
     } else if (type === 'PO Clarification') {
+      this.poNo = po_no;
       this.poClarification = true;
     } else {
       this.poNo = po_no;

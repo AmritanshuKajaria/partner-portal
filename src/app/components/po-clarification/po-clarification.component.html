@@ -30,7 +30,6 @@
           <nz-input-group>
             <input
               formControlName="name"
-              [readonly]="true"
               type="text"
               nz-input
               placeholder="Enter Name"
@@ -42,19 +41,22 @@
         <nz-form-label [nzSm]="4" [nzXs]="24"
           >Email <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control
-          [nzSm]="20"
-          [nzXs]="24"
-          nzErrorTip="Email is required!"
-        >
+        <nz-form-control [nzSm]="20" [nzXs]="24" [nzErrorTip]="email">
           <nz-input-group>
             <input
               formControlName="email"
-              [readonly]="true"
               type="text"
               nz-input
               placeholder="Enter Email"
             />
+            <ng-template #email let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Email is required!!<br
+              /></ng-container>
+              <ng-container *ngIf="control.hasError('email')"
+                >Please input valid Email!</ng-container
+              >
+            </ng-template>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -68,7 +70,6 @@
           <nz-input-group>
             <input
               formControlName="phone"
-              [readonly]="true"
               type="text"
               nz-input
               placeholder="Enter Phone"

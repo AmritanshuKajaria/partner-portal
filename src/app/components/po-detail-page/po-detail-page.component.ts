@@ -62,7 +62,7 @@ export class PoDetailPageComponent implements OnInit {
         order_summary: {
           po_no: 'AVO-2690',
           ship_by_date: 'IMMEDIATE',
-          shipping_carrier: 'EasyShip UPS',
+          shipping_carrier: 'UPS',
           shipping_service: 'GROUND',
           shipping_terms: 'Collect',
           po_date: '2023-07-04T23:20:00.000Z',
@@ -71,7 +71,7 @@ export class PoDetailPageComponent implements OnInit {
         },
         order_status: {
           po_status: 'Pending Shipment',
-          status_remark: 'Late',
+          satus_remark: 'Late',
         },
         ship_from: {
           company_name: 'Panacea Product Corporation (ANT)',
@@ -123,8 +123,6 @@ export class PoDetailPageComponent implements OnInit {
                     tracking: '1ZRR18990392758859',
                   },
                 },
-              },
-              {
                 '2': {
                   '1': {
                     box_no: 1,
@@ -164,8 +162,8 @@ export class PoDetailPageComponent implements OnInit {
       this.poNotExist = res.success;
     }
     this.isLoading = true;
-    ordersService.getSingleOrder(this.poNo).subscribe(
-      (res: any) => {
+    ordersService.getSingleOrder(this.poNo).subscribe({
+      next: (res: any) => {
         this.isLoading = false;
         if (res.success) {
           this.poDetailData = res?.order;
@@ -173,8 +171,8 @@ export class PoDetailPageComponent implements OnInit {
           this.poNotExist = res.success;
         }
       },
-      (err) => (this.isLoading = false)
-    );
+      error: (err) => (this.isLoading = false),
+    });
   }
   ngOnInit(): void {}
 

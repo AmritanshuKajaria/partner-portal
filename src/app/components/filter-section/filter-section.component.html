@@ -92,10 +92,15 @@
       [(ngModel)]="remarkStatus"
       (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
-      <nz-option nzLabel="Manifested" nzValue="Manifested"></nz-option>
+      <nz-option nzLabel="On time" nzValue="On time"></nz-option>
+      <nz-option nzLabel="Late 1 Day" nzValue="Late 1 Day"></nz-option>
+      <nz-option nzLabel="Late 2 Days" nzValue="Late 2 Days"></nz-option>
+      <nz-option nzLabel="Late 3 Days" nzValue="Late 3 Days"></nz-option>
+      <nz-option nzLabel="Late 4 Days" nzValue="Late 4 Days"></nz-option>
+      <nz-option nzLabel="Late 5 Days" nzValue="Late 5 Days"></nz-option>
       <nz-option
-        nzLabel="Not yet Manifested"
-        nzValue="Not yet Manifested"
+        nzLabel="Will be cancelled EOD"
+        nzValue="Will be cancelled EOD"
       ></nz-option>
     </nz-select>
 
@@ -114,10 +119,10 @@
       [(ngModel)]="remarkStatus"
       (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
-      <nz-option nzLabel="Accepted" nzValue="Accepted"></nz-option>
+      <nz-option nzLabel="Open" nzValue="Open"></nz-option>
       <nz-option
-        nzLabel="Already Shipped"
-        nzValue="Already Shipped"
+        nzLabel="Will be cancelled EOD"
+        nzValue="Will be cancelled EOD"
       ></nz-option>
     </nz-select>
 
@@ -152,11 +157,12 @@
         changeValue(invoiceStatus ? $event : '', 'invoiceStatus')
       "
     >
+      <nz-option nzLabel="Late 1-7 Days" nzValue="Late 1-7 Days"></nz-option>
+      <nz-option nzLabel="Late 8-14 Days" nzValue="Late 8-14 Days"></nz-option>
       <nz-option
-        nzLabel="Pending 10 days"
-        nzValue="Pending 10 days"
+        nzLabel="Late 15-21 Days"
+        nzValue="Late 15-21 Days"
       ></nz-option>
-      <nz-option nzLabel="Pending 3 days" nzValue="Pending 3 days"></nz-option>
     </nz-select>
 
     <!-- All Status -->
@@ -180,14 +186,20 @@
         nzLabel="Pending Shipment"
         nzValue="Pending Shipment"
       ></nz-option>
-      <nz-option nzLabel="In-Transit" nzValue="In-Transit"></nz-option>
-      <nz-option nzLabel="Delivered" nzValue="Delivered"></nz-option>
       <nz-option
-        nzLabel="Cancellation Requested"
-        nzValue="Cancellation Requested"
+        nzLabel="Buyer Cancellation Requested"
+        nzValue="Buyer Cancellation Requested"
       ></nz-option>
-      <nz-option nzLabel="Cancelled" nzValue="Cancelled"></nz-option>
-      <nz-option nzLabel="RTO" nzValue="RTO"></nz-option>
+      <nz-option
+        nzLabel="Pending Invoice"
+        nzValue="Pending Invoice"
+      ></nz-option>
+      <nz-option nzLabel="In Transit" nzValue="In Transit"></nz-option>
+      <nz-option nzLabel="RTS" nzValue="RTS"></nz-option>
+      <nz-option nzLabel="Delivered" nzValue="Delivered"></nz-option>
+      <nz-option nzLabel="Lost" nzValue="Lost"></nz-option>
+      <nz-option nzLabel="Damaged" nzValue="Damaged"></nz-option>
+      <nz-option nzLabel="Canceled" nzValue="Canceled"></nz-option>
     </nz-select>
   </div>
 </div>

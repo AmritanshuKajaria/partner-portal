@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { DatePipe } from '@angular/common';
 
-var AppDateFormate = 'MMM d, y';
+let AppDateFormate = 'MMM d, y';
 
 @Pipe({
   name: 'customDate',

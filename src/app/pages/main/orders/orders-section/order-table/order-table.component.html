@@ -46,11 +46,8 @@
         <th *ngIf="tabName === 'pending-invoice' || tabName === 'All'">
           Ship Date
         </th>
-        <th *ngIf="tabName === 'All'">Cancel Date</th>
+        <th *ngIf="tabName === 'All'">Canceled Date</th>
         <th>Carrier</th>
-        <!-- <th *ngIf="tabName === 'Cancellation Requested'">Request Status</th>
-        <th *ngIf="tabName === 'pending-shipment'">Shipping Status</th>
-        <th *ngIf="tabName === 'pending-invoice'">Invoice Status</th> -->
         <th *ngIf="tabName === 'All'">Invoice no</th>
         <th *ngIf="tabName === 'All'">PO Status</th>
         <th *ngIf="tabName !== 'new'">Remark</th>
@@ -308,7 +305,7 @@
 
 <nz-modal
   [(nzVisible)]="poClarification"
-  nzTitle="Create Ticket"
+  [nzTitle]="'PO Clarification (PO# ' + poNo + ')'"
   (nzOnCancel)="poClarification = false"
 >
   <ng-container *nzModalContent>

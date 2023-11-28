@@ -58,22 +58,31 @@
               <div class="sub-section-two">
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="PO Date"
-                    ><b>{{
-                      poDetailData?.order_summary?.po_date
-                        | date : "yyyy-MM-dd hh:MM"
-                    }}</b>
+                    ><b>
+                      <app-date-time
+                        [dateTime]="poDetailData?.order_summary?.po_date"
+                      ></app-date-time
+                    ></b>
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Committed Ship Date"
                     ><b>{{
                       poDetailData?.order_summary?.committed_ship_date
+                        ? (poDetailData?.order_summary?.committed_ship_date
+                          | customDate)
+                        : ""
                     }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Cancel After Date"
-                    ><b>{{ poDetailData?.order_summary?.cancel_after_date }}</b>
+                    ><b>{{
+                      poDetailData?.order_summary?.cancel_after_date
+                        ? (poDetailData?.order_summary?.cancel_after_date
+                          | customDate)
+                        : ""
+                    }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
               </div>
@@ -99,11 +108,6 @@
                     ><b>{{ poDetailData?.order_status?.status_remark }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
-                <!-- <nz-descriptions>
-                  <nz-descriptions-item nzTitle="Action"
-                    ><b>{{ orderStatus.actions }}</b>
-                  </nz-descriptions-item>
-                </nz-descriptions> -->
               </div>
               <div class="sub-section-two">
                 <nz-descriptions>

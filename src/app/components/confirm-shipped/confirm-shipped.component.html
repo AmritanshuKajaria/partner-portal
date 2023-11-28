@@ -15,11 +15,32 @@
               nzShowSearch
               nzPlaceHolder="Select A Carrier"
               formControlName="carrier"
+              (ngModelChange)="onCarrierChanged($event)"
             >
-              <nz-option nzLabel="Carrier 1" nzValue="carrier1"></nz-option>
-              <nz-option nzLabel="Carrier 2" nzValue="carrier2"></nz-option>
-              <nz-option nzLabel="Carrier 3" nzValue="carrier3"></nz-option>
+              <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
+              <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
+              <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
+              <nz-option nzLabel="Others" nzValue="Others"></nz-option>
             </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="confirmShippedForm.value.carrier === 'Others'">
+        <nz-form-label [nzSm]="6" [nzXs]="24"
+          >Other Carrier <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Other carrier is required!"
+        >
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Other Carrier"
+              formControlName="other_carrier"
+            />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
