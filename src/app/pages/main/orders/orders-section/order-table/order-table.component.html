@@ -14,13 +14,14 @@
   >
     <thead>
       <tr>
-        <th>PO #</th>
-        <th>PO Date</th>
-        <th>Customer Name</th>
-        <th>Products</th>
-        <th>PO Total</th>
+        <th id="po">PO #</th>
+        <th id="poDate">PO Date</th>
+        <th id="customer-name">Customer Name</th>
+        <th id="product">Products</th>
+        <th id="po-total">PO Total</th>
 
         <th
+          id="committed_ship_date"
           *ngIf="
             tabName === 'new' ||
             tabName === 'pending-shipment' ||
@@ -30,6 +31,7 @@
           Committed Ship Date
         </th>
         <th
+          id="date"
           *ngIf="
             tabName === 'new' ||
             tabName === 'pending-shipment' ||
@@ -43,15 +45,21 @@
               : "Cancel After Date"
           }}
         </th>
-        <th *ngIf="tabName === 'pending-invoice' || tabName === 'All'">
+        <th
+          id="ship_date"
+          *ngIf="tabName === 'pending-invoice' || tabName === 'All'"
+        >
           Ship Date
         </th>
-        <th *ngIf="tabName === 'All'">Cancelled Date</th>
-        <th>Carrier</th>
-        <th *ngIf="tabName === 'All'">Invoice no</th>
-        <th *ngIf="tabName === 'All'">PO Status</th>
-        <th *ngIf="tabName !== 'new'">Remark</th>
-        <th [ngStyle]="{ width: tabName === 'All' ? '50px' : '190px' }">
+        <th id="cancelled_date" *ngIf="tabName === 'All'">Cancelled Date</th>
+        <th id="carrier">Carrier</th>
+        <th id="invoice_no" *ngIf="tabName === 'All'">Invoice no</th>
+        <th id="po_status" *ngIf="tabName === 'All'">PO Status</th>
+        <th id="Remark" *ngIf="tabName !== 'new'">Remark</th>
+        <th
+          id="action"
+          [ngStyle]="{ width: tabName === 'All' ? '50px' : '190px' }"
+        >
           Action
         </th>
       </tr>

@@ -16,7 +16,7 @@ export class OrderTableComponent implements OnInit {
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
   @Input() listOfData: any[] = [];
-  @Input() tabName: string | any = '';
+  @Input() tabName: string = '';
 
   @Output() changeModel = new EventEmitter();
 
@@ -57,16 +57,6 @@ export class OrderTableComponent implements OnInit {
 
   markOrderShipped(po_no: string) {
     this.isConfirmShipped = true;
-    // const data = {
-    //   po_number: po_no,
-    //   reason: '',
-    // };
-    // this.ordersService.markOrderShipped(data).subscribe((res: any) => {
-    //   console.log(res);
-    //   if (res.success) {
-    //     this.message.success('Mark order shipped successfully!');
-    //   }
-    // });
   }
 
   acceptCancellation(po_no: string) {
@@ -107,7 +97,6 @@ export class OrderTableComponent implements OnInit {
       this.poNo = po_no;
       this.isCancelOrderVisible = true;
     }
-    // this.changeModel.emit(type);
   }
 
   getDownloadInvoice() {

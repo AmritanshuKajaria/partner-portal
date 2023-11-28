@@ -3,7 +3,7 @@
     <form [formGroup]="confirmShippedForm">
       <nz-form-item>
         <nz-form-label [nzSm]="6" [nzXs]="24"
-          >Carrier Name <span style="color: red">*</span></nz-form-label
+          >Carrier <span style="color: red">*</span></nz-form-label
         >
         <nz-form-control
           [nzSm]="18"
@@ -13,7 +13,7 @@
           <nz-input-group>
             <nz-select
               nzShowSearch
-              nzPlaceHolder="Select A Carrier Name"
+              nzPlaceHolder="Select A Carrier"
               formControlName="carrier"
               (ngModelChange)="onCarrierChanged($event)"
             >
@@ -26,19 +26,17 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item *ngIf="confirmShippedForm.value.carrier === 'Others'">
-        <nz-form-label [nzSm]="8" [nzXs]="24"
-          >Other Carrier Name <span style="color: red">*</span></nz-form-label
-        >
+        <div nz-col [nzSm]="6" [nzXs]="24"></div>
         <nz-form-control
-          [nzSm]="16"
+          [nzSm]="18"
           [nzXs]="24"
-          nzErrorTip="Other carrier is required!"
+          nzErrorTip="Carrier name is required!"
         >
           <nz-input-group>
             <input
               type="text"
               nz-input
-              placeholder="Enter Other Carrier Name"
+              placeholder="Enter Carrier Name"
               formControlName="other_carrier"
             />
           </nz-input-group>

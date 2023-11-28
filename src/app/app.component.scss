@@ -90,6 +90,10 @@
     box-shadow: 0 0 0 2px rgb(24 42 255 / 20%);
 }
 
+::ng-deep .ant-picker-input>input {
+    font-size: 16px !important;
+}
+
 ::ng-deep .ant-picker-focused {
     border-color: $darkBlue;
     box-shadow: 0 0 0 2px rgb(24 42 255 / 20%);
