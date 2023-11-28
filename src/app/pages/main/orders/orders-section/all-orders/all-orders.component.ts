@@ -188,19 +188,12 @@ export class AllOrdersComponent implements OnInit {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'shipOutLocation':
-          if (
-            data.value === 'ahmadabad' ||
-            data.value === 'surat' ||
-            data.value === 'rajkot' ||
-            data.value === 'bhavnagar'
-          ) {
-            this.clear_btn = true;
-            this.selectLocation = data.value;
+          this.clear_btn = true;
+          this.selectLocation = data.value;
 
-            if (this.locationCount === 0) {
-              this.locationCount++;
-              this.badgeTotal++;
-            }
+          if (this.locationCount === 0) {
+            this.locationCount++;
+            this.badgeTotal++;
           }
           break;
         case 'mpn':
@@ -212,17 +205,11 @@ export class AllOrdersComponent implements OnInit {
           }
           break;
         case 'carrier':
-          if (
-            data.value === 'carrier1' ||
-            data.value === 'carrier2' ||
-            data.value === 'carrier3'
-          ) {
-            this.clear_btn = true;
-            this.selectCarrier = data.value;
-            if (this.carrierCount === 0) {
-              this.carrierCount++;
-              this.badgeTotal++;
-            }
+          this.clear_btn = true;
+          this.selectCarrier = data.value;
+          if (this.carrierCount === 0) {
+            this.carrierCount++;
+            this.badgeTotal++;
           }
           break;
         case 'rangeDate':
@@ -234,21 +221,11 @@ export class AllOrdersComponent implements OnInit {
           }
           break;
         case 'remarkStatus':
-          if (
-            data.value === 'New' ||
-            data.value === 'Pending Shipment' ||
-            data.value === 'In-Transit' ||
-            data.value === 'Delivered' ||
-            data.value === 'Cancellation Requested' ||
-            data.value === 'Cancelled' ||
-            data.value === 'RTO'
-          ) {
-            this.clear_btn = true;
-            this.remarkStatus = data.value;
-            if (this.remarkStatusCount === 0) {
-              this.remarkStatusCount++;
-              this.badgeTotal++;
-            }
+          this.clear_btn = true;
+          this.remarkStatus = data.value;
+          if (this.remarkStatusCount === 0) {
+            this.remarkStatusCount++;
+            this.badgeTotal++;
           }
           break;
       }

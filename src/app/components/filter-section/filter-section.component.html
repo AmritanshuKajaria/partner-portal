@@ -58,9 +58,10 @@
       [(ngModel)]="carrier"
       (ngModelChange)="changeValue(carrier ? $event : '', 'carrier')"
     >
-      <nz-option nzLabel="Carrier 1" nzValue="carrier1"></nz-option>
-      <nz-option nzLabel="Carrier 2" nzValue="carrier2"></nz-option>
-      <nz-option nzLabel="Carrier 3" nzValue="carrier3"></nz-option>
+      <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
+      <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
+      <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
+      <nz-option nzLabel="Others" nzValue="Others"></nz-option>
     </nz-select>
 
     <nz-divider

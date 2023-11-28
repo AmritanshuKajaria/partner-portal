@@ -169,19 +169,12 @@ export class NewOrdersComponent implements OnInit {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'shipOutLocation':
-          if (
-            data.value === 'ahmadabad' ||
-            data.value === 'surat' ||
-            data.value === 'rajkot' ||
-            data.value === 'bhavnagar'
-          ) {
-            this.clear_btn = true;
-            this.selectLocation = data.value;
+          this.clear_btn = true;
+          this.selectLocation = data.value;
 
-            if (this.locationCount === 0) {
-              this.locationCount++;
-              this.badgeTotal++;
-            }
+          if (this.locationCount === 0) {
+            this.locationCount++;
+            this.badgeTotal++;
           }
           break;
         case 'mpn':
@@ -193,17 +186,11 @@ export class NewOrdersComponent implements OnInit {
           }
           break;
         case 'carrier':
-          if (
-            data.value === 'carrier1' ||
-            data.value === 'carrier2' ||
-            data.value === 'carrier3'
-          ) {
-            this.clear_btn = true;
-            this.selectCarrier = data.value;
-            if (this.carrierCount === 0) {
-              this.carrierCount++;
-              this.badgeTotal++;
-            }
+          this.clear_btn = true;
+          this.selectCarrier = data.value;
+          if (this.carrierCount === 0) {
+            this.carrierCount++;
+            this.badgeTotal++;
           }
           break;
         case 'rangeDate':
