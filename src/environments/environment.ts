@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://66e30918-f47b-4199-a935-efff2913cba5.mock.pstmn.io'
+  // apiUrl: 'https://66e30918-f47b-4199-a935-efff2913cba5.mock.pstmn.io',
+  apiUrl: 'https://api.123stores.com:8080',
 };
 // ng serve --host 0.0.0.0 --disable-host-check
 /*

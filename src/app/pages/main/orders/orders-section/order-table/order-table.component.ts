@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -21,13 +22,18 @@ export class OrderTableComponent implements OnInit {
 
   statusEnum: typeof StatusEnum = StatusEnum;
   isCancelOrderVisible: boolean = false;
+  isConfirmShipped: boolean = false;
+  isTracking: boolean = false;
+  isUploadModelVisible: boolean = false;
 
   pageSizeOptions = [100];
   poNo: string = '';
   poClarification: boolean = false;
+  trackingList: string[] = [];
 
   constructor(
     private ordersService: OrdersService,
+    private inventoryService: InventoryService,
     private message: NzMessageService,
     private modal: NzModalService
   ) {}
@@ -35,7 +41,7 @@ export class OrderTableComponent implements OnInit {
 
   acknowledgeOrders(po_no: string) {
     this.modal.confirm({
-      nzTitle: 'Do you Want to Acknowledge these items?',
+      nzTitle: 'Please click OK to Acknowledge this PO?',
       nzOnOk: () => {
         this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
           console.log(res);
@@ -44,25 +50,18 @@ export class OrderTableComponent implements OnInit {
           }
         });
       },
+      nzCancelText: 'Close',
+      nzOnCancel: () => console.log('Close'),
     });
   }
 
   markOrderShipped(po_no: string) {
-    const data = {
-      po_number: po_no,
-      reason: '',
-    };
-    this.ordersService.markOrderShipped(data).subscribe((res: any) => {
-      console.log(res);
-      if (res.success) {
-        this.message.success('Mark order shipped successfully!');
-      }
-    });
+    this.isConfirmShipped = true;
   }
 
   acceptCancellation(po_no: string) {
     this.modal.confirm({
-      nzTitle: 'Do you Want to Cancellation these items?',
+      nzTitle: 'Please click OK to Cancel this PO?',
       nzOnOk: () => {
         this.ordersService.acceptCancellation(po_no).subscribe((res: any) => {
           console.log(res);
@@ -71,6 +70,8 @@ export class OrderTableComponent implements OnInit {
           }
         });
       },
+      nzCancelText: 'Close',
+      nzOnCancel: () => console.log('Close'),
     });
   }
 
@@ -90,11 +91,20 @@ export class OrderTableComponent implements OnInit {
         }
       });
     } else if (type === 'PO Clarification') {
+      this.poNo = po_no;
       this.poClarification = true;
     } else {
       this.poNo = po_no;
       this.isCancelOrderVisible = true;
     }
-    // this.changeModel.emit(type);
+  }
+
+  getDownloadInvoice() {
+    this.inventoryService.getDownloadInvoice().subscribe((res: any) => {
+      console.log(res);
+      if (res.success) {
+        this.message.success('Download invoice successfully!');
+      }
+    });
   }
 }

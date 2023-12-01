@@ -1,0 +1,9 @@
+.date-time-section {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+
+    .time {
+        font-size: 12px;
+    }
+}

@@ -6,8 +6,6 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { endOfMonth } from 'date-fns';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -29,17 +27,80 @@ export class PendingShipmentComponent implements OnInit {
   isLoading: boolean = false;
   isCancelOrderVisible: boolean = false;
   mode = 'date';
-  pendingShipmentData: any = [];
+  pendingShipmentData: any = [
+    {
+      po_no: 'AVO-2691',
+      location_code: 'AVO-LOC-002',
+      po_method: 'Email',
+      po_datetime: '2023-07-04T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32924',
+      product_mpn: '32924',
+      product_asin: 'B0B52573JC',
+      product_qty: 2,
+      po_total: 117.04,
+      committed_ship_date: '2023-07-06',
+      cancel_after_date: '2023-07-13',
+      carrier: 'USPS',
+      tracking: ['9434609104250515015334'],
+      status_remark: 'Will be cancelled EOD',
+    },
+    {
+      po_no: 'AVO-2692',
+      location_code: 'AVO-LOC-001',
+      po_method: 'Email',
+      po_datetime: '2023-07-08T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32925',
+      product_mpn: '32925',
+      product_asin: 'B08LTPFBTB',
+      product_qty: 1,
+      po_total: 82.62,
+      committed_ship_date: '2023-07-10',
+      cancel_after_date: '2023-07-17',
+      carrier: 'FedEx',
+      tracking: ['785703529694', '773824098610'],
+      status_remark: 'Late 5 Days',
+    },
+    {
+      po_no: 'AVO-2693',
+      location_code: 'AVO-LOC-001',
+      po_method: 'Email',
+      po_datetime: '2023-07-08T23:20:00.000Z',
+      po_timezone: 'PST',
+      customer_name: 'Joe Duffield',
+      sku: '23-AVO-32925',
+      product_mpn: '32925',
+      product_asin: 'B08LTPFBTB',
+      product_qty: 1,
+      po_total: 82.62,
+      committed_ship_date: '2023-07-10',
+      cancel_after_date: '2023-07-17',
+      carrier: 'UPS',
+      tracking: [
+        '1ZRR11990392758858',
+        '1ZRR11990392502785',
+        '1ZRR11990395317686',
+      ],
+      status_remark: 'On Time',
+    },
+  ];
   clear_btn: boolean = false;
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
 
   badgeTotal: number = 0;
+  mpnCount: number = 0;
+  carrierCount: number = 0;
   locationCount: number = 0;
   statusCount: number = 0;
   dateCount: number = 0;
   rangeDateCount: number = 0;
 
+  selectMPN: string = '';
+  selectCarrier: string = '';
   selectLocation: string = '';
   selectStatus: string = '';
   selectDate: string = '';
@@ -49,69 +110,76 @@ export class PendingShipmentComponent implements OnInit {
   constructor(private ordersService: OrdersService) {
     this.getOrderList(
       this.pageIndex,
+      this.selectMPN,
       this.selectLocation,
-      this.selectDate,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.selectStatus,
       this.search_term
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.totalData.emit(3);
+  }
 
   getOrderList(
     page: number,
-    ship_out_location?: string,
-    committed_ship_date?: string,
-    from_po_date?: string,
-    to_po_date?: string,
+    filter_mpn?: string,
+    filter_ship_out_location?: string,
+    filter_carrier?: string,
+    filter_committed_ship_from_date?: string,
+    filter_committed_ship_to_date?: string,
+    filter_from_po_date?: string,
+    filter_to_po_date?: string,
+    filter_status_remark?: string,
     search_term?: string
   ) {
     this.isLoading = true;
     this.ordersService
       .getAllOrder({
         page: page,
-        po_list_type: 'Pending Shipment',
-        ship_out_location: ship_out_location,
-        committed_ship_date: committed_ship_date,
-        from_po_date: from_po_date,
-        to_po_date: to_po_date,
+        type: 'PSH',
+        filter_mpn: filter_mpn,
+        filter_ship_out_location: filter_ship_out_location,
+        filter_carrier: filter_carrier,
+        filter_committed_ship_from_date: filter_committed_ship_from_date,
+        filter_committed_ship_to_date: filter_committed_ship_to_date,
+        filter_from_po_date: filter_from_po_date,
+        filter_to_po_date: filter_to_po_date,
+        filter_status_remark: filter_status_remark,
         search_term: search_term,
       })
-      .subscribe(
-        (response: GetAllOrders) => {
+      .subscribe({
+        next: (response: GetAllOrders) => {
           if (response.success) {
-            this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(this.total);
+            this.totalData.emit(response?.order_count?.psh);
             this.pendingShipmentData = response.orders ?? [];
-          } else {
-            this.isLoading = false;
           }
+          this.isLoading = false;
         },
-        (err) => (this.isLoading = true)
-      );
+        error: (err) => (this.isLoading = false),
+      });
   }
 
   searchDataChanges(event: string) {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
+      this.selectMPN,
       this.selectLocation,
-      this.selectDate,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.selectStatus,
       this.search_term
     );
-  }
-
-  selectAction(event: string) {
-    console.log(event);
-    if (event === 'Download PO') {
-    } else if (event === 'Download Label') {
-    } else {
-      this.isCancelOrderVisible = true;
-    }
   }
 
   onChange(result: Date[]): void {
@@ -119,7 +187,7 @@ export class PendingShipmentComponent implements OnInit {
   }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {
@@ -130,32 +198,36 @@ export class PendingShipmentComponent implements OnInit {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'shipOutLocation':
-          if (
-            data.value === 'ahmadabad' ||
-            data.value === 'surat' ||
-            data.value === 'rajkot' ||
-            data.value === 'bhavnagar'
-          ) {
-            this.clear_btn = true;
-            this.selectLocation = data.value;
+          this.clear_btn = true;
+          this.selectLocation = data.value;
 
-            if (this.locationCount === 0) {
-              this.locationCount++;
-              this.badgeTotal++;
-            }
+          if (this.locationCount === 0) {
+            this.locationCount++;
+            this.badgeTotal++;
           }
           break;
-        case 'status':
-          if (
-            data.value === 'Manifested' ||
-            data.value === 'Not yet Manifested'
-          ) {
-            this.clear_btn = true;
-            this.selectStatus = data.value;
-            if (this.statusCount === 0) {
-              this.statusCount++;
-              this.badgeTotal++;
-            }
+        case 'mpn':
+          this.clear_btn = true;
+          this.selectMPN = data.value;
+          if (this.mpnCount === 0) {
+            this.mpnCount++;
+            this.badgeTotal++;
+          }
+          break;
+        case 'carrier':
+          this.clear_btn = true;
+          this.selectCarrier = data.value;
+          if (this.carrierCount === 0) {
+            this.carrierCount++;
+            this.badgeTotal++;
+          }
+          break;
+        case 'remarkStatus':
+          this.clear_btn = true;
+          this.selectStatus = data.value;
+          if (this.statusCount === 0) {
+            this.statusCount++;
+            this.badgeTotal++;
           }
           break;
         case 'rangeDate':
@@ -177,20 +249,26 @@ export class PendingShipmentComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
+        this.selectMPN,
         this.selectLocation,
-        this.selectDate,
+        this.selectCarrier,
+        this.selectDate[0],
+        this.selectDate[1],
         this.selectRangeDate[0],
         this.selectRangeDate[1],
+        this.selectStatus,
         this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'Pending Shipment',
-        filter_sku: '',
+        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
-        filter_carrier: '',
-        filter_committed_ship_date: this.selectDate,
+        filter_carrier: this.selectCarrier,
+        filter_committed_ship_from_date: this.selectDate[0],
+        filter_committed_ship_to_date: this.selectDate[1],
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
+        filter_status_remark: this.selectStatus,
       };
     } else {
       if (this.badgeTotal > 0 && data.value !== null) {
@@ -200,9 +278,19 @@ export class PendingShipmentComponent implements OnInit {
             this.locationCount = 0;
             this.badgeTotal--;
             break;
-          case 'status':
+          case 'remarkStatus':
             this.selectStatus = '';
             this.statusCount = 0;
+            this.badgeTotal--;
+            break;
+          case 'mpn':
+            this.selectMPN = '';
+            this.mpnCount = 0;
+            this.badgeTotal--;
+            break;
+          case 'carrier':
+            this.selectCarrier = '';
+            this.carrierCount = 0;
             this.badgeTotal--;
             break;
           case 'rangeDate':
@@ -218,20 +306,26 @@ export class PendingShipmentComponent implements OnInit {
         }
         this.getOrderList(
           this.pageIndex,
+          this.selectMPN,
           this.selectLocation,
-          this.selectDate,
+          this.selectCarrier,
+          this.selectDate[0],
+          this.selectDate[1],
           this.selectRangeDate[0],
           this.selectRangeDate[1],
+          this.selectStatus,
           this.search_term
         );
         this.listOfFilter = {
           filter_po_list_type: 'Pending Shipment',
-          filter_sku: '',
+          filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
-          filter_carrier: '',
-          filter_committed_ship_date: this.selectDate,
+          filter_carrier: this.selectCarrier,
+          filter_committed_ship_from_date: this.selectDate[0],
+          filter_committed_ship_to_date: this.selectDate[1],
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
+          filter_status_remark: this.selectStatus,
         };
       }
     }
@@ -239,11 +333,15 @@ export class PendingShipmentComponent implements OnInit {
 
   tagRemove() {
     this.selectLocation = '';
+    this.selectMPN = '';
+    this.selectCarrier = '';
     this.selectStatus = '';
     this.selectDate = '';
     this.selectRangeDate = '';
 
     this.locationCount = 0;
+    this.mpnCount = 0;
+    this.carrierCount = 0;
     this.statusCount = 0;
     this.dateCount = 0;
     this.rangeDateCount = 0;
@@ -252,20 +350,26 @@ export class PendingShipmentComponent implements OnInit {
     this.clear_btn = false;
     this.getOrderList(
       this.pageIndex,
+      this.selectMPN,
       this.selectLocation,
-      this.selectDate,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.selectStatus,
       this.search_term
     );
     this.listOfFilter = {
       filter_po_list_type: 'Pending Shipment',
-      filter_sku: '',
+      filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
-      filter_carrier: '',
-      filter_committed_ship_date: this.selectDate,
+      filter_carrier: this.selectCarrier,
+      filter_committed_ship_from_date: this.selectDate[0],
+      filter_committed_ship_to_date: this.selectDate[1],
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
+      filter_status_remark: this.selectStatus,
     };
   }
 
@@ -295,20 +399,26 @@ export class PendingShipmentComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
+        this.selectMPN,
         this.selectLocation,
-        this.selectDate,
+        this.selectCarrier,
+        this.selectDate[0],
+        this.selectDate[1],
         this.selectRangeDate[0],
         this.selectRangeDate[1],
+        this.selectStatus,
         this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'Pending Shipment',
-        filter_sku: '',
+        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
-        filter_carrier: '',
-        filter_committed_ship_date: this.selectDate,
+        filter_carrier: this.selectCarrier,
+        filter_committed_ship_from_date: this.selectDate[0],
+        filter_committed_ship_to_date: this.selectDate[1],
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
+        filter_status_remark: this.selectStatus,
       };
     }
   }

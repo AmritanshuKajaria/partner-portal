@@ -1,0 +1,7 @@
+<div class="date-time-section">
+  <div>{{ dateTime | customDate }}</div>
+  <div class="time">
+    {{ dateTime | date : "hh:MM a" }}
+    {{ timeZone ? " (" + timeZone + ") " : "" }}
+  </div>
+</div>

@@ -84,4 +84,8 @@ export class InventoryService {
   inventoryFeedHistory(payload: any) {
     return this.http.post(this.url + '/inventory-feed-export', payload);
   }
+
+  getDownloadInvoice(payload?: any) {
+    return this.http.get(this.url + '/download-invoice');
+  }
 }

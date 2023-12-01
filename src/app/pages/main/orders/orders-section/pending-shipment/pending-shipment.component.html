@@ -13,6 +13,8 @@
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
         [selectLocation]="selectLocation"
+        [selectMPN]="selectMPN"
+        [selectCarrier]="selectCarrier"
         [selectDate]="selectDate"
         [selectStatus]="selectStatus"
         [selectRangeDate]="selectRangeDate"
@@ -26,7 +28,6 @@
       [pageIndex]="pageIndex"
       [isLoading]="isLoading"
       [tabName]="'pending-shipment'"
-      (changeModel)="selectAction($event)"
     ></app-order-table>
   </div>
   <div #mySidenav class="filter-section">
@@ -34,7 +35,9 @@
       (closeNav)="closeNav()"
       (changeData)="change($event)"
       [shipOutLocation]="selectLocation"
-      [status]="selectStatus"
+      [mpn]="selectMPN"
+      [carrier]="selectCarrier"
+      [remarkStatus]="selectStatus"
       [committedShipDate]="selectDate"
       [rangeDate]="selectRangeDate"
       [tabName]="'pendingShipment'"

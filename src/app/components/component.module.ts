@@ -26,6 +26,8 @@ import { AsinComponent } from './asin/asin.component';
 import { PoClarificationComponent } from './po-clarification/po-clarification.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { SharedModule } from '../shared/shared.module';
+import { DateTimeComponent } from './date-time/date-time.component';
+import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { SharedModule } from '../shared/shared.module';
     EditTimeComponent,
     AsinComponent,
     PoClarificationComponent,
+    ConfirmShippedComponent,
+    DateTimeComponent,
   ],
   imports: [
     CommonModule,
@@ -58,7 +62,7 @@ import { SharedModule } from '../shared/shared.module';
     ReactiveFormsModule,
     FormsModule,
     AngularEditorModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     StatusBadgeComponent,
@@ -79,6 +83,8 @@ import { SharedModule } from '../shared/shared.module';
     EditTimeComponent,
     AsinComponent,
     PoClarificationComponent,
+    ConfirmShippedComponent,
+    DateTimeComponent,
   ],
 })
 export class ComponentModule {}

@@ -18,6 +18,8 @@ import { CancelOrderComponent } from './orders-section/cancel-order/cancel-order
 import { ComponentModule } from 'src/app/components/component.module';
 import { OrderTableComponent } from './orders-section/order-table/order-table.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { UploadComponent } from './orders-section/pending-invoice/upload/upload.component';
+import { PendingInvoiceComponent } from './orders-section/pending-invoice/pending-invoice.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +33,8 @@ import { SharedModule } from 'src/app/shared/shared.module';
     AllOrdersComponent,
     CancelOrderComponent,
     OrderTableComponent,
+    PendingInvoiceComponent,
+    UploadComponent,
   ],
   imports: [
     CommonModule,

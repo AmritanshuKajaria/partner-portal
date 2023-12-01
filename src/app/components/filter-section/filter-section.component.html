@@ -3,44 +3,20 @@
     >&times;</a
   >
   <div class="filter-content">
+    <!-- Range Date -->
     <nz-divider
-      *ngIf="tabName === 'inTransit'"
       style="margin-top: 20px"
-      nzText="Status"
+      nzText="PO Date"
       nzOrientation="left"
     ></nz-divider>
-    <!-- In Transit Status -->
-    <nz-select
-      *ngIf="tabName === 'inTransit'"
-      nzShowSearch
-      nzAllowClear
-      nzPlaceHolder="Select A status"
-      [(ngModel)]="status"
-      (ngModelChange)="changeValue(status ? $event : '', 'status')"
-    >
-      <nz-option nzLabel="Picked Up" nzValue="Picked Up"></nz-option>
-      <nz-option nzLabel="In Transit" nzValue="In Transit"></nz-option>
-      <nz-option
-        nzLabel="Out for Delivery"
-        nzValue="Out for Delivery"
-      ></nz-option>
-    </nz-select>
+    <nz-range-picker
+      [(ngModel)]="rangeDate"
+      [nzFormat]="appDateFormate"
+      (ngModelChange)="changeValue(rangeDate ? $event : '', 'rangeDate')"
+    ></nz-range-picker>
 
-    <nz-divider
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'pendingShipment' ||
-        tabName === 'allOrders'
-      "
-      nzText="Ship Out Locations"
-      nzOrientation="left"
-    ></nz-divider>
+    <nz-divider nzText="Ship Out Locations" nzOrientation="left"></nz-divider>
     <nz-select
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'pendingShipment' ||
-        tabName === 'allOrders'
-      "
       nzShowSearch
       nzAllowClear
       nzPlaceHolder="Select A Location"
@@ -49,170 +25,182 @@
         changeValue(shipOutLocation ? $event : '', 'shipOutLocation')
       "
     >
-      <nz-option nzLabel="Ahmadabad" nzValue="ahmadabad"></nz-option>
+      <nz-option nzLabel="Ahmadabad" nzValue="Ahmadabad"></nz-option>
       <nz-option nzLabel="Surat" nzValue="surat"></nz-option>
-      <nz-option nzLabel="Rajkot" nzValue="rajkot"></nz-option>
-      <nz-option nzLabel="Bhavnagar" nzValue="bhavnagar"></nz-option>
+      <nz-option nzLabel="Rajkot" nzValue="Rajkot"></nz-option>
+      <nz-option nzLabel="Bhavnagar" nzValue="Bhavnagar"></nz-option>
     </nz-select>
 
     <nz-divider
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'inTransit' ||
-        tabName === 'delivered' ||
-        tabName === 'allOrders'
-      "
       style="margin-top: 20px"
-      nzText="SKU"
+      nzText="MPN"
       nzOrientation="left"
     ></nz-divider>
-    <nz-form-item
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'inTransit' ||
-        tabName === 'delivered' ||
-        tabName === 'allOrders'
-      "
-    >
+    <nz-form-item>
       <nz-form-control>
         <nz-input-group>
           <input
-            [(ngModel)]="sku"
+            [(ngModel)]="mpn"
             type="text"
             nz-input
-            placeholder="Enter SKU"
+            placeholder="Enter MPN"
             (keyup)="accountSearch.next($event)"
           />
         </nz-input-group>
       </nz-form-control>
     </nz-form-item>
 
-    <nz-divider
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'inTransit' ||
-        tabName === 'delivered' ||
-        tabName === 'allOrders'
-      "
-      nzText="Carrier "
-      nzOrientation="left"
-    ></nz-divider>
+    <nz-divider nzText="Carrier " nzOrientation="left"></nz-divider>
     <nz-select
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'inTransit' ||
-        tabName === 'delivered' ||
-        tabName === 'allOrders'
-      "
       nzShowSearch
       nzAllowClear
       nzPlaceHolder="Select A Carrier "
       [(ngModel)]="carrier"
       (ngModelChange)="changeValue(carrier ? $event : '', 'carrier')"
     >
-      <nz-option nzLabel="Carrier 1" nzValue="carrier1"></nz-option>
-      <nz-option nzLabel="Carrier 2" nzValue="carrier2"></nz-option>
-      <nz-option nzLabel="Carrier 3" nzValue="carrier3"></nz-option>
+      <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
+      <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
+      <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
+      <nz-option nzLabel="Others" nzValue="Others"></nz-option>
     </nz-select>
 
     <nz-divider
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'pendingShipment' ||
-        tabName === 'allOrders'
-      "
+      *ngIf="tabName === 'new' || tabName === 'pendingShipment'"
       nzText="Committed Ship Date"
       nzOrientation="left"
     ></nz-divider>
-    <nz-date-picker
-      [nzFormat]="AppDateFormate"
-      *ngIf="
-        tabName === 'new' ||
-        tabName === 'pendingShipment' ||
-        tabName === 'allOrders'
-      "
+    <nz-range-picker
+      *ngIf="tabName === 'new' || tabName === 'pendingShipment'"
       [(ngModel)]="committedShipDate"
+      [nzFormat]="appDateFormate"
       (ngModelChange)="
         changeValue(committedShipDate ? $event : '', 'committedShipDate')
       "
-    ></nz-date-picker>
-
-    <!-- Range Date -->
-    <nz-divider
-      style="margin-top: 20px"
-      nzText="Date"
-      nzOrientation="left"
-    ></nz-divider>
-    <nz-range-picker
-      [nzFormat]="AppDateFormate"
-      [(ngModel)]="rangeDate"
-      (ngModelChange)="changeValue(rangeDate ? $event : '', 'rangeDate')"
     ></nz-range-picker>
 
+    <!-- pending status -->
     <nz-divider
-      *ngIf="
-        tabName === 'pendingShipment' ||
-        tabName === 'cancellationRequested' ||
-        tabName === 'allOrders'
-      "
+      *ngIf="tabName === 'pendingShipment'"
       style="margin-top: 20px"
-      nzText="Status"
+      nzText="Remark"
       nzOrientation="left"
     ></nz-divider>
-    <!-- pending status -->
     <nz-select
       *ngIf="tabName === 'pendingShipment'"
       nzShowSearch
       nzAllowClear
-      nzPlaceHolder="Select A status"
-      [(ngModel)]="status"
-      (ngModelChange)="changeValue(status ? $event : '', 'status')"
+      nzPlaceHolder="Select A Remark"
+      [(ngModel)]="remarkStatus"
+      (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
-      <nz-option nzLabel="Manifested" nzValue="Manifested"></nz-option>
+      <nz-option nzLabel="On time" nzValue="On time"></nz-option>
+      <nz-option nzLabel="Late 1 Day" nzValue="Late 1 Day"></nz-option>
+      <nz-option nzLabel="Late 2 Days" nzValue="Late 2 Days"></nz-option>
+      <nz-option nzLabel="Late 3 Days" nzValue="Late 3 Days"></nz-option>
+      <nz-option nzLabel="Late 4 Days" nzValue="Late 4 Days"></nz-option>
+      <nz-option nzLabel="Late 5 Days" nzValue="Late 5 Days"></nz-option>
       <nz-option
-        nzLabel="Not yet Manifested"
-        nzValue="Not yet Manifested"
+        nzLabel="Will be cancelled EOD"
+        nzValue="Will be cancelled EOD"
       ></nz-option>
     </nz-select>
 
     <!-- Cancellation Requested -->
+    <nz-divider
+      *ngIf="tabName === 'cancellationRequested'"
+      style="margin-top: 20px"
+      nzText="Remark"
+      nzOrientation="left"
+    ></nz-divider>
     <nz-select
       *ngIf="tabName === 'cancellationRequested'"
       nzShowSearch
       nzAllowClear
-      nzPlaceHolder="Select A status"
-      [(ngModel)]="status"
-      (ngModelChange)="changeValue(status ? $event : '', 'status')"
+      nzPlaceHolder="Select A Remark"
+      [(ngModel)]="remarkStatus"
+      (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
-      <nz-option nzLabel="Accepted" nzValue="Accepted"></nz-option>
+      <nz-option nzLabel="Open" nzValue="Open"></nz-option>
       <nz-option
-        nzLabel="Already Shipped"
-        nzValue="Already Shipped"
+        nzLabel="Will be cancelled EOD"
+        nzValue="Will be cancelled EOD"
+      ></nz-option>
+    </nz-select>
+
+    <!-- Ship Date -->
+    <nz-divider
+      *ngIf="tabName === 'pending-invoice'"
+      style="margin-top: 20px"
+      nzText="Ship Date"
+      nzOrientation="left"
+    ></nz-divider>
+    <nz-range-picker
+      *ngIf="tabName === 'pending-invoice'"
+      [(ngModel)]="shipDate"
+      [nzFormat]="appDateFormate"
+      (ngModelChange)="changeValue(shipDate ? $event : '', 'shipDate')"
+    ></nz-range-picker>
+
+    <!-- Invoice status -->
+    <nz-divider
+      *ngIf="tabName === 'pending-invoice'"
+      style="margin-top: 20px"
+      nzText="Remark"
+      nzOrientation="left"
+    ></nz-divider>
+    <nz-select
+      *ngIf="tabName === 'pending-invoice'"
+      nzShowSearch
+      nzAllowClear
+      nzPlaceHolder="Select A Remark"
+      [(ngModel)]="invoiceStatus"
+      (ngModelChange)="
+        changeValue(invoiceStatus ? $event : '', 'invoiceStatus')
+      "
+    >
+      <nz-option nzLabel="Late 1-7 Days" nzValue="Late 1-7 Days"></nz-option>
+      <nz-option nzLabel="Late 8-14 Days" nzValue="Late 8-14 Days"></nz-option>
+      <nz-option
+        nzLabel="Late 15-21 Days"
+        nzValue="Late 15-21 Days"
       ></nz-option>
     </nz-select>
 
     <!-- All Status -->
+    <nz-divider
+      *ngIf="tabName === 'allOrders'"
+      style="margin-top: 20px"
+      nzText="PO Status"
+      nzOrientation="left"
+    ></nz-divider>
+
     <nz-select
       *ngIf="tabName === 'allOrders'"
       nzShowSearch
       nzAllowClear
       nzPlaceHolder="Select A status"
-      [(ngModel)]="status"
-      (ngModelChange)="changeValue(status ? $event : '', 'status')"
+      [(ngModel)]="remarkStatus"
+      (ngModelChange)="changeValue(remarkStatus ? $event : '', 'remarkStatus')"
     >
       <nz-option nzLabel="New" nzValue="New"></nz-option>
       <nz-option
         nzLabel="Pending Shipment"
         nzValue="Pending Shipment"
       ></nz-option>
-      <nz-option nzLabel="In-Transit" nzValue="In-Transit"></nz-option>
-      <nz-option nzLabel="Delivered" nzValue="Delivered"></nz-option>
       <nz-option
-        nzLabel="Cancellation Requested"
-        nzValue="Cancellation Requested"
+        nzLabel="Buyer Cancellation Requested"
+        nzValue="Buyer Cancellation Requested"
       ></nz-option>
+      <nz-option
+        nzLabel="Pending Invoice"
+        nzValue="Pending Invoice"
+      ></nz-option>
+      <nz-option nzLabel="In Transit" nzValue="In Transit"></nz-option>
+      <nz-option nzLabel="RTS" nzValue="RTS"></nz-option>
+      <nz-option nzLabel="Delivered" nzValue="Delivered"></nz-option>
+      <nz-option nzLabel="Lost" nzValue="Lost"></nz-option>
+      <nz-option nzLabel="Damaged" nzValue="Damaged"></nz-option>
       <nz-option nzLabel="Cancelled" nzValue="Cancelled"></nz-option>
-      <nz-option nzLabel="RTO" nzValue="RTO"></nz-option>
     </nz-select>
   </div>
 </div>
