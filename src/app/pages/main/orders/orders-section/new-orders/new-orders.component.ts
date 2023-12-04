@@ -28,40 +28,7 @@ export class NewOrdersComponent implements OnInit {
   isLoading: boolean = false;
   isCancelOrderVisible: boolean = false;
   mode = 'date';
-  newOrdersData: any[] = [
-    {
-      po_no: 'ABW-2785',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '2023-02-08T20:09:59.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Michelle Zhou ',
-      sku: '123-ABW-AWI-BAY-14',
-      product_mpn: 'AWI-Bay-14',
-      product_asin: 'B074PKMS5S',
-      product_qty: 1,
-      po_total: 50,
-      committed_ship_date: '2023-02-10',
-      cancel_after_date: '2023-02-17',
-      carrier: 'UPS',
-    },
-    {
-      po_no: 'ABW-2786',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '2023-02-09T01:17:06.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Terry Winters',
-      sku: '123-ABW-100-34-482',
-      product_mpn: '100-34-482',
-      product_asin: 'B07HBN6L3J',
-      product_qty: 2,
-      po_total: 76,
-      committed_ship_date: '2023-02-10',
-      cancel_after_date: '2023-02-17',
-      carrier: 'UPS',
-    },
-  ];
+  newOrdersData: any[] = [];
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;

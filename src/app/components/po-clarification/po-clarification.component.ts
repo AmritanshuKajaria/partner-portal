@@ -32,13 +32,15 @@ export class PoClarificationComponent implements OnInit {
 
   submit() {
     const data = {
-      po_number: this.poNo,
-      clarification_message: 'Shipping Issue',
-      contact_via: 'Email',
-      user_email: 'sudip.das@123srores.com',
+      po_no: this.poNo,
+      message: this.poClarificationForm.controls['detail'].value,
+      name: this.poClarificationForm.controls['name'].value,
+      email: this.poClarificationForm.controls['email'].value,
+      phone: this.poClarificationForm.controls['phone'].value,
     };
     this.ordersService.clarificationOrders(data).subscribe((res: any) => {
       if (res.success) {
+        this.handleCancel();
         this.message.success('PO clarification successfully!');
       }
     });

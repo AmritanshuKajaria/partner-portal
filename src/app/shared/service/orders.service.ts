@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import {
   CancelOrders,
   ClarificationOrders,
+  ConfirmShipped,
   MarkOrderShipped,
   OrderAction,
 } from '../model/orders.model';
@@ -109,7 +110,7 @@ export class OrdersService {
   }
 
   acknowledgeOrders(po_no: string) {
-    return this.http.post(this.url + '/acknowledge-orders', { po_no: po_no });
+    return this.http.post(this.url + '/acknowledged-po', { po_no: po_no });
   }
 
   downloadLabel(po_no: string) {
@@ -123,7 +124,7 @@ export class OrdersService {
   }
 
   cancelOrder(data: CancelOrders) {
-    return this.http.post(this.url + '/cancel-order', data);
+    return this.http.post(this.url + '/supplier-cancel-order', data);
   }
 
   exportOrders(data: any) {
@@ -134,13 +135,17 @@ export class OrdersService {
     return this.http.post(this.url + '/mark-order-shipped', data);
   }
 
-  acceptCancellation(po_no: string) {
-    return this.http.post(this.url + '/accept-cancellation', {
-      po_number: po_no,
+  confirmBuyerCancellation(po_no: string) {
+    return this.http.post(this.url + '/confirm-buyer-cancellation', {
+      po_no: po_no,
     });
   }
 
   clarificationOrders(data: ClarificationOrders) {
-    return this.http.post(this.url + '/clarification-orders', data);
+    return this.http.post(this.url + '/po-clarification', data);
+  }
+
+  confirmShipped(data: ConfirmShipped) {
+    return this.http.post(this.url + '/confirm-shipped', data);
   }
 }

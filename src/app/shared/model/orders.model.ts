@@ -90,14 +90,22 @@ export interface MarkOrderShipped {
 }
 
 export interface ClarificationOrders {
-  po_number: string;
-  clarification_message: string;
-  contact_via: string;
-  user_email: string;
+  po_no?: string;
+  message?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+}
+
+export interface ConfirmShipped {
+  po_no?: string;
+  carrier?: string;
+  tracking_no?: string;
+  shipping_date?: string;
 }
 
 export interface CancelOrders {
-  po_number: string;
-  reason: string;
-  reason_others_message: string;
+  po_no: string;
+  cancel_reason?: string;
+  supporting_cancel_reason?: string;
 }

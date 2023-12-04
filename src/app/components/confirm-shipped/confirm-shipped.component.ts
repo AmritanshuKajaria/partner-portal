@@ -1,11 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -15,7 +9,9 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
   styleUrls: ['./confirm-shipped.component.scss'],
 })
 export class ConfirmShippedComponent implements OnInit {
-  @Output() close = new EventEmitter();
+  @Input() poNo: string = '';
+  @Output()
+  close = new EventEmitter();
 
   isLoading: boolean = false;
   confirmShippedForm!: FormGroup;
@@ -66,17 +62,26 @@ export class ConfirmShippedComponent implements OnInit {
   }
 
   submit() {
-    // const data = {
-    //   po_number: this.poNo,
-    //   clarification_message: 'Shipping Issue',
-    //   contact_via: 'Email',
-    //   user_email: 'sudip.das@123srores.com',
-    // };
-    // this.ordersService.clarificationOrders(data).subscribe((res: any) => {
-    //   if (res.success) {
-    //     this.message.success('PO clarification successfully!');
-    //   }
-    // });
+    const data: any = {
+      po_no: this.poNo,
+      carrier:
+        this.confirmShippedForm.controls['carrier'].value === 'Others'
+          ? this.confirmShippedForm.controls['other_carrier'].value ?? ''
+          : this.confirmShippedForm.controls['carrier'].value ?? '',
+      shipping_date:
+        this.confirmShippedForm.controls['shipping_date'].value ?? '',
+      tracking_no: [],
+    };
+    let trackingList = this.confirmShippedForm.controls['trackingList'].value;
+    trackingList.forEach((element: any) => {
+      data['tracking_no'].push(element?.tracking);
+    });
+    this.ordersService.confirmShipped(data).subscribe((res: any) => {
+      if (res.success) {
+        this.handleCancel();
+        this.message.success('Confirm shipping successfully!');
+      }
+    });
   }
 
   handleCancel() {

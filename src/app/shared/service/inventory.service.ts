@@ -77,6 +77,10 @@ export class InventoryService {
     });
   }
 
+  uploadInvoice(payload: any) {
+    return this.http.post(this.url + '/upload-invoice', payload);
+  }
+
   inventoryFeedUpload(payload: any) {
     return this.http.post(this.url + '/inventory-feed-upload', payload);
   }
