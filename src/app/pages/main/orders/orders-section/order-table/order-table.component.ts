@@ -109,11 +109,15 @@ export class OrderTableComponent implements OnInit {
     }
   }
 
-  getDownloadInvoice() {
-    this.inventoryService.getDownloadInvoice().subscribe((res: any) => {
-      console.log(res);
+  getDownloadInvoice(po_no: string) {
+    this.inventoryService.getDownloadInvoice(po_no).subscribe((res: any) => {
       if (res.success) {
-        this.message.success('Download invoice successfully!');
+        if (res?.invoice_copy_url) {
+          let a = document.createElement('a');
+          a.href = 'https://' + res.invoice_copy_url;
+          a.click();
+          this.message.success('Download invoice successfully!');
+        }
       }
     });
   }

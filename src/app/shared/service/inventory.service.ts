@@ -90,6 +90,10 @@ export class InventoryService {
   }
 
   getDownloadInvoice(payload?: any) {
-    return this.http.get(this.url + '/download-invoice');
+    let params = new HttpParams();
+    params = params.append('po_no', payload);
+    return this.http.get(this.url + '/download-invoice', {
+      params: params,
+    });
   }
 }

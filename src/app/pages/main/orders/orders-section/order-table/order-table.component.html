@@ -164,10 +164,13 @@
             </a>
           </div>
         </td>
-        <td *ngIf="tabName === 'All'">
-          <a class="link" (click)="getDownloadInvoice()">
-            {{ data?.invoice_no }}
-          </a>
+        <td style="text-align: center" *ngIf="tabName === 'All'">
+          <span *ngIf="data?.invoice_no !== '0'">
+            <a class="link" (click)="getDownloadInvoice(data?.po_no)">
+              {{ data?.invoice_no }}
+            </a>
+          </span>
+          <span *ngIf="data?.invoice_no === '0'">-</span>
         </td>
         <td *ngIf="tabName === 'All'">
           {{ data?.po_status }}
