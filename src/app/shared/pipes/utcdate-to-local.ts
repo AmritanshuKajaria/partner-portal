@@ -7,7 +7,7 @@ import * as moment from 'moment';
 export class utcDateToLocalConverterPipe implements PipeTransform {
   transform(date: string, isFullDate: boolean = false) {
     return isFullDate
-      ? moment.utc(date).local().format('MM-DD-YYYY hh:mm a')
-      : moment.utc(date).local().format('MM-DD-YYYY');
+      ? moment.utc(date).local().format('MMM DD, YYYY hh:mm a')
+      : moment.utc(date).local().format('MMM DD, YYYY');
   }
 }

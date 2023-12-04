@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -15,6 +17,7 @@ export class ConfirmShippedComponent implements OnInit {
 
   isLoading: boolean = false;
   confirmShippedForm!: FormGroup;
+  appDateFormate = AppDateFormate;
 
   constructor(
     private ordersService: OrdersService,
@@ -68,8 +71,11 @@ export class ConfirmShippedComponent implements OnInit {
         this.confirmShippedForm.controls['carrier'].value === 'Others'
           ? this.confirmShippedForm.controls['other_carrier'].value ?? ''
           : this.confirmShippedForm.controls['carrier'].value ?? '',
-      shipping_date:
-        this.confirmShippedForm.controls['shipping_date'].value ?? '',
+      shipping_date: this.confirmShippedForm.controls['shipping_date'].value
+        ? moment(
+            this.confirmShippedForm.controls['shipping_date'].value
+          ).format('YYYY-MM-DD')
+        : '',
       tracking_no: [],
     };
     let trackingList = this.confirmShippedForm.controls['trackingList'].value;

@@ -253,25 +253,39 @@
                 <br />
                 <div>Total No. of Boxes: {{ data?.number_of_boxes }}</div>
                 <br />
-                <div
-                  *ngFor="
-                    let unit of data?.shipping_dimensions;
-                    let indexU = index
-                  "
-                >
-                  <div *ngFor="let units of createArray(unit)">
-                    <div *ngFor="let box of createArray(unit[units])">
+                <div>
+                  <div
+                    *ngFor="let units of createArray(data?.shipping_dimensions)"
+                  >
+                    <div
+                      *ngFor="
+                        let box of createArray(data?.shipping_dimensions[units])
+                      "
+                    >
                       <div>Unit#: {{ units }} - Box#{{ box }}</div>
                       <div>
-                        Shipping Dims: {{ unit[units][box].height }}
-                        <span *ngIf="unit[units][box].height">"</span> x
-                        {{ unit[units][box].length
-                        }}<span *ngIf="unit[units][box].length">"</span> x
-                        {{ unit[units][box].weight
-                        }}<span *ngIf="unit[units][box].weight">"</span>
+                        Shipping Dims:
+                        {{ data?.shipping_dimensions[units][box].height }}
+                        <span
+                          *ngIf="data?.shipping_dimensions[units][box].height"
+                          >"</span
+                        >
+                        x {{ data?.shipping_dimensions[units][box].length
+                        }}<span
+                          *ngIf="data?.shipping_dimensions[units][box].length"
+                          >"</span
+                        >
+                        x {{ data?.shipping_dimensions[units][box].weight
+                        }}<span
+                          *ngIf="data?.shipping_dimensions[units][box].weight"
+                          >"</span
+                        >
                         x
-                        {{ unit[units][box].width }}
-                        <span *ngIf="unit[units][box].width">lbs</span>
+                        {{ data?.shipping_dimensions[units][box].width }}
+                        <span
+                          *ngIf="data?.shipping_dimensions[units][box].width"
+                          >lbs</span
+                        >
                       </div>
                     </div>
                     <br />
@@ -325,24 +339,31 @@
               <td colspan="2" style="text-align: end">Sub Total</td>
               <td style="text-align: center">
                 {{
-                  poDetailData?.order_item?.unit_extended_total
-                    ? (poDetailData?.order_item?.unit_extended_total | currency)
+                  poDetailData?.order_item
+                    ? poDetailData?.order_item[0]?.unit_extended_total
+                      ? (poDetailData?.order_item[0]?.unit_extended_total
+                        | currency)
+                      : 0
                     : 0
                 }}
               </td>
             </tr>
             <tr
               *ngIf="
-                poDetailData?.order_item?.defective_allowance &&
-                poDetailData?.order_item?.defective_allowance !== 0
+                poDetailData?.order_item &&
+                poDetailData?.order_item[0]?.defective_allowance &&
+                poDetailData?.order_item[0]?.defective_allowance !== 0
               "
             >
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end">Defective Allowance</td>
               <td style="text-align: center">
                 {{
-                  poDetailData?.order_item?.defective_allowance
-                    ? (poDetailData?.order_item?.defective_allowance | currency)
+                  poDetailData?.order_item
+                    ? poDetailData?.order_item[0]?.defective_allowance
+                      ? (poDetailData?.order_item[0]?.defective_allowance
+                        | currency)
+                      : 0
                     : 0
                 }}
               </td>
@@ -352,8 +373,10 @@
               <td colspan="2" style="text-align: end"><b>PO Total</b></td>
               <td style="text-align: center">
                 <b>{{
-                  poDetailData?.order_item?.po_total
-                    ? (poDetailData?.order_item?.po_total | currency)
+                  poDetailData?.order_item
+                    ? poDetailData?.order_item[0]?.po_total
+                      ? (poDetailData?.order_item[0]?.po_total | currency)
+                      : 0
                     : 0
                 }}</b>
               </td>

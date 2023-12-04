@@ -22,27 +22,7 @@ export class PoDetailPageComponent implements OnInit {
     action: 'Cancel Order',
     actions: 'Mark as shipped',
   };
-  poDescriptionData = [
-    {
-      id: 1,
-      productDescription: {
-        mpn: '24603',
-        description: 'Absolute Feeder Blue',
-        upc: '047977005614',
-        brand: 'Woodlink',
-        asin: 'B0057QN478',
-        totalNoOfBox: '1',
-        unit: '1-Box #1',
-        shippingDims: '14" x 16" x 11", 10lbs',
-        trackingNo: '1ZRR11990397673743',
-      },
-      qty: '1',
-      unitPrice: '64.06',
-      unitAllowances: '0.00',
-      unitExtendedPrice: '64.06',
-      extendedTotal: '64.06',
-    },
-  ];
+  poDescriptionData = [];
   poNo: string = '';
   poClarification: boolean = false;
 
@@ -70,8 +50,6 @@ export class PoDetailPageComponent implements OnInit {
   ngOnInit(): void {}
 
   createArray(obj: any) {
-    console.log(Object.keys(obj));
-
     return Object.keys(obj);
   }
 
@@ -80,16 +58,20 @@ export class PoDetailPageComponent implements OnInit {
       case 'Download PO':
         this.ordersService.downloadPo(this.poNo).subscribe((res: any) => {
           if (res.success) {
+            let a = document.createElement('a');
+            a.href = 'https://' + res.po_copy_url;
+            a.click();
             this.message.success('Download po successfully!');
-            window.open(res.label);
           }
         });
         break;
       case 'Download Shipping Labels':
         this.ordersService.downloadLabel(this.poNo).subscribe((res: any) => {
           if (res.success) {
+            let link = document.createElement('a');
+            link.href = 'https://' + res.label;
+            link.click();
             this.message.success('Download label successfully!');
-            window.open(res.label);
           }
         });
         break;
