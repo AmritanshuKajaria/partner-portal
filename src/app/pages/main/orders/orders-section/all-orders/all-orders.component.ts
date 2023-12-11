@@ -34,19 +34,18 @@ export class AllOrdersComponent implements OnInit {
 
   badgeTotal: number = 0;
   locationCount: number = 0;
-  skuCount: number = 0;
+  mpnCount: number = 0;
   carrierCount: number = 0;
-  statusCount = 0;
-  dateCount: number = 0;
   rangeDateCount: number = 0;
+  remarkStatusCount: number = 0;
 
   selectLocation: string = '';
-  selectSku: string = '';
+  selectMPN: string = '';
   selectCarrier: string = '';
-  selectStatus = '';
-  selectDate: string = '';
   search_term: string = '';
   selectRangeDate: string = '';
+  remarkStatus: string = '';
+
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
   statusEnum: typeof StatusEnum = StatusEnum;
@@ -54,12 +53,12 @@ export class AllOrdersComponent implements OnInit {
   constructor(private ordersService: OrdersService) {
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
-      this.selectDate,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.remarkStatus,
       this.search_term
     );
   }
@@ -72,56 +71,55 @@ export class AllOrdersComponent implements OnInit {
       committedShipDate: new FormControl(''),
       status: new FormControl(''),
     });
+    this.totalData.emit(30);
   }
 
   getOrderList(
     page: number,
-    sku?: string,
-    ship_out_location?: string,
-    carrier?: string,
-    committed_ship_date?: string,
-    from_po_date?: string,
-    to_po_date?: string,
+    filter_mpn?: string,
+    filter_ship_out_location?: string,
+    filter_carrier?: string,
+    filter_from_po_date?: string,
+    filter_to_po_date?: string,
+    filter_po_status?: string,
     search_term?: string
   ) {
     this.isLoading = true;
     this.ordersService
       .getAllOrder({
         page: page,
-        po_list_type: 'All',
-        sku: sku,
-        ship_out_location: ship_out_location,
-        carrier: carrier,
-        committed_ship_date: committed_ship_date,
-        from_po_date: from_po_date,
-        to_po_date: to_po_date,
+        type: 'ALL',
+        filter_mpn: filter_mpn,
+        filter_ship_out_location: filter_ship_out_location,
+        filter_carrier: filter_carrier,
+        filter_from_po_date: filter_from_po_date,
+        filter_to_po_date: filter_to_po_date,
+        filter_po_status: filter_po_status,
         search_term: search_term,
       })
-      .subscribe(
-        (response: GetAllOrders) => {
+      .subscribe({
+        next: (response: GetAllOrders) => {
           if (response.success) {
-            this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(this.total);
+            this.totalData.emit(response?.order_count?.all);
             this.allOrdersData = response.orders ?? [];
-          } else {
-            this.isLoading = false;
           }
+          this.isLoading = false;
         },
-        (err) => (this.isLoading = true)
-      );
+        error: (err) => (this.isLoading = false),
+      });
   }
 
   searchDataChanges(event: string) {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
-      this.selectDate,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.remarkStatus,
       this.search_term
     );
   }
@@ -130,7 +128,7 @@ export class AllOrdersComponent implements OnInit {
   // }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {
@@ -141,41 +139,28 @@ export class AllOrdersComponent implements OnInit {
     if (data.value && data.value.length !== 0) {
       switch (data.type) {
         case 'shipOutLocation':
-          if (
-            data.value === 'ahmadabad' ||
-            data.value === 'surat' ||
-            data.value === 'rajkot' ||
-            data.value === 'bhavnagar'
-          ) {
-            this.clear_btn = true;
-            this.selectLocation = data.value;
+          this.clear_btn = true;
+          this.selectLocation = data.value;
 
-            if (this.locationCount === 0) {
-              this.locationCount++;
-              this.badgeTotal++;
-            }
+          if (this.locationCount === 0) {
+            this.locationCount++;
+            this.badgeTotal++;
           }
           break;
-        case 'sku':
+        case 'mpn':
           this.clear_btn = true;
-          this.selectSku = data.value;
-          if (this.skuCount === 0) {
-            this.skuCount++;
+          this.selectMPN = data.value;
+          if (this.mpnCount === 0) {
+            this.mpnCount++;
             this.badgeTotal++;
           }
           break;
         case 'carrier':
-          if (
-            data.value === 'carrier1' ||
-            data.value === 'carrier2' ||
-            data.value === 'carrier3'
-          ) {
-            this.clear_btn = true;
-            this.selectCarrier = data.value;
-            if (this.carrierCount === 0) {
-              this.carrierCount++;
-              this.badgeTotal++;
-            }
+          this.clear_btn = true;
+          this.selectCarrier = data.value;
+          if (this.carrierCount === 0) {
+            this.carrierCount++;
+            this.badgeTotal++;
           }
           break;
         case 'rangeDate':
@@ -186,51 +171,33 @@ export class AllOrdersComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
-        case 'status':
-          if (
-            data.value === 'New' ||
-            data.value === 'Pending Shipment' ||
-            data.value === 'In-Transit' ||
-            data.value === 'Delivered' ||
-            data.value === 'Cancellation Requested' ||
-            data.value === 'Cancelled' ||
-            data.value === 'RTO'
-          ) {
-            this.clear_btn = true;
-            this.selectStatus = data.value;
-            if (this.statusCount === 0) {
-              this.statusCount++;
-              this.badgeTotal++;
-            }
-          }
-          break;
-        default:
+        case 'remarkStatus':
           this.clear_btn = true;
-          this.selectDate = data.value;
-          if (this.dateCount === 0) {
-            this.dateCount++;
+          this.remarkStatus = data.value;
+          if (this.remarkStatusCount === 0) {
+            this.remarkStatusCount++;
             this.badgeTotal++;
           }
           break;
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectLocation,
         this.selectCarrier,
-        this.selectDate,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
+        this.remarkStatus,
         this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'All',
-        filter_sku: this.selectSku,
+        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
-        filter_committed_ship_date: this.selectDate,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
+        filter_po_status: this.remarkStatus,
       };
     } else {
       if (this.badgeTotal > 0 && data.value !== null) {
@@ -240,9 +207,9 @@ export class AllOrdersComponent implements OnInit {
             this.locationCount = 0;
             this.badgeTotal--;
             break;
-          case 'sku':
-            this.selectSku = '';
-            this.skuCount = 0;
+          case 'mpn':
+            this.selectMPN = '';
+            this.mpnCount = 0;
             this.badgeTotal--;
             break;
           case 'carrier':
@@ -255,35 +222,30 @@ export class AllOrdersComponent implements OnInit {
             this.rangeDateCount = 0;
             this.badgeTotal--;
             break;
-          case 'status':
-            this.selectStatus = '';
-            this.statusCount = 0;
-            this.badgeTotal--;
-            break;
-          default:
-            this.selectDate = '';
-            this.dateCount = 0;
+          case 'remarkStatus':
+            this.remarkStatus = '';
+            this.remarkStatusCount = 0;
             this.badgeTotal--;
             break;
         }
         this.getOrderList(
           this.pageIndex,
-          this.selectSku,
+          this.selectMPN,
           this.selectLocation,
           this.selectCarrier,
-          this.selectDate,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
+          this.remarkStatus,
           this.search_term
         );
         this.listOfFilter = {
           filter_po_list_type: 'All',
-          filter_sku: this.selectSku,
+          filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
           filter_carrier: this.selectCarrier,
-          filter_committed_ship_date: this.selectDate,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
+          filter_po_status: this.remarkStatus,
         };
       }
     }
@@ -291,17 +253,15 @@ export class AllOrdersComponent implements OnInit {
 
   tagRemove() {
     this.selectLocation = '';
-    this.selectSku = '';
+    this.selectMPN = '';
     this.selectCarrier = '';
-    this.selectStatus = '';
-    this.selectDate = '';
+    this.remarkStatus = '';
     this.selectRangeDate = '';
 
     this.locationCount = 0;
-    this.skuCount = 0;
+    this.mpnCount = 0;
     this.carrierCount = 0;
-    this.statusCount = 0;
-    this.dateCount = 0;
+    this.remarkStatusCount = 0;
     this.rangeDateCount = 0;
 
     this.filter.reset();
@@ -310,22 +270,22 @@ export class AllOrdersComponent implements OnInit {
     console.log(this.badgeTotal);
     this.getOrderList(
       this.pageIndex,
-      this.selectSku,
+      this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
-      this.selectDate,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
+      this.remarkStatus,
       this.search_term
     );
     this.listOfFilter = {
       filter_po_list_type: 'All',
-      filter_sku: this.selectSku,
+      filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
       filter_carrier: this.selectCarrier,
-      filter_committed_ship_date: this.selectDate,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
+      filter_po_status: this.remarkStatus,
     };
   }
 
@@ -337,9 +297,9 @@ export class AllOrdersComponent implements OnInit {
           this.locationCount = 0;
           this.badgeTotal--;
           break;
-        case 'sku':
-          this.selectSku = '';
-          this.skuCount = 0;
+        case 'mpn':
+          this.selectMPN = '';
+          this.mpnCount = 0;
           this.badgeTotal--;
           break;
         case 'carrier':
@@ -352,35 +312,30 @@ export class AllOrdersComponent implements OnInit {
           this.rangeDateCount = 0;
           this.badgeTotal--;
           break;
-        case 'status':
-          this.selectStatus = '';
-          this.statusCount = 0;
-          this.badgeTotal--;
-          break;
-        default:
-          this.selectDate = '';
-          this.dateCount = 0;
+        case 'remarkStatus':
+          this.remarkStatus = '';
+          this.remarkStatusCount = 0;
           this.badgeTotal--;
           break;
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectSku,
+        this.selectMPN,
         this.selectLocation,
         this.selectCarrier,
-        this.selectDate,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
+        this.remarkStatus,
         this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'All',
-        filter_sku: this.selectSku,
+        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
-        filter_committed_ship_date: this.selectDate,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
+        filter_po_status: this.remarkStatus,
       };
     }
   }

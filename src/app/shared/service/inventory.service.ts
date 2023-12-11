@@ -77,11 +77,23 @@ export class InventoryService {
     });
   }
 
+  uploadInvoice(payload: any) {
+    return this.http.post(this.url + '/upload-invoice', payload);
+  }
+
   inventoryFeedUpload(payload: any) {
     return this.http.post(this.url + '/inventory-feed-upload', payload);
   }
 
   inventoryFeedHistory(payload: any) {
     return this.http.post(this.url + '/inventory-feed-export', payload);
+  }
+
+  getDownloadInvoice(payload?: any) {
+    let params = new HttpParams();
+    params = params.append('po_no', payload);
+    return this.http.get(this.url + '/download-invoice', {
+      params: params,
+    });
   }
 }

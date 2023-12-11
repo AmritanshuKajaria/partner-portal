@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import {
   CancelOrders,
   ClarificationOrders,
+  ConfirmShipped,
   MarkOrderShipped,
   OrderAction,
 } from '../model/orders.model';
@@ -24,32 +25,74 @@ export class OrdersService {
     if (action.po_list_type) {
       params = params.append('po_list_type', action.po_list_type);
     }
-    if (action.sku) {
-      params = params.append('sku', action.sku);
+    if (action.type) {
+      params = params.append('type', action.type);
     }
-    if (action.ship_out_location) {
-      params = params.append('ship_out_location', action.ship_out_location);
-    }
-    if (action.carrier) {
-      params = params.append('carrier', action.carrier);
-    }
-    if (action.committed_ship_date) {
+    // filter
+    if (action.filter_from_po_date) {
       params = params.append(
-        'committed_ship_date',
-        formatDate(action.committed_ship_date, 'yyyy-MM-dd', this.locale)
+        'filter_from_po_date',
+        formatDate(action.filter_from_po_date, 'yyyy-MM-dd', this.locale)
       );
     }
-    if (action.from_po_date) {
+    if (action.filter_to_po_date) {
       params = params.append(
-        'from_po_date',
-        formatDate(action.from_po_date, 'yyyy-MM-dd', this.locale)
+        'filter_to_po_date',
+        formatDate(action.filter_to_po_date, 'yyyy-MM-dd', this.locale)
       );
     }
-    if (action.to_po_date) {
+    if (action.filter_mpn) {
+      params = params.append('filter_mpn', action.filter_mpn);
+    }
+    if (action.filter_ship_out_location) {
       params = params.append(
-        'to_po_date',
-        formatDate(action.to_po_date, 'yyyy-MM-dd', this.locale)
+        'filter_ship_out_location',
+        action.filter_ship_out_location
       );
+    }
+    if (action.filter_carrier) {
+      params = params.append('filter_carrier', action.filter_carrier);
+    }
+    if (action.filter_committed_ship_from_date) {
+      params = params.append(
+        'filter_committed_ship_from_date',
+        formatDate(
+          action.filter_committed_ship_from_date,
+          'yyyy-MM-dd',
+          this.locale
+        )
+      );
+    }
+    if (action.filter_committed_ship_to_date) {
+      params = params.append(
+        'filter_committed_ship_to_date',
+        formatDate(
+          action.filter_committed_ship_to_date,
+          'yyyy-MM-dd',
+          this.locale
+        )
+      );
+    }
+    if (action.filter_ship_from_date) {
+      params = params.append(
+        'filter_ship_from_date',
+        formatDate(action.filter_ship_from_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
+    if (action.filter_ship_to_date) {
+      params = params.append(
+        'filter_ship_to_date',
+        formatDate(action.filter_ship_to_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
+    if (action.filter_status_remark) {
+      params = params.append(
+        'filter_status_remark',
+        action.filter_status_remark
+      );
+    }
+    if (action.filter_po_status) {
+      params = params.append('filter_po_status', action.filter_po_status);
     }
     if (action.search_term) {
       params = params.append('search_term', action.search_term);
@@ -67,7 +110,7 @@ export class OrdersService {
   }
 
   acknowledgeOrders(po_no: string) {
-    return this.http.post(this.url + '/acknowledge-orders', { po_no: po_no });
+    return this.http.post(this.url + '/acknowledged-po', { po_no: po_no });
   }
 
   downloadLabel(po_no: string) {
@@ -81,7 +124,7 @@ export class OrdersService {
   }
 
   cancelOrder(data: CancelOrders) {
-    return this.http.post(this.url + '/cancel-order', data);
+    return this.http.post(this.url + '/supplier-cancel-order', data);
   }
 
   exportOrders(data: any) {
@@ -92,13 +135,17 @@ export class OrdersService {
     return this.http.post(this.url + '/mark-order-shipped', data);
   }
 
-  acceptCancellation(po_no: string) {
-    return this.http.post(this.url + '/accept-cancellation', {
-      po_number: po_no,
+  confirmBuyerCancellation(po_no: string) {
+    return this.http.post(this.url + '/confirm-buyer-cancellation', {
+      po_no: po_no,
     });
   }
 
   clarificationOrders(data: ClarificationOrders) {
-    return this.http.post(this.url + '/clarification-orders', data);
+    return this.http.post(this.url + '/po-clarification', data);
+  }
+
+  confirmShipped(data: ConfirmShipped) {
+    return this.http.post(this.url + '/confirm-shipped', data);
   }
 }

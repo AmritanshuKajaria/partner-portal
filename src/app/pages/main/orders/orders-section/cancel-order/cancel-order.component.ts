@@ -39,18 +39,20 @@ export class CancelOrderComponent implements OnInit {
   submit() {
     this.isLoading = true;
     const data: CancelOrders = {
-      po_number: this.poNo,
-      reason: this.cancelOrderForm.controls['option'].value ?? '',
-      reason_others_message:
-        this.cancelOrderForm.controls['otherOption'].value ?? '',
+      po_no: this.poNo,
+      cancel_reason: this.cancelOrderForm.controls['option'].value ?? '',
     };
-    this.ordersService.cancelOrder(data).subscribe(
-      (res: any) => {
+    if (this.cancelOrderForm.controls['option'].value === '99 - Others') {
+      data['supporting_cancel_reason'] =
+        this.cancelOrderForm.controls['otherOption'].value ?? '';
+    }
+    this.ordersService.cancelOrder(data).subscribe({
+      next: (res: any) => {
         this.isLoading = false;
         this.handleCancel();
       },
-      (err) => (this.isLoading = false)
-    );
+      error: (err) => (this.isLoading = false),
+    });
   }
 
   handleCancel() {

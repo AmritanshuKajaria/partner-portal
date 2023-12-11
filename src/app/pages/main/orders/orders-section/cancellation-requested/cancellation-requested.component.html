@@ -12,8 +12,11 @@
         (closeTag)="close($event)"
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
-        [selectStatus]="selectStatus"
+        [selectLocation]="selectLocation"
+        [selectMPN]="selectMPN"
+        [selectCarrier]="selectCarrier"
         [selectRangeDate]="selectRangeDate"
+        [selectStatus]="remarkStatus"
       ></app-filter-tag>
     </div>
 
@@ -30,9 +33,12 @@
     <app-filter-section
       (closeNav)="closeNav()"
       (changeData)="change($event)"
-      [status]="selectStatus"
       [tabName]="'cancellationRequested'"
+      [shipOutLocation]="selectLocation"
+      [mpn]="selectMPN"
+      [carrier]="selectCarrier"
       [rangeDate]="selectRangeDate"
+      [remarkStatus]="remarkStatus"
     ></app-filter-section>
   </div>
   <nz-modal

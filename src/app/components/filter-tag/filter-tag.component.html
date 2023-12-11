@@ -5,8 +5,8 @@
     (nzOnClose)="close('shipOutLocation')"
     >{{ selectLocation }}</nz-tag
   >
-  <nz-tag *ngIf="selectSku" nzMode="closeable" (nzOnClose)="close('sku')">{{
-    selectSku
+  <nz-tag *ngIf="selectMPN" nzMode="closeable" (nzOnClose)="close('mpn')">{{
+    selectMPN
   }}</nz-tag>
 
   <nz-tag
@@ -19,7 +19,8 @@
     *ngIf="selectDate"
     nzMode="closeable"
     (nzOnClose)="close('committedShipDate')"
-    >{{ selectDate | customDate }}</nz-tag
+  >
+    {{ selectDate[0] | customDate }} To {{ selectDate[1] | customDate }}</nz-tag
   >
   <nz-tag
     *ngIf="selectStatus"
@@ -34,6 +35,22 @@
     (nzOnClose)="close('rangeDate')"
     >{{ selectRangeDate[0] | customDate }} To
     {{ selectRangeDate[1] | customDate }}</nz-tag
+  >
+
+  <nz-tag
+    *ngIf="selectShipDate"
+    nzMode="closeable"
+    (nzOnClose)="close('shipDate')"
+  >
+    {{ selectShipDate[0] | customDate }} To
+    {{ selectShipDate[1] | customDate }}</nz-tag
+  >
+
+  <nz-tag
+    *ngIf="selectInvoiceStatus"
+    nzMode="closeable"
+    (nzOnClose)="close('invoiceStatus')"
+    >{{ selectInvoiceStatus }}</nz-tag
   >
 
   <button

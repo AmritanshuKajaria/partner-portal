@@ -1,0 +1,86 @@
+<div class="upload-model">
+  <div class="body-section">
+    <form [formGroup]="uploadForm">
+      <div class="Neon Neon-theme-dragdropbox">
+        <input
+          style="
+            z-index: 999;
+            opacity: 0;
+            width: 320px;
+            height: 160px;
+            position: absolute;
+            right: 0px;
+            left: 0px;
+            margin-right: auto;
+            margin-left: auto;
+          "
+          name="files[]"
+          id="filer_input2"
+          multiple="multiple"
+          type="file"
+          formControlName="uploadFile"
+          accept=".pdf"
+          (change)="selectFiles($event)"
+          #modelvel
+        />
+        <div style="align-items: center; display: flex; flex-direction: column">
+          <div class="Neon-input-dragDrop">
+            <div
+              *ngIf="modelvel.value == ''; else elseBlock"
+              class="Neon-input-inner"
+            >
+              <div class="Neon-input-icon">
+                <i class="fa fa-file-image-o"></i>
+              </div>
+              <div class="Neon-input-text">
+                <h3>Drag&amp;Drop files here</h3>
+                <span style="display: inline-block; margin: 15px 0">or</span>
+              </div>
+              <a class="Neon-input-choose-btn blue">Browse Files</a>
+            </div>
+            <ng-template #elseBlock
+              ><span nz-icon nzType="file" nzTheme="outline"></span>
+              {{ setFileName(uploadForm.value.uploadFile) }}</ng-template
+            >
+          </div>
+          <div style="display: flex; flex-direction: column">
+            <span>*only .pdf file supported</span>
+            <span>*max 10 MB file size allowed</span>
+            <span *ngIf="showFileSizeError" style="color: red"
+              >*more than 10 MB file size not allowed</span
+            >
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="model-footer">
+    <div class="model-action">
+      <button
+        nz-button
+        nzType="default"
+        style="color: black; margin-right: 5px"
+        (click)="handleCancel('')"
+      >
+        Cancel
+      </button>
+      <button
+        nz-button
+        class="action-btn"
+        [nzType]="'primary'"
+        style="width: 100px"
+        (click)="submit()"
+        [disabled]="showFileSizeError || uploadForm.invalid"
+        [ngClass]="{ 'disabled-btn': showFileSizeError || uploadForm.invalid }"
+      >
+        <span
+          *ngIf="isLoading"
+          style="color: white; font-size: 16px"
+          nz-icon
+          nzType="loading"
+        ></span>
+        Upload
+      </button>
+    </div>
+  </div>
+</div>

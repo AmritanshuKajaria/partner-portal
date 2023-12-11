@@ -12,9 +12,8 @@
         (closeTag)="close($event)"
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
-        [selectSku]="selectSku"
+        [selectMPN]="selectMPN"
         [selectCarrier]="selectCarrier"
-        [selectStatus]="selectStatus"
         [selectRangeDate]="selectRangeDate"
       ></app-filter-tag>
     </div>
@@ -33,9 +32,8 @@
     <app-filter-section
       (closeNav)="closeNav()"
       (changeData)="change($event)"
-      [sku]="selectSku"
+      [mpn]="selectMPN"
       [carrier]="selectCarrier"
-      [status]="selectStatus"
       [rangeDate]="selectRangeDate"
       [tabName]="'inTransit'"
     ></app-filter-section>

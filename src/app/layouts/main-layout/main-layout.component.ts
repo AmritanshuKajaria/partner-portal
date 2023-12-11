@@ -40,23 +40,21 @@ export class MainLayoutComponent implements OnInit {
   }
 
   help() {
-    // this.zendeskService.zendeskHelp().subscribe((res: any) => {
-    //   if (res.url) {
-    //     window.open(res?.url);
-    //   }
-    // });
-    const lastPart = this.router.url.replace('/main/','');
-    window.open(`https://123stores-clarification.paperform.co/?5k3ps=${lastPart}`);
+    const lastPart = this.router.url.replace('/main/', '');
+    window.open(
+      `https://123stores-clarification.paperform.co/?5k3ps=${lastPart}`
+    );
   }
 
   getLoggedInUser() {
     this.loggedInUser = this.authService.getUser();
+
     if (this.loggedInUser) {
       this.loggedInUser.fullName =
         (this.loggedInUser?.firstname ?? '') +
         ' ' +
         (this.loggedInUser?.lastname ?? '');
-      var matches = this.loggedInUser.fullName?.match(/\b(\w)/g);
+      let matches = this.loggedInUser.fullName?.match(/\b(\w)/g);
       this.avatarCharacters = matches?.join('');
     }
   }

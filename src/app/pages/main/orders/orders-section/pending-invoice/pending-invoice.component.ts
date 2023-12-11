@@ -1,11 +1,12 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
   OnInit,
   Output,
   ViewChild,
+  EventEmitter,
 } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -13,48 +14,56 @@ import {
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
-  selector: 'app-cancellation-requested',
-  templateUrl: './cancellation-requested.component.html',
-  styleUrls: ['./cancellation-requested.component.scss'],
+  selector: 'app-pending-invoice',
+  templateUrl: './pending-invoice.component.html',
+  styleUrls: ['./pending-invoice.component.scss'],
 })
-export class CancellationRequestedComponent implements OnInit {
+export class PendingInvoiceComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Output() totalData = new EventEmitter();
 
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
   isLoading: boolean = false;
+  isCancelOrderVisible: boolean = false;
   mode = 'date';
-  cancellationRequestedData: any = [];
+  pendingInvoiceData: any[] = [];
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
-  remarkStatusCount: number = 0;
-  rangeDateCount: number = 0;
   locationCount: number = 0;
   mpnCount: number = 0;
+  rangeDateCount: number = 0;
+  shipDateCount: number = 0;
+  invoiceStatusCount: number = 0;
   carrierCount: number = 0;
 
+  selectLocation: string = '';
+  selectMPN: string = '';
   selectRangeDate: string = '';
   search_term: string = '';
-  selectMPN: string = '';
-  selectLocation: string = '';
+  selectShipDate: string = '';
+  selectInvoiceStatus: string = '';
   selectCarrier: string = '';
-  remarkStatus: string = '';
 
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
+      this.selectShipDate[0],
+      this.selectShipDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
-      this.remarkStatus,
+      this.selectInvoiceStatus,
       this.search_term
     );
   }
@@ -68,6 +77,8 @@ export class CancellationRequestedComponent implements OnInit {
     filter_mpn?: string,
     filter_ship_out_location?: string,
     filter_carrier?: string,
+    filter_ship_from_date?: string,
+    filter_ship_to_date?: string,
     filter_from_po_date?: string,
     filter_to_po_date?: string,
     filter_status_remark?: string,
@@ -77,10 +88,12 @@ export class CancellationRequestedComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'BCR',
+        type: 'PIR',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
+        filter_ship_from_date: filter_ship_from_date,
+        filter_ship_to_date: filter_ship_to_date,
         filter_from_po_date: filter_from_po_date,
         filter_to_po_date: filter_to_po_date,
         filter_status_remark: filter_status_remark,
@@ -90,8 +103,8 @@ export class CancellationRequestedComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.bcr);
-            this.cancellationRequestedData = response.orders ?? [];
+            this.totalData.emit(response?.order_count?.pir);
+            // this.pendingInvoiceData = response.orders ?? [];
           }
           this.isLoading = false;
         },
@@ -106,9 +119,11 @@ export class CancellationRequestedComponent implements OnInit {
       this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
+      this.selectShipDate[0],
+      this.selectShipDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
-      this.remarkStatus,
+      this.selectInvoiceStatus,
       this.search_term
     );
   }
@@ -141,11 +156,27 @@ export class CancellationRequestedComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
+        case 'shipDate':
+          this.clear_btn = true;
+          this.selectShipDate = data.value;
+          if (this.shipDateCount === 0) {
+            this.shipDateCount++;
+            this.badgeTotal++;
+          }
+          break;
         case 'carrier':
           this.clear_btn = true;
           this.selectCarrier = data.value;
           if (this.carrierCount === 0) {
             this.carrierCount++;
+            this.badgeTotal++;
+          }
+          break;
+        case 'invoiceStatus':
+          this.clear_btn = true;
+          this.selectInvoiceStatus = data.value;
+          if (this.invoiceStatusCount === 0) {
+            this.invoiceStatusCount++;
             this.badgeTotal++;
           }
           break;
@@ -157,33 +188,30 @@ export class CancellationRequestedComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
-        case 'remarkStatus':
-          this.clear_btn = true;
-          this.remarkStatus = data.value;
-          if (this.remarkStatusCount === 0) {
-            this.remarkStatusCount++;
-            this.badgeTotal++;
-          }
-          break;
       }
+
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,
         this.selectLocation,
         this.selectCarrier,
+        this.selectShipDate[0],
+        this.selectShipDate[1],
         this.selectRangeDate[0],
         this.selectRangeDate[1],
-        this.remarkStatus,
+        this.selectInvoiceStatus,
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'Cancellation Requested',
+        filter_po_list_type: 'pending-invoice',
         filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
+        filter_ship_from_date: this.selectShipDate[0],
+        filter_ship_to_date: this.selectShipDate[1],
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
-        filter_status_remark: this.remarkStatus,
+        filter_status_remark: this.selectInvoiceStatus,
       };
     } else {
       if (this.badgeTotal > 0 && data.value !== null) {
@@ -208,48 +236,60 @@ export class CancellationRequestedComponent implements OnInit {
             this.rangeDateCount = 0;
             this.badgeTotal--;
             break;
-          case 'remarkStatus':
-            this.remarkStatus = '';
-            this.remarkStatusCount = 0;
+          case 'shipDate':
+            this.selectShipDate = '';
+            this.shipDateCount = 0;
             this.badgeTotal--;
+
+            break;
+          case 'invoiceStatus':
+            this.selectInvoiceStatus = '';
+            this.invoiceStatusCount = 0;
+            this.badgeTotal--;
+
             break;
         }
-
         this.getOrderList(
           this.pageIndex,
           this.selectMPN,
           this.selectLocation,
           this.selectCarrier,
+          this.selectShipDate[0],
+          this.selectShipDate[1],
           this.selectRangeDate[0],
           this.selectRangeDate[1],
-          this.remarkStatus,
+          this.selectInvoiceStatus,
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'Cancellation Requested',
+          filter_po_list_type: 'pending-invoice',
           filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
           filter_carrier: this.selectCarrier,
+          filter_ship_from_date: this.selectShipDate[0],
+          filter_ship_to_date: this.selectShipDate[1],
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
-          filter_status_remark: this.remarkStatus,
+          filter_status_remark: this.selectInvoiceStatus,
         };
       }
     }
   }
 
   tagRemove() {
-    this.remarkStatus = '';
     this.selectLocation = '';
     this.selectMPN = '';
     this.selectCarrier = '';
     this.selectRangeDate = '';
+    this.selectShipDate = '';
+    this.selectInvoiceStatus = '';
 
-    this.remarkStatusCount = 0;
+    this.carrierCount = 0;
     this.locationCount = 0;
     this.mpnCount = 0;
-    this.carrierCount = 0;
     this.rangeDateCount = 0;
+    this.shipDateCount = 0;
+    this.invoiceStatusCount = 0;
 
     this.badgeTotal = 0;
     this.clear_btn = false;
@@ -258,50 +298,78 @@ export class CancellationRequestedComponent implements OnInit {
       this.selectMPN,
       this.selectLocation,
       this.selectCarrier,
+      this.selectShipDate[0],
+      this.selectShipDate[1],
       this.selectRangeDate[0],
       this.selectRangeDate[1],
-      this.remarkStatus,
+      this.selectInvoiceStatus,
       this.search_term
     );
     this.listOfFilter = {
-      filter_po_list_type: 'Cancellation Requested',
+      filter_po_list_type: 'pending-invoice',
       filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
       filter_carrier: this.selectCarrier,
+      filter_ship_from_date: this.selectShipDate[0],
+      filter_ship_to_date: this.selectShipDate[1],
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
-      filter_status_remark: this.remarkStatus,
+      filter_status_remark: this.selectInvoiceStatus,
     };
   }
 
   close(type: string) {
-    if (type === 'status') {
-      this.remarkStatus = '';
-      this.remarkStatusCount = 0;
-      this.badgeTotal--;
-    } else if (type === 'rangeDate') {
-      this.selectRangeDate = '';
-      this.rangeDateCount = 0;
-      this.badgeTotal--;
+    if (type) {
+      switch (type) {
+        case 'shipOutLocation':
+          this.selectLocation = '';
+          this.locationCount = 0;
+          this.badgeTotal--;
+          break;
+        case 'sku':
+          this.selectMPN = '';
+          this.mpnCount = 0;
+          this.badgeTotal--;
+          break;
+        case 'shipDate':
+          this.selectShipDate = '';
+          this.shipDateCount = 0;
+          this.badgeTotal--;
+          break;
+        case 'invoiceStatus':
+          this.selectInvoiceStatus = '';
+          this.invoiceStatusCount = 0;
+          this.badgeTotal--;
+          break;
+        case 'rangeDate':
+          this.selectRangeDate = '';
+          this.rangeDateCount = 0;
+          this.badgeTotal--;
+          break;
+      }
+      this.getOrderList(
+        this.pageIndex,
+        this.selectMPN,
+        this.selectLocation,
+        this.selectCarrier,
+        this.selectShipDate[0],
+        this.selectShipDate[1],
+        this.selectRangeDate[0],
+        this.selectRangeDate[1],
+        this.selectInvoiceStatus,
+        this.search_term
+      );
+      this.listOfFilter = {
+        filter_po_list_type: 'pending-invoice',
+        filter_mpn: this.selectMPN,
+        filter_ship_out_location: this.selectLocation,
+        filter_carrier: this.selectCarrier,
+        filter_ship_from_date: this.selectShipDate[0],
+        filter_ship_to_date: this.selectShipDate[1],
+        filter_from_po_date: this.selectRangeDate[0],
+        filter_to_po_date: this.selectRangeDate[1],
+        filter_status_remark: this.selectInvoiceStatus,
+      };
     }
-    this.getOrderList(
-      this.pageIndex,
-      this.selectMPN,
-      this.selectLocation,
-      this.selectCarrier,
-      this.selectRangeDate[0],
-      this.selectRangeDate[1],
-      this.remarkStatus,
-      this.search_term
-    );
-    this.listOfFilter = {
-      filter_po_list_type: 'Cancellation Requested',
-      filter_mpn: this.selectMPN,
-      filter_ship_out_location: this.selectLocation,
-      filter_carrier: this.selectCarrier,
-      filter_from_po_date: this.selectRangeDate[0],
-      filter_to_po_date: this.selectRangeDate[1],
-      filter_status_remark: this.remarkStatus,
-    };
   }
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { OrdersService } from 'src/app/shared/service/orders.service';
@@ -15,53 +15,6 @@ export class PoClarificationComponent implements OnInit {
 
   isLoading: boolean = false;
   poClarificationForm!: FormGroup;
-  editorConfig: AngularEditorConfig = {
-    editable: true,
-    spellcheck: true,
-    height: '10rem',
-    minHeight: '5rem',
-    maxHeight: 'auto',
-    width: 'auto',
-    minWidth: '0',
-    translate: 'yes',
-    enableToolbar: true,
-    showToolbar: true,
-    placeholder: 'Enter text here...',
-    sanitize: true,
-    toolbarPosition: 'bottom',
-    toolbarHiddenButtons: [
-      [
-        'undo',
-        'redo',
-        'strikeThrough',
-        'subscript',
-        'superscript',
-        'justifyLeft',
-        'justifyCenter',
-        'justifyRight',
-        'justifyFull',
-        'indent',
-        'outdent',
-        'insertUnorderedList',
-        'insertOrderedList',
-        'heading',
-        'fontName',
-      ],
-      [
-        'fontSize',
-        'textColor',
-        'backgroundColor',
-        'customClasses',
-        'link',
-        'unlink',
-        'insertImage',
-        'insertVideo',
-        'insertHorizontalRule',
-        'removeFormat',
-        'toggleEditorMode',
-      ],
-    ],
-  };
 
   constructor(
     private ordersService: OrdersService,
@@ -70,20 +23,24 @@ export class PoClarificationComponent implements OnInit {
 
   ngOnInit(): void {
     this.poClarificationForm = new FormGroup({
-      subject: new FormControl(`PO Clarification (${this.poNo})`),
-      commentBox: new FormControl<string>(''),
+      detail: new FormControl('', [Validators.required]),
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      phone: new FormControl(''),
     });
   }
 
   submit() {
     const data = {
-      po_number: this.poNo,
-      clarification_message: 'Shipping Issue',
-      contact_via: 'Email',
-      user_email: 'sudip.das@123srores.com',
+      po_no: this.poNo,
+      message: this.poClarificationForm.controls['detail'].value,
+      name: this.poClarificationForm.controls['name'].value,
+      email: this.poClarificationForm.controls['email'].value,
+      phone: this.poClarificationForm.controls['phone'].value,
     };
     this.ordersService.clarificationOrders(data).subscribe((res: any) => {
       if (res.success) {
+        this.handleCancel();
         this.message.success('PO clarification successfully!');
       }
     });

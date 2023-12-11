@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -21,13 +22,18 @@ export class OrderTableComponent implements OnInit {
 
   statusEnum: typeof StatusEnum = StatusEnum;
   isCancelOrderVisible: boolean = false;
+  isConfirmShipped: boolean = false;
+  isTracking: boolean = false;
+  isUploadModelVisible: boolean = false;
 
   pageSizeOptions = [100];
   poNo: string = '';
   poClarification: boolean = false;
+  trackingList: string[] = [];
 
   constructor(
     private ordersService: OrdersService,
+    private inventoryService: InventoryService,
     private message: NzMessageService,
     private modal: NzModalService
   ) {}
@@ -35,7 +41,7 @@ export class OrderTableComponent implements OnInit {
 
   acknowledgeOrders(po_no: string) {
     this.modal.confirm({
-      nzTitle: 'Do you Want to Acknowledge these items?',
+      nzTitle: 'Please click OK to Acknowledge this PO?',
       nzOnOk: () => {
         this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
           console.log(res);
@@ -44,33 +50,31 @@ export class OrderTableComponent implements OnInit {
           }
         });
       },
+      nzCancelText: 'Close',
+      nzOnCancel: () => console.log('Close'),
     });
   }
 
   markOrderShipped(po_no: string) {
-    const data = {
-      po_number: po_no,
-      reason: '',
-    };
-    this.ordersService.markOrderShipped(data).subscribe((res: any) => {
-      console.log(res);
-      if (res.success) {
-        this.message.success('Mark order shipped successfully!');
-      }
-    });
+    this.poNo = po_no;
+    this.isConfirmShipped = true;
   }
 
   acceptCancellation(po_no: string) {
     this.modal.confirm({
-      nzTitle: 'Do you Want to Cancellation these items?',
+      nzTitle: 'Please click OK to Cancel this PO?',
       nzOnOk: () => {
-        this.ordersService.acceptCancellation(po_no).subscribe((res: any) => {
-          console.log(res);
-          if (res.success) {
-            this.message.success('Accept cancellation successfully!');
-          }
-        });
+        this.ordersService
+          .confirmBuyerCancellation(po_no)
+          .subscribe((res: any) => {
+            console.log(res);
+            if (res.success) {
+              this.message.success('Confirm buyer cancellation successfully!');
+            }
+          });
       },
+      nzCancelText: 'Close',
+      nzOnCancel: () => console.log('Close'),
     });
   }
 
@@ -78,23 +82,43 @@ export class OrderTableComponent implements OnInit {
     if (type === 'Download PO') {
       this.ordersService.downloadPo(po_no).subscribe((res: any) => {
         if (res.success) {
-          this.message.success('Download po successfully!');
-          window.open(res.label);
+          let a = document.createElement('a');
+          a.href = 'https://' + res.po_copy_url;
+          a.click();
+          this.message.success('Download PO successfully!');
         }
       });
     } else if (type === 'Download Label') {
       this.ordersService.downloadLabel(po_no).subscribe((res: any) => {
         if (res.success) {
+          let link = document.createElement('a');
+          link.href = 'https://' + res.label;
+          link.click();
           this.message.success('Download label successfully!');
-          window.open(res.label);
         }
       });
     } else if (type === 'PO Clarification') {
+      this.poNo = po_no;
       this.poClarification = true;
+    } else if (type === 'Upload invoice') {
+      this.poNo = po_no;
+      this.isUploadModelVisible = true;
     } else {
       this.poNo = po_no;
       this.isCancelOrderVisible = true;
     }
-    // this.changeModel.emit(type);
+  }
+
+  getDownloadInvoice(po_no: string) {
+    this.inventoryService.getDownloadInvoice(po_no).subscribe((res: any) => {
+      if (res.success) {
+        if (res?.invoice_copy_url) {
+          let a = document.createElement('a');
+          a.href = 'https://' + res.invoice_copy_url;
+          a.click();
+          this.message.success('Download invoice successfully!');
+        }
+      }
+    });
   }
 }

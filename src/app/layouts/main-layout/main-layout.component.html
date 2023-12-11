@@ -56,14 +56,17 @@
         <span nz-icon nzType="user"></span>
         <span>Inventory</span>
       </li>
-      <!-- <li
+      <li
         nz-menu-item
+        *ngIf="
+          userPartnerDetails && userPartnerDetails?.is_order_tab_active === 1
+        "
         routerLinkActive="active"
         routerLink="/main/orders/order-section"
       >
         <span nz-icon nzType="shopping"></span>
         <span>Orders</span>
-      </li> -->
+      </li>
       <!-- <li
         nz-menu-item
         routerLinkActive="active"
@@ -110,7 +113,9 @@
           userPartnerDetails?.current_plan !== 'no_plan'
         "
         nz-menu-item
-        [ngClass]="router.url.includes('/main/plus-plans') ? 'active' : 'inactive'"
+        [ngClass]="
+          router.url.includes('/main/plus-plans') ? 'active' : 'inactive'
+        "
         routerLink="/main/plus-plans"
       >
         <span nz-icon nzType="dollar" nzTheme="outline"></span>
@@ -237,9 +242,7 @@
               ></nz-avatar>
               <div>
                 <div class="user-type">
-                  <span>{{
-                    userPartnerName
-                  }}</span>
+                  <span>{{ userPartnerName }}</span>
                 </div>
                 <div *ngIf="loggedInUser?.email" class="user-email">
                   <span>{{ loggedInUser?.email }}</span>

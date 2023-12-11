@@ -1,0 +1,186 @@
+<div class="confirm-shipped-model">
+  <div style="padding: 15px; padding-bottom: 0px">
+    <form [formGroup]="confirmShippedForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"
+          >Carrier <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Carrier is required!"
+        >
+          <nz-input-group>
+            <nz-select
+              nzShowSearch
+              nzPlaceHolder="Select A Carrier"
+              formControlName="carrier"
+              (ngModelChange)="onCarrierChanged($event)"
+            >
+              <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
+              <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
+              <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
+              <nz-option nzLabel="Others" nzValue="Others"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="confirmShippedForm.value.carrier === 'Others'">
+        <div nz-col [nzSm]="6" [nzXs]="24"></div>
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Carrier name is required!"
+        >
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Carrier Name"
+              formControlName="other_carrier"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"
+          >Shipping Date <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Shipping date is required!"
+        >
+          <nz-input-group>
+            <nz-date-picker
+              [nzFormat]="appDateFormate"
+              nzPlaceHolder="Select Shipping Date"
+              formControlName="shipping_date"
+            ></nz-date-picker>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row formArrayName="trackingList">
+        <div
+          nz-col
+          class="gutter-row"
+          [nzXs]="24"
+          *ngFor="let email of trackingList.controls; let i = index"
+        >
+          <div [formGroupName]="i">
+            <nz-form-item>
+              <nz-form-label
+                *ngIf="i === 0"
+                nz-col
+                nzFor="email"
+                [nzSm]="6"
+                [nzXs]="24"
+                >Tracking List <span style="color: red">*</span></nz-form-label
+              >
+              <div
+                *ngIf="i !== 0"
+                nz-col
+                nzFor="email"
+                [nzSm]="6"
+                [nzXs]="24"
+              ></div>
+              <div
+                style="display: flex; padding-top: 5px; justify-content: center"
+                nz-col
+                nzFor="email"
+                [nzSm]="2"
+                [nzXs]="2"
+              >
+                <h3 style="margin-bottom: 0px">{{ i + 1 }}.</h3>
+              </div>
+
+              <nz-form-control
+                [nzSm]="14"
+                [nzXs]="20"
+                nzErrorTip="Tracking is required!"
+              >
+                <nz-input-group>
+                  <input
+                    type="text"
+                    nz-input
+                    placeholder="Enter Tracking"
+                    formControlName="tracking"
+                  />
+                </nz-input-group> </nz-form-control
+              ><button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                *ngIf="i === trackingList.controls.length - 1 && i !== 9"
+                style="
+                  background: #00c13b !important;
+                  margin-top: 8px;
+                  margin-left: 8px;
+                  border: 0;
+                "
+                (click)="addTracking()"
+                nzSize="small"
+              >
+                <span nz-icon nzType="plus"></span>
+              </button>
+              <button
+                nz-button
+                nzType="primary"
+                nzShape="circle"
+                *ngIf="i !== trackingList.controls.length - 1 && i !== 9"
+                style="
+                  background: #f41e2c !important;
+                  margin-top: 8px;
+                  margin-left: 8px;
+                  border: 0;
+                "
+                (click)="removeTracking(i)"
+                nzSize="small"
+              >
+                <span nz-icon nzType="minus"></span>
+              </button>
+            </nz-form-item>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="model-footer">
+    <div class="model-action" style="padding: 15px; padding-bottom: 0px">
+      <button
+        nz-button
+        nzType="default"
+        style="color: black; margin-right: 5px"
+        (click)="handleCancel()"
+      >
+        Cancel
+      </button>
+      <button
+        nz-button
+        style="margin-top: 0"
+        class="action-button"
+        [nzType]="'primary'"
+        (click)="submit()"
+        [disabled]="confirmShippedForm.invalid || isLoading"
+        [ngClass]="{
+          'button-disabled': confirmShippedForm.invalid || isLoading
+        }"
+      >
+        <span
+          *ngIf="isLoading"
+          style="color: white; font-size: 16px"
+          nz-icon
+          nzType="loading"
+        ></span>
+        <span
+          *ngIf="!isLoading"
+          nz-icon
+          nzType="file-text"
+          nzTheme="outline"
+        ></span>
+        Save
+      </button>
+    </div>
+  </div>
+</div>

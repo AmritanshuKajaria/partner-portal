@@ -21,9 +21,7 @@ const USER_KEY = 'user_profile';
 export class AuthService {
   url = environment.apiUrl;
 
-  constructor(private httpClient: HttpClient, private router: Router) {
-    console.log(this.url);
-  }
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
   login(payload: LoginReq) {
     return this.httpClient.post(this.url + '/login', payload);
