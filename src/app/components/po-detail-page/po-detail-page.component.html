@@ -220,14 +220,9 @@
           #nzTable
           nzShowSizeChanger
           nzBordered
-          [nzPageSizeOptions]="poDetailData.order_item"
           [nzFrontPagination]="false"
-          [nzTotal]="total"
-          [nzPageSize]="pageSize"
-          [nzPageIndex]="pageIndex"
-          [nzData]="poDescriptionData"
+          [nzData]="poDetailData.order_item"
         >
-          <!-- [nzLoading]="isLoading" -->
           <thead>
             <tr>
               <th id="no">SI. NO.</th>

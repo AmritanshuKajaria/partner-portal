@@ -9,10 +9,6 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
   styleUrls: ['./po-detail-page.component.scss'],
 })
 export class PoDetailPageComponent implements OnInit {
-  total = 0;
-  pageSize = 100;
-  pageIndex = 1;
-  pageSizeOptions = [100];
   poDetailData: any = '';
   isLoading: boolean = false;
   poNotExist: boolean = true;
