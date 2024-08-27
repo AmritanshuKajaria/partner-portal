@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SettingComponent } from './setting.component';
 import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
+import { InventoryFeedComponent } from './setting-component/inventory-feed/inventory-feed.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'map-handling',
     component: MapHandlingComponent,
+  },
+  {
+    path: 'inventory-feed',
+    component: InventoryFeedComponent,
   },
 ];
 
