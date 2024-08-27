@@ -35,6 +35,9 @@ export class InventoryFeedComponent implements OnInit {
     this.commonService.getJsonData().subscribe(
       (res) => {
         this.dropDownList = res;
+        this.formControl['inventoryFeedType'].setValue(1);
+        this.formControl['inventoryFeedDetailType'].setValue(1);
+        this.formControl['inventoryBucket'].setValue(2);
       },
       (error) => {
         console.error('Error fetching JSON data', error);
@@ -42,14 +45,14 @@ export class InventoryFeedComponent implements OnInit {
     );
 
     this.inventoryFeedForm = this.fb.group({
-      inventoryFeedType: [{ value: 1, disabled: true }],
+      inventoryFeedType: [{ value: '', disabled: true }],
       inventoryFeedDetailType: [
         {
-          value: 1,
+          value: '',
           disabled: true,
         },
       ],
-      inventoryBucket: [{ value: 2, disabled: true }],
+      inventoryBucket: [{ value: '', disabled: true }],
       inventorySchedule: [[], [Validators.required]],
       inventoryFeedMPN: ['', [Validators.required]],
       inventoryFeedQuantityColumnName: ['', [Validators.required]],
@@ -106,7 +109,14 @@ export class InventoryFeedComponent implements OnInit {
   }
 
   reset() {
+    for (let index = 0; index < this.authorizedFeedSenders.length; index++) {
+      this.authorizedFeedSenders.removeAt(0);
+    }
+
     this.inventoryFeedForm?.reset();
+    this.formControl['inventoryFeedType'].setValue(1);
+    this.formControl['inventoryFeedDetailType'].setValue(1);
+    this.formControl['inventoryBucket'].setValue(2);
   }
 
   submitForm() {
