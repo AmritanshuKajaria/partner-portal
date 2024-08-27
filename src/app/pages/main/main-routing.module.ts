@@ -13,6 +13,7 @@ const routes: Routes = [
     path: 'change-password',
     component: ChangePasswordComponent,
   },
+
   {
     path: 'dashboard',
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),

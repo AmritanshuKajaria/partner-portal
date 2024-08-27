@@ -1,48 +1,129 @@
 <div class="map-handling-section">
-  <app-section-header [header]="'MAP & Handling'"></app-section-header>
+  <div class="section-header">
+    <div class="tab-header">
+      <span>MAP & HANDLING</span>
+      <button
+        nz-button
+        nzType="default"
+        class="reset-button"
+        (click)="goBack()"
+      >
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+      </button>
+    </div>
+  </div>
 
   <div class="body-section" style="margin-left: 0; margin-right: 0">
     <form [formGroup]="mapHandlingForm">
       <nz-form-item>
-        <nz-form-label [nzSm]="6" [nzXs]="24"
-          >Carrier <span style="color: red">*</span></nz-form-label
+        <nz-form-label
+          >MAP Setup <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control
-          [nzSm]="18"
-          [nzXs]="24"
-          nzErrorTip="Carrier is required!"
-        >
+        <nz-form-control [nzErrorTip]="mapTypeError">
           <nz-input-group>
             <nz-select
               nzShowSearch
-              nzPlaceHolder="Select A Carrier"
-              formControlName="carrier"
+              nzPlaceHolder="Select A MAP Setup"
+              formControlName="mapType"
             >
-              <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
-              <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
-              <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
-              <nz-option nzLabel="Others" nzValue="Others"></nz-option>
+              <nz-option
+                *ngFor="let option of dropDownList?.mapType"
+                [nzLabel]="option?.name"
+                [nzValue]="option?.value"
+              ></nz-option>
             </nz-select>
+            <ng-template #mapTypeError let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please select your MAP setup<br
+              /></ng-container>
+            </ng-template>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <div nz-col [nzSm]="6" [nzXs]="24"></div>
-        <nz-form-control
-          [nzSm]="18"
-          [nzXs]="24"
-          nzErrorTip="Carrier name is required!"
+        <nz-form-label
+          >Handling Time Setup <span style="color: red">*</span></nz-form-label
         >
+        <nz-form-control [nzErrorTip]="handlingConfigurationError">
           <nz-input-group>
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Carrier Name"
-              formControlName="other_carrier"
-            />
+            <nz-select
+              nzShowSearch
+              nzPlaceHolder="Select A Handling Time Setup"
+              formControlName="handlingConfiguration"
+            >
+              <nz-option
+                *ngFor="let option of dropDownList?.handlingConfiguration"
+                [nzLabel]="option?.name"
+                [nzValue]="option?.value"
+              ></nz-option>
+            </nz-select>
+            <ng-template #handlingConfigurationError let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please select your Handling Time Setup<br
+              /></ng-container>
+            </ng-template>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.accountHandlingTimeValue">
+        <nz-form-label
+          >Common Handling Time (In Days)
+          <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control [nzErrorTip]="accountHandlingTime">
+          <nz-input-group>
+            <input
+              type="number"
+              nz-input
+              placeholder="Enter Common Handling Time"
+              formControlName="accountHandlingTimeValue"
+            />
+            <ng-template #accountHandlingTime let-control>
+              <ng-container *ngIf="control.hasError('min')"
+                >Please input minimum 1 digits<br
+              /></ng-container>
+              <ng-container *ngIf="control.hasError('max')"
+                >Please input maximum 10 digits<br
+              /></ng-container>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please input your common handling time<br
+              /></ng-container>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="footer-section">
+        <button
+          nz-button
+          nzType="default"
+          class="reset-button"
+          (click)="reset()"
+        >
+          <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+        </button>
+        <button
+          nz-button
+          style="margin-top: 0"
+          class="action-button"
+          [nzType]="'primary'"
+          (click)="submitForm()"
+        >
+          <span
+            *ngIf="isLoading"
+            style="color: white; font-size: 16px"
+            nz-icon
+            nzType="loading"
+          ></span>
+          <span
+            *ngIf="!isLoading"
+            nz-icon
+            nzType="file-text"
+            nzTheme="outline"
+          ></span>
+          Save
+        </button>
+      </div>
     </form>
   </div>
 </div>

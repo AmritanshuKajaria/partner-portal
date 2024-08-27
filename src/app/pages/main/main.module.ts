@@ -14,9 +14,14 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { ComponentModule } from 'src/app/components/component.module';
 import { PlansComponent } from './plans/plans.component';
 import { SettingModule } from './setting/setting.module';
+import { InventoryFeedComponent } from './setting/setting-component/inventory-feed/inventory-feed.component';
 
 @NgModule({
-  declarations: [ChangePasswordComponent, PlansComponent],
+  declarations: [
+    ChangePasswordComponent,
+    PlansComponent,
+    InventoryFeedComponent,
+  ],
   imports: [
     MainRoutingModule,
     NzLayoutModule,

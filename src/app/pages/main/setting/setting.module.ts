@@ -11,6 +11,7 @@ import { OrderProcessingModule } from '../profile/order-processing/order-process
 import { ComponentModule } from 'src/app/components/component.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
+import { NzFormModule } from 'ng-zorro-antd/form';
 
 @NgModule({
   declarations: [SettingComponent, MapHandlingComponent],
@@ -25,6 +26,7 @@ import { MapHandlingComponent } from './setting-component/map-handling/map-handl
     OrderProcessingModule,
     ComponentModule,
     SharedModule,
+    NzFormModule,
   ],
 })
 export class SettingModule {}

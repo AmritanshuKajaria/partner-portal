@@ -18,6 +18,6 @@ export class SettingComponent implements OnInit {
   ngOnInit(): void {}
 
   navigate(path: string) {
-    // this.router.navigate([`/main/setting/${path}`]);
+    this.router.navigate([`/main/setting/${path}`]);
   }
 }

@@ -15,16 +15,17 @@
         }
 
         nz-card {
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             border-radius: 5px;
+            border-top: 2px solid $darkBlue;
 
             ::ng-deep .ant-card-body {
-                padding: 15px;
+                padding: 0px;
             }
         }
 
         .card-body {
-            padding-top: 10px;
+            padding: 10px 15px;
 
             .menu-section {
                 display: flex;
@@ -36,7 +37,7 @@
                     padding: 15px;
                     border: 1px solid $lightgrey;
                     width: 100%;
-                    color: $black;
+                    color: $darkBlue;
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
@@ -47,7 +48,8 @@
         }
 
         .header {
-            padding: 10px 0px;
+            padding: 12px 20px;
+            background-color: rgba(33, 33, 195, 0.08) !important;
         }
 
         .ant-divider-horizontal {
