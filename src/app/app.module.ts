@@ -23,7 +23,12 @@ import { ShowMyIpComponent } from './components/show-my-ip/show-my-ip.component'
 registerLocaleData(en);
 
 @NgModule({
-  declarations: [AppComponent, MainLayoutComponent, AuthLayoutComponent, ShowMyIpComponent],
+  declarations: [
+    AppComponent,
+    MainLayoutComponent,
+    AuthLayoutComponent,
+    ShowMyIpComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

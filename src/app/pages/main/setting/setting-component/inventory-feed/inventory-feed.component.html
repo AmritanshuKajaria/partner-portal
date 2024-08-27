@@ -19,12 +19,14 @@
         <nz-form-label>Inventory Feed Type</nz-form-label>
         <nz-form-control>
           <nz-input-group>
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Inventory Feed Type"
-              formControlName="inventoryFeedType"
-            />
+            <nz-radio-group formControlName="inventoryFeedType">
+              <label
+                *ngFor="let option of dropDownList?.feedType"
+                nz-radio
+                [nzValue]="option?.value"
+                >{{ option?.name }}</label
+              >
+            </nz-radio-group>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -61,7 +63,7 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.inventorySchedule">
         <nz-form-label
           >Inventory Schedule <span style="color: red">*</span></nz-form-label
         >
@@ -83,7 +85,7 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedMPN">
         <nz-form-label
           >Inventory Feed MPN Column Name
           <span style="color: red">*</span></nz-form-label
@@ -104,7 +106,7 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedQuantityColumnName">
         <nz-form-label
           >Inventory Feed Quantity Column Name
           <span style="color: red">*</span></nz-form-label
@@ -126,7 +128,10 @@
         </nz-form-control>
       </nz-form-item>
 
-      <div formArrayName="authorizedFeedSenders">
+      <div
+        *ngIf="formFieldOnUI?.authorizedFeedSenders"
+        formArrayName="authorizedFeedSenders"
+      >
         <div
           *ngFor="let email of authorizedFeedSenders.controls; let i = index"
         >

@@ -42,7 +42,7 @@ export class InventoryFeedComponent implements OnInit {
     );
 
     this.inventoryFeedForm = this.fb.group({
-      inventoryFeedType: [{ value: 'Email', disabled: true }],
+      inventoryFeedType: [{ value: 1, disabled: true }],
       inventoryFeedDetailType: [
         {
           value: 1,
@@ -56,12 +56,39 @@ export class InventoryFeedComponent implements OnInit {
       authorizedFeedSenders: this.fb.array([]),
     });
     this.addAuthorizedFeedSender();
+
+    this.inventoryFeedForm?.valueChanges.subscribe((selectedValues) => {
+      this.onFormChange();
+    });
+  }
+
+  get formControl() {
+    return this.inventoryFeedForm.controls;
   }
 
   get authorizedFeedSenders(): FormArray {
     return this.inventoryFeedForm.controls[
       'authorizedFeedSenders'
     ] as FormArray;
+  }
+
+  onFormChange(): void {
+    if (
+      this.formControl['inventoryFeedType'].value === 1 &&
+      this.formControl['inventoryFeedDetailType'].value === 1
+    ) {
+      this.formFieldOnUI['inventoryFeedQuantityColumnName'] = true;
+    } else {
+      this.formFieldOnUI['inventoryFeedQuantityColumnName'] = false;
+    }
+
+    if (this.formControl['inventoryFeedType'].value === 1) {
+      this.formFieldOnUI['authorizedFeedSenders'] = true;
+      this.formFieldOnUI['inventoryFeedMPN'] = true;
+    } else {
+      this.formFieldOnUI['authorizedFeedSenders'] = false;
+      this.formFieldOnUI['inventoryFeedMPN'] = false;
+    }
   }
 
   newAuthorizedFeedSender() {
