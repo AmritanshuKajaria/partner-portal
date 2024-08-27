@@ -65,6 +65,11 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'setting',
+    loadChildren: () =>
+      import('./setting/setting.module').then((m) => m.SettingModule),
+  },
+  {
     path: 'plans',
     component: PlansComponent,
   },

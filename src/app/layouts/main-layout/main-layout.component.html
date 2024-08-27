@@ -90,6 +90,18 @@
         <span nz-icon nzType="sound" nzTheme="outline"></span>
         <span>Promotions</span>
       </li>
+      <li
+        *ngIf="
+          userPartnerDetails?.current_plan &&
+          userPartnerDetails?.current_plan !== 'no_plan'
+        "
+        nz-menu-item
+        [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'"
+        routerLink="/main/setting"
+      >
+        <span nz-icon nzType="setting" nzTheme="outline"></span>
+        <span>Setting</span>
+      </li>
       <!-- <li
         nz-menu-item
         [ngClass]="

@@ -1,0 +1,194 @@
+<div class="setting-section">
+  <app-section-header [header]="'Settings'"></app-section-header>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <nz-card>
+      <div class="header">
+        <span class="card-title">PRIMARY SALES SETUP</span>
+      </div>
+      <!-- <nz-divider></nz-divider> -->
+      <div class="card-body" nz-row [nzGutter]="16">
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('map-handling')"
+            ><span>MAP & HANDLING</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>INVENTORY FEED</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+      </div>
+    </nz-card>
+    <nz-card>
+      <div class="header">
+        <span class="card-title">ORDER & OPERATIONS SETUP</span>
+      </div>
+      <!-- <nz-divider></nz-divider> -->
+      <div class="card-body" nz-row [nzGutter]="16">
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>ORDER PROCESSING & RETURN</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>SHIPPING CLOSURES</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>SHIP-OUT LOCATION</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>RETURN LOCATION</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+      </div>
+    </nz-card>
+    <nz-card>
+      <div class="header">
+        <span class="card-title">COMPANY SETUP</span>
+      </div>
+      <!-- <nz-divider></nz-divider> -->
+      <div class="card-body" nz-row [nzGutter]="16">
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>PRIMARY INFO</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>LEGAL INFO</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>REMITTANCE INFO</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>COI</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+      </div>
+    </nz-card>
+    <nz-card>
+      <div class="header">
+        <span class="card-title">ADDITIONAL SETUP</span>
+      </div>
+      <!-- <nz-divider></nz-divider> -->
+      <div class="card-body" nz-row [nzGutter]="16">
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>NOTIFICATION EMAILS</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+        <div
+          class="menu-section"
+          nz-col
+          [nzXs]="24"
+          [nzSm]="12"
+          [nzMd]="12"
+          [nzLg]="8"
+        >
+          <a class="menu-item" (click)="navigate('company/company-profile')"
+            ><span>CONTACTS</span>
+            <span nz-icon nzType="right" nzTheme="outline"></span
+          ></a>
+        </div>
+      </div>
+    </nz-card>
+  </div>
+</div>

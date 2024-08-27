@@ -1,0 +1,48 @@
+<div class="map-handling-section">
+  <app-section-header [header]="'MAP & Handling'"></app-section-header>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <form [formGroup]="mapHandlingForm">
+      <nz-form-item>
+        <nz-form-label [nzSm]="6" [nzXs]="24"
+          >Carrier <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Carrier is required!"
+        >
+          <nz-input-group>
+            <nz-select
+              nzShowSearch
+              nzPlaceHolder="Select A Carrier"
+              formControlName="carrier"
+            >
+              <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
+              <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
+              <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
+              <nz-option nzLabel="Others" nzValue="Others"></nz-option>
+            </nz-select>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <div nz-col [nzSm]="6" [nzXs]="24"></div>
+        <nz-form-control
+          [nzSm]="18"
+          [nzXs]="24"
+          nzErrorTip="Carrier name is required!"
+        >
+          <nz-input-group>
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Carrier Name"
+              formControlName="other_carrier"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+</div>
