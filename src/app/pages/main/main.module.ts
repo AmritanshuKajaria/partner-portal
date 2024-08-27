@@ -13,6 +13,7 @@ import { HomeModule } from './home/home.module';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { PlansComponent } from './plans/plans.component';
+import { SettingModule } from './setting/setting.module';
 
 @NgModule({
   declarations: [ChangePasswordComponent, PlansComponent],
@@ -27,6 +28,7 @@ import { PlansComponent } from './plans/plans.component';
     ProfileModule,
     ProductModule,
     HomeModule,
+    SettingModule,
     ComponentModule,
   ],
   exports: [],
