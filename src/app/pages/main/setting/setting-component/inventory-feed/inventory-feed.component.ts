@@ -117,6 +117,9 @@ export class InventoryFeedComponent implements OnInit {
     this.formControl['inventoryFeedType'].setValue(1);
     this.formControl['inventoryFeedDetailType'].setValue(1);
     this.formControl['inventoryBucket'].setValue(2);
+    if (this.authorizedFeedSenders.length === 0) {
+      this.addAuthorizedFeedSender();
+    }
   }
 
   submitForm() {
