@@ -19,6 +19,9 @@ export class InventoryFeedComponent implements OnInit {
   inventoryFeedForm!: FormGroup;
   dropDownList: any = null;
   formFieldOnUI = {
+    inventoryFeedType: true,
+    inventoryFeedDetailType: true,
+    inventoryBucket: true,
     inventorySchedule: true,
     inventoryFeedMPN: true,
     inventoryFeedQuantityColumnName: true,
@@ -130,23 +133,28 @@ export class InventoryFeedComponent implements OnInit {
     if (valid) {
       this.isLoading = true;
       const payload = {
-        inventoryFeedType: this.inventoryFeedForm.value?.inventoryFeedType,
-        inventoryFeedDetailType:
-          this.inventoryFeedForm.value?.inventoryFeedDetailType,
-        inventoryBucket: this.inventoryFeedForm.value?.inventoryBucket,
+        inventoryFeedType: this.formFieldOnUI['inventoryFeedType']
+          ? this.formControl['inventoryFeedType'].value
+          : '',
+        inventoryFeedDetailType: this.formFieldOnUI['inventoryFeedDetailType']
+          ? this.formControl['inventoryFeedDetailType'].value
+          : '',
+        inventoryBucket: this.formFieldOnUI['inventoryBucket']
+          ? this.formControl['inventoryBucket'].value
+          : '',
         inventorySchedule: this.formFieldOnUI['inventorySchedule']
-          ? this.inventoryFeedForm.value?.inventorySchedule
+          ? this.formControl['inventorySchedule'].value
           : '',
         inventoryFeedMPN: this.formFieldOnUI['inventoryFeedMPN']
-          ? this.inventoryFeedForm.value?.inventoryFeedMPN
+          ? this.formControl['inventoryFeedMPN'].value
           : '',
         inventoryFeedQuantityColumnName: this.formFieldOnUI[
           'inventoryFeedQuantityColumnName'
         ]
-          ? this.inventoryFeedForm.value?.inventoryFeedQuantityColumnName
+          ? this.formControl['inventoryFeedQuantityColumnName'].value
           : '',
         authorizedFeedSenders: this.formFieldOnUI['authorizedFeedSenders']
-          ? this.inventoryFeedForm.value?.authorizedFeedSenders?.map(
+          ? this.formControl['authorizedFeedSenders'].value?.map(
               (item: any) => item?.email
             )
           : '',
