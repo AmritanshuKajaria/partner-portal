@@ -59,10 +59,13 @@
         <nz-form-label class="label-section"
           >Enabled Carriers <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control class="input-section">
+        <nz-form-control
+          class="input-section"
+          [nzErrorTip]="enabledCarriersError"
+        >
           <nz-input-group class="small-input">
             <nz-select
-              nzPlaceHolder="Select A Inventory Schedule"
+              nzPlaceHolder="Select Enabled Carriers"
               formControlName="enabledCarriers"
               nzMode="multiple"
             >
@@ -73,6 +76,11 @@
                 [nzDisabled]="option.disabled"
               ></nz-option>
             </nz-select>
+            <ng-template #enabledCarriersError let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please select your Enabled Carriers<br
+              /></ng-container>
+            </ng-template>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -81,7 +89,10 @@
         <nz-form-label class="label-section"
           >Label Page Size <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control class="input-section">
+        <nz-form-control
+          class="input-section"
+          [nzErrorTip]="labelPageSizeError"
+        >
           <nz-input-group class="large-input">
             <nz-radio-group formControlName="labelPageSize">
               <label
@@ -91,6 +102,11 @@
                 >{{ option?.name }}</label
               >
             </nz-radio-group>
+            <ng-template #labelPageSizeError let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please choose any 1 Label Page Size<br
+              /></ng-container>
+            </ng-template>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
@@ -180,9 +196,7 @@
       </div>
 
       <nz-form-item *ngIf="formFieldOnUI?.returnProfile">
-        <nz-form-label class="label-section"
-          >Return Profile <span style="color: red">*</span></nz-form-label
-        >
+        <nz-form-label class="label-section">Return Profile</nz-form-label>
         <nz-form-control
           class="input-section"
           [nzErrorTip]="inventoryFeedMPNError"

@@ -69,7 +69,7 @@ export class OrderProcessingReturnComponent implements OnInit {
       copyOfPOSentOverEmail: ['', [Validators.required]],
       isPackingSlipEnabled: [{ value: false, disabled: true }],
       authorizedInvoiceSenders: this.fb.array([]),
-      returnProfile: [{ value: 'Return To Partner Location', disabled: true }],
+      returnProfile: [{ value: 'Field Destroy', disabled: true }],
     });
     this.addAuthorizedFeedSender();
 
@@ -89,7 +89,7 @@ export class OrderProcessingReturnComponent implements OnInit {
   }
 
   onFormChange(): void {
-    if (this.formControl['poSendingMethod'].value === 1) {
+    if (this.formControl['poSendingMethod'].value === 2) {
       this.formFieldOnUI['copyOfPOSentOverEmail'] = true;
     } else {
       this.formFieldOnUI['copyOfPOSentOverEmail'] = false;
@@ -132,6 +132,7 @@ export class OrderProcessingReturnComponent implements OnInit {
     this.formControl['poSendingMethod'].setValue(2);
     this.formControl['generateLabels'].setValue(1);
     this.formControl['isPackingSlipEnabled'].setValue(true);
+    this.formControl['returnProfile'].setValue('Field Destroy');
     if (this.authorizedInvoiceSenders.length === 0) {
       this.addAuthorizedFeedSender();
     }
@@ -145,10 +146,27 @@ export class OrderProcessingReturnComponent implements OnInit {
     if (valid) {
       this.isLoading = true;
       const payload = {
-        // inventoryFeedType: this.formFieldOnUI['inventoryFeedType']
-        //   ? this.formControl['inventoryFeedType'].value
-        //   : '',
-
+        poSendingMethod: this.formFieldOnUI['poSendingMethod']
+          ? this.formControl['poSendingMethod']?.value
+          : '',
+        enabledCarriers: this.formFieldOnUI['enabledCarriers']
+          ? this.formControl['enabledCarriers']?.value
+          : '',
+        generateLabels: this.formFieldOnUI['generateLabels']
+          ? this.formControl['generateLabels']?.value
+          : '',
+        labelPageSize: this.formFieldOnUI['labelPageSize']
+          ? this.formControl['labelPageSize']?.value
+          : '',
+        copyOfPOSentOverEmail: this.formFieldOnUI['copyOfPOSentOverEmail']
+          ? this.formControl['copyOfPOSentOverEmail']?.value
+          : '',
+        isPackingSlipEnabled: this.formFieldOnUI['isPackingSlipEnabled']
+          ? this.formControl['isPackingSlipEnabled']?.value
+          : '',
+        returnProfile: this.formFieldOnUI['returnProfile']
+          ? this.formControl['returnProfile']?.value
+          : '',
         authorizedInvoiceSenders: this.formFieldOnUI['authorizedInvoiceSenders']
           ? this.formControl['authorizedInvoiceSenders'].value?.map(
               (item: any) => item?.email
