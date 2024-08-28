@@ -119,10 +119,6 @@
         <span>Plans</span>
       </li>
       <li
-        *ngIf="
-          userPartnerDetails?.current_plan &&
-          userPartnerDetails?.current_plan !== 'no_plan'
-        "
         nz-menu-item
         [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'"
         routerLink="/main/setting"

@@ -33,15 +33,17 @@
     .body-section {
         padding: 20px;
         height: calc(100vh - 155px);
+        overflow-y: auto;
 
         form {
+
             .label-section {
-                width: 170px !important;
+                width: 180px !important;
             }
 
             .input-section {
                 width: 100%;
-                max-width: 410px !important;
+                max-width: 400px !important;
             }
 
             nz-form-item {
@@ -62,18 +64,18 @@
                     border-radius: 5px !important;
                 }
 
-                .upload-btn {
-                    border-radius: 4px;
-                }
+            }
 
-                .upload-btn:hover,
-                .upload-btn:focus {
-                    color: $darkBlue;
-                    border-color: $darkBlue;
-                }
+            .upload-btn {
+                border-radius: 4px;
+            }
+
+            .upload-btn:hover,
+            .upload-btn:focus {
+                color: $darkBlue;
+                border-color: $darkBlue;
             }
         }
-
     }
 
     ::ng-deep .ant-input {
@@ -82,21 +84,21 @@
         font-size: 16px;
     }
 
-    ::ng-deep .ant-picker {
+    ::ng-deep .ant-form-item-control-input-content {
+        display: flex;
+    }
+
+    ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
+    .ant-picker {
         border-radius: 5px !important;
         min-height: 35px !important;
         font-size: 16px;
-    }
-
-    ::ng-deep .ant-form-item-control-input-content {
-        display: flex;
     }
 
     ::ng-deep .ant-form-item {
         margin-bottom: 0px;
         padding: 6px;
     }
-
 
     .footer-section {
         margin-top: 10px;

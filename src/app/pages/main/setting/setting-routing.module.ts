@@ -7,6 +7,8 @@ import { OrderProcessingReturnComponent } from './setting-component/order-proces
 import { COIComponent } from './setting-component/coi/coi.component';
 import { RemittanceInfoComponent } from './setting-component/remittance-info/remittance-info.component';
 import { PrimaryInfoComponent } from './setting-component/primary-info/primary-info.component';
+import { LegalInfoComponent } from './setting-component/legal-info/legal-info.component';
+import { ContactComponent } from './setting-component/contact/contact.component';
 
 const routes: Routes = [
   {
@@ -30,12 +32,20 @@ const routes: Routes = [
     component: PrimaryInfoComponent,
   },
   {
+    path: 'legal-info',
+    component: LegalInfoComponent,
+  },
+  {
     path: 'remittance-info',
     component: RemittanceInfoComponent,
   },
   {
     path: 'coi',
     component: COIComponent,
+  },
+  {
+    path: 'contacts',
+    component: ContactComponent,
   },
 ];
 
