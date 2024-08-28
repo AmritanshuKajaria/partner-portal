@@ -70,6 +70,7 @@
                 *ngFor="let option of enabledCarriersOptions"
                 [nzLabel]="option.name"
                 [nzValue]="option.value"
+                [nzDisabled]="option.disabled"
               ></nz-option>
             </nz-select>
           </nz-input-group>
@@ -177,6 +178,30 @@
           </div>
         </div>
       </div>
+
+      <nz-form-item *ngIf="formFieldOnUI?.returnProfile">
+        <nz-form-label class="label-section"
+          >Return Profile <span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          class="input-section"
+          [nzErrorTip]="inventoryFeedMPNError"
+        >
+          <nz-input-group class="small-input">
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Return Profile"
+              formControlName="returnProfile"
+            />
+            <ng-template #inventoryFeedMPNError let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please input your Return Profile<br
+              /></ng-container>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
     </form>
     <div class="footer-section">
       <button nz-button nzType="default" class="reset-button" (click)="reset()">

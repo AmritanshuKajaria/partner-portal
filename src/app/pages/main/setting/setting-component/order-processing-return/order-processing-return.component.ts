@@ -6,7 +6,10 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { EnabledCarriersOptions } from 'src/app/shared/constants/constants';
+import {
+  EnabledCarriersOptions,
+  ReturnProfileOptions,
+} from 'src/app/shared/constants/constants';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 
@@ -19,8 +22,11 @@ export class OrderProcessingReturnComponent implements OnInit {
   isLoading: boolean = false;
   orderProcessingReturnForm!: FormGroup;
   dropDownList: any = null;
-  enabledCarriersOptions: { name: string; value: string }[] =
-    EnabledCarriersOptions;
+  enabledCarriersOptions: {
+    name: string;
+    value: string;
+    disabled: boolean;
+  }[] = EnabledCarriersOptions;
   generateLabelsList = [
     { name: '123Stores Shipping Label', value: 1 },
     { name: '123Stores 3rd Party Account', value: 0 },
@@ -33,6 +39,7 @@ export class OrderProcessingReturnComponent implements OnInit {
     copyOfPOSentOverEmail: true,
     authorizedInvoiceSenders: true,
     isPackingSlipEnabled: true,
+    returnProfile: true,
   };
 
   constructor(
@@ -45,9 +52,9 @@ export class OrderProcessingReturnComponent implements OnInit {
     this.commonService.getJsonData().subscribe(
       (res) => {
         this.dropDownList = res;
-        // this.formControl['inventoryFeedType'].setValue(1);
-        // this.formControl['inventoryFeedDetailType'].setValue(1);
-        // this.formControl['inventoryBucket'].setValue(2);
+        this.formControl['poSendingMethod'].setValue(2);
+        this.formControl['generateLabels'].setValue(1);
+        this.formControl['isPackingSlipEnabled'].setValue(true);
       },
       (error) => {
         console.error('Error fetching JSON data', error);
@@ -55,13 +62,14 @@ export class OrderProcessingReturnComponent implements OnInit {
     );
 
     this.orderProcessingReturnForm = this.fb.group({
-      poSendingMethod: ['', [Validators.required]],
+      poSendingMethod: [{ value: '', disabled: true }],
       enabledCarriers: [[], [Validators.required]],
-      generateLabels: ['', [Validators.required]],
+      generateLabels: [{ value: '', disabled: true }],
       labelPageSize: ['', [Validators.required]],
       copyOfPOSentOverEmail: ['', [Validators.required]],
-      isPackingSlipEnabled: ['', [Validators.required]],
+      isPackingSlipEnabled: [{ value: false, disabled: true }],
       authorizedInvoiceSenders: this.fb.array([]),
+      returnProfile: [{ value: 'Return To Partner Location', disabled: true }],
     });
     this.addAuthorizedFeedSender();
 
@@ -92,6 +100,13 @@ export class OrderProcessingReturnComponent implements OnInit {
     } else {
       this.formFieldOnUI['labelPageSize'] = false;
     }
+
+    this.enabledCarriersOptions = this.enabledCarriersOptions.map((option) => ({
+      ...option,
+      disabled: this.formControl['enabledCarriers'].value.includes(
+        option.value
+      ),
+    }));
   }
 
   newAuthorizedFeedSender() {
@@ -114,9 +129,9 @@ export class OrderProcessingReturnComponent implements OnInit {
     }
 
     this.orderProcessingReturnForm?.reset();
-    this.formControl['inventoryFeedType'].setValue(1);
-    this.formControl['inventoryFeedDetailType'].setValue(1);
-    this.formControl['inventoryBucket'].setValue(2);
+    this.formControl['poSendingMethod'].setValue(2);
+    this.formControl['generateLabels'].setValue(1);
+    this.formControl['isPackingSlipEnabled'].setValue(true);
     if (this.authorizedInvoiceSenders.length === 0) {
       this.addAuthorizedFeedSender();
     }
