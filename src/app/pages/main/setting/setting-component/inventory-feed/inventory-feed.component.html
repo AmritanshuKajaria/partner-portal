@@ -130,6 +130,12 @@
               <ng-container *ngIf="control.hasError('required')"
                 >Please input your MPN Column Name<br
               /></ng-container>
+              <ng-container *ngIf="control.hasError('minLength')"
+                >Please input minimum 1 character<br
+              /></ng-container>
+              <ng-container *ngIf="control.hasError('maxLength')"
+                >Please input maximum 255 character<br
+              /></ng-container>
             </ng-template>
           </nz-input-group>
         </nz-form-control>
@@ -153,6 +159,12 @@
             <ng-template #inventoryFeedQuantityColumnNameError let-control>
               <ng-container *ngIf="control.hasError('required')"
                 >Please input your Quantity Column Name<br
+              /></ng-container>
+              <ng-container *ngIf="control.hasError('minLength')"
+                >Please input minimum 1 character<br
+              /></ng-container>
+              <ng-container *ngIf="control.hasError('maxLength')"
+                >Please input maximum 255 character<br
               /></ng-container>
             </ng-template>
           </nz-input-group>

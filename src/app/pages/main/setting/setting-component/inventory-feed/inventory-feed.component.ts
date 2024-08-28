@@ -57,8 +57,22 @@ export class InventoryFeedComponent implements OnInit {
       ],
       inventoryBucket: [{ value: '', disabled: true }],
       inventorySchedule: [[], [Validators.required]],
-      inventoryFeedMPN: ['', [Validators.required]],
-      inventoryFeedQuantityColumnName: ['', [Validators.required]],
+      inventoryFeedMPN: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(255),
+        ],
+      ],
+      inventoryFeedQuantityColumnName: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(255),
+        ],
+      ],
       authorizedFeedSenders: this.fb.array([]),
     });
     this.addAuthorizedFeedSender();
