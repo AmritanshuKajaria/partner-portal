@@ -90,18 +90,6 @@
         <span nz-icon nzType="sound" nzTheme="outline"></span>
         <span>Promotions</span>
       </li>
-      <li
-        *ngIf="
-          userPartnerDetails?.current_plan &&
-          userPartnerDetails?.current_plan !== 'no_plan'
-        "
-        nz-menu-item
-        [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'"
-        routerLink="/main/setting"
-      >
-        <span nz-icon nzType="setting" nzTheme="outline"></span>
-        <span>Setting</span>
-      </li>
       <!-- <li
         nz-menu-item
         [ngClass]="
@@ -129,6 +117,18 @@
       >
         <span nz-icon nzType="dollar" nzTheme="outline"></span>
         <span>Plans</span>
+      </li>
+      <li
+        *ngIf="
+          userPartnerDetails?.current_plan &&
+          userPartnerDetails?.current_plan !== 'no_plan'
+        "
+        nz-menu-item
+        [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'"
+        routerLink="/main/setting"
+      >
+        <span nz-icon nzType="setting" nzTheme="outline"></span>
+        <span>Setting</span>
       </li>
     </ul>
     <ul nz-menu nzMode="inline" class="sider-menu" style="margin-top: auto">

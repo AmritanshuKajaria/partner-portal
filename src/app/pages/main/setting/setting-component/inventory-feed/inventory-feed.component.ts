@@ -19,6 +19,9 @@ export class InventoryFeedComponent implements OnInit {
   inventoryFeedForm!: FormGroup;
   dropDownList: any = null;
   formFieldOnUI = {
+    inventoryFeedType: true,
+    inventoryFeedDetailType: true,
+    inventoryBucket: true,
     inventorySchedule: true,
     inventoryFeedMPN: true,
     inventoryFeedQuantityColumnName: true,
@@ -35,6 +38,9 @@ export class InventoryFeedComponent implements OnInit {
     this.commonService.getJsonData().subscribe(
       (res) => {
         this.dropDownList = res;
+        this.formControl['inventoryFeedType'].setValue(1);
+        this.formControl['inventoryFeedDetailType'].setValue(1);
+        this.formControl['inventoryBucket'].setValue(2);
       },
       (error) => {
         console.error('Error fetching JSON data', error);
@@ -42,26 +48,53 @@ export class InventoryFeedComponent implements OnInit {
     );
 
     this.inventoryFeedForm = this.fb.group({
-      inventoryFeedType: [{ value: 'Email', disabled: true }],
+      inventoryFeedType: [{ value: '', disabled: true }],
       inventoryFeedDetailType: [
         {
-          value: 1,
+          value: '',
           disabled: true,
         },
       ],
-      inventoryBucket: [{ value: 2, disabled: true }],
+      inventoryBucket: [{ value: '', disabled: true }],
       inventorySchedule: [[], [Validators.required]],
       inventoryFeedMPN: ['', [Validators.required]],
       inventoryFeedQuantityColumnName: ['', [Validators.required]],
       authorizedFeedSenders: this.fb.array([]),
     });
     this.addAuthorizedFeedSender();
+
+    this.inventoryFeedForm?.valueChanges.subscribe((selectedValues) => {
+      this.onFormChange();
+    });
+  }
+
+  get formControl() {
+    return this.inventoryFeedForm.controls;
   }
 
   get authorizedFeedSenders(): FormArray {
     return this.inventoryFeedForm.controls[
       'authorizedFeedSenders'
     ] as FormArray;
+  }
+
+  onFormChange(): void {
+    if (
+      this.formControl['inventoryFeedType'].value === 1 &&
+      this.formControl['inventoryFeedDetailType'].value === 1
+    ) {
+      this.formFieldOnUI['inventoryFeedQuantityColumnName'] = true;
+    } else {
+      this.formFieldOnUI['inventoryFeedQuantityColumnName'] = false;
+    }
+
+    if (this.formControl['inventoryFeedType'].value === 1) {
+      this.formFieldOnUI['authorizedFeedSenders'] = true;
+      this.formFieldOnUI['inventoryFeedMPN'] = true;
+    } else {
+      this.formFieldOnUI['authorizedFeedSenders'] = false;
+      this.formFieldOnUI['inventoryFeedMPN'] = false;
+    }
   }
 
   newAuthorizedFeedSender() {
@@ -79,7 +112,17 @@ export class InventoryFeedComponent implements OnInit {
   }
 
   reset() {
+    for (let index = 0; index < this.authorizedFeedSenders.length; index++) {
+      this.authorizedFeedSenders.removeAt(0);
+    }
+
     this.inventoryFeedForm?.reset();
+    this.formControl['inventoryFeedType'].setValue(1);
+    this.formControl['inventoryFeedDetailType'].setValue(1);
+    this.formControl['inventoryBucket'].setValue(2);
+    if (this.authorizedFeedSenders.length === 0) {
+      this.addAuthorizedFeedSender();
+    }
   }
 
   submitForm() {
@@ -90,23 +133,28 @@ export class InventoryFeedComponent implements OnInit {
     if (valid) {
       this.isLoading = true;
       const payload = {
-        inventoryFeedType: this.inventoryFeedForm.value?.inventoryFeedType,
-        inventoryFeedDetailType:
-          this.inventoryFeedForm.value?.inventoryFeedDetailType,
-        inventoryBucket: this.inventoryFeedForm.value?.inventoryBucket,
+        inventoryFeedType: this.formFieldOnUI['inventoryFeedType']
+          ? this.formControl['inventoryFeedType'].value
+          : '',
+        inventoryFeedDetailType: this.formFieldOnUI['inventoryFeedDetailType']
+          ? this.formControl['inventoryFeedDetailType'].value
+          : '',
+        inventoryBucket: this.formFieldOnUI['inventoryBucket']
+          ? this.formControl['inventoryBucket'].value
+          : '',
         inventorySchedule: this.formFieldOnUI['inventorySchedule']
-          ? this.inventoryFeedForm.value?.inventorySchedule
+          ? this.formControl['inventorySchedule'].value
           : '',
         inventoryFeedMPN: this.formFieldOnUI['inventoryFeedMPN']
-          ? this.inventoryFeedForm.value?.inventoryFeedMPN
+          ? this.formControl['inventoryFeedMPN'].value
           : '',
         inventoryFeedQuantityColumnName: this.formFieldOnUI[
           'inventoryFeedQuantityColumnName'
         ]
-          ? this.inventoryFeedForm.value?.inventoryFeedQuantityColumnName
+          ? this.formControl['inventoryFeedQuantityColumnName'].value
           : '',
         authorizedFeedSenders: this.formFieldOnUI['authorizedFeedSenders']
-          ? this.inventoryFeedForm.value?.authorizedFeedSenders?.map(
+          ? this.formControl['authorizedFeedSenders'].value?.map(
               (item: any) => item?.email
             )
           : '',
