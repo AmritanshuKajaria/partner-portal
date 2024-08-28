@@ -17,18 +17,22 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 })
 export class OrderProcessingReturnComponent implements OnInit {
   isLoading: boolean = false;
-  inventoryFeedForm!: FormGroup;
+  orderProcessingReturnForm!: FormGroup;
   dropDownList: any = null;
   enabledCarriersOptions: { name: string; value: string }[] =
     EnabledCarriersOptions;
+  generateLabelsList = [
+    { name: '123Stores Shipping Label', value: 1 },
+    { name: '123Stores 3rd Party Account', value: 0 },
+  ];
   formFieldOnUI = {
-    inventoryFeedType: true,
-    inventoryFeedDetailType: true,
-    inventoryBucket: true,
-    inventorySchedule: true,
-    inventoryFeedMPN: true,
-    inventoryFeedQuantityColumnName: true,
-    authorizedFeedSenders: true,
+    poSendingMethod: true,
+    enabledCarriers: true,
+    generateLabels: true,
+    labelPageSize: true,
+    copyOfPOSentOverEmail: true,
+    authorizedInvoiceSenders: true,
+    isPackingSlipEnabled: true,
   };
 
   constructor(
@@ -41,62 +45,52 @@ export class OrderProcessingReturnComponent implements OnInit {
     this.commonService.getJsonData().subscribe(
       (res) => {
         this.dropDownList = res;
-        this.formControl['inventoryFeedType'].setValue(1);
-        this.formControl['inventoryFeedDetailType'].setValue(1);
-        this.formControl['inventoryBucket'].setValue(2);
+        // this.formControl['inventoryFeedType'].setValue(1);
+        // this.formControl['inventoryFeedDetailType'].setValue(1);
+        // this.formControl['inventoryBucket'].setValue(2);
       },
       (error) => {
         console.error('Error fetching JSON data', error);
       }
     );
 
-    this.inventoryFeedForm = this.fb.group({
-      inventoryFeedType: [{ value: '', disabled: true }],
-      inventoryFeedDetailType: [
-        {
-          value: '',
-          disabled: true,
-        },
-      ],
-      inventoryBucket: [{ value: '', disabled: true }],
-      inventorySchedule: [[], [Validators.required]],
-      inventoryFeedMPN: ['', [Validators.required]],
-      inventoryFeedQuantityColumnName: ['', [Validators.required]],
-      authorizedFeedSenders: this.fb.array([]),
+    this.orderProcessingReturnForm = this.fb.group({
+      poSendingMethod: ['', [Validators.required]],
+      enabledCarriers: [[], [Validators.required]],
+      generateLabels: ['', [Validators.required]],
+      labelPageSize: ['', [Validators.required]],
+      copyOfPOSentOverEmail: ['', [Validators.required]],
+      isPackingSlipEnabled: ['', [Validators.required]],
+      authorizedInvoiceSenders: this.fb.array([]),
     });
     this.addAuthorizedFeedSender();
 
-    this.inventoryFeedForm?.valueChanges.subscribe((selectedValues) => {
+    this.orderProcessingReturnForm?.valueChanges.subscribe((selectedValues) => {
       this.onFormChange();
     });
   }
 
   get formControl() {
-    return this.inventoryFeedForm.controls;
+    return this.orderProcessingReturnForm.controls;
   }
 
-  get authorizedFeedSenders(): FormArray {
-    return this.inventoryFeedForm.controls[
-      'authorizedFeedSenders'
+  get authorizedInvoiceSenders(): FormArray {
+    return this.orderProcessingReturnForm.controls[
+      'authorizedInvoiceSenders'
     ] as FormArray;
   }
 
   onFormChange(): void {
-    if (
-      this.formControl['inventoryFeedType'].value === 1 &&
-      this.formControl['inventoryFeedDetailType'].value === 1
-    ) {
-      this.formFieldOnUI['inventoryFeedQuantityColumnName'] = true;
+    if (this.formControl['poSendingMethod'].value === 1) {
+      this.formFieldOnUI['copyOfPOSentOverEmail'] = true;
     } else {
-      this.formFieldOnUI['inventoryFeedQuantityColumnName'] = false;
+      this.formFieldOnUI['copyOfPOSentOverEmail'] = false;
     }
 
-    if (this.formControl['inventoryFeedType'].value === 1) {
-      this.formFieldOnUI['authorizedFeedSenders'] = true;
-      this.formFieldOnUI['inventoryFeedMPN'] = true;
+    if (this.formControl['generateLabels'].value === 1) {
+      this.formFieldOnUI['labelPageSize'] = true;
     } else {
-      this.formFieldOnUI['authorizedFeedSenders'] = false;
-      this.formFieldOnUI['inventoryFeedMPN'] = false;
+      this.formFieldOnUI['labelPageSize'] = false;
     }
   }
 
@@ -107,57 +101,41 @@ export class OrderProcessingReturnComponent implements OnInit {
   }
 
   addAuthorizedFeedSender() {
-    this.authorizedFeedSenders.push(this.newAuthorizedFeedSender());
+    this.authorizedInvoiceSenders.push(this.newAuthorizedFeedSender());
   }
 
   removeAuthorizedFeedSender(i: number) {
-    this.authorizedFeedSenders.removeAt(i);
+    this.authorizedInvoiceSenders.removeAt(i);
   }
 
   reset() {
-    for (let index = 0; index < this.authorizedFeedSenders.length; index++) {
-      this.authorizedFeedSenders.removeAt(0);
+    for (let index = 0; index < this.authorizedInvoiceSenders.length; index++) {
+      this.authorizedInvoiceSenders.removeAt(0);
     }
 
-    this.inventoryFeedForm?.reset();
+    this.orderProcessingReturnForm?.reset();
     this.formControl['inventoryFeedType'].setValue(1);
     this.formControl['inventoryFeedDetailType'].setValue(1);
     this.formControl['inventoryBucket'].setValue(2);
-    if (this.authorizedFeedSenders.length === 0) {
+    if (this.authorizedInvoiceSenders.length === 0) {
       this.addAuthorizedFeedSender();
     }
   }
 
   submitForm() {
     const valid = this.formValidationService.checkFormValidity(
-      this.inventoryFeedForm,
+      this.orderProcessingReturnForm,
       this.formFieldOnUI
     );
     if (valid) {
       this.isLoading = true;
       const payload = {
-        inventoryFeedType: this.formFieldOnUI['inventoryFeedType']
-          ? this.formControl['inventoryFeedType'].value
-          : '',
-        inventoryFeedDetailType: this.formFieldOnUI['inventoryFeedDetailType']
-          ? this.formControl['inventoryFeedDetailType'].value
-          : '',
-        inventoryBucket: this.formFieldOnUI['inventoryBucket']
-          ? this.formControl['inventoryBucket'].value
-          : '',
-        inventorySchedule: this.formFieldOnUI['inventorySchedule']
-          ? this.formControl['inventorySchedule'].value
-          : '',
-        inventoryFeedMPN: this.formFieldOnUI['inventoryFeedMPN']
-          ? this.formControl['inventoryFeedMPN'].value
-          : '',
-        inventoryFeedQuantityColumnName: this.formFieldOnUI[
-          'inventoryFeedQuantityColumnName'
-        ]
-          ? this.formControl['inventoryFeedQuantityColumnName'].value
-          : '',
-        authorizedFeedSenders: this.formFieldOnUI['authorizedFeedSenders']
-          ? this.formControl['authorizedFeedSenders'].value?.map(
+        // inventoryFeedType: this.formFieldOnUI['inventoryFeedType']
+        //   ? this.formControl['inventoryFeedType'].value
+        //   : '',
+
+        authorizedInvoiceSenders: this.formFieldOnUI['authorizedInvoiceSenders']
+          ? this.formControl['authorizedInvoiceSenders'].value?.map(
               (item: any) => item?.email
             )
           : '',
@@ -167,25 +145,29 @@ export class OrderProcessingReturnComponent implements OnInit {
         this.isLoading = false;
       }, 500);
     } else {
-      Object.values(this.inventoryFeedForm.controls).forEach((control) => {
-        if (control.invalid) {
-          if (control instanceof FormControl) {
-            control.markAsDirty();
-            control.updateValueAndValidity({ onlySelf: true });
-          }
+      Object.values(this.orderProcessingReturnForm.controls).forEach(
+        (control) => {
+          if (control.invalid) {
+            if (control instanceof FormControl) {
+              control.markAsDirty();
+              control.updateValueAndValidity({ onlySelf: true });
+            }
 
-          if (control instanceof FormArray) {
-            control.controls.forEach((formGroup: any) => {
-              Object.values(formGroup.controls).forEach((arrayControl: any) => {
-                if (arrayControl.invalid) {
-                  arrayControl.markAsDirty();
-                  arrayControl.updateValueAndValidity({ onlySelf: true });
-                }
+            if (control instanceof FormArray) {
+              control.controls.forEach((formGroup: any) => {
+                Object.values(formGroup.controls).forEach(
+                  (arrayControl: any) => {
+                    if (arrayControl.invalid) {
+                      arrayControl.markAsDirty();
+                      arrayControl.updateValueAndValidity({ onlySelf: true });
+                    }
+                  }
+                );
               });
-            });
+            }
           }
         }
-      });
+      );
     }
   }
 

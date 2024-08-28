@@ -14,12 +14,12 @@
   </div>
 
   <div class="body-section" style="margin-left: 0; margin-right: 0">
-    <form [formGroup]="inventoryFeedForm">
-      <nz-form-item>
+    <form [formGroup]="orderProcessingReturnForm">
+      <nz-form-item *ngIf="formFieldOnUI?.poSendingMethod">
         <nz-form-label class="label-section">PO Method</nz-form-label>
         <nz-form-control class="input-section">
           <nz-input-group class="small-input">
-            <nz-radio-group formControlName="inventoryFeedType">
+            <nz-radio-group formControlName="poSendingMethod">
               <label
                 *ngFor="let option of dropDownList?.poSendingMethod"
                 nz-radio
@@ -30,7 +30,22 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.generateLabels">
+        <nz-form-label class="label-section">123Store Label</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="large-input">
+            <nz-radio-group formControlName="generateLabels">
+              <label
+                *ngFor="let option of generateLabelsList"
+                nz-radio
+                [nzValue]="option?.value"
+                >{{ option?.name }}</label
+              >
+            </nz-radio-group>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.isPackingSlipEnabled">
         <nz-form-label class="label-section"
           >Is Packing Slip Enabled</nz-form-label
         >
@@ -40,8 +55,10 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <nz-form-item>
-        <nz-form-label class="label-section">Enabled Carriers</nz-form-label>
+      <nz-form-item *ngIf="formFieldOnUI?.enabledCarriers">
+        <nz-form-label class="label-section"
+          >Enabled Carriers <span style="color: red">*</span></nz-form-label
+        >
         <nz-form-control class="input-section">
           <nz-input-group class="small-input">
             <nz-select
@@ -59,12 +76,12 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.labelPageSize">
         <nz-form-label class="label-section"
           >Label Page Size <span style="color: red">*</span></nz-form-label
         >
         <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
+          <nz-input-group class="large-input">
             <nz-radio-group formControlName="labelPageSize">
               <label
                 *ngFor="let option of dropDownList?.labelPageSize"
@@ -77,9 +94,10 @@
         </nz-form-control>
       </nz-form-item>
 
-      <nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.copyOfPOSentOverEmail">
         <nz-form-label class="label-section"
-          >Send Copy Of PO Over Email</nz-form-label
+          >Send Copy Of PO Over Email
+          <span style="color: red">*</span></nz-form-label
         >
         <nz-form-control class="input-section">
           <nz-input-group class="small-input">
@@ -89,14 +107,14 @@
       </nz-form-item>
 
       <div
-        *ngIf="formFieldOnUI?.authorizedFeedSenders"
-        formArrayName="authorizedFeedSenders"
+        *ngIf="formFieldOnUI?.authorizedInvoiceSenders"
+        formArrayName="authorizedInvoiceSenders"
       >
         <div
-          *ngFor="let email of authorizedFeedSenders.controls; let i = index"
+          *ngFor="let email of authorizedInvoiceSenders.controls; let i = index"
         >
           <div [formGroupName]="i">
-            <nz-form-item>
+            <nz-form-item *ngIf="formFieldOnUI?.authorizedInvoiceSenders">
               <nz-form-label
                 class="label-section"
                 nzFor="brand"
@@ -108,7 +126,7 @@
               </nz-form-label>
               <div class="label-section" *ngIf="i !== 0"></div>
               <nz-form-control class="input-section" [nzErrorTip]="emailError">
-                <nz-input-group class="small-input">
+                <nz-input-group class="medium-input">
                   <input
                     formControlName="email"
                     type="text"
@@ -121,40 +139,40 @@
                     >
                   </ng-template>
                 </nz-input-group>
+                <div style="margin-top: 6px">
+                  <button
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    *ngIf="authorizedInvoiceSenders.controls.length > 1"
+                    style="
+                      background: #f41e2c !important;
+                      margin-left: 8px;
+                      border: 0;
+                    "
+                    (click)="removeAuthorizedFeedSender(i)"
+                    nzSize="small"
+                  >
+                    <span nz-icon nzType="minus"></span>
+                  </button>
+                  <button
+                    [disabled]="i >= 9"
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    *ngIf="i === authorizedInvoiceSenders.controls.length - 1"
+                    style="
+                      background: #00c13b !important;
+                      margin-left: 8px;
+                      border: 0;
+                    "
+                    (click)="addAuthorizedFeedSender()"
+                    nzSize="small"
+                  >
+                    <span nz-icon nzType="plus"></span>
+                  </button>
+                </div>
               </nz-form-control>
-              <div style="margin-top: 6px">
-                <button
-                  [disabled]="i >= 9"
-                  nz-button
-                  nzType="primary"
-                  nzShape="circle"
-                  *ngIf="i === authorizedFeedSenders.controls.length - 1"
-                  style="
-                    background: #00c13b !important;
-                    margin-left: 8px;
-                    border: 0;
-                  "
-                  (click)="addAuthorizedFeedSender()"
-                  nzSize="small"
-                >
-                  <span nz-icon nzType="plus"></span>
-                </button>
-                <button
-                  nz-button
-                  nzType="primary"
-                  nzShape="circle"
-                  *ngIf="i !== authorizedFeedSenders.controls.length - 1"
-                  style="
-                    background: #f41e2c !important;
-                    margin-left: 8px;
-                    border: 0;
-                  "
-                  (click)="removeAuthorizedFeedSender(i)"
-                  nzSize="small"
-                >
-                  <span nz-icon nzType="minus"></span>
-                </button>
-              </div>
             </nz-form-item>
           </div>
         </div>
