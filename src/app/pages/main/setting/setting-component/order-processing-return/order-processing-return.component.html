@@ -16,9 +16,9 @@
   <div class="body-section" style="margin-left: 0; margin-right: 0">
     <form [formGroup]="inventoryFeedForm">
       <nz-form-item>
-        <nz-form-label>PO Method</nz-form-label>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-label class="label-section">PO Method</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
             <nz-radio-group formControlName="inventoryFeedType">
               <label
                 *ngFor="let option of dropDownList?.poSendingMethod"
@@ -31,17 +31,19 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label>Is Packing Slip Enabled</nz-form-label>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-label class="label-section"
+          >Is Packing Slip Enabled</nz-form-label
+        >
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
             <nz-switch formControlName="isPackingSlipEnabled"></nz-switch>
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label>Enabled Carriers</nz-form-label>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-label class="label-section">Enabled Carriers</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
             <nz-select
               nzPlaceHolder="Select A Inventory Schedule"
               formControlName="enabledCarriers"
@@ -58,11 +60,11 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label
+        <nz-form-label class="label-section"
           >Label Page Size <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
             <nz-radio-group formControlName="labelPageSize">
               <label
                 *ngFor="let option of dropDownList?.labelPageSize"
@@ -76,9 +78,11 @@
       </nz-form-item>
 
       <nz-form-item>
-        <nz-form-label>Send Copy Of PO Over Email</nz-form-label>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-label class="label-section"
+          >Send Copy Of PO Over Email</nz-form-label
+        >
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
             <nz-switch formControlName="copyOfPOSentOverEmail"></nz-switch>
           </nz-input-group>
         </nz-form-control>
@@ -93,14 +97,18 @@
         >
           <div [formGroupName]="i">
             <nz-form-item>
-              <nz-form-label style="width: 301px" nzFor="brand" *ngIf="i === 0">
+              <nz-form-label
+                class="label-section"
+                nzFor="brand"
+                *ngIf="i === 0"
+              >
                 Authorized Feed Sender<span style="color: red; font-weight: 500"
                   >*</span
                 >
               </nz-form-label>
-              <div style="width: 301px" *ngIf="i !== 0"></div>
-              <nz-form-control [nzErrorTip]="emailError">
-                <nz-input-group>
+              <div class="label-section" *ngIf="i !== 0"></div>
+              <nz-form-control class="input-section" [nzErrorTip]="emailError">
+                <nz-input-group class="small-input">
                   <input
                     formControlName="email"
                     type="text"
