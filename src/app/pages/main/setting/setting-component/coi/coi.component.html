@@ -1,0 +1,116 @@
+<div class="map-handling-section">
+  <div class="section-header">
+    <div class="tab-header">
+      <span>COI Setup</span>
+      <button
+        nz-button
+        nzType="default"
+        class="reset-button"
+        (click)="goBack()"
+      >
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+      </button>
+    </div>
+  </div>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <form [formGroup]="mapHandlingForm">
+      <nz-form-item *ngIf="formFieldOnUI?.insurerName">
+        <nz-form-label class="label-section">Name of Insurer</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Name of Insurer"
+              formControlName="insurerName"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.insuredName">
+        <nz-form-label class="label-section">Name of Insured</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Name of Insured"
+              formControlName="insuredName"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item *ngIf="formFieldOnUI?.policyNumber">
+        <nz-form-label class="label-section">Policy Number</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
+            <input
+              type="number"
+              nz-input
+              placeholder="Enter Policy Number"
+              formControlName="policyNumber"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="formFieldOnUI?.policyNumber">
+        <nz-form-label class="label-section">Policy Dates</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="large-input">
+            <nz-date-picker
+              [nzDisabledDate]="disabledStartDate"
+              nzShowTime
+              nzFormat="yyyy-MM-dd"
+              formControlName="policyStartDate"
+              nzPlaceHolder="Start"
+              (nzOnOpenChange)="handleStartOpenChange($event)"
+            ></nz-date-picker>
+            <nz-date-picker
+              #endDatePicker
+              [nzDisabledDate]="disabledEndDate"
+              nzShowTime
+              nzFormat="yyyy-MM-dd"
+              formControlName="policyEndDate"
+              nzPlaceHolder="End"
+              (nzOnOpenChange)="handleEndOpenChange($event)"
+            ></nz-date-picker>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="footer-section">
+        <button
+          nz-button
+          nzType="default"
+          class="reset-button"
+          (click)="reset()"
+        >
+          <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+        </button>
+        <button
+          nz-button
+          style="margin-top: 0"
+          class="action-button"
+          [nzType]="'primary'"
+          (click)="submitForm()"
+        >
+          <span
+            *ngIf="isLoading"
+            style="color: white; font-size: 16px"
+            nz-icon
+            nzType="loading"
+          ></span>
+          <span
+            *ngIf="!isLoading"
+            nz-icon
+            nzType="file-text"
+            nzTheme="outline"
+          ></span>
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

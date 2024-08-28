@@ -4,6 +4,7 @@ import { SettingComponent } from './setting.component';
 import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
 import { InventoryFeedComponent } from './setting-component/inventory-feed/inventory-feed.component';
 import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
+import { COIComponent } from './setting-component/coi/coi.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'order-processing-return',
     component: OrderProcessingReturnComponent,
+  },
+  {
+    path: 'coi-setup',
+    component: COIComponent,
   },
 ];
 

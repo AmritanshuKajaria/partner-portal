@@ -39,13 +39,12 @@ export class MapHandlingComponent implements OnInit {
       }
     );
     this.mapHandlingForm = this.formBuilder.group({
-      mapType: new FormControl('', [Validators.required]),
-      handlingConfiguration: new FormControl('', [Validators.required]),
-      accountHandlingTimeValue: new FormControl('', [
-        Validators.required,
-        Validators.min(1),
-        Validators.max(10),
-      ]),
+      mapType: ['', [Validators.required]],
+      handlingConfiguration: ['', [Validators.required]],
+      accountHandlingTimeValue: [
+        '',
+        [Validators.required, Validators.min(1), Validators.max(10)],
+      ],
     });
 
     this.mapHandlingForm?.valueChanges.subscribe((value) => {

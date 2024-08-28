@@ -13,12 +13,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
+import { COIComponent } from './setting-component/coi/coi.component';
 
 @NgModule({
   declarations: [
     SettingComponent,
     MapHandlingComponent,
     OrderProcessingReturnComponent,
+    COIComponent,
   ],
   imports: [
     CommonModule,
