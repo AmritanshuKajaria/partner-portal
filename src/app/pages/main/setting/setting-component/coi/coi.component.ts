@@ -5,7 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import * as moment from 'moment';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
+import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 
@@ -27,6 +29,12 @@ export class COIComponent implements OnInit {
     policyEndDate: true,
     coiFileID: true,
   };
+  fileList: any = {
+    uid: '-1',
+    name: 'example.pdf',
+    status: 'done',
+    url: 'https://example.com/path-to-your-file.pdf',
+  };
 
   constructor(
     private commonService: CommonService,
@@ -44,18 +52,23 @@ export class COIComponent implements OnInit {
       }
     );
     this.mapHandlingForm = this.formBuilder.group({
-      insurerName: [{ value: '', disabled: false }],
-      insuredName: [{ value: '', disabled: false }],
-      policyNumber: [{ value: '', disabled: false }],
-      policyStartDate: [{ value: '', disabled: false }],
-      policyEndDate: [{ value: '', disabled: false }],
-      coiFileID: [{ value: '', disabled: false }],
+      insurerName: [{ value: 'test 1', disabled: true }],
+      insuredName: [{ value: 'test 2', disabled: true }],
+      policyNumber: [{ value: 12312, disabled: true }],
+      policyStartDate: [{ value: '2024-08-22', disabled: true }],
+      policyEndDate: [{ value: '2024-08-12', disabled: true }],
+      coiFileID: [{ value: '', disabled: true }],
     });
 
     // this.mapHandlingForm?.valueChanges.subscribe((value) => {
     //   this.onFormChange();
     // });
   }
+
+  beforeUpload = (file: NzUploadFile): boolean => {
+    this.fileList = file;
+    return false;
+  };
 
   get formControl() {
     return this.mapHandlingForm.controls;
@@ -79,54 +92,95 @@ export class COIComponent implements OnInit {
     );
   };
 
-  handleStartOpenChange(open: boolean): void {
-    if (!open) {
-      this.endDatePicker.open();
-    }
-    console.log('handleStartOpenChange', open);
-  }
-
-  handleEndOpenChange(open: boolean): void {
-    console.log('handleEndOpenChange', open);
-  }
-
   reset() {
+    this.fileList = [];
     this.mapHandlingForm?.reset();
   }
 
+  downloadFile(file: NzUploadFile): void {
+    // Create a temporary link to download the file
+    const link = document.createElement('a');
+    link.href = this.fileList?.url;
+    link.download = this.fileList?.name;
+    link.target = '_blank'; // To open in a new tab (optional)
+    link.click();
+  }
+
+  removeFile(): void {
+    this.fileList = null;
+  }
+
   submitForm() {
-    const valid = this.formValidationService.checkFormValidity(
-      this.mapHandlingForm,
-      this.formFieldOnUI
+    this.isLoading = true;
+    const formData = new FormData();
+    formData.append(
+      'insurerName',
+      this.formFieldOnUI['insurerName']
+        ? this.formControl['insurerName']?.value
+        : ''
+    );
+    formData.append(
+      'insuredName',
+      this.formFieldOnUI['insuredName']
+        ? this.formControl['insuredName']?.value
+        : ''
+    );
+    formData.append(
+      'policyNumber',
+      this.formFieldOnUI['policyNumber']
+        ? this.formControl['policyNumber']?.value
+        : ''
+    );
+    formData.append(
+      'policyStartDate',
+      this.formFieldOnUI['policyStartDate']
+        ? this.formControl['policyStartDate']?.value
+          ? moment(this.formControl['policyStartDate']?.value).format(
+              'YYYY-MM-DD'
+            )
+          : ''
+        : ''
+    );
+    formData.append(
+      'policyEndDate',
+      this.formFieldOnUI['policyEndDate']
+        ? this.formControl['policyEndDate']?.value
+          ? moment(this.formControl['policyEndDate']?.value).format(
+              'YYYY-MM-DD'
+            )
+          : ''
+        : ''
+    );
+    formData.append(
+      'coiFileID',
+      this.formFieldOnUI['coiFileID'] ? this.fileList : ''
     );
 
-    if (valid) {
-      this.isLoading = true;
-      // const payload = {
-      //   mapType: this.formFieldOnUI['mapType']
-      //     ? this.mapHandlingForm?.value?.mapType
-      //     : '',
-      //   handlingConfiguration: this.formFieldOnUI['handlingConfiguration']
-      //     ? this.mapHandlingForm?.value?.handlingConfiguration
-      //     : '',
-      //   accountHandlingTimeValue: this.formFieldOnUI['accountHandlingTimeValue']
-      //     ? this.mapHandlingForm?.value?.accountHandlingTimeValue
-      //     : '',
-      // };
-      setTimeout(() => {
-        // console.log(payload);
-        this.isLoading = false;
-      }, 500);
-    } else {
-      Object.values(this.mapHandlingForm.controls).forEach((control) => {
-        if (control.invalid) {
-          if (control instanceof FormControl) {
-            control.markAsDirty();
-            control.updateValueAndValidity({ onlySelf: true });
-          }
-        }
-      });
-    }
+    console.log({
+      insurerName: this.formFieldOnUI['insurerName']
+        ? this.formControl['insurerName']?.value
+        : '',
+      insuredName: this.formFieldOnUI['insuredName']
+        ? this.formControl['insuredName']?.value
+        : '',
+      policyNumber: this.formFieldOnUI['policyNumber']
+        ? this.formControl['policyNumber']?.value
+        : '',
+      policyStartDate: this.formFieldOnUI['policyStartDate']
+        ? moment(this.formControl['policyStartDate']?.value).format(
+            'YYYY-MM-DD'
+          )
+        : '',
+      policyEndDate: this.formFieldOnUI['policyEndDate']
+        ? moment(this.formControl['policyEndDate']?.value).format('YYYY-MM-DD')
+        : '',
+      coiFileID: this.formFieldOnUI['coiFileID'] ? this.fileList : '',
+    });
+
+    setTimeout(() => {
+      console.log(formData);
+      this.isLoading = false;
+    }, 500);
   }
 
   goBack() {

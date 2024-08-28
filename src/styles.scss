@@ -94,6 +94,32 @@
     border-color: $darkBlue;
 }
 
+.ant-btn {
+    border-radius: 4px !important;
+}
+
+.custom-file-list {
+    position: relative;
+    height: 40px;
+    margin-top: 8px;
+    font-size: 14px;
+    border: 1px solid lightgray;
+    padding: 5px 10px;
+    display: flex;
+
+    .file-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+
+        button,
+        button:hover {
+            color: $darkBlue;
+        }
+    }
+}
+
 .link,
 .link:hover {
     text-decoration: underline;
