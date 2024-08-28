@@ -24,7 +24,7 @@ const routes: Routes = [
     component: OrderProcessingReturnComponent,
   },
   {
-    path: 'coi-setup',
+    path: 'coi',
     component: COIComponent,
   },
 ];
