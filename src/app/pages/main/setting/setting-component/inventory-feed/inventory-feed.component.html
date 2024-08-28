@@ -1,281 +1,294 @@
 <div class="map-handling-section">
-  <div class="section-header">
-    <div class="tab-header">
-      <span>INVENTORY FEED</span>
-      <button
-        nz-button
-        nzType="default"
-        class="reset-button"
-        (click)="goBack()"
-      >
-        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
-      </button>
+  <nz-spin [nzSpinning]="isLoading">
+    <div class="section-header">
+      <div class="tab-header">
+        <span>INVENTORY FEED</span>
+        <button
+          nz-button
+          nzType="default"
+          class="reset-button"
+          (click)="goBack()"
+        >
+          <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+        </button>
+      </div>
     </div>
-  </div>
 
-  <div class="body-section" style="margin-left: 0; margin-right: 0">
-    <form [formGroup]="inventoryFeedForm">
-      <nz-form-item>
-        <nz-form-label class="label-section">Inventory Feed Type</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <nz-radio-group formControlName="inventoryFeedType">
-              <label
-                *ngFor="let option of dropDownList?.feedType"
-                nz-radio
-                [nzValue]="option?.value"
-                >{{ option?.name }}</label
-              >
-            </nz-radio-group>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label class="label-section"
-          >Inventory Feed Detail Type
-          <div class="icon-color">
-            <span
-              style="margin-left: 5px"
-              nz-icon
-              nzType="info-circle"
-              nzTheme="outline"
-              nzTooltipTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, pariatur! Tempore, et fuga. Dicta tenetur aliquam quibusdam dignissimos, expedita aspernatur, harum saepe rem esse molestiae, quam impedit quidem exercitationem quae."
-              nzTooltipPlacement="top"
-              nz-tooltip
-            ></span>
-          </div>
-        </nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="medium-input">
-            <nz-radio-group formControlName="inventoryFeedDetailType">
-              <label
-                *ngFor="let option of dropDownList?.feedDetailType"
-                nz-radio
-                [nzValue]="option?.value"
-                >{{ option?.name }}</label
-              >
-            </nz-radio-group>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label class="label-section"
-          >Inventory Bucket
-          <div class="icon-color">
-            <span
-              style="margin-left: 5px"
-              nz-icon
-              nzType="info-circle"
-              nzTheme="outline"
-              nzTooltipTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, pariatur! Tempore, et fuga. Dicta tenetur aliquam quibusdam dignissimos, expedita aspernatur, harum saepe rem esse molestiae, quam impedit quidem exercitationem quae."
-              nzTooltipPlacement="top"
-              nz-tooltip
-            ></span>
-          </div>
-        </nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <nz-select
-              nzShowSearch
-              nzPlaceHolder="Select A Inventory Bucket"
-              formControlName="inventoryBucket"
-            >
-              <nz-option
-                *ngFor="let option of dropDownList?.inventoryBucket"
-                [nzLabel]="option?.name"
-                [nzValue]="option?.value"
-              ></nz-option>
-            </nz-select>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item *ngIf="formFieldOnUI?.inventorySchedule">
-        <nz-form-label class="label-section"
-          >Inventory Schedule <span style="color: red">*</span></nz-form-label
-        >
-        <nz-form-control
-          class="input-section"
-          nzErrorTip="Inventory Schedule is required!"
-        >
-          <nz-input-group class="medium-input">
-            <nz-select
-              nzShowSearch
-              nzPlaceHolder="Select A Inventory Schedule"
-              formControlName="inventorySchedule"
-              nzMode="multiple"
-            >
-              <nz-option
-                *ngFor="let option of dropDownList?.feedFrequency"
-                [nzLabel]="option?.name"
-                [nzValue]="option?.value"
-              ></nz-option>
-            </nz-select>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedMPN">
-        <nz-form-label class="label-section"
-          >Inventory Feed MPN Column Name
-          <span style="color: red">*</span></nz-form-label
-        >
-        <nz-form-control
-          class="input-section"
-          [nzErrorTip]="inventoryFeedMPNError"
-        >
-          <nz-input-group class="small-input">
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter MPN Column Name"
-              formControlName="inventoryFeedMPN"
-            />
-            <ng-template #inventoryFeedMPNError let-control>
-              <ng-container *ngIf="control.hasError('required')"
-                >Please input your MPN Column Name<br
-              /></ng-container>
-              <ng-container *ngIf="control.hasError('minLength')"
-                >Please input minimum 1 character<br
-              /></ng-container>
-              <ng-container *ngIf="control.hasError('maxLength')"
-                >Please input maximum 255 character<br
-              /></ng-container>
-            </ng-template>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedQuantityColumnName">
-        <nz-form-label class="label-section"
-          >Inventory Feed Quantity Column Name
-          <span style="color: red">*</span></nz-form-label
-        >
-        <nz-form-control
-          class="input-section"
-          [nzErrorTip]="inventoryFeedQuantityColumnNameError"
-        >
-          <nz-input-group class="small-input">
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Quantity Column Name"
-              formControlName="inventoryFeedQuantityColumnName"
-            />
-            <ng-template #inventoryFeedQuantityColumnNameError let-control>
-              <ng-container *ngIf="control.hasError('required')"
-                >Please input your Quantity Column Name<br
-              /></ng-container>
-              <ng-container *ngIf="control.hasError('minLength')"
-                >Please input minimum 1 character<br
-              /></ng-container>
-              <ng-container *ngIf="control.hasError('maxLength')"
-                >Please input maximum 255 character<br
-              /></ng-container>
-            </ng-template>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <div
-        *ngIf="formFieldOnUI?.authorizedFeedSenders"
-        formArrayName="authorizedFeedSenders"
-      >
-        <div
-          *ngFor="let email of authorizedFeedSenders.controls; let i = index"
-        >
-          <div [formGroupName]="i">
-            <nz-form-item>
-              <nz-form-label
-                class="label-section"
-                nzFor="brand"
-                *ngIf="i === 0"
-              >
-                Authorized Feed Sender<span style="color: red; font-weight: 500"
-                  >*</span
+    <div class="body-section" style="margin-left: 0; margin-right: 0">
+      <form [formGroup]="inventoryFeedForm">
+        <nz-form-item>
+          <nz-form-label class="label-section"
+            >Inventory Feed Type</nz-form-label
+          >
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <nz-radio-group formControlName="inventoryFeedType">
+                <label
+                  *ngFor="let option of dropDownList?.feedType"
+                  nz-radio
+                  [nzValue]="option?.value"
+                  >{{ option?.name }}</label
                 >
-              </nz-form-label>
-              <div class="label-section" *ngIf="i !== 0"></div>
-              <nz-form-control class="input-section" [nzErrorTip]="emailError">
-                <nz-input-group class="medium-input">
-                  <input
-                    formControlName="email"
-                    type="text"
-                    nz-input
-                    placeholder="Enter Email"
-                  />
-                  <ng-template #emailError let-control>
-                    <ng-container *ngIf="control.hasError('required')"
-                      >Please input your email</ng-container
-                    >
-                    <ng-container *ngIf="control.hasError('email')"
-                      >Please input valid email</ng-container
-                    >
-                  </ng-template>
-                </nz-input-group>
-                <div style="margin-top: 6px">
-                  <!-- *ngIf="i !== authorizedFeedSenders.controls.length - 1" -->
-                  <button
-                    nz-button
-                    nzType="primary"
-                    nzShape="circle"
-                    style="
-                      background: #f41e2c !important;
-                      margin-left: 8px;
-                      border: 0;
-                    "
-                    *ngIf="authorizedFeedSenders.controls.length > 1"
-                    (click)="removeAuthorizedFeedSender(i)"
-                    nzSize="small"
+              </nz-radio-group>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label class="label-section"
+            >Inventory Feed Detail Type
+            <div class="icon-color">
+              <span
+                style="margin-left: 5px"
+                nz-icon
+                nzType="info-circle"
+                nzTheme="outline"
+                nzTooltipTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, pariatur! Tempore, et fuga. Dicta tenetur aliquam quibusdam dignissimos, expedita aspernatur, harum saepe rem esse molestiae, quam impedit quidem exercitationem quae."
+                nzTooltipPlacement="top"
+                nz-tooltip
+              ></span>
+            </div>
+          </nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="medium-input">
+              <nz-radio-group formControlName="inventoryFeedDetailType">
+                <label
+                  *ngFor="let option of dropDownList?.feedDetailType"
+                  nz-radio
+                  [nzValue]="option?.value"
+                  >{{ option?.name }}</label
+                >
+              </nz-radio-group>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label class="label-section"
+            >Inventory Bucket
+            <div class="icon-color">
+              <span
+                style="margin-left: 5px"
+                nz-icon
+                nzType="info-circle"
+                nzTheme="outline"
+                nzTooltipTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, pariatur! Tempore, et fuga. Dicta tenetur aliquam quibusdam dignissimos, expedita aspernatur, harum saepe rem esse molestiae, quam impedit quidem exercitationem quae."
+                nzTooltipPlacement="top"
+                nz-tooltip
+              ></span>
+            </div>
+          </nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select A Inventory Bucket"
+                formControlName="inventoryBucket"
+              >
+                <nz-option
+                  *ngFor="let option of dropDownList?.inventoryBucket"
+                  [nzLabel]="option?.name"
+                  [nzValue]="option?.value"
+                ></nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="formFieldOnUI?.inventorySchedule">
+          <nz-form-label class="label-section"
+            >Inventory Schedule <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            nzErrorTip="Inventory Schedule is required!"
+          >
+            <nz-input-group class="medium-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select A Inventory Schedule"
+                formControlName="inventorySchedule"
+                nzMode="multiple"
+              >
+                <nz-option
+                  *ngFor="let option of dropDownList?.feedFrequency"
+                  [nzLabel]="option?.name"
+                  [nzValue]="option?.value"
+                ></nz-option>
+              </nz-select>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedMPN">
+          <nz-form-label class="label-section"
+            >Inventory Feed MPN Column Name
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="inventoryFeedMPNError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter MPN Column Name"
+                formControlName="inventoryFeedMPN"
+              />
+              <ng-template #inventoryFeedMPNError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Please input your MPN Column Name<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minLength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxLength')"
+                  >Please input maximum 255 character<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedQuantityColumnName">
+          <nz-form-label class="label-section"
+            >Inventory Feed Quantity Column Name
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="inventoryFeedQuantityColumnNameError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Quantity Column Name"
+                formControlName="inventoryFeedQuantityColumnName"
+              />
+              <ng-template #inventoryFeedQuantityColumnNameError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Please input your Quantity Column Name<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minLength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxLength')"
+                  >Please input maximum 255 character<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <div
+          *ngIf="formFieldOnUI?.authorizedFeedSenders"
+          formArrayName="authorizedFeedSenders"
+        >
+          <div
+            *ngFor="let email of authorizedFeedSenders.controls; let i = index"
+          >
+            <div [formGroupName]="i">
+              <nz-form-item>
+                <nz-form-label
+                  class="label-section"
+                  nzFor="brand"
+                  *ngIf="i === 0"
+                >
+                  Authorized Feed Sender<span
+                    style="color: red; font-weight: 500"
+                    >*</span
                   >
-                    <span nz-icon nzType="minus"></span>
-                  </button>
-                  <button
-                    [disabled]="i >= 9"
-                    nz-button
-                    nzType="primary"
-                    nzShape="circle"
-                    *ngIf="i === authorizedFeedSenders.controls.length - 1"
-                    style="
-                      background: #00c13b !important;
-                      margin-left: 8px;
-                      border: 0;
-                    "
-                    (click)="addAuthorizedFeedSender()"
-                    nzSize="small"
-                  >
-                    <span nz-icon nzType="plus"></span>
-                  </button>
-                </div>
-              </nz-form-control>
-            </nz-form-item>
+                </nz-form-label>
+                <div class="label-section" *ngIf="i !== 0"></div>
+                <nz-form-control
+                  class="input-section"
+                  [nzErrorTip]="emailError"
+                >
+                  <nz-input-group class="medium-input">
+                    <input
+                      formControlName="email"
+                      type="text"
+                      nz-input
+                      placeholder="Enter Email"
+                    />
+                    <ng-template #emailError let-control>
+                      <ng-container *ngIf="control.hasError('required')"
+                        >Please input your email</ng-container
+                      >
+                      <ng-container *ngIf="control.hasError('email')"
+                        >Please input valid email</ng-container
+                      >
+                    </ng-template>
+                  </nz-input-group>
+                  <div style="margin-top: 6px">
+                    <!-- *ngIf="i !== authorizedFeedSenders.controls.length - 1" -->
+                    <button
+                      nz-button
+                      nzType="primary"
+                      nzShape="circle"
+                      style="
+                        background: #f41e2c !important;
+                        margin-left: 8px;
+                        border: 0;
+                      "
+                      *ngIf="authorizedFeedSenders.controls.length > 1"
+                      (click)="removeAuthorizedFeedSender(i)"
+                      nzSize="small"
+                    >
+                      <span nz-icon nzType="minus"></span>
+                    </button>
+                    <button
+                      [disabled]="i >= 9"
+                      nz-button
+                      nzType="primary"
+                      nzShape="circle"
+                      *ngIf="i === authorizedFeedSenders.controls.length - 1"
+                      style="
+                        background: #00c13b !important;
+                        margin-left: 8px;
+                        border: 0;
+                      "
+                      (click)="addAuthorizedFeedSender()"
+                      nzSize="small"
+                    >
+                      <span nz-icon nzType="plus"></span>
+                    </button>
+                  </div>
+                </nz-form-control>
+              </nz-form-item>
+            </div>
           </div>
         </div>
+      </form>
+      <div class="footer-section">
+        <button
+          nz-button
+          nzType="default"
+          class="reset-button"
+          (click)="reset()"
+        >
+          <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+        </button>
+        <button
+          nz-button
+          style="margin-top: 0"
+          class="action-button"
+          [nzType]="'primary'"
+          (click)="submitForm()"
+        >
+          <span
+            *ngIf="isLoading"
+            style="color: white; font-size: 16px"
+            nz-icon
+            nzType="loading"
+          ></span>
+          <span
+            *ngIf="!isLoading"
+            nz-icon
+            nzType="file-text"
+            nzTheme="outline"
+          ></span>
+          Save
+        </button>
       </div>
-    </form>
-    <div class="footer-section">
-      <button nz-button nzType="default" class="reset-button" (click)="reset()">
-        <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
-      </button>
-      <button
-        nz-button
-        style="margin-top: 0"
-        class="action-button"
-        [nzType]="'primary'"
-        (click)="submitForm()"
-      >
-        <span
-          *ngIf="isLoading"
-          style="color: white; font-size: 16px"
-          nz-icon
-          nzType="loading"
-        ></span>
-        <span
-          *ngIf="!isLoading"
-          nz-icon
-          nzType="file-text"
-          nzTheme="outline"
-        ></span>
-        Save
-      </button>
     </div>
-  </div>
+  </nz-spin>
 </div>

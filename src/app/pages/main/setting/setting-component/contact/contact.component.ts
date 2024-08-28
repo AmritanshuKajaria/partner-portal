@@ -7,10 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ContactComponent implements OnInit {
   isLoading: boolean = false;
-  total = 0;
-  pageSize = 100;
-  pageIndex = 1;
-  pageSizeOptions = [100];
   contactList: any = [];
 
   constructor() {}

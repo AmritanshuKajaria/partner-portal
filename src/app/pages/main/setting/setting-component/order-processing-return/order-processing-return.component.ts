@@ -49,15 +49,18 @@ export class OrderProcessingReturnComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.commonService.getJsonData().subscribe(
       (res) => {
         this.dropDownList = res;
         this.formControl['poSendingMethod'].setValue(2);
         this.formControl['generateLabels'].setValue(1);
         this.formControl['isPackingSlipEnabled'].setValue(true);
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error fetching JSON data', error);
+        this.isLoading = false;
       }
     );
 

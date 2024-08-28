@@ -1,154 +1,156 @@
 <div class="map-handling-section">
-  <div class="section-header">
-    <div class="tab-header">
-      <span>COI</span>
-      <button
-        nz-button
-        nzType="default"
-        class="reset-button"
-        (click)="goBack()"
-      >
-        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
-      </button>
-    </div>
-  </div>
-
-  <div class="body-section" style="margin-left: 0; margin-right: 0">
-    <form [formGroup]="coiForm">
-      <nz-form-item *ngIf="formFieldOnUI?.insurerName">
-        <nz-form-label class="label-section">Name of Insurer</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Name of Insurer"
-              formControlName="insurerName"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item *ngIf="formFieldOnUI?.insuredName">
-        <nz-form-label class="label-section">Name of Insured</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Name of Insured"
-              formControlName="insuredName"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item *ngIf="formFieldOnUI?.policyNumber">
-        <nz-form-label class="label-section">Policy Number</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="number"
-              nz-input
-              placeholder="Enter Policy Number"
-              formControlName="policyNumber"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item
-        *ngIf="formFieldOnUI?.policyStartDate && formFieldOnUI?.policyEndDate"
-      >
-        <nz-form-label class="label-section">Policy Dates</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="mediam-input" style="margin-right: 5px">
-            <nz-date-picker
-              [nzDisabledDate]="disabledStartDate"
-              nzFormat="yyyy-MM-dd"
-              formControlName="policyStartDate"
-              nzPlaceHolder="Start"
-            ></nz-date-picker>
-          </nz-input-group>
-          <nz-input-group class="mediam-input">
-            <nz-date-picker
-              #endDatePicker
-              [nzDisabledDate]="disabledEndDate"
-              nzFormat="yyyy-MM-dd"
-              formControlName="policyEndDate"
-              nzPlaceHolder="End"
-            ></nz-date-picker>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="formFieldOnUI?.coiFileID">
-        <nz-form-label class="label-section"
-          >Certificate of Insurance</nz-form-label
-        >
-        <nz-form-control class="input-section">
-          <nz-input-group style="width: 100%">
-            <nz-upload
-              nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-              [nzBeforeUpload]="beforeUpload"
-              [nzAccept]="'.pdf'"
-              [nzDisabled]="true"
-            >
-              <button class="upload-btn" nz-button>
-                <span nz-icon nzType="upload"></span>
-                Select File
-              </button>
-            </nz-upload>
-            <div *ngIf="fileList" class="custom-file-list">
-              <div class="file-item">
-                <span>{{ fileList.name }}</span>
-                <div>
-                  <button
-                    nz-button
-                    nzType="link"
-                    (click)="downloadFile(fileList)"
-                  >
-                    <span nz-icon nzType="download"></span>
-                  </button>
-                  <!-- <button nz-button nzType="link" (click)="removeFile()">
-                    <span nz-icon nzType="delete"></span>
-                  </button> -->
-                </div>
-              </div>
-            </div>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <!-- <div class="footer-section">
+  <nz-spin [nzSpinning]="isLoading">
+    <div class="section-header">
+      <div class="tab-header">
+        <span>COI</span>
         <button
           nz-button
           nzType="default"
           class="reset-button"
-          (click)="reset()"
+          (click)="goBack()"
         >
-          <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
         </button>
-        <button
-          nz-button
-          style="margin-top: 0"
-          class="action-button"
-          [nzType]="'primary'"
-          (click)="submitForm()"
+      </div>
+    </div>
+
+    <div class="body-section" style="margin-left: 0; margin-right: 0">
+      <form [formGroup]="coiForm">
+        <nz-form-item *ngIf="formFieldOnUI?.insurerName">
+          <nz-form-label class="label-section">Name of Insurer</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Name of Insurer"
+                formControlName="insurerName"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="formFieldOnUI?.insuredName">
+          <nz-form-label class="label-section">Name of Insured</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Name of Insured"
+                formControlName="insuredName"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="formFieldOnUI?.policyNumber">
+          <nz-form-label class="label-section">Policy Number</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="number"
+                nz-input
+                placeholder="Enter Policy Number"
+                formControlName="policyNumber"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item
+          *ngIf="formFieldOnUI?.policyStartDate && formFieldOnUI?.policyEndDate"
         >
-          <span
-            *ngIf="isLoading"
-            style="color: white; font-size: 16px"
-            nz-icon
-            nzType="loading"
-          ></span>
-          <span
-            *ngIf="!isLoading"
-            nz-icon
-            nzType="file-text"
-            nzTheme="outline"
-          ></span>
-          Save
-        </button>
-      </div> -->
-    </form>
-  </div>
+          <nz-form-label class="label-section">Policy Dates</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="mediam-input" style="margin-right: 5px">
+              <nz-date-picker
+                [nzDisabledDate]="disabledStartDate"
+                nzFormat="yyyy-MM-dd"
+                formControlName="policyStartDate"
+                nzPlaceHolder="Start"
+              ></nz-date-picker>
+            </nz-input-group>
+            <nz-input-group class="mediam-input">
+              <nz-date-picker
+                #endDatePicker
+                [nzDisabledDate]="disabledEndDate"
+                nzFormat="yyyy-MM-dd"
+                formControlName="policyEndDate"
+                nzPlaceHolder="End"
+              ></nz-date-picker>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.coiFileID">
+          <nz-form-label class="label-section"
+            >Certificate of Insurance</nz-form-label
+          >
+          <nz-form-control class="input-section">
+            <nz-input-group style="width: 100%">
+              <nz-upload
+                nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                [nzBeforeUpload]="beforeUpload"
+                [nzAccept]="'.pdf'"
+                [nzDisabled]="true"
+              >
+                <button class="upload-btn" nz-button>
+                  <span nz-icon nzType="upload"></span>
+                  Select File
+                </button>
+              </nz-upload>
+              <div *ngIf="fileList" class="custom-file-list">
+                <div class="file-item">
+                  <span>{{ fileList.name }}</span>
+                  <div>
+                    <button
+                      nz-button
+                      nzType="link"
+                      (click)="downloadFile(fileList)"
+                    >
+                      <span nz-icon nzType="download"></span>
+                    </button>
+                    <!-- <button nz-button nzType="link" (click)="removeFile()">
+                      <span nz-icon nzType="delete"></span>
+                    </button> -->
+                  </div>
+                </div>
+              </div>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isLoading"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div> -->
+      </form>
+    </div>
+  </nz-spin>
 </div>

@@ -1,155 +1,159 @@
 <div class="map-handling-section">
-  <div class="section-header">
-    <div class="tab-header">
-      <span>REMITTANCE INFO</span>
-      <button
-        nz-button
-        nzType="default"
-        class="reset-button"
-        (click)="goBack()"
-      >
-        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
-      </button>
-    </div>
-  </div>
-
-  <div class="body-section" style="margin-left: 0; margin-right: 0">
-    <form [formGroup]="remittanceInfoForm">
-      <h3>ACH Details</h3>
-      <nz-form-item *ngIf="formFieldOnUI?.accountNumber">
-        <nz-form-label class="label-section">Account Number</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="number"
-              nz-input
-              placeholder="Enter Account Number"
-              formControlName="accountNumber"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="formFieldOnUI?.bankName">
-        <nz-form-label class="label-section">Bank Name</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Bank Name"
-              formControlName="bankName"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="formFieldOnUI?.nameOnAccount">
-        <nz-form-label class="label-section">Name On Account</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Name On Account"
-              formControlName="nameOnAccount"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="formFieldOnUI?.routingNumber">
-        <nz-form-label class="label-section"
-          >Routing Transfer Number</nz-form-label
-        >
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="text"
-              nz-input
-              placeholder="Enter Routing Number"
-              formControlName="routingNumber"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <br />
-      <h3>Net Term</h3>
-
-      <nz-form-item *ngIf="formFieldOnUI?.netDays">
-        <nz-form-label class="label-section">Net Days</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="number"
-              nz-input
-              placeholder="Enter Net Days"
-              formControlName="netDays"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="formFieldOnUI?.discountDays">
-        <nz-form-label class="label-section">Discount Days</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="number"
-              nz-input
-              placeholder="Enter Discount Days"
-              formControlName="discountDays"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item *ngIf="formFieldOnUI?.discountPercentage">
-        <nz-form-label class="label-section">Discount Percentage</nz-form-label>
-        <nz-form-control class="input-section">
-          <nz-input-group class="small-input">
-            <input
-              type="number"
-              nz-input
-              placeholder="Enter Discount Percentage"
-              formControlName="discountPercentage"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-
-      <!-- <div class="footer-section">
+  <nz-spin [nzSpinning]="isLoading">
+    <div class="section-header">
+      <div class="tab-header">
+        <span>REMITTANCE INFO</span>
         <button
           nz-button
           nzType="default"
           class="reset-button"
-          (click)="reset()"
+          (click)="goBack()"
         >
-          <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
         </button>
-        <button
-          nz-button
-          style="margin-top: 0"
-          class="action-button"
-          [nzType]="'primary'"
-          (click)="submitForm()"
-        >
-          <span
-            *ngIf="isLoading"
-            style="color: white; font-size: 16px"
-            nz-icon
-            nzType="loading"
-          ></span>
-          <span
-            *ngIf="!isLoading"
-            nz-icon
-            nzType="file-text"
-            nzTheme="outline"
-          ></span>
-          Save
-        </button>
-      </div> -->
-    </form>
-  </div>
+      </div>
+    </div>
+
+    <div class="body-section" style="margin-left: 0; margin-right: 0">
+      <form [formGroup]="remittanceInfoForm">
+        <h3>ACH Details</h3>
+        <nz-form-item *ngIf="formFieldOnUI?.accountNumber">
+          <nz-form-label class="label-section">Account Number</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="number"
+                nz-input
+                placeholder="Enter Account Number"
+                formControlName="accountNumber"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.bankName">
+          <nz-form-label class="label-section">Bank Name</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Bank Name"
+                formControlName="bankName"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.nameOnAccount">
+          <nz-form-label class="label-section">Name On Account</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Name On Account"
+                formControlName="nameOnAccount"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.routingNumber">
+          <nz-form-label class="label-section"
+            >Routing Transfer Number</nz-form-label
+          >
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Routing Number"
+                formControlName="routingNumber"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <br />
+        <h3>Net Term</h3>
+
+        <nz-form-item *ngIf="formFieldOnUI?.netDays">
+          <nz-form-label class="label-section">Net Days</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="number"
+                nz-input
+                placeholder="Enter Net Days"
+                formControlName="netDays"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.discountDays">
+          <nz-form-label class="label-section">Discount Days</nz-form-label>
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="number"
+                nz-input
+                placeholder="Enter Discount Days"
+                formControlName="discountDays"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.discountPercentage">
+          <nz-form-label class="label-section"
+            >Discount Percentage</nz-form-label
+          >
+          <nz-form-control class="input-section">
+            <nz-input-group class="small-input">
+              <input
+                type="number"
+                nz-input
+                placeholder="Enter Discount Percentage"
+                formControlName="discountPercentage"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <!-- <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isLoading"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div> -->
+      </form>
+    </div>
+  </nz-spin>
 </div>

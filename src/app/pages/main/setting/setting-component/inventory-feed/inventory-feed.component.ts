@@ -35,15 +35,18 @@ export class InventoryFeedComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.commonService.getJsonData().subscribe(
       (res) => {
         this.dropDownList = res;
         this.formControl['inventoryFeedType'].setValue(1);
         this.formControl['inventoryFeedDetailType'].setValue(1);
         this.formControl['inventoryBucket'].setValue(2);
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error fetching JSON data', error);
+        this.isLoading = false;
       }
     );
 

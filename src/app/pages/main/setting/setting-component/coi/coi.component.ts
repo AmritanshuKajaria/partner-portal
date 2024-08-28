@@ -43,12 +43,15 @@ export class COIComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
     this.commonService.getJsonData().subscribe(
       (res) => {
         this.dropDownList = res;
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error fetching JSON data', error);
+        this.isLoading = false;
       }
     );
     this.coiForm = this.formBuilder.group({
