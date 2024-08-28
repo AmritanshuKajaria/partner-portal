@@ -150,6 +150,12 @@
     border-color: $darkBlue !important;
 }
 
+.ant-radio-wrapper-checked {
+    .ant-radio-disabled+span {
+        color: $black !important;
+    }
+}
+
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;
