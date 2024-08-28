@@ -16,3 +16,19 @@ export const PlanLabels: any = {
     color: '#fae014',
   },
 };
+
+// Enabled carriers options
+export const EnabledCarriersOptions = [
+  {
+    name: 'FEDEX',
+    value: 'FEDEX',
+  },
+  {
+    name: 'UPS',
+    value: 'UPS',
+  },
+  {
+    name: 'USPS',
+    value: 'USPS',
+  },
+];

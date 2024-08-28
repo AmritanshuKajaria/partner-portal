@@ -12,9 +12,14 @@ import { ComponentModule } from 'src/app/components/component.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
+import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
 
 @NgModule({
-  declarations: [SettingComponent, MapHandlingComponent],
+  declarations: [
+    SettingComponent,
+    MapHandlingComponent,
+    OrderProcessingReturnComponent,
+  ],
   imports: [
     CommonModule,
     SettingRoutingModule,
