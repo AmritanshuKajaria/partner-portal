@@ -1,0 +1,132 @@
+<div class="map-handling-section">
+  <div class="section-header">
+    <div class="tab-header">
+      <span>PRIMARY INFO</span>
+      <button
+        nz-button
+        nzType="default"
+        class="reset-button"
+        (click)="goBack()"
+      >
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+      </button>
+    </div>
+  </div>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <form [formGroup]="primaryInfoForm">
+      <nz-form-item *ngIf="formFieldOnUI?.displayName">
+        <nz-form-label class="label-section">Display Name</nz-form-label>
+        <nz-form-control class="input-section" [nzErrorTip]="displayNameError">
+          <nz-input-group class="small-input">
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Display Name"
+              formControlName="displayName"
+            />
+            <ng-template #displayNameError let-control>
+              <ng-container *ngIf="control.hasError('required')"
+                >Please input your Display Name<br
+              /></ng-container>
+            </ng-template>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="formFieldOnUI?.accountManagerName">
+        <nz-form-label class="label-section">Account Manger</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
+            <input
+              type="text"
+              nz-input
+              placeholder="Enter Account Manger"
+              formControlName="accountManagerName"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="formFieldOnUI?.accountStatus">
+        <nz-form-label class="label-section">Account Status</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
+            <nz-radio-group formControlName="accountStatus">
+              <label
+                *ngFor="let option of dropDownList?.accountStatus"
+                nz-radio
+                [nzValue]="option?.value"
+                >{{ option?.name }}</label
+              >
+            </nz-radio-group>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="formFieldOnUI?.salesStatus">
+        <nz-form-label class="label-section">Sales Status</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
+            <nz-radio-group formControlName="salesStatus">
+              <label
+                *ngFor="let option of dropDownList?.salesStatus"
+                nz-radio
+                [nzValue]="option?.value"
+                >{{ option?.name }}</label
+              >
+            </nz-radio-group>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item *ngIf="formFieldOnUI?.paymentStatus">
+        <nz-form-label class="label-section">Payment Status</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
+            <nz-radio-group formControlName="paymentStatus">
+              <label
+                *ngFor="let option of dropDownList?.paymentStatus"
+                nz-radio
+                [nzValue]="option?.value"
+                >{{ option?.name }}</label
+              >
+            </nz-radio-group>
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div class="footer-section">
+        <button
+          nz-button
+          nzType="default"
+          class="reset-button"
+          (click)="reset()"
+        >
+          <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+        </button>
+        <button
+          nz-button
+          style="margin-top: 0"
+          class="action-button"
+          [nzType]="'primary'"
+          (click)="submitForm()"
+        >
+          <span
+            *ngIf="isLoading"
+            style="color: white; font-size: 16px"
+            nz-icon
+            nzType="loading"
+          ></span>
+          <span
+            *ngIf="!isLoading"
+            nz-icon
+            nzType="file-text"
+            nzTheme="outline"
+          ></span>
+          Save
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

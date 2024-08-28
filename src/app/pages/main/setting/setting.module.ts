@@ -15,14 +15,16 @@ import { NzFormModule } from 'ng-zorro-antd/form';
 import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
 import { COIComponent } from './setting-component/coi/coi.component';
 import { RemittanceInfoComponent } from './setting-component/remittance-info/remittance-info.component';
+import { PrimaryInfoComponent } from './setting-component/primary-info/primary-info.component';
 
 @NgModule({
   declarations: [
     SettingComponent,
     MapHandlingComponent,
     OrderProcessingReturnComponent,
-    COIComponent,
+    PrimaryInfoComponent,
     RemittanceInfoComponent,
+    COIComponent,
   ],
   imports: [
     CommonModule,

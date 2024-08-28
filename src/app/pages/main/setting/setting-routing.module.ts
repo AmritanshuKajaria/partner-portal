@@ -6,6 +6,7 @@ import { InventoryFeedComponent } from './setting-component/inventory-feed/inven
 import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
 import { COIComponent } from './setting-component/coi/coi.component';
 import { RemittanceInfoComponent } from './setting-component/remittance-info/remittance-info.component';
+import { PrimaryInfoComponent } from './setting-component/primary-info/primary-info.component';
 
 const routes: Routes = [
   {
@@ -25,12 +26,16 @@ const routes: Routes = [
     component: OrderProcessingReturnComponent,
   },
   {
-    path: 'coi',
-    component: COIComponent,
+    path: 'primary-info',
+    component: PrimaryInfoComponent,
   },
   {
     path: 'remittance-info',
     component: RemittanceInfoComponent,
+  },
+  {
+    path: 'coi',
+    component: COIComponent,
   },
 ];
 
