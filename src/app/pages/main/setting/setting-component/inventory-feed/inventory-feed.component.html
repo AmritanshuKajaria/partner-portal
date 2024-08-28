@@ -190,6 +190,9 @@
                     <ng-container *ngIf="control.hasError('required')"
                       >Please input your email</ng-container
                     >
+                    <ng-container *ngIf="control.hasError('email')"
+                      >Please input valid email</ng-container
+                    >
                   </ng-template>
                 </nz-input-group>
                 <div style="margin-top: 6px">

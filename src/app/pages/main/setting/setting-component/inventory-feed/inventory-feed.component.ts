@@ -99,7 +99,7 @@ export class InventoryFeedComponent implements OnInit {
 
   newAuthorizedFeedSender() {
     return this.fb.group({
-      email: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
     });
   }
 
