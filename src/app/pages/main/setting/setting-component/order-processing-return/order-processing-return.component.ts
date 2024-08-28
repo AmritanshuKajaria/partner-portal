@@ -103,7 +103,7 @@ export class OrderProcessingReturnComponent implements OnInit {
 
     this.enabledCarriersOptions = this.enabledCarriersOptions.map((option) => ({
       ...option,
-      disabled: this.formControl['enabledCarriers'].value.includes(
+      disabled: this.formControl['enabledCarriers']?.value?.includes(
         option.value
       ),
     }));
