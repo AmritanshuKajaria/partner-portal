@@ -31,7 +31,7 @@ export class COIComponent implements OnInit {
   };
   fileList: any = {
     uid: '-1',
-    name: 'example.pdf',
+    name: 'COI File',
     status: 'done',
     url: 'https://example.com/path-to-your-file.pdf',
   };

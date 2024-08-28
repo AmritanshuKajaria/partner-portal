@@ -49,7 +49,7 @@ export class LegalInfoComponent implements OnInit {
   countryList = ['US', 'CA'];
   fileList: any = {
     uid: '-1',
-    name: 'example.pdf',
+    name: 'W9 File',
     status: 'done',
     url: 'https://example.com/path-to-your-file.pdf',
   };
