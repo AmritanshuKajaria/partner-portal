@@ -44,12 +44,12 @@ export class COIComponent implements OnInit {
       }
     );
     this.mapHandlingForm = this.formBuilder.group({
-      insurerName: [{ value: '', disabled: true }],
-      insuredName: [{ value: '', disabled: true }],
-      policyNumber: [{ value: '', disabled: true }],
-      policyStartDate: [{ value: '', disabled: true }],
-      policyEndDate: [{ value: '', disabled: true }],
-      coiFileID: [{ value: '', disabled: true }],
+      insurerName: [{ value: '', disabled: false }],
+      insuredName: [{ value: '', disabled: false }],
+      policyNumber: [{ value: '', disabled: false }],
+      policyStartDate: [{ value: '', disabled: false }],
+      policyEndDate: [{ value: '', disabled: false }],
+      coiFileID: [{ value: '', disabled: false }],
     });
 
     // this.mapHandlingForm?.valueChanges.subscribe((value) => {

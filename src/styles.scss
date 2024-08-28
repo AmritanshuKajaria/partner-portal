@@ -151,13 +151,17 @@
 
 // table header
 .ant-table-thead>tr>th {
-    border-top: 3px solid #2121c3;
+    border-top: 3px solid $darkBlue;
     background-color: rgba(33, 33, 195, 0.08) !important;
 }
 
 //To keep the text in single line
 .text-wrap {
     text-wrap: nowrap;
+}
+
+.icon-color {
+    color: $darkBlue;
 }
 
 
