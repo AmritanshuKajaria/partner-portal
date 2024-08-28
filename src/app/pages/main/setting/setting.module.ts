@@ -14,6 +14,7 @@ import { MapHandlingComponent } from './setting-component/map-handling/map-handl
 import { NzFormModule } from 'ng-zorro-antd/form';
 import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
 import { COIComponent } from './setting-component/coi/coi.component';
+import { RemittanceInfoComponent } from './setting-component/remittance-info/remittance-info.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { COIComponent } from './setting-component/coi/coi.component';
     MapHandlingComponent,
     OrderProcessingReturnComponent,
     COIComponent,
+    RemittanceInfoComponent,
   ],
   imports: [
     CommonModule,

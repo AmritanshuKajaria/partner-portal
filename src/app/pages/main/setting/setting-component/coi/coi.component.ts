@@ -19,7 +19,7 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 export class COIComponent implements OnInit {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   isLoading: boolean = false;
-  mapHandlingForm!: FormGroup;
+  coiForm!: FormGroup;
   dropDownList: any = null;
   formFieldOnUI = {
     insurerName: true,
@@ -51,7 +51,7 @@ export class COIComponent implements OnInit {
         console.error('Error fetching JSON data', error);
       }
     );
-    this.mapHandlingForm = this.formBuilder.group({
+    this.coiForm = this.formBuilder.group({
       insurerName: [{ value: 'test 1', disabled: true }],
       insuredName: [{ value: 'test 2', disabled: true }],
       policyNumber: [{ value: 12312, disabled: true }],
@@ -60,7 +60,7 @@ export class COIComponent implements OnInit {
       coiFileID: [{ value: '', disabled: true }],
     });
 
-    // this.mapHandlingForm?.valueChanges.subscribe((value) => {
+    // this.coiForm?.valueChanges.subscribe((value) => {
     //   this.onFormChange();
     // });
   }
@@ -71,7 +71,7 @@ export class COIComponent implements OnInit {
   };
 
   get formControl() {
-    return this.mapHandlingForm.controls;
+    return this.coiForm.controls;
   }
 
   disabledStartDate = (startValue: Date): boolean => {
@@ -94,7 +94,7 @@ export class COIComponent implements OnInit {
 
   reset() {
     this.fileList = [];
-    this.mapHandlingForm?.reset();
+    this.coiForm?.reset();
   }
 
   downloadFile(file: NzUploadFile): void {

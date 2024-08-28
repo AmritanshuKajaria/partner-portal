@@ -5,6 +5,7 @@ import { MapHandlingComponent } from './setting-component/map-handling/map-handl
 import { InventoryFeedComponent } from './setting-component/inventory-feed/inventory-feed.component';
 import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
 import { COIComponent } from './setting-component/coi/coi.component';
+import { RemittanceInfoComponent } from './setting-component/remittance-info/remittance-info.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'coi',
     component: COIComponent,
+  },
+  {
+    path: 'remittance-info',
+    component: RemittanceInfoComponent,
   },
 ];
 
