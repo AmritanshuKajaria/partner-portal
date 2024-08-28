@@ -35,21 +35,12 @@
         height: calc(100vh - 155px);
 
         form {
-
-            .label-section {
-                width: 265px !important;
-            }
-
-            .input-section {
-                width: 100%;
-                max-width: 370px !important;
-            }
-
             nz-form-item {
                 display: flex;
                 justify-content: center;
 
                 nz-form-label {
+                    width: 270px;
                     font-size: 18px !important;
                     font-weight: 600 !important;
                 }
@@ -66,10 +57,6 @@
         border-radius: 5px !important;
         height: 35px;
         font-size: 16px;
-    }
-
-    ::ng-deep .ant-form-item-control-input-content {
-        display: flex;
     }
 
     ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { SettingComponent } from './setting.component';
 import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
 import { InventoryFeedComponent } from './setting-component/inventory-feed/inventory-feed.component';
+import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'inventory-feed',
     component: InventoryFeedComponent,
+  },
+  {
+    path: 'order-processing-return',
+    component: OrderProcessingReturnComponent,
   },
 ];
 

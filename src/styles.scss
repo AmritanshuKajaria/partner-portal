@@ -157,5 +157,20 @@
 
 //To keep the text in single line
 .text-wrap {
-  text-wrap: nowrap;
+    text-wrap: nowrap;
+}
+
+
+/* Input Design Start */
+
+.small-input {
+    width: 200px;
+}
+
+.large-input {
+    width: 400px;
+}
+
+.medium-input {
+    width: 300px;
 }

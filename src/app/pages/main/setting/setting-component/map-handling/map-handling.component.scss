@@ -35,12 +35,20 @@
         height: calc(100vh - 155px);
 
         form {
+            .label-section {
+                width: 235px !important;
+            }
+
+            .input-section {
+                width: 100%;
+                max-width: 250px !important;
+            }
+
             nz-form-item {
                 display: flex;
                 justify-content: center;
 
                 nz-form-label {
-                    width: 235px;
                     font-size: 18px !important;
                     font-weight: 600 !important;
                 }

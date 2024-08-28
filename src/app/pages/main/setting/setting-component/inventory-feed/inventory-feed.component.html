@@ -16,9 +16,9 @@
   <div class="body-section" style="margin-left: 0; margin-right: 0">
     <form [formGroup]="inventoryFeedForm">
       <nz-form-item>
-        <nz-form-label>Inventory Feed Type</nz-form-label>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-label class="label-section">Inventory Feed Type</nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
             <nz-radio-group formControlName="inventoryFeedType">
               <label
                 *ngFor="let option of dropDownList?.feedType"
@@ -31,9 +31,20 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label>Inventory Feed Detail Type</nz-form-label>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-label class="label-section"
+          >Inventory Feed Detail Type
+          <span
+            style="margin-left: 5px"
+            nz-icon
+            nzType="info-circle"
+            nzTheme="twotone"
+            nzTooltipTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, pariatur! Tempore, et fuga. Dicta tenetur aliquam quibusdam dignissimos, expedita aspernatur, harum saepe rem esse molestiae, quam impedit quidem exercitationem quae."
+            nzTooltipPlacement="top"
+            nz-tooltip
+          ></span
+        ></nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="medium-input">
             <nz-radio-group formControlName="inventoryFeedDetailType">
               <label
                 *ngFor="let option of dropDownList?.feedDetailType"
@@ -46,9 +57,20 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label>Inventory Bucket</nz-form-label>
-        <nz-form-control>
-          <nz-input-group>
+        <nz-form-label class="label-section"
+          >Inventory Bucket
+          <span
+            style="margin-left: 5px"
+            nz-icon
+            nzType="info-circle"
+            nzTheme="twotone"
+            nzTooltipTitle="Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, pariatur! Tempore, et fuga. Dicta tenetur aliquam quibusdam dignissimos, expedita aspernatur, harum saepe rem esse molestiae, quam impedit quidem exercitationem quae."
+            nzTooltipPlacement="top"
+            nz-tooltip
+          ></span
+        ></nz-form-label>
+        <nz-form-control class="input-section">
+          <nz-input-group class="small-input">
             <nz-select
               nzShowSearch
               nzPlaceHolder="Select A Inventory Bucket"
@@ -64,11 +86,14 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item *ngIf="formFieldOnUI?.inventorySchedule">
-        <nz-form-label
+        <nz-form-label class="label-section"
           >Inventory Schedule <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control nzErrorTip="Inventory Schedule is required!">
-          <nz-input-group>
+        <nz-form-control
+          class="input-section"
+          nzErrorTip="Inventory Schedule is required!"
+        >
+          <nz-input-group class="medium-input">
             <nz-select
               nzShowSearch
               nzPlaceHolder="Select A Inventory Schedule"
@@ -86,12 +111,15 @@
       </nz-form-item>
 
       <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedMPN">
-        <nz-form-label
+        <nz-form-label class="label-section"
           >Inventory Feed MPN Column Name
           <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control [nzErrorTip]="inventoryFeedMPNError">
-          <nz-input-group>
+        <nz-form-control
+          class="input-section"
+          [nzErrorTip]="inventoryFeedMPNError"
+        >
+          <nz-input-group class="small-input">
             <input
               type="text"
               nz-input
@@ -107,12 +135,15 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item *ngIf="formFieldOnUI?.inventoryFeedQuantityColumnName">
-        <nz-form-label
+        <nz-form-label class="label-section"
           >Inventory Feed Quantity Column Name
           <span style="color: red">*</span></nz-form-label
         >
-        <nz-form-control [nzErrorTip]="inventoryFeedQuantityColumnNameError">
-          <nz-input-group>
+        <nz-form-control
+          class="input-section"
+          [nzErrorTip]="inventoryFeedQuantityColumnNameError"
+        >
+          <nz-input-group class="small-input">
             <input
               type="text"
               nz-input
@@ -137,14 +168,19 @@
         >
           <div [formGroupName]="i">
             <nz-form-item>
-              <nz-form-label style="width: 301px" nzFor="brand" *ngIf="i === 0">
+              <nz-form-label
+                class="label-section"
+                style="width: 301px"
+                nzFor="brand"
+                *ngIf="i === 0"
+              >
                 Authorized Feed Sender<span style="color: red; font-weight: 500"
                   >*</span
                 >
               </nz-form-label>
-              <div style="width: 301px" *ngIf="i !== 0"></div>
-              <nz-form-control [nzErrorTip]="emailError">
-                <nz-input-group>
+              <div class="label-section" *ngIf="i !== 0"></div>
+              <nz-form-control class="input-section" [nzErrorTip]="emailError">
+                <nz-input-group class="medium-input">
                   <input
                     formControlName="email"
                     type="text"
@@ -157,40 +193,41 @@
                     >
                   </ng-template>
                 </nz-input-group>
+                <div style="margin-top: 6px">
+                  <!-- *ngIf="i !== authorizedFeedSenders.controls.length - 1" -->
+                  <button
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    style="
+                      background: #f41e2c !important;
+                      margin-left: 8px;
+                      border: 0;
+                    "
+                    *ngIf="authorizedFeedSenders.controls.length > 1"
+                    (click)="removeAuthorizedFeedSender(i)"
+                    nzSize="small"
+                  >
+                    <span nz-icon nzType="minus"></span>
+                  </button>
+                  <button
+                    [disabled]="i >= 9"
+                    nz-button
+                    nzType="primary"
+                    nzShape="circle"
+                    *ngIf="i === authorizedFeedSenders.controls.length - 1"
+                    style="
+                      background: #00c13b !important;
+                      margin-left: 8px;
+                      border: 0;
+                    "
+                    (click)="addAuthorizedFeedSender()"
+                    nzSize="small"
+                  >
+                    <span nz-icon nzType="plus"></span>
+                  </button>
+                </div>
               </nz-form-control>
-              <div style="margin-top: 6px">
-                <button
-                  [disabled]="i >= 9"
-                  nz-button
-                  nzType="primary"
-                  nzShape="circle"
-                  *ngIf="i === authorizedFeedSenders.controls.length - 1"
-                  style="
-                    background: #00c13b !important;
-                    margin-left: 8px;
-                    border: 0;
-                  "
-                  (click)="addAuthorizedFeedSender()"
-                  nzSize="small"
-                >
-                  <span nz-icon nzType="plus"></span>
-                </button>
-                <button
-                  nz-button
-                  nzType="primary"
-                  nzShape="circle"
-                  *ngIf="i !== authorizedFeedSenders.controls.length - 1"
-                  style="
-                    background: #f41e2c !important;
-                    margin-left: 8px;
-                    border: 0;
-                  "
-                  (click)="removeAuthorizedFeedSender(i)"
-                  nzSize="small"
-                >
-                  <span nz-icon nzType="minus"></span>
-                </button>
-              </div>
             </nz-form-item>
           </div>
         </div>
