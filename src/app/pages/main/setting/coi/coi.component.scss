@@ -1,4 +1,5 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import '../../../../../assets/variable/variable.scss';
+@import '../setting.module.scss';
 
 .map-handling-section {
     border: 0 solid rgba(0, 0, 0, 0.125);
@@ -36,17 +37,12 @@
 
         form {
             .label-section {
-                width: 215px;
-            }
-
-            .large-input {
-                width: 100%;
-                max-width: 460px !important;
+                width: 170px !important;
             }
 
             .input-section {
                 width: 100%;
-                max-width: 460px !important;
+                max-width: 410px !important;
             }
 
             nz-form-item {
@@ -62,8 +58,24 @@
                     max-width: 270px;
                 }
 
+                nz-date-picker {
+                    width: 100%;
+                    border-radius: 5px !important;
+                }
+
+                .upload-btn {
+                    border-radius: 4px;
+                    color: $black;
+                }
+
+                // .upload-btn:hover,
+                // .upload-btn:focus {
+                //     color: $darkBlue;
+                //     border-color: $darkBlue;
+                // }
             }
         }
+
     }
 
     ::ng-deep .ant-input {
@@ -72,20 +84,21 @@
         font-size: 16px;
     }
 
-    ::ng-deep .ant-form-item-control-input-content {
-        display: flex;
-    }
-
-    ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+    ::ng-deep .ant-picker {
         border-radius: 5px !important;
         min-height: 35px !important;
         font-size: 16px;
+    }
+
+    ::ng-deep .ant-form-item-control-input-content {
+        display: flex;
     }
 
     ::ng-deep .ant-form-item {
         margin-bottom: 0px;
         padding: 6px;
     }
+
 
     .footer-section {
         margin-top: 10px;

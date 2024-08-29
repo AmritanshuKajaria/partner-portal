@@ -39,4 +39,21 @@ export class FormValidationService {
 
     return formValid;
   }
+
+  setUSFormate(phoneNo: string) {
+    // Remove all non-digit characters
+    let formattedInput = '';
+    if (phoneNo) {
+      let input = phoneNo?.replace(/\D/g, '');
+
+      // Format the input as 000-000-0000
+      for (let i = 0; i < input.length; i++) {
+        if (i === 3 || i === 6) {
+          formattedInput += '-';
+        }
+        formattedInput += input[i];
+      }
+    }
+    return formattedInput;
+  }
 }

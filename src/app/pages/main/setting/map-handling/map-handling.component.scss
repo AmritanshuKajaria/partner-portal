@@ -1,4 +1,4 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import '../../../../../assets/variable/variable.scss';
 
 .map-handling-section {
     border: 0 solid rgba(0, 0, 0, 0.125);
@@ -35,14 +35,13 @@
         height: calc(100vh - 155px);
 
         form {
-
             .label-section {
-                width: 280px !important;
+                width: 247px !important;
             }
 
             .input-section {
                 width: 100%;
-                max-width: 370px !important;
+                max-width: 250px !important;
             }
 
             nz-form-item {
@@ -60,6 +59,7 @@
 
             }
         }
+
     }
 
     ::ng-deep .ant-input {
@@ -68,13 +68,9 @@
         font-size: 16px;
     }
 
-    ::ng-deep .ant-form-item-control-input-content {
-        display: flex;
-    }
-
     ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector {
         border-radius: 5px !important;
-        min-height: 35px !important;
+        height: 35px !important;
         font-size: 16px;
     }
 
@@ -82,6 +78,7 @@
         margin-bottom: 0px;
         padding: 6px;
     }
+
 
     .footer-section {
         margin-top: 10px;

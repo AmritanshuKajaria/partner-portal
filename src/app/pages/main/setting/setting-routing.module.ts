@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { SettingComponent } from './setting.component';
-import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
-import { InventoryFeedComponent } from './setting-component/inventory-feed/inventory-feed.component';
-import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
-import { COIComponent } from './setting-component/coi/coi.component';
-import { RemittanceInfoComponent } from './setting-component/remittance-info/remittance-info.component';
-import { PrimaryInfoComponent } from './setting-component/primary-info/primary-info.component';
-import { LegalInfoComponent } from './setting-component/legal-info/legal-info.component';
-import { ContactComponent } from './setting-component/contact/contact.component';
+import { MapHandlingComponent } from './map-handling/map-handling.component';
+import { InventoryFeedComponent } from './inventory-feed/inventory-feed.component';
+import { OrderProcessingReturnComponent } from './order-processing-return/order-processing-return.component';
+import { COIComponent } from './coi/coi.component';
+import { RemittanceInfoComponent } from './remittance-info/remittance-info.component';
+import { PrimaryInfoComponent } from './primary-info/primary-info.component';
+import { LegalInfoComponent } from './legal-info/legal-info.component';
+import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
   {

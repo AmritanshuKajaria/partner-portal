@@ -78,7 +78,7 @@
                 nzTooltipTitle="Delete"
                 nzTooltipPlacement="top"
                 nz-tooltip
-                style="margin: 0 5px; color: #2121c3; font-size: large"
+                style="margin: 0 5px; color: red; font-size: large"
                 (click)="deleteAction(item)"
               >
                 <span nz-icon nzType="delete" nzTheme="outline"></span>
@@ -91,17 +91,11 @@
 
     <div *ngIf="showSection === section?.FORM" class="form-section container">
       <div class="section-header" style="margin-top: 0">
-        <div class="tab-header" style="border-bottom: 0px; padding: 0px">
-          <span></span>
+        <div
+          class="tab-header justify-content-center"
+          style="border-bottom: 0px; padding: 0px"
+        >
           <span>{{ formTitle }} Contact</span>
-          <button
-            nz-button
-            nzType="default"
-            class="reset-button"
-            (click)="showSection = section?.TABLE"
-          >
-            <span nz-icon nzType="close" nzTheme="outline"></span>Close
-          </button>
         </div>
       </div>
       <form [formGroup]="contactForm">
@@ -120,6 +114,12 @@
               <ng-template #firstNameError let-control>
                 <ng-container *ngIf="control.hasError('required')"
                   >Please input your First Name<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Please input maximum 255 character<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -141,6 +141,12 @@
               <ng-template #lastNameError let-control>
                 <ng-container *ngIf="control.hasError('required')"
                   >Please input your Last Name<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Please input maximum 255 character<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -166,6 +172,12 @@
                 <ng-container *ngIf="control.hasError('required')"
                   >Please input your Designation<br
                 /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Please input maximum 255 character<br
+                /></ng-container>
               </ng-template>
             </nz-input-group>
           </nz-form-control>
@@ -185,10 +197,14 @@
                 nz-input
                 placeholder="Enter Phone Number"
                 formControlName="contactPhoneNumber"
+                (input)="phoneInputField()"
               />
               <ng-template #contactPhoneNumberError let-control>
                 <ng-container *ngIf="control.hasError('required')"
                   >Please input your Phone Number<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 10 digit<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -199,14 +215,28 @@
           <nz-form-label class="label-section"
             >Phone Number Extension</nz-form-label
           >
-          <nz-form-control class="input-section">
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="contactPhoneNumberExtensionError"
+          >
             <nz-input-group class="small-input">
               <input
-                type="number"
+                type="text"
                 nz-input
                 placeholder="Enter Phone Number Extension"
                 formControlName="contactPhoneNumberExtension"
               />
+              <ng-template #contactPhoneNumberExtensionError let-control>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 digit<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Please input maximum 5 digit<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('pattern')"
+                  >Please input only number<br
+                /></ng-container>
+              </ng-template>
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>

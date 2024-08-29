@@ -10,14 +10,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OrderProcessingModule } from '../profile/order-processing/order-processing.module';
 import { ComponentModule } from 'src/app/components/component.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { MapHandlingComponent } from './setting-component/map-handling/map-handling.component';
+import { MapHandlingComponent } from './map-handling/map-handling.component';
 import { NzFormModule } from 'ng-zorro-antd/form';
-import { OrderProcessingReturnComponent } from './setting-component/order-processing-return/order-processing-return.component';
-import { COIComponent } from './setting-component/coi/coi.component';
-import { RemittanceInfoComponent } from './setting-component/remittance-info/remittance-info.component';
-import { PrimaryInfoComponent } from './setting-component/primary-info/primary-info.component';
-import { LegalInfoComponent } from './setting-component/legal-info/legal-info.component';
-import { ContactComponent } from './setting-component/contact/contact.component';
+import { OrderProcessingReturnComponent } from './order-processing-return/order-processing-return.component';
+import { COIComponent } from './coi/coi.component';
+import { RemittanceInfoComponent } from './remittance-info/remittance-info.component';
+import { PrimaryInfoComponent } from './primary-info/primary-info.component';
+import { LegalInfoComponent } from './legal-info/legal-info.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
   declarations: [

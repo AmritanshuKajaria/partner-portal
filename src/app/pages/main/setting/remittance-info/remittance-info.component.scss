@@ -1,4 +1,5 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import '../../../../../assets/variable/variable.scss';
+@import '../setting.module.scss';
 
 .map-handling-section {
     border: 0 solid rgba(0, 0, 0, 0.125);
@@ -34,14 +35,20 @@
         padding: 20px;
         height: calc(100vh - 155px);
 
+        h3 {
+            display: flex;
+            justify-content: center;
+            font-weight: 700 !important;
+        }
+
         form {
-        .label-section {
+            .label-section {
                 width: 180px !important;
             }
-        
+
             .input-section {
                 width: 100%;
-                max-width: 250px !important;
+                max-width: 210px !important;
             }
 
             nz-form-item {
