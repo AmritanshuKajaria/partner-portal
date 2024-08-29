@@ -56,6 +56,15 @@ export class OrderProcessingReturnComponent implements OnInit {
         this.formControl['poSendingMethod'].setValue(2);
         this.formControl['generateLabels'].setValue(1);
         this.formControl['isPackingSlipEnabled'].setValue(true);
+        this.formControl['enabledCarriers'].setValue(['FEDEX']);
+        this.enabledCarriersOptions = this.enabledCarriersOptions.map(
+          (option) => ({
+            ...option,
+            disabled: this.formControl['enabledCarriers']?.value?.includes(
+              option.value
+            ),
+          })
+        );
         this.isLoading = false;
       },
       (error) => {
@@ -103,13 +112,6 @@ export class OrderProcessingReturnComponent implements OnInit {
     } else {
       this.formFieldOnUI['labelPageSize'] = false;
     }
-
-    this.enabledCarriersOptions = this.enabledCarriersOptions.map((option) => ({
-      ...option,
-      disabled: this.formControl['enabledCarriers']?.value?.includes(
-        option.value
-      ),
-    }));
   }
 
   newAuthorizedFeedSender() {
