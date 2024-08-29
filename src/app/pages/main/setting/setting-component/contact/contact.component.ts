@@ -57,7 +57,7 @@ export class ContactComponent implements OnInit {
   dropDownList: any = null;
   timeZone = TimeZone;
   formTitle: string = this.formAction.ADD;
-  showSection: string = this.section.FORM;
+  showSection: string = this.section.TABLE;
 
   contactForm!: FormGroup;
   formFieldOnUI = {
