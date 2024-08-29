@@ -9,6 +9,7 @@ import { RemittanceInfoComponent } from './remittance-info/remittance-info.compo
 import { PrimaryInfoComponent } from './primary-info/primary-info.component';
 import { LegalInfoComponent } from './legal-info/legal-info.component';
 import { ContactComponent } from './contact/contact.component';
+import { ShippingClosuresComponent } from './shipping-closures/shipping-closures.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'order-processing-return',
     component: OrderProcessingReturnComponent,
+  },
+  {
+    path: 'shipping-closures',
+    component: ShippingClosuresComponent,
   },
   {
     path: 'primary-info',

@@ -18,12 +18,14 @@ import { RemittanceInfoComponent } from './remittance-info/remittance-info.compo
 import { PrimaryInfoComponent } from './primary-info/primary-info.component';
 import { LegalInfoComponent } from './legal-info/legal-info.component';
 import { ContactComponent } from './contact/contact.component';
+import { ShippingClosuresComponent } from './shipping-closures/shipping-closures.component';
 
 @NgModule({
   declarations: [
     SettingComponent,
     MapHandlingComponent,
     OrderProcessingReturnComponent,
+    ShippingClosuresComponent,
     PrimaryInfoComponent,
     LegalInfoComponent,
     RemittanceInfoComponent,

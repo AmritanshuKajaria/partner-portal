@@ -1,0 +1,216 @@
+<div class="shipping-closures-section">
+  <div class="section-header">
+    <div class="tab-header">
+      <span>SHIPPING CLOSURES</span>
+      <button
+        nz-button
+        nzType="default"
+        class="reset-button"
+        (click)="goBack()"
+      >
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+      </button>
+    </div>
+  </div>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <div *ngIf="showSection === section?.TABLE" class="table-section container">
+      <div class="header-action-button">
+        <span style="width: 188px"></span>
+        <nz-radio-group
+          [formControl]="formTypes"
+          nzButtonStyle="solid"
+          (ngModelChange)="changeFormType($event)"
+        >
+          <label nz-radio-button nzValue="new">New Closures</label>
+          <label nz-radio-button nzValue="old">Old Closures</label>
+        </nz-radio-group>
+        <button
+          nz-button
+          nzType="primary"
+          style="display: block"
+          (click)="showSection = section?.FORM"
+        >
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+          Add Shipping Closure
+        </button>
+      </div>
+      <div *ngFor="let item of shippingClosureList" style="margin-bottom: 28px">
+        <div nz-row>
+          <div
+            nz-col
+            [nzXs]="{ span: formTypes.value === 'old' ? 24 : 20 }"
+            [nzLg]="{ span: formTypes.value === 'old' ? 24 : 22 }"
+          >
+            <div
+              class="col-section border-top"
+              [ngClass]="{ 'border-right': formTypes.value === 'old' }"
+            >
+              <div
+                class="d-flex align-items-center border-left"
+                style="padding: 6px 0.5rem; min-width: 135px"
+              >
+                <strong>Closure Date</strong>
+              </div>
+              <div
+                class="d-flex align-items-center border-left"
+                style="padding: 6px 16px; width: 100%"
+              >
+                {{ changeDateFormat(item?.closureDate) }}
+              </div>
+            </div>
+            <div
+              class="col-section border-top border-bottom"
+              [ngClass]="{ 'border-right': formTypes.value === 'old' }"
+            >
+              <div
+                class="d-flex align-items-center border-left"
+                style="padding: 6px 0.5rem; min-width: 135px"
+              >
+                <strong>Remark</strong>
+              </div>
+              <div
+                class="d-flex align-items-center border-left"
+                style="padding: 6px 16px; width: 100%"
+              >
+                {{ item?.remark }}
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="formTypes?.value !== 'old'"
+            class="actions"
+            nz-col
+            [nzXs]="{ span: 4 }"
+            [nzLg]="{ span: 2 }"
+          >
+            <div class="d-flex gap-2">
+              <a
+                nzTooltipTitle="Delete"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                style="margin: 0 5px; color: red; font-size: large"
+                (click)="deleteAction(item)"
+              >
+                <span nz-icon nzType="delete" nzTheme="outline"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showSection === section?.FORM" class="form-section container">
+      <div class="section-header" style="margin-top: 0">
+        <div
+          class="tab-header justify-content-center"
+          style="border-bottom: 0px; padding: 0px"
+        >
+          <span>Add Shipping Closure</span>
+        </div>
+      </div>
+      <form [formGroup]="shippingClosureForm">
+        <nz-form-item
+          *ngIf="formFieldOnUI?.startDate && formFieldOnUI?.endDate"
+        >
+          <nz-form-label class="label-section">Closure Date</nz-form-label>
+          <div class="input-section">
+            <nz-form-control
+              [nzErrorTip]="startDateError"
+              style="margin-right: 5px"
+            >
+              <nz-input-group class="mediam-input">
+                <nz-date-picker
+                  [nzDisabledDate]="disabledStartDate"
+                  nzFormat="yyyy-MM-dd"
+                  formControlName="startDate"
+                  nzPlaceHolder="Start"
+                ></nz-date-picker>
+                <ng-template #startDateError let-control>
+                  <ng-container *ngIf="control.hasError('required')"
+                    >Please input your Start Date<br
+                  /></ng-container>
+                </ng-template>
+              </nz-input-group>
+            </nz-form-control>
+            <nz-form-control [nzErrorTip]="endDateError">
+              <nz-input-group class="mediam-input">
+                <nz-date-picker
+                  #endDatePicker
+                  [nzDisabledDate]="disabledEndDate"
+                  nzFormat="yyyy-MM-dd"
+                  formControlName="endDate"
+                  nzPlaceHolder="End"
+                ></nz-date-picker>
+                <ng-template #endDateError let-control>
+                  <ng-container *ngIf="control.hasError('required')"
+                    >Please input your End Date<br
+                  /></ng-container>
+                </ng-template>
+              </nz-input-group>
+            </nz-form-control>
+          </div>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.remark">
+          <nz-form-label class="label-section"
+            >Remark <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="remarkError">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Remark"
+                formControlName="remark"
+              />
+              <ng-template #remarkError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Please input your Remark<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Please input maximum 100 character<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isLoading"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
