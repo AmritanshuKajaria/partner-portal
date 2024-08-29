@@ -17,7 +17,16 @@ export const PlanLabels: any = {
   },
 };
 
-// Enabled carriers options
+export const Section: any = {
+  TABLE: 'table',
+  FORM: 'form',
+};
+
+export const FormAction: any = {
+  ADD: 'Add',
+  EDIT: 'Edit',
+};
+
 export const EnabledCarriersOptions = [
   {
     name: 'FEDEX',
@@ -36,7 +45,6 @@ export const EnabledCarriersOptions = [
   },
 ];
 
-// Enabled carriers options
 export const ReturnProfileOptions = [
   {
     name: 'Return To Partner Location',
@@ -329,5 +337,24 @@ export const CanadaStates = [
   {
     label: 'Yukon (YT)',
     value: 'YT',
+  },
+];
+
+export const TimeZone = [
+  {
+    name: 'EST',
+    value: 'EST',
+  },
+  {
+    name: 'PST',
+    value: 'PST',
+  },
+  {
+    name: 'CST',
+    value: 'CST',
+  },
+  {
+    name: 'MST',
+    value: 'MST',
   },
 ];
