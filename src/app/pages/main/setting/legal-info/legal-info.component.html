@@ -259,18 +259,11 @@
           <nz-form-label class="label-section">W9 File</nz-form-label>
           <nz-form-control class="input-section">
             <nz-input-group style="width: 100%">
-              <nz-upload
-                nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                [nzBeforeUpload]="beforeUpload"
-                [nzAccept]="'.pdf'"
-                [nzDisabled]="true"
+              <div
+                *ngIf="fileList"
+                class="custom-file-list"
+                style="margin-top: 0px"
               >
-                <button class="upload-btn" nz-button disabled>
-                  <span nz-icon nzType="upload"></span>
-                  Select File
-                </button>
-              </nz-upload>
-              <div *ngIf="fileList" class="custom-file-list">
                 <div class="file-item">
                   <span>{{ fileList.name }}</span>
                   <div>
