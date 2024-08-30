@@ -19,6 +19,7 @@ import { PrimaryInfoComponent } from './primary-info/primary-info.component';
 import { LegalInfoComponent } from './legal-info/legal-info.component';
 import { ContactComponent } from './contact/contact.component';
 import { ShippingClosuresComponent } from './shipping-closures/shipping-closures.component';
+import { ReturnLocationComponent } from './return-location/return-location.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { ShippingClosuresComponent } from './shipping-closures/shipping-closures
     MapHandlingComponent,
     OrderProcessingReturnComponent,
     ShippingClosuresComponent,
+    ReturnLocationComponent,
     PrimaryInfoComponent,
     LegalInfoComponent,
     RemittanceInfoComponent,
