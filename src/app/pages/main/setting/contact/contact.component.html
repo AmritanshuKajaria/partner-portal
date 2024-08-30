@@ -113,13 +113,13 @@
               />
               <ng-template #firstNameError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your First Name<br
+                  >First name is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
                   >Please input minimum 1 character<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
-                  >Please input maximum 255 character<br
+                  >First name can only be between 1 & 255<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -140,13 +140,13 @@
               />
               <ng-template #lastNameError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Last Name<br
+                  >Last name is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
                   >Please input minimum 1 character<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
-                  >Please input maximum 255 character<br
+                  >Last name can only be between 1 & 255<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -170,13 +170,13 @@
               />
               <ng-template #designationError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Designation<br
+                  >Designation is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
                   >Please input minimum 1 character<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
-                  >Please input maximum 255 character<br
+                  >Designation can only be between 1 & 255<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -201,10 +201,10 @@
               />
               <ng-template #contactPhoneNumberError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Phone Number<br
+                  >Phone number is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
-                  >Please input minimum 10 digit<br
+                  >Phone number can only be 10 digits<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -231,10 +231,10 @@
                   >Please input minimum 1 digit<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
-                  >Please input maximum 5 digit<br
+                  >Phone number extension can only be between 1 & 5<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('pattern')"
-                  >Please input only number<br
+                  >Phone number extension can only number<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -263,7 +263,7 @@
               </nz-select>
               <ng-template #contactTimeZoneError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Time Zone<br
+                  >Time zone is required<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -289,7 +289,7 @@
               </nz-select>
               <ng-template #arrRolesError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Role<br
+                  >Role is required<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>

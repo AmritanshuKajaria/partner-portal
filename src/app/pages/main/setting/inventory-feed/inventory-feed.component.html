@@ -98,7 +98,7 @@
           >
           <nz-form-control
             class="input-section"
-            nzErrorTip="Inventory Schedule is required!"
+            [nzErrorTip]="inventoryScheduleError"
           >
             <nz-input-group class="medium-input">
               <nz-select
@@ -113,6 +113,11 @@
                   [nzValue]="option?.value"
                 ></nz-option>
               </nz-select>
+              <ng-template #inventoryScheduleError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Choose at least 1 preferred inventory schedule<br
+                /></ng-container>
+              </ng-template>
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -135,7 +140,7 @@
               />
               <ng-template #inventoryFeedMPNError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your MPN Column Name<br
+                  >Inventory feed MPN column name is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
                   >Please input minimum 1 character<br
@@ -165,7 +170,7 @@
               />
               <ng-template #inventoryFeedQuantityColumnNameError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Quantity Column Name<br
+                  >Inventory feed quantity column name is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
                   >Please input minimum 1 character<br
@@ -211,10 +216,10 @@
                     />
                     <ng-template #emailError let-control>
                       <ng-container *ngIf="control.hasError('required')"
-                        >Please input your email</ng-container
+                        >Email is required</ng-container
                       >
                       <ng-container *ngIf="control.hasError('email')"
-                        >Please input valid email</ng-container
+                        >Please enter a valid email address</ng-container
                       >
                     </ng-template>
                   </nz-input-group>

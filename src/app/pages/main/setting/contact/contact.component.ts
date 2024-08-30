@@ -177,6 +177,7 @@ export class ContactComponent implements OnInit {
     this.formControl['lastName'].setValue(data?.lastName);
     this.formControl['designation'].setValue(data?.designation);
     this.formControl['contactPhoneNumber'].setValue(data?.contactPhoneNumber);
+    this.phoneInputField();
     this.formControl['contactPhoneNumberExtension'].setValue(
       data?.contactPhoneNumberExtension
     );

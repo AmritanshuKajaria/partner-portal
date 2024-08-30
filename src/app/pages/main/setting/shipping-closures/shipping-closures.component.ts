@@ -81,21 +81,17 @@ export class ShippingClosuresComponent implements OnInit {
   }
 
   disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.formControl['policyEndDate']?.value) {
+    if (!startValue || !this.formControl['endDate']?.value) {
       return false;
     }
-    return (
-      startValue.getTime() > this.formControl['policyEndDate']?.value.getTime()
-    );
+    return startValue.getTime() > this.formControl['endDate']?.value.getTime();
   };
 
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.formControl['policyStartDate']?.value) {
+    if (!endValue || !this.formControl['startDate']?.value) {
       return false;
     }
-    return (
-      endValue.getTime() <= this.formControl['policyStartDate']?.value.getTime()
-    );
+    return endValue.getTime() <= this.formControl['startDate']?.value.getTime();
   };
 
   // Date formate
@@ -137,10 +133,27 @@ export class ShippingClosuresComponent implements OnInit {
 
     if (valid) {
       this.isLoading = true;
-      const payload = {
-        // firstName: this.formFieldOnUI['firstName']
-        //   ? this.formControl['firstName']?.value
-        //   : '',
+      let payload = this.shippingClosureForm.value;
+      const addPayload = [];
+
+      // Parse the dates
+      const start: any = new Date(payload?.startDate);
+      const end: any = new Date(payload?.endDate);
+
+      // Calculate the difference in time
+      const diffTime = end - start;
+
+      // Calculate the difference in days
+      const diffDays = diffTime / (1000 * 60 * 60 * 24);
+      for (let index = 0; index < diffDays; index++) {
+        addPayload.push({
+          closureDate: moment(start).add(index, 'days').format('YYYY-MM-DD'),
+          remark: payload.remark,
+        });
+      }
+      payload = {
+        newShippingClosures: addPayload,
+        partnerCode: 'TDA',
       };
       setTimeout(() => {
         console.log(payload);

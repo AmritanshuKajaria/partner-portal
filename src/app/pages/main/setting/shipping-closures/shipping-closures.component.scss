@@ -22,38 +22,48 @@
                     border-radius: 4px;
                 }
 
+
+                ::ng-deep .ant-radio-group-solid {
+
+                    border: 1px solid #2121c3;
+                    border-radius: 50px;
+
+                    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+                        color: $white;
+                        background: $darkBlue;
+                        border-color: $darkBlue;
+                        border: 1px solid $darkBlue;
+                        border-radius: 50px;
+                    }
+
+                    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):focus-within {
+                        box-shadow: none;
+                    }
+
+                    .ant-radio-button-wrapper:hover {
+                        color: $darkBlue;
+                    }
+
+                    .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+                        background-color: $white;
+                    }
+
+                    .ant-radio-button-wrapper:not(:first-child)::before {
+                        background-color: $white;
+                    }
+
+                    .ant-radio-button-wrapper-checked:hover {
+                        color: $white;
+                    }
+
+                    .ant-radio-button-wrapper {
+                        border: 1px solid $white;
+                        border-radius: 50px;
+                    }
+                }
+
             }
 
-            ::ng-deep .ant-radio-group-solid {
-
-                .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
-                    color: $white;
-                    background: $darkBlue;
-                    border-color: $darkBlue;
-                    border: 1px solid $darkBlue;
-                    // border-radius: 50px;
-                }
-
-                .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):focus-within {
-                    box-shadow: none;
-                }
-
-                .ant-radio-button-wrapper:hover {
-                    color: $darkBlue;
-                }
-
-                .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
-                    background-color: $darkBlue;
-                }
-
-                .ant-radio-button-wrapper-checked:hover {
-                    color: $white;
-                }
-
-                .ant-radio-button-wrapper {
-                    border: 1px solid $darkBlue;
-                }
-            }
 
             .col-section {
                 display: flex;

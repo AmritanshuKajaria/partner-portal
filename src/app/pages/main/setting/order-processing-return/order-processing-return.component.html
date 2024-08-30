@@ -79,7 +79,7 @@
               </nz-select>
               <ng-template #enabledCarriersError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please select your Enabled Carriers<br
+                  >Choose at least 1 preferred carriers<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -105,7 +105,7 @@
               </nz-radio-group>
               <ng-template #labelPageSizeError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please choose any 1 Label Page Size<br
+                  >Choose any 1 label page size<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -160,10 +160,13 @@
                     />
                     <ng-template #emailError let-control>
                       <ng-container *ngIf="control.hasError('required')"
-                        >Please input your email</ng-container
+                        >Email is required</ng-container
                       >
+                      <ng-container *ngIf="control.hasError('maxlength')"
+                        >Email can only be between 1 & 255<br
+                      /></ng-container>
                       <ng-container *ngIf="control.hasError('email')"
-                        >Please input valid email</ng-container
+                        >Please enter a valid email address</ng-container
                       >
                     </ng-template>
                   </nz-input-group>

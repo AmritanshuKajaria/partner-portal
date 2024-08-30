@@ -46,7 +46,12 @@ export class MapHandlingComponent implements OnInit {
       handlingConfiguration: ['', [Validators.required]],
       accountHandlingTimeValue: [
         '',
-        [Validators.required, Validators.min(1), Validators.max(10)],
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(10),
+          Validators.pattern('^[0-9]+$'),
+        ],
       ],
     });
 

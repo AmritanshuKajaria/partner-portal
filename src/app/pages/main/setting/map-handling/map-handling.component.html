@@ -35,7 +35,7 @@
               </nz-select>
               <ng-template #mapTypeError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please select your MAP setup<br
+                  >Map setup is required<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -64,7 +64,7 @@
               </nz-select>
               <ng-template #handlingConfigurationError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please select your Handling Time Setup<br
+                  >Handling time setup is required<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -87,14 +87,17 @@
                 formControlName="accountHandlingTimeValue"
               />
               <ng-template #accountHandlingTime let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Handling time is required<br
+                /></ng-container>
                 <ng-container *ngIf="control.hasError('min')"
-                  >Please input minimum 1 digits<br
+                  >Handling Time can only be between 1 & 10 days<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('max')"
-                  >Please input maximum 10 digits<br
+                  >Handling Time can only be between 1 & 10 days<br
                 /></ng-container>
-                <ng-container *ngIf="control.hasError('required')"
-                  >Please input your common handling time<br
+                <ng-container *ngIf="control.hasError('pattern')"
+                  >Handling time can not have decimal value<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>

@@ -128,7 +128,7 @@
                 ></nz-date-picker>
                 <ng-template #startDateError let-control>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your Start Date<br
+                    >Start date is required<br
                   /></ng-container>
                 </ng-template>
               </nz-input-group>
@@ -144,7 +144,7 @@
                 ></nz-date-picker>
                 <ng-template #endDateError let-control>
                   <ng-container *ngIf="control.hasError('required')"
-                    >Please input your End Date<br
+                    >End date is required<br
                   /></ng-container>
                 </ng-template>
               </nz-input-group>
@@ -166,13 +166,13 @@
               />
               <ng-template #remarkError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Remark<br
+                  >Remark is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
-                  >Please input minimum 1 character<br
+                  >Remark can only be between 1 & 100<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
-                  >Please input maximum 100 character<br
+                  >Remark can only be between 1 & 100<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>

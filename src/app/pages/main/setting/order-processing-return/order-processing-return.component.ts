@@ -78,8 +78,8 @@ export class OrderProcessingReturnComponent implements OnInit {
       enabledCarriers: [[], [Validators.required]],
       generateLabels: [{ value: '', disabled: true }],
       labelPageSize: ['', [Validators.required]],
-      copyOfPOSentOverEmail: ['', [Validators.required]],
-      isPackingSlipEnabled: [{ value: false, disabled: true }],
+      copyOfPOSentOverEmail: [''],
+      isPackingSlipEnabled: [{ value: true, disabled: true }],
       authorizedInvoiceSenders: this.fb.array([]),
       returnProfile: [{ value: 'Field Destroy', disabled: true }],
     });
@@ -116,7 +116,10 @@ export class OrderProcessingReturnComponent implements OnInit {
 
   newAuthorizedFeedSender() {
     return this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [Validators.required, Validators.email, Validators.maxLength(255)],
+      ],
     });
   }
 
@@ -148,6 +151,8 @@ export class OrderProcessingReturnComponent implements OnInit {
       this.orderProcessingReturnForm,
       this.formFieldOnUI
     );
+    console.log(valid);
+
     if (valid) {
       this.isLoading = true;
       const payload = {
