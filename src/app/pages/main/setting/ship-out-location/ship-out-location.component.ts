@@ -163,7 +163,6 @@ export class ShipOutLocationComponent implements OnInit {
   }
 
   changeFormType(event: string) {
-    console.log(event);
     if (event === 'active') {
       this.shipOutLocationList = this.activateList;
     } else {
