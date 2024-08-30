@@ -275,7 +275,7 @@
                   >Return contact name is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
-                  >Return zip code can only be between 1 & 30<br
+                  >Return contact name can only be between 1 & 30<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
@@ -328,7 +328,7 @@
               />
               <ng-template #returnPhoneNumberExtensionError let-control>
                 <ng-container *ngIf="control.hasError('minlength')"
-                  >Please input minimum 1 digit<br
+                  >Return phone number extension can only be between 1 & 5<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
                   >Return phone number extension can only be between 1 & 5<br

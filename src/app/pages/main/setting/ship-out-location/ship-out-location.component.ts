@@ -6,13 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   FormAction,
   Section,
   TimeZone,
+  USStates,
 } from 'src/app/shared/constants/constants';
-import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 
 @Component({
@@ -92,26 +93,31 @@ export class ShipOutLocationComponent implements OnInit {
       isActive: '0',
     },
   ];
-  dropDownList: any = null;
+  usStates = USStates;
   timeZone = TimeZone;
   formTitle: string = this.formAction.ADD;
   showSection: string = this.section.TABLE;
 
   shippingClosureForm!: FormGroup;
   formFieldOnUI = {
-    firstName: true,
-    lastName: true,
-    designation: true,
-    contactPhoneNumber: true,
-    contactPhoneNumberExtension: true,
-    contactTimeZone: true,
-    arrRoles: true,
+    internalCode: true,
+    externalCode: true,
+    addressLine1: true,
+    addressLine2: true,
+    city: true,
+    state: true,
+    zipCode: true,
+    country: true,
+    timeZone: true,
+    cutOffTime: true,
+    contactName: true,
+    phoneNumber: true,
+    phoneNumberExtension: true,
   };
-  selectedContact: any = null;
+  selectedShipOutLocation: any = null;
   formTypes = new FormControl('active');
 
   constructor(
-    private commonService: CommonService,
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
     private modal: NzModalService,
@@ -120,54 +126,35 @@ export class ShipOutLocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.shipOutLocationList = this.activateList;
-    this.isLoading = true;
-    this.commonService.getJsonData().subscribe(
-      (res) => {
-        this.dropDownList = res;
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching JSON data', error);
-        this.isLoading = false;
-      }
-    );
 
     this.shippingClosureForm = this.formBuilder.group({
-      firstName: [
-        '',
+      internalCode: [
+        { value: 'FDC-LOC-001', disabled: true },
         [
           Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(255),
+          Validators.minLength(11),
+          Validators.maxLength(11),
         ],
       ],
-      lastName: [
+      externalCode: ['', [Validators.required, Validators.maxLength(100)]],
+      addressLine1: ['', [Validators.required, Validators.maxLength(255)]],
+      addressLine2: ['', [Validators.maxLength(255)]],
+      city: ['', [Validators.required, Validators.maxLength(100)]],
+      state: ['', [Validators.required]],
+      zipCode: ['', [Validators.required, Validators.maxLength(10)]],
+      country: ['', [Validators.required]],
+      timeZone: ['', [Validators.required]],
+      cutOffTime: ['', [Validators.required]],
+      contactName: ['', [Validators.required, Validators.maxLength(30)]],
+      phoneNumber: ['', [Validators.required, Validators.minLength(12)]],
+      phoneNumberExtension: [
         '',
         [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(255),
-        ],
-      ],
-      designation: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(255),
-        ],
-      ],
-      contactPhoneNumber: ['', [Validators.required, Validators.minLength(12)]],
-      contactPhoneNumberExtension: [
-        '',
-        [
-          Validators.pattern('^[0-9]+$'),
           Validators.minLength(1),
           Validators.maxLength(5),
+          Validators.pattern('^[0-9]+$'),
         ],
       ],
-      contactTimeZone: ['', [Validators.required]],
-      arrRoles: [[], [Validators.required]],
     });
   }
 
@@ -188,31 +175,32 @@ export class ShipOutLocationComponent implements OnInit {
     return Object.entries(obj);
   }
 
+  changeState() {
+    this.formControl['country'].setValue('US');
+  }
+
   phoneInputField() {
-    const contactPhoneNumberControl =
-      this.shippingClosureForm.get('contactPhoneNumber');
-    let input = contactPhoneNumberControl?.value;
+    const phoneNumberControl = this.shippingClosureForm.get('phoneNumber');
+    let input = phoneNumberControl?.value;
     let formattedInput = this.formValidationService.setUSFormate(input);
 
     // Limit the input to 12 characters including dashes
     formattedInput = formattedInput.substring(0, 12);
-    contactPhoneNumberControl?.setValue(formattedInput);
+    phoneNumberControl?.setValue(formattedInput);
+  }
+
+  addAction() {
+    this.showSection = this.section.FORM;
+    this.formTitle = this.formAction.ADD;
+    this.shippingClosureForm.reset();
+    this.setInternalCode();
   }
 
   editAction(data: any) {
     this.showSection = this.section.FORM;
     this.formTitle = this.formAction.EDIT;
-    this.selectedContact = data;
-    this.formControl['firstName'].setValue(data?.firstName);
-    this.formControl['lastName'].setValue(data?.lastName);
-    this.formControl['designation'].setValue(data?.designation);
-    this.formControl['contactPhoneNumber'].setValue(data?.contactPhoneNumber);
-    this.phoneInputField();
-    this.formControl['contactPhoneNumberExtension'].setValue(
-      data?.contactPhoneNumberExtension
-    );
-    this.formControl['contactTimeZone'].setValue(data?.contactTimeZone);
-    this.formControl['arrRoles'].setValue(data?.arrRoles);
+    this.selectedShipOutLocation = data;
+    this.patchFormValue(this.selectedShipOutLocation);
   }
 
   changeStatus(data: any) {
@@ -232,23 +220,38 @@ export class ShipOutLocationComponent implements OnInit {
   reset() {
     if (this.formTitle === this.formAction?.ADD) {
       this.shippingClosureForm?.reset();
+      this.setInternalCode();
     } else {
-      this.formControl['firstName'].setValue(this.selectedContact?.firstName);
-      this.formControl['lastName'].setValue(this.selectedContact?.lastName);
-      this.formControl['designation'].setValue(
-        this.selectedContact?.designation
-      );
-      this.formControl['contactPhoneNumber'].setValue(
-        this.selectedContact?.contactPhoneNumber
-      );
-      this.formControl['contactPhoneNumberExtension'].setValue(
-        this.selectedContact?.contactPhoneNumberExtension
-      );
-      this.formControl['contactTimeZone'].setValue(
-        this.selectedContact?.contactTimeZone
-      );
-      this.formControl['arrRoles'].setValue(this.selectedContact?.arrRoles);
+      this.patchFormValue(this.selectedShipOutLocation);
     }
+  }
+
+  patchFormValue(data: any) {
+    this.formControl['internalCode'].setValue(data?.internalCode);
+    this.formControl['externalCode'].setValue(data?.externalCode);
+    this.formControl['addressLine1'].setValue(data?.addressLine1);
+    this.formControl['addressLine2'].setValue(data?.addressLine2);
+    this.formControl['city'].setValue(data?.city);
+    this.formControl['state'].setValue(data?.state);
+    this.formControl['zipCode'].setValue(data?.zipCode);
+    this.formControl['country'].setValue(data?.country);
+    this.formControl['timeZone'].setValue(data?.timeZone);
+    if (data?.cutOffTime) {
+      const timeString = data?.cutOffTime;
+      // Split the time string into hours, minutes, and seconds
+      const [hours, minutes, seconds] = timeString.split(':').map(Number);
+      const cutOffTime = new Date();
+      cutOffTime.setHours(hours, minutes, seconds);
+
+      // Update the form control value
+      this.formControl['cutOffTime'].setValue(cutOffTime);
+    }
+    this.formControl['contactName'].setValue(data?.contactName);
+    this.formControl['phoneNumber'].setValue(data?.phoneNumber);
+    this.phoneInputField();
+    this.formControl['phoneNumberExtension'].setValue(
+      data?.phoneNumberExtension
+    );
   }
 
   submitForm() {
@@ -260,28 +263,44 @@ export class ShipOutLocationComponent implements OnInit {
     if (valid) {
       this.isLoading = true;
       const payload = {
-        firstName: this.formFieldOnUI['firstName']
-          ? this.formControl['firstName']?.value
+        internalCode: this.formFieldOnUI['internalCode']
+          ? this.formControl['internalCode']?.value
           : '',
-        lastName: this.formFieldOnUI['lastName']
-          ? this.formControl['lastName']?.value
+        externalCode: this.formFieldOnUI['externalCode']
+          ? this.formControl['externalCode']?.value
           : '',
-        designation: this.formFieldOnUI['designation']
-          ? this.formControl['designation']?.value
+        addressLine1: this.formFieldOnUI['addressLine1']
+          ? this.formControl['addressLine1']?.value
           : '',
-        contactPhoneNumber: this.formFieldOnUI['contactPhoneNumber']
-          ? this.formControl['contactPhoneNumber']?.value?.split('-').join('')
+        addressLine2: this.formFieldOnUI['addressLine2']
+          ? this.formControl['addressLine2']?.value
           : '',
-        contactPhoneNumberExtension: this.formFieldOnUI[
-          'contactPhoneNumberExtension'
-        ]
-          ? this.formControl['contactPhoneNumberExtension']?.value
+        city: this.formFieldOnUI['city'] ? this.formControl['city']?.value : '',
+        state: this.formFieldOnUI['state']
+          ? this.formControl['state']?.value
           : '',
-        contactTimeZone: this.formFieldOnUI['contactTimeZone']
-          ? this.formControl['contactTimeZone']?.value
+        zipCode: this.formFieldOnUI['zipCode']
+          ? this.formControl['zipCode']?.value
           : '',
-        arrRoles: this.formFieldOnUI['arrRoles']
-          ? this.formControl['arrRoles']?.value
+        country: this.formFieldOnUI['country']
+          ? this.formControl['country']?.value
+          : '',
+        timeZone: this.formFieldOnUI['timeZone']
+          ? this.formControl['timeZone']?.value
+          : '',
+        cutOffTime: this.formFieldOnUI['cutOffTime']
+          ? this.formControl['cutOffTime']?.value
+            ? moment(this.formControl['cutOffTime']?.value).format('HH:mm:ss')
+            : ''
+          : '',
+        contactName: this.formFieldOnUI['contactName']
+          ? this.formControl['contactName']?.value
+          : '',
+        phoneNumber: this.formFieldOnUI['phoneNumber']
+          ? this.formControl['phoneNumber']?.value
+          : '',
+        phoneNumberExtension: this.formFieldOnUI['phoneNumberExtension']
+          ? this.formControl['phoneNumberExtension']?.value
           : '',
       };
       setTimeout(() => {
@@ -299,6 +318,23 @@ export class ShipOutLocationComponent implements OnInit {
           }
         }
       });
+    }
+  }
+
+  setInternalCode() {
+    const partnerDataList = this.activateList.concat(this.deactivateList);
+    let maxInternalCode = partnerDataList?.reduce(function (max, current) {
+      return max?.internalCode > current?.internalCode ? max : current;
+    });
+    if (maxInternalCode) {
+      const no = +maxInternalCode.internalCode.split('-')[2];
+      this.formControl['internalCode'].setValue(
+        maxInternalCode.internalCode.slice(0, -3) +
+          String(no + 1).padStart(3, '0')
+      );
+    } else {
+      const selectedPartnerId = 'TDS';
+      this.formControl['internalCode'].setValue(`${selectedPartnerId}-LOC-001`);
     }
   }
 

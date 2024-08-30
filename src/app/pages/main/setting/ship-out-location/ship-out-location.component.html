@@ -29,10 +29,10 @@
           nz-button
           nzType="primary"
           style="display: block"
-          (click)="showSection = section?.FORM"
+          (click)="addAction()"
         >
           <span nz-icon nzType="plus" nzTheme="outline"></span>
-          Add Shipping Closure
+          Add Ship Out Locations
         </button>
       </div>
       <div *ngFor="let item of shipOutLocationList" style="margin-bottom: 28px">
@@ -113,111 +113,305 @@
           class="tab-header justify-content-center"
           style="border-bottom: 0px; padding: 0px"
         >
-          <span>{{ formTitle }} Shipping Closure</span>
+          <span>{{ formTitle }} Ship Out Locations</span>
         </div>
       </div>
       <form [formGroup]="shippingClosureForm">
-        <nz-form-item *ngIf="formFieldOnUI?.firstName">
+        <nz-form-item *ngIf="formFieldOnUI?.internalCode">
           <nz-form-label class="label-section"
-            >First Name <span style="color: red">*</span></nz-form-label
-          >
-          <nz-form-control class="input-section" [nzErrorTip]="firstNameError">
-            <nz-input-group class="small-input">
-              <input
-                type="text"
-                nz-input
-                placeholder="Enter First Name"
-                formControlName="firstName"
-              />
-              <ng-template #firstNameError let-control>
-                <ng-container *ngIf="control.hasError('required')"
-                  >First name is required<br
-                /></ng-container>
-                <ng-container *ngIf="control.hasError('minlength')"
-                  >Please input minimum 1 character<br
-                /></ng-container>
-                <ng-container *ngIf="control.hasError('maxlength')"
-                  >First name can only be between 1 & 255<br
-                /></ng-container>
-              </ng-template>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item *ngIf="formFieldOnUI?.lastName">
-          <nz-form-label class="label-section"
-            >Last Name <span style="color: red">*</span></nz-form-label
-          >
-          <nz-form-control class="input-section" [nzErrorTip]="lastNameError">
-            <nz-input-group class="small-input">
-              <input
-                type="text"
-                nz-input
-                placeholder="Enter Last Name"
-                formControlName="lastName"
-              />
-              <ng-template #lastNameError let-control>
-                <ng-container *ngIf="control.hasError('required')"
-                  >Last name is required<br
-                /></ng-container>
-                <ng-container *ngIf="control.hasError('minlength')"
-                  >Please input minimum 1 character<br
-                /></ng-container>
-                <ng-container *ngIf="control.hasError('maxlength')"
-                  >Last name can only be between 1 & 255<br
-                /></ng-container>
-              </ng-template>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item *ngIf="formFieldOnUI?.designation">
-          <nz-form-label class="label-section"
-            >Designation <span style="color: red">*</span></nz-form-label
+            >Internal Code <span style="color: red">*</span></nz-form-label
           >
           <nz-form-control
             class="input-section"
-            [nzErrorTip]="designationError"
+            [nzErrorTip]="internalCodeError"
           >
-            <nz-input-group class="small-input">
+            <nz-input-group class="medium-input">
               <input
                 type="text"
                 nz-input
-                placeholder="Enter Designation"
-                formControlName="designation"
+                placeholder="Enter Internal Code"
+                formControlName="internalCode"
               />
-              <ng-template #designationError let-control>
+              <ng-template #internalCodeError let-control>
                 <ng-container *ngIf="control.hasError('required')"
-                  >Designation is required<br
+                  >Internal code is required<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('minlength')"
-                  >Please input minimum 1 character<br
+                  >Internal code can only be 23 digits<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
-                  >Designation can only be between 1 & 255<br
+                  >Internal code can only be 23 digits<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item *ngIf="formFieldOnUI?.contactPhoneNumber">
+        <nz-form-item *ngIf="formFieldOnUI?.externalCode">
+          <nz-form-label class="label-section"
+            >External Code <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="externalCodeError"
+          >
+            <nz-input-group class="medium-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter External Code"
+                formControlName="externalCode"
+              />
+              <ng-template #externalCodeError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >External code is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >External code can only be between 1 & 100<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.addressLine1">
+          <nz-form-label class="label-section"
+            >Address Line1 <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="addressLine1Error"
+          >
+            <nz-input-group class="large-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Address Line1"
+                formControlName="addressLine1"
+              />
+              <ng-template #addressLine1Error let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Address line 1 is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Address line 1 can only be between 1 & 255<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.addressLine2">
+          <nz-form-label class="label-section">Address Line2 </nz-form-label>
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="addressLine2Error"
+          >
+            <nz-input-group class="large-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Address Line2
+"
+                formControlName="addressLine2"
+              />
+              <ng-template #addressLine2Error let-control>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Address line 2 can only be between 1 & 255<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.city">
+          <nz-form-label class="label-section"
+            >City <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="cityError">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter City"
+                formControlName="city"
+              />
+              <ng-template #cityError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >City is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >City can only be between 1 & 100<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.state">
+          <nz-form-label class="label-section"
+            >State <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="stateError">
+            <nz-input-group class="medium-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select State"
+                formControlName="state"
+                (ngModelChange)="changeState()"
+              >
+                <nz-option-group nzLabel="United State">
+                  <nz-option
+                    *ngFor="let option of usStates"
+                    [nzLabel]="option.label"
+                    [nzValue]="option.value"
+                  ></nz-option>
+                </nz-option-group>
+              </nz-select>
+              <ng-template #stateError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >State is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.zipCode">
+          <nz-form-label class="label-section"
+            >Zip Code <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="zipCodeError">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Zip Code"
+                formControlName="zipCode"
+              />
+              <ng-template #zipCodeError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Zip code is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Zip code can only be between 1 & 10<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.country">
+          <nz-form-label class="label-section"
+            >Country <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="countryError">
+            <nz-input-group class="small-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select Country"
+                formControlName="country"
+              >
+                <nz-option nzLabel="US" nzValue="US"></nz-option>
+              </nz-select>
+              <ng-template #countryError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Country is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.timeZone">
+          <nz-form-label class="label-section"
+            >Time Zone <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="timeZoneError">
+            <nz-input-group class="small-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select Time Zone"
+                formControlName="timeZone"
+              >
+                <nz-option
+                  *ngFor="let option of timeZone"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.value"
+                ></nz-option>
+              </nz-select>
+              <ng-template #timeZoneError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Time zone is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.cutOffTime">
+          <nz-form-label class="label-section"
+            >Cut Off Time <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="cutOffTimeError">
+            <nz-input-group class="small-input">
+              <nz-time-picker
+                formControlName="cutOffTime"
+                [nzFormat]="'HH:mm:ss'"
+              ></nz-time-picker>
+              <ng-template #cutOffTimeError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Cut off time is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.contactName">
+          <nz-form-label class="label-section"
+            >Contact Name <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="contactNameError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Contact Name"
+                formControlName="contactName"
+              />
+              <ng-template #contactNameError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Contact name is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Contact name only be between 1 & 30<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.phoneNumber">
           <nz-form-label class="label-section"
             >Phone Number <span style="color: red">*</span></nz-form-label
           >
           <nz-form-control
             class="input-section"
-            [nzErrorTip]="contactPhoneNumberError"
+            [nzErrorTip]="phoneNumberError"
           >
             <nz-input-group class="small-input">
               <input
                 type="text"
                 nz-input
                 placeholder="Enter Phone Number"
-                formControlName="contactPhoneNumber"
+                formControlName="phoneNumber"
                 (input)="phoneInputField()"
               />
-              <ng-template #contactPhoneNumberError let-control>
+              <ng-template #phoneNumberError let-control>
                 <ng-container *ngIf="control.hasError('required')"
                   >Phone number is required<br
                 /></ng-container>
@@ -229,85 +423,30 @@
           </nz-form-control>
         </nz-form-item>
 
-        <nz-form-item *ngIf="formFieldOnUI?.contactPhoneNumberExtension">
+        <nz-form-item *ngIf="formFieldOnUI?.phoneNumberExtension">
           <nz-form-label class="label-section"
             >Phone Number Extension</nz-form-label
           >
           <nz-form-control
             class="input-section"
-            [nzErrorTip]="contactPhoneNumberExtensionError"
+            [nzErrorTip]="phoneNumberExtensionError"
           >
             <nz-input-group class="small-input">
               <input
                 type="text"
                 nz-input
-                placeholder="Enter Phone Number Extension"
-                formControlName="contactPhoneNumberExtension"
+                placeholder="Enter Return Phone Number Extension"
+                formControlName="phoneNumberExtension"
               />
-              <ng-template #contactPhoneNumberExtensionError let-control>
+              <ng-template #phoneNumberExtensionError let-control>
                 <ng-container *ngIf="control.hasError('minlength')"
-                  >Please input minimum 1 digit<br
+                  >Phone number extension can only be between 1 & 5<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('maxlength')"
                   >Phone number extension can only be between 1 & 5<br
                 /></ng-container>
                 <ng-container *ngIf="control.hasError('pattern')"
                   >Phone number extension can only number<br
-                /></ng-container>
-              </ng-template>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item *ngIf="formFieldOnUI?.contactTimeZone">
-          <nz-form-label class="label-section"
-            >Time Zone <span style="color: red">*</span></nz-form-label
-          >
-          <nz-form-control
-            class="input-section"
-            [nzErrorTip]="contactTimeZoneError"
-          >
-            <nz-input-group class="small-input">
-              <nz-select
-                nzShowSearch
-                nzPlaceHolder="Select Time Zone"
-                formControlName="contactTimeZone"
-              >
-                <nz-option
-                  *ngFor="let option of timeZone"
-                  [nzLabel]="option.name"
-                  [nzValue]="option.value"
-                ></nz-option>
-              </nz-select>
-              <ng-template #contactTimeZoneError let-control>
-                <ng-container *ngIf="control.hasError('required')"
-                  >Time zone is required<br
-                /></ng-container>
-              </ng-template>
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-
-        <nz-form-item *ngIf="formFieldOnUI?.arrRoles">
-          <nz-form-label class="label-section"
-            >Role <span style="color: red">*</span></nz-form-label
-          >
-          <nz-form-control class="input-section" [nzErrorTip]="arrRolesError">
-            <nz-input-group class="medium-input">
-              <nz-select
-                nzPlaceHolder="Select Role"
-                formControlName="arrRoles"
-                nzMode="multiple"
-              >
-                <nz-option
-                  *ngFor="let option of dropDownList?.contactRoles"
-                  [nzLabel]="option?.name"
-                  [nzValue]="option?.value"
-                ></nz-option>
-              </nz-select>
-              <ng-template #arrRolesError let-control>
-                <ng-container *ngIf="control.hasError('required')"
-                  >Role is required<br
                 /></ng-container>
               </ng-template>
             </nz-input-group>

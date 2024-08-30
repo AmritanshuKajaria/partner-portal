@@ -102,7 +102,6 @@ export class ShippingClosuresComponent implements OnInit {
   };
 
   changeFormType(event: string) {
-    console.log(event);
     if (event === 'new') {
       this.shippingClosureList = this.newShippingClosureList;
     } else {
