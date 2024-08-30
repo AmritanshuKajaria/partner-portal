@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -19,138 +20,489 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 export class NotificationEmailComponent implements OnInit {
   section = Section;
   isLoading: boolean = false;
-  shippingClosureList: any = [];
-  newShippingClosureList: any = [
-    {
-      closureDate: '2024-08-30',
-      remark: 'entity remark 1',
-      isDeleted: 0,
+  allDataList = {
+    accountSetupUpdateNotifications: [
+      'cmacias@4dconceptsusa.com',
+      'jriegsecker@4dconceptsusa.com',
+      'sarah@4dconceptsusa.com',
+      'orderdesk@4dconceptsusa.com',
+      'lstephenson@4dconceptsusa.com',
+      'sgonzalez@4dconceptsusa.com',
+    ],
+    partnerDetails: {
+      partnerId: '101',
+      displayName: '4D Concepts (FDC)',
+      partnerCode: 'FDC',
+      accountManagerId: '525',
+      accountManagerName: 'Kevin S',
+      accountManagerEmail: 'csm@123stores.com',
+      accountManagerPhone: '646-568-9144',
+      accountStatus: '1',
+      accountStatusReason: '',
+      salesStatus: '1',
+      salesStatusReason: '',
     },
-    {
-      closureDate: '2024-08-31',
-      remark: 'entity remark 1',
-      isDeleted: 0,
+    catalogSetupUpdateNotifications: [
+      'sgonzalez@4dconceptsusa.com',
+      'sarah@4dconceptsusa.com',
+      'cmacias@4dconceptsusa.com',
+      'orderdesk@4dconceptsusa.com',
+      'jriegsecker@4dconceptsusa.com',
+    ],
+    catalogDetails: {
+      mapType: '1',
+      handlingConfiguration: '1',
+      accountHandlingTimeValue: '1',
+      totalProductsSoftLimit: '5000',
+      coOpDiscountPercentage: '1.00',
+      coOpCalculationMethod: '1',
+      returnProfileType: '8',
+      returnReimbursementMethod: '0',
+      returnDaCalculationMethod: '3',
+      returnAllowancePercentage: '3.00',
+      returnBuyersRemorseRestockingPercentage: '0.00',
+      returnUndeliverableRestockingPercentage: '0.00',
+      returnProcessingFeePercentage: '0.00',
+      orderProcessingFeePercentage: '0.04',
     },
-  ];
-  oldShippingClosureList: any = [
-    {
-      closureDate: '2024-01-30',
-      remark: 'entity remark 6',
-      isDeleted: 0,
+    invoicingNotifications: [
+      'orderdesk@4dconceptsusa.com',
+      'cmacias@4dconceptsusa.com',
+      'lstephenson@4dconceptsusa.com',
+      'sgonzalez@4dconceptsusa.com',
+      'jriegsecker@4dconceptsusa.com',
+    ],
+    remittanceNotifications: [
+      'lstephenson@4dconceptsusa.com',
+      'sgonzalez@4dconceptsusa.com',
+      'jriegsecker@4dconceptsusa.com',
+      'orderdesk@4dconceptsusa.com',
+      'cmacias@4dconceptsusa.com',
+    ],
+    paymentDetails: {
+      paymentStatus: '1',
+      paymentStatusReason: '',
+      netDays: '1',
+      discountPercentage: '2.00',
+      discountDays: '1',
+      creditLimit: '25000',
+      paymentTermForDisplay: '2.00% 1 Net 1',
+      creditLimitForDisplay: '$25,000.00',
     },
-    {
-      closureDate: '2024-05-31',
-      remark: 'entity remark 5',
-      isDeleted: 0,
+    achDetails: {
+      accountNumber: '003101771',
+      bankName: 'Bank Name Missing',
+      nameOnAccount: '4D Concepts Inc',
+      routingNumber: '122243062',
     },
-  ];
+    inventoryProcessingNotification: [
+      'jriegsecker@4dconceptsusa.com',
+      'orderdesk@4dconceptsusa.com',
+      'cmacias@4dconceptsusa.com',
+      'sgonzalez@4dconceptsusa.com',
+    ],
+    shipoutLocationsInactive: [
+      {
+        internalCode: 'FDC-LOC-001',
+        externalCode: 'CA-91730',
+        addressLine1: '11699 6TH Street',
+        addressLine2: '',
+        city: 'Rancho Cucamonga',
+        state: 'CA',
+        zipCode: '91730',
+        country: 'US',
+        timeZone: 'PST',
+        cutOffTime: '18:00:00',
+        contactName: 'Jeff Riegsecker',
+        phoneNumber: '9099441980',
+        phoneNumberExtension: '',
+        isActive: '0',
+      },
+    ],
+    shipoutLocations: [
+      {
+        internalCode: 'FDC-LOC-002',
+        externalCode: 'CA-91730',
+        addressLine1: '4D Concepts,',
+        addressLine2: '9120 Center Avenue Rancho Cucamonga',
+        city: 'Rancho Cucamonga',
+        state: 'CA',
+        zipCode: '91730',
+        country: 'US',
+        timeZone: 'PST',
+        cutOffTime: '06:00:00',
+        contactName: 'Jeff Riegsecker',
+        phoneNumber: '9099441980',
+        phoneNumberExtension: '',
+        isActive: '1',
+      },
+      {
+        internalCode: 'FDC-LOC-003',
+        externalCode: '4DC Salley',
+        addressLine1: '5244 Festival Trail Road',
+        addressLine2: '',
+        city: 'Salley',
+        state: 'SC',
+        zipCode: '29137',
+        country: 'US',
+        timeZone: 'EST',
+        cutOffTime: '16:00:00',
+        contactName: 'Charles Edgeman',
+        phoneNumber: '9099441980',
+        phoneNumberExtension: '33',
+        isActive: '1',
+      },
+    ],
+    inventoryDetails: {
+      inventoryFeedType: '2',
+      inventoryFeedFrequency: ['1', '3', '5'],
+      inventoryFeedMPN: '',
+      inventoryFeedQuantityColumnName: '',
+      inventoryFeedDetailType: '1',
+      inventoryBucket: '2',
+      inventoryBucketChangeDate: '',
+      inventoryBucketManuallyOverridden: '0',
+      authorizedFeedSenders: [''],
+    },
+    returnLocation: [],
+    previousShippingClosures: [
+      {
+        closureDate: '2024-08-24',
+        remark: 'entity remark 1',
+        isDeleted: 0,
+      },
+    ],
+    upcomingShippingClosures: [
+      {
+        closureDate: '2024-08-30',
+        remark: 'entity remark 1',
+        isDeleted: 0,
+      },
+      {
+        closureDate: '2024-08-31',
+        remark: 'entity remark 1',
+        isDeleted: 0,
+      },
+    ],
+    purchaseOrderNotification: [
+      'sgonzalez@4dconceptsusa.com',
+      'orderdesk@4dconceptsusa.com',
+    ],
+    orderProcessingNotification: [
+      'sgonzalez@4dconceptsusa.com',
+      'orderdesk@4dconceptsusa.com',
+    ],
+    fulfillmentDetails: {
+      poSendingMethod: '2',
+      enabledCarriers: ['FEDEX', 'UPS', 'USPS'],
+      generateLabels: '1',
+      labelPageSize: '2',
+      copyOfPOSentOverEmail: true,
+      notificationEmail: [
+        'Orderdesk@4dconceptsusa.com',
+        'lstephenson@4dconceptsusa.com',
+        'Adiaz@4dconceptsusa.com',
+        'rreynolds@4dconceptsusa.com',
+        'jriegsecker@4dconceptsusa.com',
+        'nhaurissa@4dconceptsusa.com',
+        'kdiaz@4dconceptsusa.com',
+        'slewis@4dconceptsusa.com',
+        'lcardenas@4dconceptsusa.com',
+      ],
+      isPackingSlipEnabled: false,
+    },
+    returnProcessingNotification: [
+      'orderdesk@4dconceptsusa.com',
+      'jriegsecker@4dconceptsusa.com',
+      'sgonzalez@4dconceptsusa.com',
+    ],
+    returnDetails: {
+      returnProfileType: '8',
+      returnReimbursementMethod: '0',
+      returnDaCalculationMethod: '3',
+      returnAllowancePercentage: '3.00',
+      returnBuyersRemorseRestockingPercentage: '0.00',
+      returnUndeliverableRestockingPercentage: '0.00',
+      returnProcessingFeePercentage: '0.00',
+      orderProcessingFeePercentage: '0.04',
+    },
+    portalLogins: [],
+    portalDetails: {
+      portalAccessEnabled: '0',
+      currentPlanID: '6',
+      eligibleForFreeTrial: '1',
+      returnProcessingFeePercentage: '0.00',
+      orderTabActive: '0',
+      orderProcessingFeePercentage: '0.04',
+    },
+    contacts: {
+      '264': {
+        contactId: '264',
+        partnerId: '101',
+        firstName: 'Customer Service Desk',
+        lastName: 'wer43',
+        designation: 'Customer Service',
+        contactPhoneNumber: '9099441980',
+        contactPhoneNumberExtension: '',
+        contactTimeZone: 'PST',
+        notes: '',
+        arrRoles: ['1', '3', '5'],
+        isDeleted: 0,
+      },
+    },
+    sftpDetails: {
+      sftpHostname: '',
+      sftpUsername: '',
+      sftpPassword: '',
+      sftpPort: '',
+    },
+    as2Details: {
+      as2IdentifierID: 'TrueCommerceNG.Net',
+      as2ReceiveURL:
+        'http://network.truecommerce.net:5755/invoke/wm.EDIINT/receive',
+      as2CertificateFileID: '1097712573',
+      signatureAlgo: '2',
+      encryptionAlgo: '2',
+      mdnReceiptsSecurity: '2',
+      mdnReceiptsDelivery: '2',
+      testAS2IdentifierID: 'TrueCommerceNG.Net',
+      testReceiveUrl:
+        'http://network.truecommerce.net:5755/invoke/wm.EDIINT/receive',
+      testCertificateFileId: '1097712575',
+    },
+    ediDetails: {
+      qualifierID: '12',
+      qualifier: '9099441980',
+      fileTransferMode: '1',
+      segmentTerminator: '2',
+      elementTerminator: '1',
+      subElementTerminator: '2',
+      testQualifierId: '12',
+      testQualifier: '9099441980',
+      environment: '1',
+      connectionStatus: '2',
+      connectionType: '1',
+      vanName: 'TrueCommerce EDI Solutions',
+    },
+    rebateProgramConfiguration: {
+      rebateProgramEnrolled: '0',
+      rebateProgramFileId: '',
+    },
+    legalInfo: {
+      documentType: '1',
+      formRevisionNumber: 'November 2017',
+      legalName: '4D Concepts Inc',
+      businessName: '',
+      federalTaxClassification: 'S Corporation',
+      officialAddressLine1: '11699 6th Street',
+      officialAddressLine2: '',
+      officialCity: 'Rancho Cucamonga',
+      officialState: 'CA',
+      officialZipCode: '91730',
+      officialCountry: 'US',
+      tinType: '2',
+      tinNumber: '203358613',
+      w9SigningDate: '2018-07-23',
+      w9FileID: '188265783',
+    },
+    agreementConfig: {
+      agreementSigningDate: '2020-03-23',
+      agreementEffectiveDate: '2018-07-01',
+      signedAgreementFileID: '208556831',
+      addendumSignedFileID: '',
+      addendumList: [''],
+    },
+    coiConfiguration: {
+      insurerName: 'test4',
+      insuredName: 'test13',
+      policyNumber: '343434',
+      policyStartDate: '2024-08-24',
+      policyEndDate: '2024-08-26',
+      coiFileID: '1229460564',
+    },
+  };
+  notificationEmailList: any = [];
   formTypes = new FormControl('notifications');
   showSection: string = this.section.TABLE;
-
-  notificationEmailForm!: FormGroup;
-  formFieldOnUI = {
-    startDate: true,
-    endDate: true,
-    remark: true,
+  groupByNotificationTypeIdLabels: any = {
+    accountSetupUpdateNotifications: 'Account Setup Update Notifications',
+    catalogSetupUpdateNotifications: 'Catalog Setup Update Notifications',
+    inventoryProcessingNotification: 'Inventory Processing Notification',
+    invoicingNotifications: 'Invoicing Notifications',
+    orderProcessingNotification: 'Order Processing Notification',
+    purchaseOrderNotification: 'Purchase Order Notification',
+    remittanceNotifications: 'Remittance Notifications',
+    returnProcessingNotification: 'Return Processing Notification',
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private formValidationService: FormValidationService,
-    private router: Router
-  ) {}
+  groupByNotificationForm!: FormGroup;
+  groupByEmailForm!: FormGroup;
+
+  constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
-    this.shippingClosureList = this.newShippingClosureList;
-    this.notificationEmailForm = this.formBuilder.group({
-      startDate: ['', [Validators?.required]],
-      endDate: ['', [Validators?.required]],
-      remark: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(1),
-          Validators.maxLength(100),
-        ],
+    this.groupByNotificationForm = this.formBuilder.group({
+      notificationGroups: this.formBuilder.array([]),
+    });
+    this.initializeForm(this.allDataList);
+    // this.initializeForm1();
+  }
+
+  changeFormType(event: string) {
+    if (event === 'notifications') {
+      // this.notificationEmailList = this.newnotificationEmailList;
+    } else {
+      // this.notificationEmailList = this.oldnotificationEmailList;
+    }
+  }
+
+  // Method to get the form array for notification groups
+  get notificationGroups(): FormArray {
+    return this.groupByNotificationForm.get('notificationGroups') as FormArray;
+  }
+
+  initializeForm(values: any) {
+    if (values) {
+      if (this.formTypes.value === 'notifications') {
+        const array: any = this.groupByNotificationForm.get(
+          'notificationGroups'
+        ) as FormArray;
+
+        this.groupByNotificationForm.get('notificationGroups')?.setValue([]);
+
+        // Re-create the section
+        Object.keys(this.groupByNotificationTypeIdLabels).forEach(
+          (key, index) => {
+            if (values[key] && values[key].length > 0) {
+              // Create an array of FormControl elements for emails
+              const emailControls = values[key].map((element: string) =>
+                this.newNotificationEmail(element)
+              );
+
+              // Create the form group with the typeId, typeName, and emails
+              const group = this.formBuilder.group({
+                typeId: key,
+                typeName: this.groupByNotificationTypeIdLabels[key],
+                emails: this.formBuilder.array(emailControls),
+              });
+              // Push the group into the FormArray
+              array.push(group);
+            }
+          }
+        );
+      } else {
+        let groupByEmailValues: any = {};
+        // Create the data object
+        Object.keys(this.groupByNotificationTypeIdLabels).forEach((key) => {
+          if (values[key] && values[key].length > 0) {
+            const emails = values[key];
+            emails.forEach((email: string) => {
+              if (!groupByEmailValues[email]) {
+                groupByEmailValues[email] = [key];
+              } else if (!groupByEmailValues[email].includes(key)) {
+                groupByEmailValues[email].push(key);
+              }
+            });
+          }
+        });
+
+        // Re-create the section
+        Object.keys(groupByEmailValues).forEach((key, index) => {
+          if (groupByEmailValues[key] && groupByEmailValues[key].length > 0) {
+            console.log(groupByEmailValues[key], index, key);
+          }
+        });
+      }
+    }
+  }
+  // Method to create a new notification email form group
+  newNotificationEmail(emailValue = ''): FormGroup {
+    return this.formBuilder.group({
+      email: [
+        emailValue,
+        [Validators.required, Validators.email, Validators.maxLength(255)],
       ],
     });
   }
 
-  get formControl() {
-    return this.notificationEmailForm.controls;
+  // Method to add a new email to a specific notification group
+  addNotificationEmail(index: number) {
+    const emailsArray = this.notificationGroups
+      .at(index)
+      .get('emails') as FormArray;
+    emailsArray.push(this.newNotificationEmail());
   }
 
-  // Date formate
-  changeDateFormat = (inputDate: string) => {
-    return moment(inputDate, 'YYYY-MM-DD').format('dddd  - MMM DD, YYYY');
-  };
-
-  changeFormType(event: string) {
-    if (event === 'notifications') {
-      this.shippingClosureList = this.newShippingClosureList;
-    } else {
-      this.shippingClosureList = this.oldShippingClosureList;
-    }
+  // Method to remove an email from a specific notification group
+  removeNotificationEmail(groupIndex: number, emailIndex: number) {
+    const emailsArray = this.notificationGroups
+      .at(groupIndex)
+      .get('emails') as FormArray;
+    emailsArray.removeAt(emailIndex);
   }
 
   deleteAction(data: any) {}
 
   reset() {
-    this.notificationEmailForm?.reset();
+    // this.initializeForm(this.allDataList);
+    // this.notificationEmailForm?.reset();
+  }
+
+  submitNotificationForm() {
+    const notificationList = this.groupByNotificationForm.value;
+    const payload: any = {
+      accountSetupUpdateNotifications: [],
+      catalogSetupUpdateNotifications: [],
+      inventoryProcessingNotification: [],
+      invoicingNotifications: [],
+      orderProcessingNotification: [],
+      purchaseOrderNotification: [],
+      remittanceNotifications: [],
+      returnProcessingNotification: [],
+    };
+    notificationList?.notificationGroups?.forEach((notification: any) => {
+      notification?.emails.forEach((emails: any) => {
+        const array: any[] = payload[notification?.typeId];
+        array.push(emails?.email);
+      });
+    });
+
+    console.log(payload);
   }
 
   submitForm() {
-    const valid = this.formValidationService.checkFormValidity(
-      this.notificationEmailForm,
-      this.formFieldOnUI
-    );
-
-    if (valid) {
-      this.isLoading = true;
-      let payload = this.notificationEmailForm.value;
-      const addPayload = [];
-
-      // Parse the dates
-      const start: any = new Date(payload?.startDate);
-      const end: any = new Date(payload?.endDate);
-
-      // Calculate the difference in time
-      const diffTime = end - start;
-
-      // Calculate the difference in days
-      const diffDays = diffTime / (1000 * 60 * 60 * 24);
-      for (let index = 0; index < diffDays; index++) {
-        addPayload.push({
-          closureDate: moment(start).add(index, 'days').format('YYYY-MM-DD'),
-          remark: payload.remark,
-        });
-      }
-      payload = {
-        newShippingClosures: addPayload,
-        partnerCode: 'TDA',
-      };
-      setTimeout(() => {
-        console.log(payload);
-        this.isLoading = false;
-        this.notificationEmailForm?.reset();
-        this.showSection = this.section.TABLE;
-      }, 500);
-    } else {
-      Object.values(this.notificationEmailForm.controls).forEach((control) => {
-        if (control.invalid) {
-          if (control instanceof FormControl) {
-            control.markAsDirty();
-            control.updateValueAndValidity({ onlySelf: true });
-          }
-        }
-      });
-    }
+    // const valid = this.formValidationService.checkFormValidity(
+    //   this.notificationEmailForm,
+    //   this.formFieldOnUI
+    // );
+    // if (valid) {
+    //   this.isLoading = true;
+    //   const payload = {
+    //     newShippingClosures: 'addPayload',
+    //     partnerCode: 'TDA',
+    //   };
+    //   setTimeout(() => {
+    //     console.log(payload);
+    //     this.isLoading = false;
+    //     this.notificationEmailForm?.reset();
+    //     this.showSection = this.section.TABLE;
+    //   }, 500);
+    // } else {
+    //   Object.values(this.notificationEmailForm.controls).forEach((control) => {
+    //     if (control.invalid) {
+    //       if (control instanceof FormControl) {
+    //         control.markAsDirty();
+    //         control.updateValueAndValidity({ onlySelf: true });
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   goBack() {
     if (this.showSection !== this.section.TABLE) {
       this.showSection = this.section.TABLE;
-      this.notificationEmailForm?.reset();
+      // this.notificationEmailForm?.reset();
     } else {
       this.router.navigate(['/main/setting']);
     }
