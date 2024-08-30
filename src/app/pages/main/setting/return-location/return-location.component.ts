@@ -51,6 +51,7 @@ export class ReturnLocationComponent implements OnInit {
     returnPhoneNumber: '9134981881',
     returnPhoneNumberExtension: '',
   };
+  disabledSection: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -106,8 +107,14 @@ export class ReturnLocationComponent implements OnInit {
       this.formControl['returnInternalCode'].setValue(
         `${'BYD'}-RETURN-LOCATION-001`
       );
+      this.disabledSection = false;
+      this.formControl['returnCity'].enable();
+      this.formControl['returnZipCode'].enable();
     } else {
       this.setValue(this.selectedData);
+      this.disabledSection = true;
+      this.formControl['returnCity'].disable();
+      this.formControl['returnZipCode'].disable();
     }
   }
 
@@ -130,8 +137,14 @@ export class ReturnLocationComponent implements OnInit {
       this.formControl['returnInternalCode'].setValue(
         `${'BYD'}-RETURN-LOCATION-001`
       );
+      this.disabledSection = false;
+      this.formControl['returnCity'].enable();
+      this.formControl['returnZipCode'].enable();
     } else {
       this.setValue(this.selectedData);
+      this.disabledSection = true;
+      this.formControl['returnCity'].disable();
+      this.formControl['returnZipCode'].disable();
     }
   }
 
@@ -149,8 +162,18 @@ export class ReturnLocationComponent implements OnInit {
       selectedData?.returnAddressLine2
     );
     this.formControl['returnCity'].setValue(selectedData?.returnCity);
+    if (this.formAction !== 'Add') {
+      this.formControl['returnCity'].disable();
+    } else {
+      this.formControl['returnCity'].enable();
+    }
     this.formControl['returnState'].setValue(selectedData?.returnState);
     this.formControl['returnZipCode'].setValue(selectedData?.returnZipCode);
+    if (this.formAction !== 'Add') {
+      this.formControl['returnZipCode'].disable();
+    } else {
+      this.formControl['returnZipCode'].enable();
+    }
     this.formControl['returnTimeZone'].setValue(selectedData?.returnTimeZone);
     this.formControl['returnContactName'].setValue(
       selectedData?.returnContactName
