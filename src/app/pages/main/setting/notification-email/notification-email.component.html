@@ -1,0 +1,186 @@
+<div class="notification-email-section">
+  <div class="section-header">
+    <div class="tab-header">
+      <span>NOTIFICATION EMAILS</span>
+      <button
+        nz-button
+        nzType="default"
+        class="reset-button"
+        (click)="goBack()"
+      >
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+      </button>
+    </div>
+  </div>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <div *ngIf="showSection === section?.TABLE" class="table-section container">
+      <div class="header-action-button">
+        <span style="width: 188px"></span>
+        <nz-radio-group
+          [formControl]="formTypes"
+          nzButtonStyle="solid"
+          (ngModelChange)="changeFormType($event)"
+        >
+          <label nz-radio-button nzValue="notifications"
+            >Group By Notifications</label
+          >
+          <label nz-radio-button nzValue="emails">Group By Emails</label>
+        </nz-radio-group>
+        <button
+          nz-button
+          nzType="primary"
+          style="display: block"
+          (click)="showSection = section?.FORM"
+        >
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+          Add Notification Email
+        </button>
+      </div>
+      <div class="table-section">
+        <div nz-row class="type-list-section">
+          <div
+            nz-col
+            nzSpan="24"
+            id="header-row"
+            class="d-flex justify-content-center"
+          >
+            <div
+              nz-col
+              nzSpan="6"
+              class="d-flex justify-content-center align-items-center border border-right-0"
+              style="padding: 8px"
+            >
+              <b>Email</b>
+            </div>
+            <div
+              nz-col
+              nzSpan="10"
+              class="d-flex justify-content-center align-items-center border border-right-0"
+              style="padding: 8px"
+            >
+              <b>Notification Type</b>
+            </div>
+            <div
+              nz-col
+              nzSpan="4"
+              class="d-flex justify-content-center align-items-center border"
+              style="padding: 8px"
+            >
+              <b>Action</b>
+            </div>
+          </div>
+        </div>
+
+        <div nz-row class="type-list-section data-row">
+          <div nz-col nzSpan="24" class="d-flex justify-content-center">
+            <div
+              nz-col
+              nzSpan="6"
+              class="d-flex justify-content-center align-items-center"
+              nzBordered
+              style="border-top: 0; padding: 8px"
+            >
+              <div class="w-75">
+                <input
+                  nz-input
+                  type="email"
+                  class="form-control form-control-sm single-email-input"
+                  disabled
+                />
+              </div>
+              <div class="mx-2" style="width: 18px">
+                <a
+                  class="p-0 edit-button cursor-pointer"
+                  nz-tooltip
+                  nzTitle="Edit Email"
+                  style="display: flex"
+                >
+                  <i nz-icon nzType="edit" nzTheme="outline"></i>
+                </a>
+                <a
+                  class="p-0 edit-button cursor-pointer"
+                  nz-tooltip
+                  nzTitle="Reset Email"
+                  style="color: #2020c3; display: none"
+                >
+                  <i nz-icon nzType="reload" nzTheme="outline"></i>
+                </a>
+              </div>
+            </div>
+
+            <div
+              nz-col
+              nzSpan="10"
+              class="d-flex justify-content-center align-items-center"
+              nzBordered
+              style="border-top: 0; border-left: 0; padding: 8px"
+            >
+              <div style="width: fit-content"></div>
+            </div>
+
+            <div
+              nz-col
+              nzSpan="4"
+              class="d-flex justify-content-center align-items-center"
+              nzBordered
+              style="border-top: 0; border-left: 0; padding: 8px"
+            >
+              <a
+                class="delete-notification-email-btn p-0 delete-button cursor-pointer"
+                nz-tooltip
+                nzTitle="Delete Email"
+              >
+                <i nz-icon nzType="delete" nzTheme="outline"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showSection === section?.FORM" class="form-section container">
+      <div class="section-header" style="margin-top: 0">
+        <div
+          class="tab-header justify-content-center"
+          style="border-bottom: 0px; padding: 0px"
+        >
+          <span>Add Notification Email</span>
+        </div>
+      </div>
+      <form [formGroup]="notificationEmailForm">
+        <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isLoading"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

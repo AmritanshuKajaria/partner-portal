@@ -98,7 +98,7 @@ export class ShipOutLocationComponent implements OnInit {
   formTitle: string = this.formAction.ADD;
   showSection: string = this.section.TABLE;
 
-  shippingClosureForm!: FormGroup;
+  shipOutLocationForm!: FormGroup;
   formFieldOnUI = {
     internalCode: true,
     externalCode: true,
@@ -127,7 +127,7 @@ export class ShipOutLocationComponent implements OnInit {
   ngOnInit(): void {
     this.shipOutLocationList = this.activateList;
 
-    this.shippingClosureForm = this.formBuilder.group({
+    this.shipOutLocationForm = this.formBuilder.group({
       internalCode: [
         { value: 'FDC-LOC-001', disabled: true },
         [
@@ -159,7 +159,7 @@ export class ShipOutLocationComponent implements OnInit {
   }
 
   get formControl() {
-    return this.shippingClosureForm.controls;
+    return this.shipOutLocationForm.controls;
   }
 
   changeFormType(event: string) {
@@ -179,7 +179,7 @@ export class ShipOutLocationComponent implements OnInit {
   }
 
   phoneInputField() {
-    const phoneNumberControl = this.shippingClosureForm.get('phoneNumber');
+    const phoneNumberControl = this.shipOutLocationForm.get('phoneNumber');
     let input = phoneNumberControl?.value;
     let formattedInput = this.formValidationService.setUSFormate(input);
 
@@ -191,7 +191,7 @@ export class ShipOutLocationComponent implements OnInit {
   addAction() {
     this.showSection = this.section.FORM;
     this.formTitle = this.formAction.ADD;
-    this.shippingClosureForm.reset();
+    this.shipOutLocationForm.reset();
     this.setInternalCode();
   }
 
@@ -218,7 +218,7 @@ export class ShipOutLocationComponent implements OnInit {
 
   reset() {
     if (this.formTitle === this.formAction?.ADD) {
-      this.shippingClosureForm?.reset();
+      this.shipOutLocationForm?.reset();
       this.setInternalCode();
     } else {
       this.patchFormValue(this.selectedShipOutLocation);
@@ -255,7 +255,7 @@ export class ShipOutLocationComponent implements OnInit {
 
   submitForm() {
     const valid = this.formValidationService.checkFormValidity(
-      this.shippingClosureForm,
+      this.shipOutLocationForm,
       this.formFieldOnUI
     );
 
@@ -305,11 +305,11 @@ export class ShipOutLocationComponent implements OnInit {
       setTimeout(() => {
         console.log(payload);
         this.isLoading = false;
-        this.shippingClosureForm?.reset();
+        this.shipOutLocationForm?.reset();
         this.showSection = this.section.TABLE;
       }, 500);
     } else {
-      Object.values(this.shippingClosureForm.controls).forEach((control) => {
+      Object.values(this.shipOutLocationForm.controls).forEach((control) => {
         if (control.invalid) {
           if (control instanceof FormControl) {
             control.markAsDirty();
@@ -340,7 +340,7 @@ export class ShipOutLocationComponent implements OnInit {
   goBack() {
     if (this.showSection !== this.section.TABLE) {
       this.showSection = this.section.TABLE;
-      this.shippingClosureForm?.reset();
+      this.shipOutLocationForm?.reset();
     } else {
       this.router.navigate(['/main/setting']);
     }

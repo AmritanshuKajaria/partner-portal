@@ -12,6 +12,7 @@ import { ContactComponent } from './contact/contact.component';
 import { ShippingClosuresComponent } from './shipping-closures/shipping-closures.component';
 import { ReturnLocationComponent } from './return-location/return-location.component';
 import { ShipOutLocationComponent } from './ship-out-location/ship-out-location.component';
+import { NotificationEmailComponent } from './notification-email/notification-email.component';
 
 const routes: Routes = [
   {
@@ -57,6 +58,10 @@ const routes: Routes = [
   {
     path: 'coi',
     component: COIComponent,
+  },
+  {
+    path: 'notification-email',
+    component: NotificationEmailComponent,
   },
   {
     path: 'contacts',

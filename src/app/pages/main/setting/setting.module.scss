@@ -72,10 +72,76 @@ nz-time-picker {
     border-right: 1px solid $border !important;
 }
 
+.border-right-0 {
+    border: 0px;
+}
+
 .body-section {
-    padding: 20px;
+    padding: 16px;
     height: calc(100vh - 155px);
     overflow-y: auto;
+
+    .table-section {
+        .header-action-button {
+            display: flex;
+            justify-content: space-between;
+            padding-bottom: 16px;
+
+            button {
+                border-radius: 4px;
+            }
+
+
+            ::ng-deep .ant-radio-group-solid {
+
+                border: 1px solid #2121c3;
+                border-radius: 50px;
+                display: flex;
+                width: 352px;
+
+                .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled) {
+                    color: $white;
+                    background: $darkBlue;
+                    border-color: $darkBlue;
+                    border: 1px solid $darkBlue;
+                    border-radius: 50px;
+                    width: 175px;
+                    display: flex;
+                    justify-content: center;
+                }
+
+                .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled):focus-within {
+                    box-shadow: none;
+                }
+
+                .ant-radio-button-wrapper:hover {
+                    color: $darkBlue;
+                }
+
+                .ant-radio-button-wrapper-checked:not(.ant-radio-button-wrapper-disabled)::before {
+                    background-color: $white;
+                }
+
+                .ant-radio-button-wrapper:not(:first-child)::before {
+                    background-color: $white;
+                }
+
+                .ant-radio-button-wrapper-checked:hover {
+                    color: $white;
+                }
+
+                .ant-radio-button-wrapper {
+                    border: 1px solid $white;
+                    border-radius: 50px;
+                    color: $darkBlue;
+                    width: 175px;
+                    display: flex;
+                    justify-content: center;
+                }
+            }
+
+        }
+    }
 
     form {
         nz-form-item {
