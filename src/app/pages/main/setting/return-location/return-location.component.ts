@@ -105,7 +105,7 @@ export class ReturnLocationComponent implements OnInit {
     if (this.formTitle === 'Add') {
       this.setValue('');
       this.formControl['returnInternalCode'].setValue(
-        `${'BYD'}-RETURN-LOCATION-001`
+        `TAC-RETURN-LOCATION-002`
       );
       this.disabledSection = false;
       this.formControl['returnCity'].enable();
@@ -135,7 +135,7 @@ export class ReturnLocationComponent implements OnInit {
     this.formControl['formType'].setValue(formType);
     if (this.formTitle === 'Add') {
       this.formControl['returnInternalCode'].setValue(
-        `${'BYD'}-RETURN-LOCATION-001`
+        `TAC-RETURN-LOCATION-002`
       );
       this.disabledSection = false;
       this.formControl['returnCity'].enable();
