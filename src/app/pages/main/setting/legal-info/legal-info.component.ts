@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import {
   CanadaStates,
@@ -57,7 +58,7 @@ export class LegalInfoComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private fb: FormBuilder,
-    private formValidationService: FormValidationService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -155,6 +156,6 @@ export class LegalInfoComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/main/setting']);
   }
 }

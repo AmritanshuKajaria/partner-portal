@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
@@ -39,7 +40,7 @@ export class COIComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private formBuilder: FormBuilder,
-    private formValidationService: FormValidationService
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -187,6 +188,6 @@ export class COIComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/main/setting']);
   }
 }

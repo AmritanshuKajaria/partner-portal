@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Section, TimeZone } from 'src/app/shared/constants/constants';
@@ -57,7 +58,8 @@ export class ShippingClosuresComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
-    private modal: NzModalService
+    private modal: NzModalService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -178,7 +180,7 @@ export class ShippingClosuresComponent implements OnInit {
       this.showSection = this.section.TABLE;
       this.shippingClosureForm?.reset();
     } else {
-      window.history.back();
+      this.router.navigate(['/main/setting']);
     }
   }
 }

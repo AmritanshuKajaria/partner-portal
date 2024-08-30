@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 
@@ -26,10 +27,7 @@ export class RemittanceInfoComponent implements OnInit {
     discountPercentage: true,
   };
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private formValidationService: FormValidationService
-  ) {}
+  constructor(private formBuilder: FormBuilder, private router: Router) {}
 
   ngOnInit(): void {
     this.remittanceInfoForm = this.formBuilder.group({
@@ -83,6 +81,6 @@ export class RemittanceInfoComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/main/setting']);
   }
 }

@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   EnabledCarriersOptions,
   ReturnProfileOptions,
@@ -45,7 +46,8 @@ export class OrderProcessingReturnComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private fb: FormBuilder,
-    private formValidationService: FormValidationService
+    private formValidationService: FormValidationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -215,6 +217,6 @@ export class OrderProcessingReturnComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/main/setting']);
   }
 }

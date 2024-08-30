@@ -11,6 +11,7 @@ import { LegalInfoComponent } from './legal-info/legal-info.component';
 import { ContactComponent } from './contact/contact.component';
 import { ShippingClosuresComponent } from './shipping-closures/shipping-closures.component';
 import { ReturnLocationComponent } from './return-location/return-location.component';
+import { ShipOutLocationComponent } from './ship-out-location/ship-out-location.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
   {
     path: 'shipping-closures',
     component: ShippingClosuresComponent,
+  },
+  {
+    path: 'ship-out-location',
+    component: ShipOutLocationComponent,
   },
   {
     path: 'return-location',

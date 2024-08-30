@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import {
   FormAction,
   TimeZone,
@@ -55,7 +56,8 @@ export class ReturnLocationComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private formValidationService: FormValidationService
+    private formValidationService: FormValidationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -253,6 +255,6 @@ export class ReturnLocationComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/main/setting']);
   }
 }

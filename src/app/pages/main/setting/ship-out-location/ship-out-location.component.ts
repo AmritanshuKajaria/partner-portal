@@ -16,50 +16,80 @@ import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss'],
+  selector: 'app-ship-out-location',
+  templateUrl: './ship-out-location.component.html',
+  styleUrls: ['./ship-out-location.component.scss'],
 })
-export class ContactComponent implements OnInit {
+export class ShipOutLocationComponent implements OnInit {
   section = Section;
   formAction = FormAction;
   isLoading: boolean = false;
   labelList: any = {
-    firstName: 'First Name',
-    contactPhoneNumberExtension: 'Phone Extension',
-    lastName: 'Last Name',
-    contactPhoneNumber: 'Phone Number',
-    contactTimeZone: 'Time Zone',
-    arrRoles: 'Role',
-    designation: 'Designation',
-    extra: '',
+    internalCode: 'Internal Code',
+    zipCode: 'Zip Code',
+    externalCode: 'External Code',
+    timeZone: 'Time Zone',
+    addressLine1: 'Address Line1',
+    cutOffTime: 'Cut Off Time',
+    addressLine2: 'Address Line2',
+    contactName: 'Contact Name',
+    city: 'City',
+    phoneNumber: 'Phone Number',
+    state: 'State',
+    phoneNumberExtension: 'Phone Extension',
   };
-  contactList: any = [
+
+  shipOutLocationList: any = [];
+  activateList = [
     {
-      contactId: '264',
-      partnerId: '101',
-      firstName: 'Customer Service Desk',
-      lastName: 'wer43',
-      designation: 'Customer Service',
-      contactPhoneNumber: '9099441980',
-      contactPhoneNumberExtension: '',
-      contactTimeZone: 'PST',
-      notes: '',
-      arrRoles: [1, 3, 5],
-      isDeleted: 0,
+      internalCode: 'FDC-LOC-002',
+      externalCode: 'CA-91730',
+      addressLine1: '4D Concepts,',
+      addressLine2: '9120 Center Avenue Rancho Cucamonga',
+      city: 'Rancho Cucamonga',
+      state: 'CA',
+      zipCode: '91730',
+      country: 'US',
+      timeZone: 'PST',
+      cutOffTime: '06:00:00',
+      contactName: 'Jeff Riegsecker',
+      phoneNumber: '9099441980',
+      phoneNumberExtension: '',
+      isActive: '1',
     },
     {
-      contactId: '264',
-      partnerId: '101',
-      firstName: 'Customer Service Desk',
-      lastName: 'wer43',
-      designation: 'Customer Service',
-      contactPhoneNumber: '9099441980',
-      contactPhoneNumberExtension: '',
-      contactTimeZone: 'PST',
-      notes: '',
-      arrRoles: [2, 4],
-      isDeleted: 0,
+      internalCode: 'FDC-LOC-003',
+      externalCode: '4DC Salley',
+      addressLine1: '5244 Festival Trail Road',
+      addressLine2: '',
+      city: 'Salley',
+      state: 'SC',
+      zipCode: '29137',
+      country: 'US',
+      timeZone: 'EST',
+      cutOffTime: '16:00:00',
+      contactName: 'Charles Edgeman',
+      phoneNumber: '9099441980',
+      phoneNumberExtension: '33',
+      isActive: '1',
+    },
+  ];
+  deactivateList = [
+    {
+      internalCode: 'FDC-LOC-001',
+      externalCode: 'CA-91730',
+      addressLine1: '11699 6TH Street',
+      addressLine2: '',
+      city: 'Rancho Cucamonga',
+      state: 'CA',
+      zipCode: '91730',
+      country: 'US',
+      timeZone: 'PST',
+      cutOffTime: '18:00:00',
+      contactName: 'Jeff Riegsecker',
+      phoneNumber: '9099441980',
+      phoneNumberExtension: '',
+      isActive: '0',
     },
   ];
   dropDownList: any = null;
@@ -67,7 +97,7 @@ export class ContactComponent implements OnInit {
   formTitle: string = this.formAction.ADD;
   showSection: string = this.section.TABLE;
 
-  contactForm!: FormGroup;
+  shippingClosureForm!: FormGroup;
   formFieldOnUI = {
     firstName: true,
     lastName: true,
@@ -78,6 +108,7 @@ export class ContactComponent implements OnInit {
     arrRoles: true,
   };
   selectedContact: any = null;
+  formTypes = new FormControl('active');
 
   constructor(
     private commonService: CommonService,
@@ -88,6 +119,7 @@ export class ContactComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.shipOutLocationList = this.activateList;
     this.isLoading = true;
     this.commonService.getJsonData().subscribe(
       (res) => {
@@ -100,7 +132,7 @@ export class ContactComponent implements OnInit {
       }
     );
 
-    this.contactForm = this.formBuilder.group({
+    this.shippingClosureForm = this.formBuilder.group({
       firstName: [
         '',
         [
@@ -140,7 +172,16 @@ export class ContactComponent implements OnInit {
   }
 
   get formControl() {
-    return this.contactForm.controls;
+    return this.shippingClosureForm.controls;
+  }
+
+  changeFormType(event: string) {
+    console.log(event);
+    if (event === 'active') {
+      this.shipOutLocationList = this.activateList;
+    } else {
+      this.shipOutLocationList = this.deactivateList;
+    }
   }
 
   objectKeys(obj: any): any[] {
@@ -149,7 +190,7 @@ export class ContactComponent implements OnInit {
 
   phoneInputField() {
     const contactPhoneNumberControl =
-      this.contactForm.get('contactPhoneNumber');
+      this.shippingClosureForm.get('contactPhoneNumber');
     let input = contactPhoneNumberControl?.value;
     let formattedInput = this.formValidationService.setUSFormate(input);
 
@@ -157,19 +198,6 @@ export class ContactComponent implements OnInit {
     formattedInput = formattedInput.substring(0, 12);
     contactPhoneNumberControl?.setValue(formattedInput);
   }
-
-  // Convert Id to label
-  getRoleLabelList = (arrRoles: any) => {
-    let matchingValues = [];
-    if (arrRoles) {
-      matchingValues = arrRoles.map((res: any) => {
-        return this.dropDownList?.contactRoles.find(
-          (role: any) => role.value == res
-        )?.name;
-      });
-    }
-    return matchingValues.join(', ');
-  };
 
   editAction(data: any) {
     this.showSection = this.section.FORM;
@@ -187,10 +215,12 @@ export class ContactComponent implements OnInit {
     this.formControl['arrRoles'].setValue(data?.arrRoles);
   }
 
-  deleteAction(data: any) {
+  changeStatus(data: any) {
     this.modal.confirm({
-      nzTitle: 'Delete Contact',
-      nzContent: 'Are you sure you want to remove the Manager Contact Details?',
+      nzTitle: data?.isActive === '1' ? 'Deactivate' : 'Activate',
+      nzContent: `Are you sure you want to ${
+        data?.isActive === '1' ? 'Deactivate' : 'Activate'
+      } this Ship-Out Location?`,
       nzOnOk: () =>
         new Promise((resolve, reject) => {
           setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
@@ -201,7 +231,7 @@ export class ContactComponent implements OnInit {
 
   reset() {
     if (this.formTitle === this.formAction?.ADD) {
-      this.contactForm?.reset();
+      this.shippingClosureForm?.reset();
     } else {
       this.formControl['firstName'].setValue(this.selectedContact?.firstName);
       this.formControl['lastName'].setValue(this.selectedContact?.lastName);
@@ -223,7 +253,7 @@ export class ContactComponent implements OnInit {
 
   submitForm() {
     const valid = this.formValidationService.checkFormValidity(
-      this.contactForm,
+      this.shippingClosureForm,
       this.formFieldOnUI
     );
 
@@ -257,11 +287,11 @@ export class ContactComponent implements OnInit {
       setTimeout(() => {
         console.log(payload);
         this.isLoading = false;
-        this.contactForm?.reset();
+        this.shippingClosureForm?.reset();
         this.showSection = this.section.TABLE;
       }, 500);
     } else {
-      Object.values(this.contactForm.controls).forEach((control) => {
+      Object.values(this.shippingClosureForm.controls).forEach((control) => {
         if (control.invalid) {
           if (control instanceof FormControl) {
             control.markAsDirty();
@@ -275,7 +305,7 @@ export class ContactComponent implements OnInit {
   goBack() {
     if (this.showSection !== this.section.TABLE) {
       this.showSection = this.section.TABLE;
-      this.contactForm?.reset();
+      this.shippingClosureForm?.reset();
     } else {
       this.router.navigate(['/main/setting']);
     }

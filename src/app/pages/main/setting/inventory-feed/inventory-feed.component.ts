@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 
@@ -31,7 +32,8 @@ export class InventoryFeedComponent implements OnInit {
   constructor(
     private commonService: CommonService,
     private fb: FormBuilder,
-    private formValidationService: FormValidationService
+    private formValidationService: FormValidationService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -204,6 +206,6 @@ export class InventoryFeedComponent implements OnInit {
   }
 
   goBack() {
-    window.history.back();
+    this.router.navigate(['/main/setting']);
   }
 }

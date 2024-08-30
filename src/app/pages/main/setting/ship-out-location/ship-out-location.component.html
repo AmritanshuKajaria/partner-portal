@@ -1,0 +1,351 @@
+<div class="contact-section">
+  <div class="section-header">
+    <div class="tab-header">
+      <span>SHIP-OUT LOCATION</span>
+      <button
+        nz-button
+        nzType="default"
+        class="reset-button"
+        (click)="goBack()"
+      >
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+      </button>
+    </div>
+  </div>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <div *ngIf="showSection === section?.TABLE" class="table-section container">
+      <div class="header-action-button">
+        <span style="width: 188px"></span>
+        <nz-radio-group
+          [formControl]="formTypes"
+          nzButtonStyle="solid"
+          (ngModelChange)="changeFormType($event)"
+        >
+          <label nz-radio-button nzValue="active">Active Locations</label>
+          <label nz-radio-button nzValue="in-active">In-Active Locations</label>
+        </nz-radio-group>
+        <button
+          nz-button
+          nzType="primary"
+          style="display: block"
+          (click)="showSection = section?.FORM"
+        >
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+          Add Shipping Closure
+        </button>
+      </div>
+      <div *ngFor="let item of shipOutLocationList" style="margin-bottom: 28px">
+        <div nz-row>
+          <div nz-col [nzXs]="{ span: 19 }" [nzLg]="{ span: 21 }">
+            <div class="row-section" nz-row>
+              <div
+                *ngFor="let row of objectKeys(labelList)"
+                class="col-section border-top"
+                [ngClass]="{
+                  'border-bottom':
+                    row[0] === 'state' || row[0] === 'phoneNumberExtension'
+                }"
+                nz-col
+                nzSpan="12"
+              >
+                <div
+                  class="d-flex align-items-center border-left"
+                  style="padding: 6px 0.5rem; min-width: 135px"
+                >
+                  <strong>{{ row[1] }}</strong>
+                </div>
+                <div
+                  class="d-flex align-items-center"
+                  style="
+                    padding: 6px 16px;
+                    width: 100%;
+                    border-left: 1px solid #dee2e6;
+                  "
+                >
+                  {{ item[row[0]] }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="actions" nz-col [nzXs]="{ span: 5 }" [nzLg]="{ span: 3 }">
+            <div class="d-flex gap-2">
+              <a
+                nzTooltipTitle="Edit"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                style="margin: 0 5px; color: #2121c3; font-size: large"
+                (click)="editAction(item)"
+                *ngIf="formTypes.value === 'active'"
+              >
+                <span nz-icon nzType="edit" nzTheme="outline"></span>
+              </a>
+              <span *ngIf="formTypes.value === 'active'">|</span>
+              <a
+                nzTooltipTitle="Deactivate"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                style="margin: 0 5px; color: red"
+                (click)="changeStatus(item)"
+                *ngIf="formTypes.value === 'active'"
+              >
+                Deactivate
+              </a>
+              <a
+                nzTooltipTitle="Activate"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                style="margin: 0 5px; color: #37b837"
+                (click)="changeStatus(item)"
+                *ngIf="formTypes.value === 'in-active'"
+              >
+                Activate
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showSection === section?.FORM" class="form-section container">
+      <div class="section-header" style="margin-top: 0">
+        <div
+          class="tab-header justify-content-center"
+          style="border-bottom: 0px; padding: 0px"
+        >
+          <span>{{ formTitle }} Shipping Closure</span>
+        </div>
+      </div>
+      <form [formGroup]="shippingClosureForm">
+        <nz-form-item *ngIf="formFieldOnUI?.firstName">
+          <nz-form-label class="label-section"
+            >First Name <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="firstNameError">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter First Name"
+                formControlName="firstName"
+              />
+              <ng-template #firstNameError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >First name is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >First name can only be between 1 & 255<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.lastName">
+          <nz-form-label class="label-section"
+            >Last Name <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="lastNameError">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Last Name"
+                formControlName="lastName"
+              />
+              <ng-template #lastNameError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Last name is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Last name can only be between 1 & 255<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.designation">
+          <nz-form-label class="label-section"
+            >Designation <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="designationError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Designation"
+                formControlName="designation"
+              />
+              <ng-template #designationError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Designation is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 character<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Designation can only be between 1 & 255<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.contactPhoneNumber">
+          <nz-form-label class="label-section"
+            >Phone Number <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="contactPhoneNumberError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Phone Number"
+                formControlName="contactPhoneNumber"
+                (input)="phoneInputField()"
+              />
+              <ng-template #contactPhoneNumberError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Phone number is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Phone number can only be 10 digits<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.contactPhoneNumberExtension">
+          <nz-form-label class="label-section"
+            >Phone Number Extension</nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="contactPhoneNumberExtensionError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Phone Number Extension"
+                formControlName="contactPhoneNumberExtension"
+              />
+              <ng-template #contactPhoneNumberExtensionError let-control>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Please input minimum 1 digit<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Phone number extension can only be between 1 & 5<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('pattern')"
+                  >Phone number extension can only number<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.contactTimeZone">
+          <nz-form-label class="label-section"
+            >Time Zone <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="contactTimeZoneError"
+          >
+            <nz-input-group class="small-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select Time Zone"
+                formControlName="contactTimeZone"
+              >
+                <nz-option
+                  *ngFor="let option of timeZone"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.value"
+                ></nz-option>
+              </nz-select>
+              <ng-template #contactTimeZoneError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Time zone is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.arrRoles">
+          <nz-form-label class="label-section"
+            >Role <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="arrRolesError">
+            <nz-input-group class="medium-input">
+              <nz-select
+                nzPlaceHolder="Select Role"
+                formControlName="arrRoles"
+                nzMode="multiple"
+              >
+                <nz-option
+                  *ngFor="let option of dropDownList?.contactRoles"
+                  [nzLabel]="option?.name"
+                  [nzValue]="option?.value"
+                ></nz-option>
+              </nz-select>
+              <ng-template #arrRolesError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Role is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isLoading"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
