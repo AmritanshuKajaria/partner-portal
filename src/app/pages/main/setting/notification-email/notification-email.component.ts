@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -335,8 +336,50 @@ export class NotificationEmailComponent implements OnInit {
     returnProcessingNotification: 'Return Processing Notification',
   };
 
+  notificationsOptions: any = [
+    {
+      name: 'Account Setup Update Notifications',
+      value: 'accountSetupUpdateNotifications',
+    },
+    {
+      name: 'Catalog Setup Update Notifications',
+      value: 'catalogSetupUpdateNotifications',
+    },
+    {
+      name: 'Inventory Processing Notification',
+      value: 'inventoryProcessingNotification',
+    },
+    {
+      name: 'Invoicing Notifications',
+      value: 'invoicingNotifications',
+    },
+    {
+      name: 'Order Processing Notification',
+      value: 'orderProcessingNotification',
+    },
+    {
+      name: 'Purchase Order Notification',
+      value: 'purchaseOrderNotification',
+    },
+    {
+      name: 'Remittance Notifications',
+      value: 'remittanceNotifications',
+    },
+    {
+      name: 'Return Processing Notification',
+      value: 'returnProcessingNotification',
+    },
+  ];
+
   groupByNotificationForm!: FormGroup;
   groupByEmailForm!: FormGroup;
+  addEmailNotificationsForm!: FormGroup;
+  notificationsInputLimit = 10;
+  emailInputLimit = 8;
+  dropDownList: any = null;
+
+  oldGroupByNotificationsData: any;
+  oldGroupByEmailsData: any;
 
   constructor(private formBuilder: FormBuilder, private router: Router) {}
 
@@ -344,26 +387,62 @@ export class NotificationEmailComponent implements OnInit {
     this.groupByNotificationForm = this.formBuilder.group({
       notificationGroups: this.formBuilder.array([]),
     });
+    this.groupByEmailForm = this.formBuilder.group({
+      emailGroups: this.formBuilder.array([]),
+    });
+
+    this.addEmailNotificationsForm = this.formBuilder.group({
+      email: ['', [Validators?.required]],
+      notifications: this.formBuilder.array([]),
+    });
     this.initializeForm(this.allDataList);
-    // this.initializeForm1();
   }
 
   changeFormType(event: string) {
-    if (event === 'notifications') {
-      // this.notificationEmailList = this.newnotificationEmailList;
-    } else {
-      // this.notificationEmailList = this.oldnotificationEmailList;
-    }
+    this.initializeForm(this.allDataList);
   }
+
+  clearFormArray = (formArray: FormArray) => {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0);
+    }
+  };
 
   // Method to get the form array for notification groups
   get notificationGroups(): FormArray {
     return this.groupByNotificationForm.get('notificationGroups') as FormArray;
   }
 
+  // Method to get the form array for notification groups
+  get emailGroups(): FormArray {
+    return this.groupByEmailForm.get('emailGroups') as FormArray;
+  }
+
+  get addFormNotificationGroups(): FormArray {
+    return this.addEmailNotificationsForm.get('notifications') as FormArray;
+  }
+
+  trackByFn(index: number, item: AbstractControl): number {
+    return index;
+  }
+
+  clearFormGroups = (formGroup: FormGroup) => {
+    Object.keys(formGroup.controls).forEach((key) => {
+      const control = formGroup.get(key);
+
+      if (control instanceof FormGroup) {
+        this.clearFormGroups(control);
+      } else if (control instanceof FormArray) {
+        this.clearFormArray(control);
+      }
+    });
+  };
+
   initializeForm(values: any) {
     if (values) {
       if (this.formTypes.value === 'notifications') {
+        this.clearFormGroups(this.groupByNotificationForm);
+
         const array: any = this.groupByNotificationForm.get(
           'notificationGroups'
         ) as FormArray;
@@ -390,7 +469,10 @@ export class NotificationEmailComponent implements OnInit {
             }
           }
         );
+        this.oldGroupByNotificationsData = this.groupByNotificationForm.value;
+        console.log(this.groupByNotificationForm.value);
       } else {
+        this.clearFormGroups(this.groupByEmailForm);
         let groupByEmailValues: any = {};
         // Create the data object
         Object.keys(this.groupByNotificationTypeIdLabels).forEach((key) => {
@@ -406,14 +488,57 @@ export class NotificationEmailComponent implements OnInit {
           }
         });
 
+        this.oldGroupByEmailsData = groupByEmailValues;
+
+        const array: any = this.groupByEmailForm.get(
+          'emailGroups'
+        ) as FormArray;
+
         // Re-create the section
         Object.keys(groupByEmailValues).forEach((key, index) => {
           if (groupByEmailValues[key] && groupByEmailValues[key].length > 0) {
-            console.log(groupByEmailValues[key], index, key);
+            const emailGroup = this.formBuilder.group({
+              email: [
+                { value: key, disabled: true },
+                [
+                  Validators.required,
+                  Validators.email,
+                  Validators.maxLength(255),
+                ],
+              ],
+              oldEmail: [key],
+            });
+
+            const notificationGroups: any = [];
+            groupByEmailValues[key].forEach((notification: string) => {
+              notificationGroups.push(
+                this.formBuilder.group({
+                  notification: [notification, [Validators.required]],
+                })
+              );
+            });
+            const group = this.formBuilder.group({
+              email: emailGroup,
+              notifications: this.formBuilder.array(notificationGroups),
+            });
+
+            array.push(group);
           }
         });
       }
     }
+  }
+
+  enableEmailInput(control: any) {
+    control.enable();
+  }
+
+  resetEmailInput(group: any) {
+    const control = group?.get('email');
+    const oldEmailValue = group?.get('oldEmail')?.value;
+
+    control.setValue(oldEmailValue);
+    control.disable();
   }
   // Method to create a new notification email form group
   newNotificationEmail(emailValue = ''): FormGroup {
@@ -439,6 +564,33 @@ export class NotificationEmailComponent implements OnInit {
       .at(groupIndex)
       .get('emails') as FormArray;
     emailsArray.removeAt(emailIndex);
+  }
+
+  // Method to create a new notification email form group
+  newNotification(notificationValue = ''): FormGroup {
+    return this.formBuilder.group({
+      notification: [notificationValue, [Validators.required]],
+    });
+  }
+
+  // Method to add a new email to a specific notification group
+  addNotification(index: number) {
+    const notificationsArray = this.emailGroups
+      .at(index)
+      .get('notifications') as FormArray;
+    notificationsArray.push(this.newNotification());
+  }
+
+  // Method to remove an email from a specific notification group
+  removeNotification(groupIndex: number, emailIndex: number) {
+    const notificationsArray = this.emailGroups
+      .at(groupIndex)
+      .get('notifications') as FormArray;
+    notificationsArray.removeAt(emailIndex);
+  }
+
+  removeGroupByEmailRow(groupIndex: number) {
+    this.emailGroups.removeAt(groupIndex);
   }
 
   deleteAction(data: any) {}
@@ -497,6 +649,26 @@ export class NotificationEmailComponent implements OnInit {
     //     }
     //   });
     // }
+  }
+
+  onAddNotificationForm() {
+    this.showSection = this.section?.FORM;
+    this.clearFormGroups(this.addEmailNotificationsForm);
+
+    // set up the form
+    this.addFormNotificationGroups.push(
+      this.formBuilder.control('', [Validators.required])
+    );
+  }
+
+  addNotificationFromAddForm() {
+    this.addFormNotificationGroups.push(
+      this.formBuilder.control('', [Validators.required])
+    );
+  }
+
+  removeNotificationFromAddForm(index: any) {
+    this.addFormNotificationGroups.removeAt(index);
   }
 
   goBack() {
