@@ -1,5 +1,7 @@
 @import "../../../../assets/variable/variable.scss";
 
+.setting-section{
+
 ::ng-deep .ant-picker.ant-picker-disabled {
     background: #f5f5f5 !important;
     border-color: #d9d9d9;
@@ -314,4 +316,6 @@ nz-time-picker {
     .container-xxl {
         max-width: 1320px;
     }
+}
+
 }

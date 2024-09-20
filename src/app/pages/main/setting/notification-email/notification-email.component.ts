@@ -422,8 +422,8 @@ export class NotificationEmailComponent implements OnInit {
     return this.addEmailNotificationsForm.get('notifications') as FormArray;
   }
 
-  trackByFn(index: number, item: AbstractControl): number {
-    return index;
+  trackByFn(index: number, item: any): number {
+    return item.uniqueId;
   }
 
   clearFormGroups = (formGroup: FormGroup) => {
@@ -513,6 +513,7 @@ export class NotificationEmailComponent implements OnInit {
             groupByEmailValues[key].forEach((notification: string) => {
               notificationGroups.push(
                 this.formBuilder.group({
+                  uniqueId: [Math.random().toString(36).substring(2) + Date.now().toString(36)],
                   notification: [notification, [Validators.required]],
                 })
               );
@@ -543,6 +544,7 @@ export class NotificationEmailComponent implements OnInit {
   // Method to create a new notification email form group
   newNotificationEmail(emailValue = ''): FormGroup {
     return this.formBuilder.group({
+      uniqueId: [Math.random().toString(36).substring(2) + Date.now().toString(36)],
       email: [
         emailValue,
         [Validators.required, Validators.email, Validators.maxLength(255)],
@@ -569,6 +571,7 @@ export class NotificationEmailComponent implements OnInit {
   // Method to create a new notification email form group
   newNotification(notificationValue = ''): FormGroup {
     return this.formBuilder.group({
+      uniqueId: [Math.random().toString(36).substring(2) + Date.now().toString(36)],
       notification: [notificationValue, [Validators.required]],
     });
   }
@@ -620,6 +623,8 @@ export class NotificationEmailComponent implements OnInit {
     });
 
     console.log(payload);
+    console.log(this.emailGroups.value);
+    
   }
 
   submitForm() {
