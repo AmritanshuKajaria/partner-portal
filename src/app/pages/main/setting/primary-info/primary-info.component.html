@@ -70,6 +70,24 @@
           </nz-form-control>
         </nz-form-item>
 
+        <nz-form-item *ngIf="formFieldOnUI?.accountReason">
+          <nz-form-label class="label-section"
+            >Account Inactive Reason </nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Display Name"
+                formControlName="accountReason"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
         <nz-form-item *ngIf="formFieldOnUI?.salesStatus">
           <nz-form-label class="label-section">Sales Status</nz-form-label>
           <nz-form-control class="input-section">
@@ -82,6 +100,25 @@
                   >{{ option?.name }}</label
                 >
               </nz-radio-group>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.salesReason">
+          <nz-form-label class="label-section"
+            >Sales Status Reason </nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Display Name"
+                formControlName="salesReason"
+              />
+      
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -101,6 +138,27 @@
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.paymentReason">
+          <nz-form-label class="label-section"
+            >Payment Status Reason</nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Display Name"
+                formControlName="paymentReason"
+              />
+      
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        
 
         <div class="footer-section">
           <button

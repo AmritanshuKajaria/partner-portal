@@ -19,6 +19,9 @@ export class PrimaryInfoComponent implements OnInit {
     accountStatus: true,
     salesStatus: true,
     paymentStatus: true,
+    accountReason: true,
+    salesReason: true,
+    paymentReason: true,
   };
 
   constructor(
@@ -33,6 +36,7 @@ export class PrimaryInfoComponent implements OnInit {
       (res) => {
         this.dropDownList = res;
         this.isLoading = false;
+        this.onFormChange();
       },
       (error) => {
         console.error('Error fetching JSON data', error);
@@ -45,11 +49,35 @@ export class PrimaryInfoComponent implements OnInit {
       accountStatus: [{ value: 1, disabled: true }],
       salesStatus: [{ value: 1, disabled: true }],
       paymentStatus: [{ value: 2, disabled: true }],
+      accountReason: [{ value: 'Shiv', disabled: true }],
+      salesReason: [{ value: 'Shiv', disabled: true }],
+      paymentReason: [{ value: 'Shiv', disabled: true }],
     });
   }
 
   get formControl() {
     return this.primaryInfoForm.controls;
+  }
+
+  onFormChange(): void {
+    
+    if (this.formControl['accountStatus'].value === 2) {
+      this.formFieldOnUI['accountReason'] = true;
+    } else {
+      this.formFieldOnUI['accountReason'] = false;
+    }
+
+    if (this.formControl['salesStatus'].value === 2) {
+      this.formFieldOnUI['salesReason'] = true;
+    } else {
+      this.formFieldOnUI['salesReason'] = false;
+    }
+    
+    if (this.formControl['paymentStatus'].value === 2) {
+      this.formFieldOnUI['paymentReason'] = true;
+    } else {
+      this.formFieldOnUI['paymentReason'] = false;
+    }
   }
 
   reset() {
