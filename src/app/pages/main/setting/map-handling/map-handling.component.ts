@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { PartnerService } from 'src/app/shared/service/partner.service';
 
 @Component({
   selector: 'app-map-handling',
@@ -28,7 +29,8 @@ export class MapHandlingComponent implements OnInit {
     private commonService: CommonService,
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +61,10 @@ export class MapHandlingComponent implements OnInit {
 
     this.mapHandlingForm?.valueChanges.subscribe((value) => {
       this.onFormChange();
+    });
+
+    this.partnerService.getPartner().subscribe((res) => {
+      console.log(res);
     });
   }
 
