@@ -12,6 +12,8 @@ import {
   USStates,
 } from 'src/app/shared/constants/constants';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { PartnerService } from 'src/app/shared/service/partner.service';
 
 @Component({
   selector: 'app-return-location',
@@ -20,6 +22,7 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 })
 export class ReturnLocationComponent implements OnInit {
   isLoading: boolean = false;
+  isSaving: boolean = false;
   returnLocationForm!: FormGroup;
   formFieldOnUI = {
     returnInternalCode: true,
@@ -38,29 +41,21 @@ export class ReturnLocationComponent implements OnInit {
   timeZone = TimeZone;
   formAction = FormAction;
   formTitle: string = this.formAction.EDIT;
-  selectedData = {
-    returnInternalCode: 'TAC-RETURN-LOCATION-001',
-    returnExternalCode: 'NV-89434-6531',
-    returnAddressLine1: '100 Ireland Dr',
-    returnAddressLine2: '',
-    returnCity: 'Sparks',
-    returnState: 'NV',
-    returnZipCode: '89434',
-    returnCountry: 'US',
-    returnTimeZone: 'PST',
-    returnContactName: 'Tachikara',
-    returnPhoneNumber: '9134981881',
-    returnPhoneNumberExtension: '',
-  };
+  selectedData: any;
   disabledSection: boolean = true;
 
   constructor(
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
+
+    // Initialize form
     this.returnLocationForm = this.formBuilder.group({
       formType: ['Edit'],
       returnInternalCode: [
@@ -95,13 +90,32 @@ export class ReturnLocationComponent implements OnInit {
         ],
       ],
     });
-    this.setValue(this.selectedData);
+    
+    // Get API call
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.selectedData = res.payload.returnLocation;
+        this.setValue(this.selectedData);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] ||
+            'Something went wrong fetching the data'
+        );
+        this.isLoading = false;
+      },
+    });
   }
 
+  // Get Form Control
   get formControl() {
     return this.returnLocationForm.controls;
   }
 
+  // Set Form Value
   changeFormType(event: string) {
     this.formTitle = event ? event : '';
     if (this.formTitle === 'Add') {
@@ -120,6 +134,7 @@ export class ReturnLocationComponent implements OnInit {
     }
   }
 
+  // Phone Input Field
   phoneInputField() {
     const returnPhoneNumberControl =
       this.returnLocationForm.get('returnPhoneNumber');
@@ -131,6 +146,7 @@ export class ReturnLocationComponent implements OnInit {
     returnPhoneNumberControl?.setValue(formattedInput);
   }
 
+  // Reset Form
   reset() {
     const formType = this.formControl['formType'].value;
     this.returnLocationForm?.reset();
@@ -150,6 +166,7 @@ export class ReturnLocationComponent implements OnInit {
     }
   }
 
+  // Set Form Value
   setValue(selectedData: any) {
     this.formControl['returnInternalCode'].setValue(
       selectedData?.returnInternalCode
@@ -189,6 +206,7 @@ export class ReturnLocationComponent implements OnInit {
     );
   }
 
+  // Submit Form
   submitForm() {
     const valid = this.formValidationService.checkFormValidity(
       this.returnLocationForm,
@@ -196,7 +214,7 @@ export class ReturnLocationComponent implements OnInit {
     );
 
     if (valid) {
-      this.isLoading = true;
+      this.isSaving = true;
       const payload = {
         returnInternalCode: this.formFieldOnUI['returnInternalCode']
           ? this.formControl['returnInternalCode']?.value
@@ -234,13 +252,43 @@ export class ReturnLocationComponent implements OnInit {
           ? this.formControl['returnPhoneNumberExtension']?.value
           : '',
       };
+  
       setTimeout(() => {
-        console.log(payload);
-        this.isLoading = false;
-        // this.returnLocationForm?.reset();
-        this.formControl['returnInternalCode'].setValue(
-          `FDC-RETURN-LOCATION-001`
-        );
+        console.log('payload::', payload);
+
+        this.partnerService.updatePartner(payload).subscribe({
+          next: (res) => {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.isSaving = false;
+
+            // Fetch the updated partner data after a successful update
+            this.isLoading = true;
+            this.partnerService.getPartner().subscribe({
+              next: (res: any) => {
+                this.formControl['returnInternalCode'].setValue(
+                  `FDC-RETURN-LOCATION-001`
+                );
+                this.setValue(res.payload.returnLocation);
+                this.isLoading = false;
+              },
+              error: (error) => {
+                this.message.create(
+                  'error',
+                  error?.error_message?.[0] ||
+                    'Something went wrong fetching the data'
+                );
+                this.isLoading = false;
+              },
+            });
+          },
+          error: (error: any) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] || 'Data Update failed!'
+            );
+            this.isSaving = false; // Ensure saving state is updated on error
+          },
+        });
       }, 500);
     } else {
       Object.values(this.returnLocationForm.controls).forEach((control) => {
@@ -254,6 +302,7 @@ export class ReturnLocationComponent implements OnInit {
     }
   }
 
+  // Navigate back
   goBack() {
     this.router.navigate(['/main/setting']);
   }
