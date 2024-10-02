@@ -11,6 +11,9 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { Section, TimeZone } from 'src/app/shared/constants/constants';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { PartnerService } from 'src/app/shared/service/partner.service';
+
 
 @Component({
   selector: 'app-shipping-closures',
@@ -21,30 +24,8 @@ export class ShippingClosuresComponent implements OnInit {
   section = Section;
   isLoading: boolean = false;
   shippingClosureList: any = [];
-  newShippingClosureList: any = [
-    {
-      closureDate: '2024-08-30',
-      remark: 'entity remark 1',
-      isDeleted: 0,
-    },
-    {
-      closureDate: '2024-08-31',
-      remark: 'entity remark 1',
-      isDeleted: 0,
-    },
-  ];
-  oldShippingClosureList: any = [
-    {
-      closureDate: '2024-01-30',
-      remark: 'entity remark 6',
-      isDeleted: 0,
-    },
-    {
-      closureDate: '2024-05-31',
-      remark: 'entity remark 5',
-      isDeleted: 0,
-    },
-  ];
+  newShippingClosureList: any 
+  oldShippingClosureList: any 
   formTypes = new FormControl('new');
   showSection: string = this.section.TABLE;
 
@@ -59,11 +40,14 @@ export class ShippingClosuresComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
     private modal: NzModalService,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
-    this.shippingClosureList = this.newShippingClosureList;
+    this.isLoading = true;
+
     this.shippingClosureForm = this.formBuilder.group({
       startDate: ['', [Validators?.required]],
       endDate: ['', [Validators?.required]],
@@ -75,6 +59,24 @@ export class ShippingClosuresComponent implements OnInit {
           Validators.maxLength(100),
         ],
       ],
+    });
+
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.shippingClosureList = res.payload.upcomingShippingClosures;
+        this.newShippingClosureList = res.payload.upcomingShippingClosures;
+        this.oldShippingClosureList = res.payload.previousShippingClosures;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] ||
+            'Something went wrong fetching the data'
+        );
+        this.isLoading = false;
+      },
     });
   }
 
@@ -110,15 +112,46 @@ export class ShippingClosuresComponent implements OnInit {
   }
 
   deleteAction(data: any) {
+    
     this.modal.confirm({
       nzTitle: 'Delete Shipping Closure',
       nzContent:
         'Are you sure you want to remove the Manager Shipping Closure Details?',
+      
       nzOnOk: () =>
-        new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-          console.log(data);
-        }).catch(() => console.log('Oops errors!')),
+
+        this.partnerService.updatePartner(data).subscribe({
+          next: (res: any) => {
+            console.log(data)
+            this.isLoading = true;
+            this.message.create('success', 'Data Deleted Successfully!');
+            this.partnerService.getPartner().subscribe({
+              next: (res: any) => {
+                this.shippingClosureForm?.reset();
+                this.showSection = this.section.TABLE;
+                this.shippingClosureList = res.payload.upcomingShippingClosures;
+                this.newShippingClosureList = res.payload.upcomingShippingClosures;
+                this.oldShippingClosureList = res.payload.previousShippingClosures;
+                this.isLoading = false;
+              },
+              error: (error) => {
+                this.message.create(
+                  'error',
+                  error?.error_message?.[0] ||
+                    'Something went wrong fetching the data'
+                );
+                this.isLoading = false;
+              },
+            });
+          },
+          error: (error) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] ||
+                'Something went wrong fetching the data'
+            );
+          },
+        })
     });
   }
 
@@ -156,11 +189,42 @@ export class ShippingClosuresComponent implements OnInit {
         newShippingClosures: addPayload,
         partnerCode: 'TDA',
       };
+
       setTimeout(() => {
-        console.log(payload);
-        this.isLoading = false;
-        this.shippingClosureForm?.reset();
-        this.showSection = this.section.TABLE;
+        console.log('payload::', payload);
+
+        this.partnerService.updatePartner(payload).subscribe({
+          next: (res) => {
+            this.message.create('success', 'Data Updated Successfully!');
+           
+            // Fetch the updated partner data after a successful update
+            this.partnerService.getPartner().subscribe({
+              next: (res: any) => {
+                this.shippingClosureForm?.reset();
+                this.showSection = this.section.TABLE;
+                this.shippingClosureList = res.payload.upcomingShippingClosures;
+                this.newShippingClosureList = res.payload.upcomingShippingClosures;
+                this.oldShippingClosureList = res.payload.previousShippingClosures;
+                this.isLoading = false;
+              },
+              error: (error) => {
+                this.message.create(
+                  'error',
+                  error?.error_message?.[0] ||
+                    'Something went wrong fetching the data'
+                );
+                this.isLoading = false;
+              },
+            });
+          },
+          error: (error: any) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] || 'Data Update failed!'
+            );
+            this.isLoading = false; // Ensure saving state is updated on error
+          },
+        });
       }, 500);
     } else {
       Object.values(this.shippingClosureForm.controls).forEach((control) => {
