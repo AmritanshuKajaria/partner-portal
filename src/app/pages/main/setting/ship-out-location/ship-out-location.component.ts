@@ -15,6 +15,8 @@ import {
   USStates,
 } from 'src/app/shared/constants/constants';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { PartnerService } from 'src/app/shared/service/partner.service';
 
 @Component({
   selector: 'app-ship-out-location',
@@ -41,58 +43,8 @@ export class ShipOutLocationComponent implements OnInit {
   };
 
   shipOutLocationList: any = [];
-  activateList = [
-    {
-      internalCode: 'FDC-LOC-002',
-      externalCode: 'CA-91730',
-      addressLine1: '4D Concepts,',
-      addressLine2: '9120 Center Avenue Rancho Cucamonga',
-      city: 'Rancho Cucamonga',
-      state: 'CA',
-      zipCode: '91730',
-      country: 'US',
-      timeZone: 'PST',
-      cutOffTime: '06:00:00',
-      contactName: 'Jeff Riegsecker',
-      phoneNumber: '9099441980',
-      phoneNumberExtension: '',
-      isActive: '1',
-    },
-    {
-      internalCode: 'FDC-LOC-003',
-      externalCode: '4DC Salley',
-      addressLine1: '5244 Festival Trail Road',
-      addressLine2: '',
-      city: 'Salley',
-      state: 'SC',
-      zipCode: '29137',
-      country: 'US',
-      timeZone: 'EST',
-      cutOffTime: '16:00:00',
-      contactName: 'Charles Edgeman',
-      phoneNumber: '9099441980',
-      phoneNumberExtension: '33',
-      isActive: '1',
-    },
-  ];
-  deactivateList = [
-    {
-      internalCode: 'FDC-LOC-001',
-      externalCode: 'CA-91730',
-      addressLine1: '11699 6TH Street',
-      addressLine2: '',
-      city: 'Rancho Cucamonga',
-      state: 'CA',
-      zipCode: '91730',
-      country: 'US',
-      timeZone: 'PST',
-      cutOffTime: '18:00:00',
-      contactName: 'Jeff Riegsecker',
-      phoneNumber: '9099441980',
-      phoneNumberExtension: '',
-      isActive: '0',
-    },
-  ];
+  activateList: any = [];
+  deactivateList: any = [];
   usStates = USStates;
   timeZone = TimeZone;
   formTitle: string = this.formAction.ADD;
@@ -121,12 +73,14 @@ export class ShipOutLocationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
     private modal: NzModalService,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
-    this.shipOutLocationList = this.activateList;
-
+    this.isLoading = true;
+    
     this.shipOutLocationForm = this.formBuilder.group({
       internalCode: [
         { value: 'FDC-LOC-001', disabled: true },
@@ -156,8 +110,28 @@ export class ShipOutLocationComponent implements OnInit {
         ],
       ],
     });
+
+     // Get API call
+     this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.shipOutLocationList = res.payload.shipoutLocations;
+        this.activateList = res.payload.shipoutLocations;
+        this.deactivateList = res.payload.shipoutLocationsInactive;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] ||
+            'Something went wrong fetching the data'
+        );
+        this.isLoading = false;
+      },
+    });
   }
 
+  // Get Form Control
   get formControl() {
     return this.shipOutLocationForm.controls;
   }
@@ -178,6 +152,7 @@ export class ShipOutLocationComponent implements OnInit {
     this.formControl['country'].setValue('US');
   }
 
+  // Patch Form Value
   phoneInputField() {
     const phoneNumberControl = this.shipOutLocationForm.get('phoneNumber');
     let input = phoneNumberControl?.value;
@@ -202,20 +177,53 @@ export class ShipOutLocationComponent implements OnInit {
     this.patchFormValue(this.selectedShipOutLocation);
   }
 
+  // Change Status Activate / Deactivate
   changeStatus(data: any) {
+    let isActive = data?.isActive === '1' ? '0' : '1';
+    let payload = { ...data }; // Create a shallow copy of data
+    payload['isActive'] = isActive;
+
     this.modal.confirm({
       nzTitle: data?.isActive === '1' ? 'Deactivate' : 'Activate',
       nzContent: `Are you sure you want to ${
         data?.isActive === '1' ? 'Deactivate' : 'Activate'
       } this Ship-Out Location?`,
       nzOnOk: () =>
-        new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-          console.log(data);
-        }).catch(() => console.log('Oops errors!')),
+        this.partnerService.updatePartner(payload).subscribe({
+          next: (res) => {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.isLoading = true;
+            this.formTypes.setValue('active');
+            // Fetch the updated partner data after a successful update
+            this.partnerService.getPartner().subscribe({
+              next: (res: any) => {
+                this.shipOutLocationList = res.payload.shipoutLocations;
+                this.activateList = res.payload.shipoutLocations;
+                this.deactivateList = res.payload.shipoutLocationsInactive;
+                this.isLoading = false;
+              },
+              error: (error) => {
+                this.message.create(
+                  'error',
+                  error?.error_message?.[0] ||
+                    'Something went wrong fetching the data'
+                );
+                this.isLoading = false;
+              },
+            });
+          },
+          error: (error: any) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] || 'Data Update failed!'
+            );
+            this.isLoading = false; // Ensure saving state is updated on error
+          },
+        })
     });
   }
 
+  // Reset Form
   reset() {
     if (this.formTitle === this.formAction?.ADD) {
       this.shipOutLocationForm?.reset();
@@ -225,6 +233,7 @@ export class ShipOutLocationComponent implements OnInit {
     }
   }
 
+  // Patch Form Value
   patchFormValue(data: any) {
     this.formControl['internalCode'].setValue(data?.internalCode);
     this.formControl['externalCode'].setValue(data?.externalCode);
@@ -253,7 +262,9 @@ export class ShipOutLocationComponent implements OnInit {
     );
   }
 
+  // Submit Form
   submitForm() {
+    
     const valid = this.formValidationService.checkFormValidity(
       this.shipOutLocationForm,
       this.formFieldOnUI
@@ -301,12 +312,45 @@ export class ShipOutLocationComponent implements OnInit {
         phoneNumberExtension: this.formFieldOnUI['phoneNumberExtension']
           ? this.formControl['phoneNumberExtension']?.value
           : '',
+        isActive: '1', 
       };
+
       setTimeout(() => {
-        console.log(payload);
-        this.isLoading = false;
-        this.shipOutLocationForm?.reset();
-        this.showSection = this.section.TABLE;
+        console.log('payload::', payload);
+
+        this.partnerService.updatePartner(payload).subscribe({
+          next: (res) => {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.formTypes.setValue('active');
+           
+            // Fetch the updated partner data after a successful update
+            this.partnerService.getPartner().subscribe({
+              next: (res: any) => {
+                this.shipOutLocationForm?.reset();
+                this.showSection = this.section.TABLE;
+                this.shipOutLocationList = res.payload.shipoutLocations;
+                this.activateList = res.payload.shipoutLocations;
+                this.deactivateList = res.payload.shipoutLocationsInactive;
+                this.isLoading = false;
+              },
+              error: (error) => {
+                this.message.create(
+                  'error',
+                  error?.error_message?.[0] ||
+                    'Something went wrong fetching the data'
+                );
+                this.isLoading = false;
+              },
+            });
+          },
+          error: (error: any) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] || 'Data Update failed!'
+            );
+            this.isLoading = false; // Ensure saving state is updated on error
+          },
+        });
       }, 500);
     } else {
       Object.values(this.shipOutLocationForm.controls).forEach((control) => {
@@ -322,7 +366,7 @@ export class ShipOutLocationComponent implements OnInit {
 
   setInternalCode() {
     const partnerDataList = this.activateList.concat(this.deactivateList);
-    let maxInternalCode = partnerDataList?.reduce(function (max, current) {
+    let maxInternalCode = partnerDataList?.reduce(function (max:any, current:any) {
       return max?.internalCode > current?.internalCode ? max : current;
     });
     if (maxInternalCode) {
@@ -337,6 +381,7 @@ export class ShipOutLocationComponent implements OnInit {
     }
   }
 
+  // Navigate back
   goBack() {
     if (this.showSection !== this.section.TABLE) {
       this.showSection = this.section.TABLE;

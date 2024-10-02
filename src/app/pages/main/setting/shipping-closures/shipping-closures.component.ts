@@ -157,6 +157,7 @@ export class ShippingClosuresComponent implements OnInit {
               error?.error_message?.[0] ||
                 'Something went wrong fetching the data'
             );
+            this.isLoading = false;
           },
         })
     });
@@ -205,6 +206,7 @@ export class ShippingClosuresComponent implements OnInit {
         this.partnerService.updatePartner(payload).subscribe({
           next: (res) => {
             this.message.create('success', 'Data Updated Successfully!');
+            this.formTypes.setValue('new');
            
             // Fetch the updated partner data after a successful update
             this.partnerService.getPartner().subscribe({

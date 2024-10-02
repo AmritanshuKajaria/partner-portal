@@ -73,8 +73,27 @@ export class PartnerService {
             inventoryProcessingNotification: [
               '123stores@bestmasterfurnitures.com',
             ],
-            shipoutLocationsInactive: [],
-            shipoutLocations: [
+            shipoutLocationsInactive: [
+              {
+                internalCode: 'FDC-LOC-002',
+                externalCode: 'CA-91730',
+                addressLine1: '4D Concepts,',
+                addressLine2: '9120 Center Avenue Rancho Cucamonga',
+                city: 'Rancho Cucamonga',
+                state: 'CA',
+                zipCode: '91730',
+                country: 'US',
+                timeZone: 'PST',
+                cutOffTime: '06:00:00',
+                contactName: 'Jeff Riegsecker',
+                phoneNumber: '9099441980',
+                phoneNumberExtension: '',
+                isActive: '0',
+              },
+             
+            ],
+            shipoutLocations:
+             [
               {
                 internalCode: 'FRF-LOC-001',
                 externalCode: 'CA 91710',
@@ -88,6 +107,22 @@ export class PartnerService {
                 cutOffTime: '21:00:00',
                 contactName: 'Daniel Do',
                 phoneNumber: '9095240889',
+                phoneNumberExtension: '',
+                isActive: '1',
+              },
+              {
+                internalCode: 'FRF-DS-001',
+                externalCode: 'CA 915410',
+                addressLine1: '13770 Non Ave',
+                addressLine2: '',
+                city: 'Dno',
+                state: 'CA',
+                zipCode: '53710',
+                country: 'US',
+                timeZone: 'PST',
+                cutOffTime: '24:00:00',
+                contactName: 'Taniel Do',
+                phoneNumber: '9078240889',
                 phoneNumberExtension: '',
                 isActive: '1',
               },
