@@ -6,9 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { PartnerService } from 'src/app/shared/service/partner.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-map-handling',
@@ -17,8 +19,10 @@ import { PartnerService } from 'src/app/shared/service/partner.service';
 })
 export class MapHandlingComponent implements OnInit {
   isLoading: boolean = false;
+  isSaving: boolean = false;
   mapHandlingForm!: FormGroup;
   dropDownList: any = null;
+  mapHandlingData: any;
   formFieldOnUI = {
     mapType: true,
     handlingConfiguration: true,
@@ -30,21 +34,13 @@ export class MapHandlingComponent implements OnInit {
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
     private router: Router,
-    private partnerService: PartnerService
+    private partnerService: PartnerService,
+    private message: NzMessageService,
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.commonService.getJsonData().subscribe(
-      (res) => {
-        this.dropDownList = res;
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching JSON data', error);
-        this.isLoading = false;
-      }
-    );
+
     this.mapHandlingForm = this.formBuilder.group({
       mapType: ['', [Validators.required]],
       handlingConfiguration: ['', [Validators.required]],
@@ -63,8 +59,17 @@ export class MapHandlingComponent implements OnInit {
       this.onFormChange();
     });
 
-    this.partnerService.getPartner().subscribe((res) => {
-      console.log(res);
+
+
+    forkJoin([this.commonService.getJsonData(), this.partnerService.getPartner()]).subscribe((res:any) => {
+      this.mapHandlingData = res[1].payload.catalogDetails;
+      this.patchFormValue(this.mapHandlingData);
+      this.dropDownList = res[0];
+      this.isLoading = false;
+    },
+    (error) => {
+      this.message.create('error', 'Something went wrong fetching the data');
+      this.isLoading = false;
     });
   }
 
@@ -82,6 +87,15 @@ export class MapHandlingComponent implements OnInit {
 
   reset() {
     this.mapHandlingForm?.reset();
+    this.patchFormValue(this.mapHandlingData);
+  }
+
+  patchFormValue(data: any) {
+
+    this.formControl['mapType'].setValue(Number(data?.mapType)); // Convert mapType to a number
+    this.formControl['handlingConfiguration'].setValue(Number(data?.handlingConfiguration)); // Convert handlingConfiguration to a number
+    this.formControl['accountHandlingTimeValue'].setValue(Number(data?.accountHandlingTimeValue));
+
   }
 
   submitForm() {
@@ -91,7 +105,7 @@ export class MapHandlingComponent implements OnInit {
     );
 
     if (valid) {
-      this.isLoading = true;
+      this.isSaving = true;
       const payload = {
         mapType: this.formFieldOnUI['mapType']
           ? this.mapHandlingForm?.value?.mapType
@@ -104,8 +118,30 @@ export class MapHandlingComponent implements OnInit {
           : '',
       };
       setTimeout(() => {
-        console.log(payload);
-        this.isLoading = false;
+        console.log("payload::",payload);
+        
+        this.partnerService.updatePartner(payload).subscribe(
+          (res) => {
+            this.message.create('success', 'Edit map-handling successfully!');
+            this.isSaving = false;
+
+            this.isLoading = true;
+            this.partnerService.getPartner().subscribe(
+              (res:any) => {
+                this.patchFormValue(res.payload.catalogDetails);
+               this.isLoading = false;
+              },
+              (error) => {
+                this.message.create('error', error?.error_message[0]);
+                this.isLoading = false;
+              }
+            );
+          },(error) => {
+              this.message.create('error', error?.error_message[0]);
+          }
+        )
+
+        
       }, 500);
     } else {
       Object.values(this.mapHandlingForm.controls).forEach((control) => {

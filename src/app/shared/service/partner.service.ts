@@ -218,4 +218,16 @@ export class PartnerService {
     });
     return from(promise);
   }
+
+  updatePartner(data: any) {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve(
+          {
+            success: true,
+          });
+      }, 1000);
+    });
+    return from(promise);
+  }
 }
