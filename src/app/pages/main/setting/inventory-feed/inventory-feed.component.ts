@@ -208,7 +208,7 @@ export class InventoryFeedComponent implements OnInit {
         inventoryBucket: this.formFieldOnUI['inventoryBucket']
           ? this.formControl['inventoryBucket'].value
           : '',
-        inventorySchedule: this.formFieldOnUI['inventorySchedule']
+          inventoryFeedFrequency: this.formFieldOnUI['inventorySchedule']
           ? this.formControl['inventorySchedule'].value
           : '',
         inventoryFeedMPN: this.formFieldOnUI['inventoryFeedMPN']
