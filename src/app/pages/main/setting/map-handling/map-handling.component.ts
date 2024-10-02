@@ -23,6 +23,8 @@ export class MapHandlingComponent implements OnInit {
   mapHandlingForm!: FormGroup;
   dropDownList: any = null;
   mapHandlingData: any;
+
+  // Update this to hide or show inputs on the UI
   formFieldOnUI = {
     mapType: true,
     handlingConfiguration: true,
@@ -41,6 +43,7 @@ export class MapHandlingComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
 
+    // Initialize form
     this.mapHandlingForm = this.formBuilder.group({
       mapType: ['', [Validators.required]],
       handlingConfiguration: ['', [Validators.required]],
@@ -55,31 +58,35 @@ export class MapHandlingComponent implements OnInit {
       ],
     });
 
+    // Set value change listner on form
     this.mapHandlingForm?.valueChanges.subscribe((value) => {
       this.onFormChange();
     });
 
+    // API calls
     forkJoin([
       this.commonService.getJsonData(),
       this.partnerService.getPartner(),
-    ]).subscribe(
-      (res: any) => {
-        this.mapHandlingData = res[1].payload.catalogDetails;
+    ]).subscribe({
+      next: ([jsonData, partnerData]: any) => {
+        this.mapHandlingData = partnerData.payload.catalogDetails;
         this.patchFormValue(this.mapHandlingData);
-        this.dropDownList = res[0];
+        this.dropDownList = jsonData;
         this.isLoading = false;
       },
-      (error) => {
+      error: (e) => {
         this.message.create('error', 'Something went wrong fetching the data');
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
+  // Get Form Control
   get formControl() {
     return this.mapHandlingForm.controls;
   }
 
+  // Handle hide show inputs
   onFormChange(): void {
     if (this.formControl['handlingConfiguration'].value === 2) {
       this.formFieldOnUI['accountHandlingTimeValue'] = false;
@@ -88,11 +95,13 @@ export class MapHandlingComponent implements OnInit {
     }
   }
 
+  // Reset form
   reset() {
     this.mapHandlingForm?.reset();
     this.patchFormValue(this.mapHandlingData);
   }
 
+  // Patch value to the form
   patchFormValue(data: any) {
     this.formControl['mapType'].setValue(Number(data?.mapType)); // Convert mapType to a number
     this.formControl['handlingConfiguration'].setValue(
@@ -103,6 +112,7 @@ export class MapHandlingComponent implements OnInit {
     );
   }
 
+  // Submit form
   submitForm() {
     const valid = this.formValidationService.checkFormValidity(
       this.mapHandlingForm,
@@ -125,27 +135,36 @@ export class MapHandlingComponent implements OnInit {
       setTimeout(() => {
         console.log('payload::', payload);
 
-        this.partnerService.updatePartner(payload).subscribe(
-          (res) => {
-            this.message.create('success', 'Edit map-handling successfully!');
+        this.partnerService.updatePartner(payload).subscribe({
+          next: (res) => {
+            this.message.create('success', 'Data Updated Successfully!');
             this.isSaving = false;
 
+            // Fetch the updated partner data after a successful update
             this.isLoading = true;
-            this.partnerService.getPartner().subscribe(
-              (res: any) => {
+            this.partnerService.getPartner().subscribe({
+              next: (res: any) => {
                 this.patchFormValue(res.payload.catalogDetails);
                 this.isLoading = false;
               },
-              (error) => {
-                this.message.create('error', error?.error_message[0]);
+              error: (error) => {
+                this.message.create(
+                  'error',
+                  error?.error_message?.[0] ||
+                    'Something went wrong fetching the data'
+                );
                 this.isLoading = false;
-              }
-            );
+              },
+            });
           },
-          (error) => {
-            this.message.create('error', error?.error_message[0]);
-          }
-        );
+          error: (error: any) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] || 'Data Update failed!'
+            );
+            this.isSaving = false; // Ensure saving state is updated on error
+          },
+        });
       }, 500);
     } else {
       Object.values(this.mapHandlingForm.controls).forEach((control) => {
@@ -159,6 +178,7 @@ export class MapHandlingComponent implements OnInit {
     }
   }
 
+  // Navigate back
   goBack() {
     this.router.navigate(['/main/setting']);
   }
