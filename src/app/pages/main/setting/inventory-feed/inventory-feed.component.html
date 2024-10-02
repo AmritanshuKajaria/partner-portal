@@ -61,7 +61,7 @@
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
-        <nz-form-item>
+        <nz-form-item *ngIf="formFieldOnUI?.inventoryBucket">
           <nz-form-label class="label-section"
             >Inventory Bucket
             <div class="icon-color">
@@ -76,7 +76,7 @@
               ></span>
             </div>
           </nz-form-label>
-          <nz-form-control class="input-section">
+          <nz-form-control class="input-section" >
             <nz-input-group class="small-input">
               <nz-select
                 nzShowSearch

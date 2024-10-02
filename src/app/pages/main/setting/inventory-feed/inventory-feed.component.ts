@@ -129,9 +129,11 @@ export class InventoryFeedComponent implements OnInit {
     if (this.formControl['inventoryFeedType'].value === 1) {
       this.formFieldOnUI['authorizedFeedSenders'] = true;
       this.formFieldOnUI['inventoryFeedMPN'] = true;
+      this.formFieldOnUI['inventoryBucket'] = true;
     } else {
       this.formFieldOnUI['authorizedFeedSenders'] = false;
       this.formFieldOnUI['inventoryFeedMPN'] = false;
+      this.formFieldOnUI['inventoryBucket'] = false;
     }
   }
 
