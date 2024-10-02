@@ -197,7 +197,6 @@ export class ShippingClosuresComponent implements OnInit {
       }
       payload = {
         newShippingClosures: addPayload,
-        partnerCode: 'TDA',
       };
 
       setTimeout(() => {

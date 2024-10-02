@@ -75,7 +75,7 @@ export class PartnerService {
             ],
             shipoutLocationsInactive: [
               {
-                internalCode: 'FDC-LOC-002',
+                internalCode: 'FRF-LOC-003',
                 externalCode: 'CA-91730',
                 addressLine1: '4D Concepts,',
                 addressLine2: '9120 Center Avenue Rancho Cucamonga',
@@ -111,7 +111,7 @@ export class PartnerService {
                 isActive: '1',
               },
               {
-                internalCode: 'FRF-DS-001',
+                internalCode: 'FRF-LOC-002',
                 externalCode: 'CA 915410',
                 addressLine1: '13770 Non Ave',
                 addressLine2: '',

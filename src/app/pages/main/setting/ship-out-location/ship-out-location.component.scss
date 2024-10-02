@@ -86,6 +86,13 @@
             }
         }
 
+        .disabled-link {
+            pointer-events: none;
+            color: #ff00008c !important; /* Change the color to indicate it's disabled */
+            cursor: not-allowed;
+          }
+          
+
     }
 
     ::ng-deep .ant-input {

@@ -87,8 +87,9 @@
                 nzTooltipPlacement="top"
                 nz-tooltip
                 style="margin: 0 5px; color: red"
-                (click)="changeStatus(item)"
                 *ngIf="formTypes.value === 'active'"
+                (click)="activateList.length >= 1 ? changeStatus(item) : $event.preventDefault()"
+                [ngClass]="{ 'disabled-link': activateList.length <= 1 }"
               >
                 Deactivate
               </a>
@@ -471,13 +472,13 @@
             (click)="submitForm()"
           >
             <span
-              *ngIf="isLoading"
+              *ngIf="isSaving"
               style="color: white; font-size: 16px"
               nz-icon
               nzType="loading"
             ></span>
             <span
-              *ngIf="!isLoading"
+              *ngIf="!isSaving"
               nz-icon
               nzType="file-text"
               nzTheme="outline"

@@ -27,6 +27,7 @@ export class ShipOutLocationComponent implements OnInit {
   section = Section;
   formAction = FormAction;
   isLoading: boolean = false;
+  isSaving: boolean = false;
   labelList: any = {
     internalCode: 'Internal Code',
     zipCode: 'Zip Code',
@@ -80,7 +81,7 @@ export class ShipOutLocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    
+
     this.shipOutLocationForm = this.formBuilder.group({
       internalCode: [
         { value: 'FDC-LOC-001', disabled: true },
@@ -111,8 +112,8 @@ export class ShipOutLocationComponent implements OnInit {
       ],
     });
 
-     // Get API call
-     this.partnerService.getPartner().subscribe({
+    // Get API call
+    this.partnerService.getPartner().subscribe({
       next: (res: any) => {
         console.log(res);
         this.shipOutLocationList = res.payload.shipoutLocations;
@@ -123,8 +124,7 @@ export class ShipOutLocationComponent implements OnInit {
       error: (error) => {
         this.message.create(
           'error',
-          error?.error_message?.[0] ||
-            'Something went wrong fetching the data'
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
         );
         this.isLoading = false;
       },
@@ -189,37 +189,39 @@ export class ShipOutLocationComponent implements OnInit {
         data?.isActive === '1' ? 'Deactivate' : 'Activate'
       } this Ship-Out Location?`,
       nzOnOk: () =>
-        this.partnerService.updatePartner(payload).subscribe({
-          next: (res) => {
-            this.message.create('success', 'Data Updated Successfully!');
-            this.isLoading = true;
-            this.formTypes.setValue('active');
-            // Fetch the updated partner data after a successful update
-            this.partnerService.getPartner().subscribe({
-              next: (res: any) => {
-                this.shipOutLocationList = res.payload.shipoutLocations;
-                this.activateList = res.payload.shipoutLocations;
-                this.deactivateList = res.payload.shipoutLocationsInactive;
-                this.isLoading = false;
-              },
-              error: (error) => {
-                this.message.create(
-                  'error',
-                  error?.error_message?.[0] ||
-                    'Something went wrong fetching the data'
-                );
-                this.isLoading = false;
-              },
-            });
-          },
-          error: (error: any) => {
-            this.message.create(
-              'error',
-              error?.error_message?.[0] || 'Data Update failed!'
-            );
-            this.isLoading = false; // Ensure saving state is updated on error
-          },
-        })
+        new Promise((resolve, reject) => {
+          this.partnerService.updatePartner(payload).subscribe({
+            next: (res) => {
+              resolve(res);
+              this.message.create('success', 'Data Updated Successfully!');
+              this.isLoading = true;
+              this.formTypes.setValue('active');
+              // Fetch the updated partner data after a successful update
+              this.partnerService.getPartner().subscribe({
+                next: (res: any) => {
+                  this.shipOutLocationList = res.payload.shipoutLocations;
+                  this.activateList = res.payload.shipoutLocations;
+                  this.deactivateList = res.payload.shipoutLocationsInactive;
+                  this.isLoading = false;
+                },
+                error: (error) => {
+                  reject(error);
+                },
+              });
+            },
+            error: (error: any) => {
+              reject(error);
+            },
+          });
+        }).catch((error) => {
+          console.log(error);
+          
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          ),
+          this.isLoading = false;
+        }),
     });
   }
 
@@ -264,14 +266,13 @@ export class ShipOutLocationComponent implements OnInit {
 
   // Submit Form
   submitForm() {
-    
     const valid = this.formValidationService.checkFormValidity(
       this.shipOutLocationForm,
       this.formFieldOnUI
     );
 
     if (valid) {
-      this.isLoading = true;
+      this.isSaving = true;
       const payload = {
         internalCode: this.formFieldOnUI['internalCode']
           ? this.formControl['internalCode']?.value
@@ -312,7 +313,7 @@ export class ShipOutLocationComponent implements OnInit {
         phoneNumberExtension: this.formFieldOnUI['phoneNumberExtension']
           ? this.formControl['phoneNumberExtension']?.value
           : '',
-        isActive: '1', 
+        isActive: '1',
       };
 
       setTimeout(() => {
@@ -322,12 +323,14 @@ export class ShipOutLocationComponent implements OnInit {
           next: (res) => {
             this.message.create('success', 'Data Updated Successfully!');
             this.formTypes.setValue('active');
-           
+            this.showSection = this.section.TABLE;
+            this.isSaving = false; 
+            this.isLoading = true; 
+
             // Fetch the updated partner data after a successful update
             this.partnerService.getPartner().subscribe({
               next: (res: any) => {
                 this.shipOutLocationForm?.reset();
-                this.showSection = this.section.TABLE;
                 this.shipOutLocationList = res.payload.shipoutLocations;
                 this.activateList = res.payload.shipoutLocations;
                 this.deactivateList = res.payload.shipoutLocationsInactive;
@@ -366,7 +369,10 @@ export class ShipOutLocationComponent implements OnInit {
 
   setInternalCode() {
     const partnerDataList = this.activateList.concat(this.deactivateList);
-    let maxInternalCode = partnerDataList?.reduce(function (max:any, current:any) {
+    let maxInternalCode = partnerDataList?.reduce(function (
+      max: any,
+      current: any
+    ) {
       return max?.internalCode > current?.internalCode ? max : current;
     });
     if (maxInternalCode) {

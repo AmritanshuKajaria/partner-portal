@@ -15,7 +15,7 @@
     </div>
 
     <div class="body-section" style="margin-left: 0; margin-right: 0">
-      <form [formGroup]="orderProcessingReturnForm">
+      <form [formGroup]="orderProcessingReturnForm" *ngIf="!isLoading">
         <nz-form-item *ngIf="formFieldOnUI?.poSendingMethod">
           <nz-form-label class="label-section">PO Method</nz-form-label>
           <nz-form-control class="input-section">
@@ -234,7 +234,7 @@
           </nz-form-control>
         </nz-form-item>
       </form>
-      <div class="footer-section">
+      <div class="footer-section" *ngIf="!isLoading">
         <button
           nz-button
           nzType="default"

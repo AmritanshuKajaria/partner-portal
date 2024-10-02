@@ -14,8 +14,8 @@
       </div>
     </div>
 
-    <div class="body-section" style="margin-left: 0; margin-right: 0">
-      <form [formGroup]="inventoryFeedForm">
+    <div class="body-section" style="margin-left: 0; margin-right: 0" >
+      <form [formGroup]="inventoryFeedForm" *ngIf="!isLoading">
         <nz-form-item>
           <nz-form-label class="label-section"
             >Inventory Feed Type</nz-form-label
@@ -263,7 +263,7 @@
           </div>
         </div>
       </form>
-      <div class="footer-section">
+      <div class="footer-section" *ngIf="!isLoading">
         <button
           nz-button
           nzType="default"

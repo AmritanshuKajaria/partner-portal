@@ -120,9 +120,7 @@ export class ReturnLocationComponent implements OnInit {
     this.formTitle = event ? event : '';
     if (this.formTitle === 'Add') {
       this.setValue('');
-      this.formControl['returnInternalCode'].setValue(
-        `TAC-RETURN-LOCATION-002`
-      );
+      this.setInternalCode();
       this.disabledSection = false;
       this.formControl['returnCity'].enable();
       this.formControl['returnZipCode'].enable();
@@ -133,6 +131,34 @@ export class ReturnLocationComponent implements OnInit {
       this.formControl['returnZipCode'].disable();
     }
   }
+
+  setInternalCode() {
+    // Assuming selectedData is an array, so wrap the single object in an array
+    const partnerDataList = [this.selectedData]; // Modify this line to handle the single object
+    
+    console.log(partnerDataList);
+  
+    let maxInternalCode = partnerDataList?.reduce(function (
+      max: any,
+      current: any
+    ) {
+      return max?.returnInternalCode > current?.returnInternalCode ? max : current;
+    });
+  
+    if (maxInternalCode) {
+      
+      const no = +maxInternalCode.returnInternalCode.split('-')[3];
+      
+      this.formControl['returnInternalCode'].setValue(
+        maxInternalCode.returnInternalCode.slice(0, -3) +
+          String(no + 1).padStart(3, '0')
+      );
+    } else {
+      const selectedPartnerId = 'FRF-RETURN'; // Set this value based on your logic
+      this.formControl['returnInternalCode'].setValue(`${selectedPartnerId}-LOCATION-001`);
+    }
+  }
+  
 
   // Phone Input Field
   phoneInputField() {
@@ -152,9 +178,6 @@ export class ReturnLocationComponent implements OnInit {
     this.returnLocationForm?.reset();
     this.formControl['formType'].setValue(formType);
     if (this.formTitle === 'Add') {
-      this.formControl['returnInternalCode'].setValue(
-        `TAC-RETURN-LOCATION-002`
-      );
       this.disabledSection = false;
       this.formControl['returnCity'].enable();
       this.formControl['returnZipCode'].enable();
@@ -265,9 +288,7 @@ export class ReturnLocationComponent implements OnInit {
             this.isLoading = true;
             this.partnerService.getPartner().subscribe({
               next: (res: any) => {
-                this.formControl['returnInternalCode'].setValue(
-                  `FDC-RETURN-LOCATION-001`
-                );
+                this.selectedData = res.payload.returnLocation;
                 this.setValue(res.payload.returnLocation);
                 this.isLoading = false;
               },
