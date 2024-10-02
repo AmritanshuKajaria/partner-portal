@@ -48,6 +48,7 @@ export class ShippingClosuresComponent implements OnInit {
   ngOnInit(): void {
     this.isLoading = true;
 
+    // Initialize form
     this.shippingClosureForm = this.formBuilder.group({
       startDate: ['', [Validators?.required]],
       endDate: ['', [Validators?.required]],
@@ -61,6 +62,7 @@ export class ShippingClosuresComponent implements OnInit {
       ],
     });
 
+    // Get API call
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
         console.log(res);
@@ -80,10 +82,12 @@ export class ShippingClosuresComponent implements OnInit {
     });
   }
 
+  // Get Form Control
   get formControl() {
     return this.shippingClosureForm.controls;
   }
 
+  // Disable start Date
   disabledStartDate = (startValue: Date): boolean => {
     if (!startValue || !this.formControl['endDate']?.value) {
       return false;
@@ -91,6 +95,7 @@ export class ShippingClosuresComponent implements OnInit {
     return startValue.getTime() > this.formControl['endDate']?.value.getTime();
   };
 
+ // Disable end Date
   disabledEndDate = (endValue: Date): boolean => {
     if (!endValue || !this.formControl['startDate']?.value) {
       return false;
@@ -103,6 +108,7 @@ export class ShippingClosuresComponent implements OnInit {
     return moment(inputDate, 'YYYY-MM-DD').format('dddd  - MMM DD, YYYY');
   };
 
+  // Change Form Type list
   changeFormType(event: string) {
     if (event === 'new') {
       this.shippingClosureList = this.newShippingClosureList;
@@ -111,6 +117,7 @@ export class ShippingClosuresComponent implements OnInit {
     }
   }
 
+  // Delete Shipping Closure
   deleteAction(data: any) {
     
     this.modal.confirm({
@@ -155,10 +162,12 @@ export class ShippingClosuresComponent implements OnInit {
     });
   }
 
+  // Reset form
   reset() {
     this.shippingClosureForm?.reset();
   }
 
+  // Submit form
   submitForm() {
     const valid = this.formValidationService.checkFormValidity(
       this.shippingClosureForm,
@@ -238,6 +247,7 @@ export class ShippingClosuresComponent implements OnInit {
     }
   }
 
+  // Navigate back
   goBack() {
     if (this.showSection !== this.section.TABLE) {
       this.showSection = this.section.TABLE;
