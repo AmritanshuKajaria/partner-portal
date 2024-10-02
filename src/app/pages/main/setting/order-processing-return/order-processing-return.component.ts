@@ -70,7 +70,7 @@ export class OrderProcessingReturnComponent implements OnInit {
       copyOfPOSentOverEmail: [''],
       isPackingSlipEnabled: [{ value: true, disabled: true }],
       authorizedInvoiceSenders: this.fb.array([]),
-      returnProfile: [{ value: 'Field Destroy', disabled: true }],
+      returnProfile: [{ value: '', disabled: true }],
     });
     this.addAuthorizedFeedSender();
 
