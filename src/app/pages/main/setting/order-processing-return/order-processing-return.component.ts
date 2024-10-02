@@ -13,6 +13,10 @@ import {
 } from 'src/app/shared/constants/constants';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { forkJoin } from 'rxjs';
+import { PartnerService } from 'src/app/shared/service/partner.service';
+
 
 @Component({
   selector: 'app-order-processing-return',
@@ -21,8 +25,10 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 })
 export class OrderProcessingReturnComponent implements OnInit {
   isLoading: boolean = false;
+  isSaving: boolean = false;
   orderProcessingReturnForm!: FormGroup;
   dropDownList: any = null;
+  orderProcessingReturnData: any;
   enabledCarriersOptions: {
     name: string;
     value: string;
@@ -47,34 +53,15 @@ export class OrderProcessingReturnComponent implements OnInit {
     private commonService: CommonService,
     private fb: FormBuilder,
     private formValidationService: FormValidationService,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.commonService.getJsonData().subscribe(
-      (res) => {
-        this.dropDownList = res;
-        this.formControl['poSendingMethod'].setValue(2);
-        this.formControl['generateLabels'].setValue(1);
-        this.formControl['isPackingSlipEnabled'].setValue(true);
-        this.formControl['enabledCarriers'].setValue(['FEDEX']);
-        this.enabledCarriersOptions = this.enabledCarriersOptions.map(
-          (option) => ({
-            ...option,
-            disabled: this.formControl['enabledCarriers']?.value?.includes(
-              option.value
-            ),
-          })
-        );
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching JSON data', error);
-        this.isLoading = false;
-      }
-    );
-
+  
+    // Initialize form
     this.orderProcessingReturnForm = this.fb.group({
       poSendingMethod: [{ value: '', disabled: true }],
       enabledCarriers: [[], [Validators.required]],
@@ -87,11 +74,32 @@ export class OrderProcessingReturnComponent implements OnInit {
     });
     this.addAuthorizedFeedSender();
 
+    // Set value change listner on form
     this.orderProcessingReturnForm?.valueChanges.subscribe((selectedValues) => {
       this.onFormChange();
     });
+
+     // API calls
+     forkJoin([
+      this.commonService.getJsonData(),
+      this.partnerService.getPartner(),
+    ]).subscribe({
+      next: ([jsonData, partnerData]: any) => {
+        console.log(partnerData.payload);
+
+        this.orderProcessingReturnData = partnerData.payload.fulfillmentDetails;
+        this.patchFormValue(this.orderProcessingReturnData);
+        this.dropDownList = jsonData;
+        this.isLoading = false;
+      },
+      error: (e) => {
+        this.message.create('error', 'Something went wrong fetching the data');
+        this.isLoading = false;
+      },
+    });
   }
 
+  // Get Form Control
   get formControl() {
     return this.orderProcessingReturnForm.controls;
   }
@@ -102,6 +110,7 @@ export class OrderProcessingReturnComponent implements OnInit {
     ] as FormArray;
   }
 
+  // Handle hide show inputs
   onFormChange(): void {
     if (this.formControl['poSendingMethod'].value === 2) {
       this.formFieldOnUI['copyOfPOSentOverEmail'] = true;
@@ -116,6 +125,7 @@ export class OrderProcessingReturnComponent implements OnInit {
     }
   }
 
+  // Create new authorized feed sender
   newAuthorizedFeedSender() {
     return this.fb.group({
       email: [
@@ -125,14 +135,17 @@ export class OrderProcessingReturnComponent implements OnInit {
     });
   }
 
+  // Add authorized feed sender
   addAuthorizedFeedSender() {
     this.authorizedInvoiceSenders.push(this.newAuthorizedFeedSender());
   }
 
+  // Remove authorized feed sender
   removeAuthorizedFeedSender(i: number) {
     this.authorizedInvoiceSenders.removeAt(i);
   }
 
+  // Reset form
   reset() {
     for (let index = 0; index < this.authorizedInvoiceSenders.length; index++) {
       this.authorizedInvoiceSenders.removeAt(0);
@@ -146,17 +159,42 @@ export class OrderProcessingReturnComponent implements OnInit {
     if (this.authorizedInvoiceSenders.length === 0) {
       this.addAuthorizedFeedSender();
     }
+    this.patchFormValue(this.orderProcessingReturnData);
   }
 
+   // Patch value to the form
+   patchFormValue(data: any) {
+    this.formControl['poSendingMethod'].setValue(
+      Number(data?.poSendingMethod)
+    ); 
+    this.formControl['generateLabels'].setValue(
+      Number(data?.generateLabels)
+    );
+    this.formControl['enabledCarriers'].setValue(data?.enabledCarriers);
+    this.formControl['isPackingSlipEnabled'].setValue(data?.isPackingSlipEnabled);
+    this.formControl['labelPageSize'].setValue(Number(data?.labelPageSize));
+    this.formControl['copyOfPOSentOverEmail'].setValue(data?.copyOfPOSentOverEmail);
+    this.formControl['returnProfile'].setValue(data?.returnDetails?.returnProfileType);
+  
+
+    this.authorizedInvoiceSenders.clear();
+    data.authorizedFeedSenders.forEach((email: any) => {
+      const emailFormGroup = new FormGroup({
+        email: new FormControl(email), // Create a FormControl for email
+      });
+      this.authorizedInvoiceSenders.push(emailFormGroup); // Push FormGroup into FormArray
+    });
+  }
+
+  // Submit form
   submitForm() {
     const valid = this.formValidationService.checkFormValidity(
       this.orderProcessingReturnForm,
       this.formFieldOnUI
     );
-    console.log(valid);
 
     if (valid) {
-      this.isLoading = true;
+      this.isSaving = true;
       const payload = {
         poSendingMethod: this.formFieldOnUI['poSendingMethod']
           ? this.formControl['poSendingMethod']?.value
@@ -185,9 +223,40 @@ export class OrderProcessingReturnComponent implements OnInit {
             )
           : '',
       };
+ 
       setTimeout(() => {
-        console.log(payload);
-        this.isLoading = false;
+        console.log('payload::', payload);
+
+        this.partnerService.updatePartner(payload).subscribe({
+          next: (res) => {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.isSaving = false;
+
+            // Fetch the updated partner data after a successful update
+            this.isLoading = true;
+            this.partnerService.getPartner().subscribe({
+              next: (res: any) => {
+                this.patchFormValue(res.payload.fulfillmentDetails);
+                this.isLoading = false;
+              },
+              error: (error) => {
+                this.message.create(
+                  'error',
+                  error?.error_message?.[0] ||
+                    'Something went wrong fetching the data'
+                );
+                this.isLoading = false;
+              },
+            });
+          },
+          error: (error: any) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] || 'Data Update failed!'
+            );
+            this.isSaving = false; // Ensure saving state is updated on error
+          },
+        });
       }, 500);
     } else {
       Object.values(this.orderProcessingReturnForm.controls).forEach(

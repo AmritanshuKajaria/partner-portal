@@ -40,6 +40,17 @@ export class PartnerService {
               copyOfPOSentOverEmail: true,
               authorizedFeedSenders: ['abc@gmail.com', 'abcd@gmail.com'],
               returnProfile: 'test', // This is the newly added field
+
+              returnDetails: { // This is the newly added field
+                returnProfileType: "1",
+                returnReimbursementMethod: "2",
+                returnDaCalculationMethod: "3",
+                returnAllowancePercentage: "0.00",
+                returnBuyersRemorseRestockingPercentage: "0.00",
+                returnUndeliverableRestockingPercentage: "0.00",
+                returnProcessingFeePercentage: "0.00",
+                orderProcessingFeePercentage: "0.04"
+            },
             },
             previousShippingClosures: [
               {

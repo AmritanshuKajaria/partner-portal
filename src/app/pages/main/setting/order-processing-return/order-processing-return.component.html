@@ -141,7 +141,7 @@
                   nzFor="brand"
                   *ngIf="i === 0"
                 >
-                  Authorized Feed Sender<span
+                  Authorized Invoice Sender<span
                     style="color: red; font-weight: 500"
                     >*</span
                   >
@@ -210,23 +210,27 @@
         </div>
 
         <nz-form-item *ngIf="formFieldOnUI?.returnProfile">
-          <nz-form-label class="label-section">Return Profile</nz-form-label>
-          <nz-form-control
-            class="input-section"
-            [nzErrorTip]="inventoryFeedMPNError"
-          >
+          <nz-form-label class="label-section"
+            >Return Profile
+          </nz-form-label>
+          <nz-form-control class="input-section" >
             <nz-input-group class="small-input">
-              <input
-                type="text"
-                nz-input
-                placeholder="Enter Return Profile"
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select A Return Profile"
                 formControlName="returnProfile"
-              />
-              <ng-template #inventoryFeedMPNError let-control>
-                <ng-container *ngIf="control.hasError('required')"
-                  >Please input your Return Profile<br
-                /></ng-container>
-              </ng-template>
+              >
+                <!-- <nz-option
+                  *ngFor="let option of dropDownList?.returnDetails"
+                  [nzLabel]="option?.name"
+                  [nzValue]="option?.value"
+                ></nz-option> -->
+            
+                  <nz-option nzLabel="Test" nzValue="1"></nz-option>
+                  <nz-option nzLabel="Reber" nzValue="2"></nz-option>
+                  <nz-option nzLabel="Domain" nzValue="3"></nz-option>
+          
+              </nz-select>
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -248,13 +252,13 @@
           (click)="submitForm()"
         >
           <span
-            *ngIf="isLoading"
+            *ngIf="isSaving"
             style="color: white; font-size: 16px"
             nz-icon
             nzType="loading"
           ></span>
           <span
-            *ngIf="!isLoading"
+            *ngIf="!isSaving"
             nz-icon
             nzType="file-text"
             nzTheme="outline"
