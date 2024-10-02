@@ -35,7 +35,7 @@ export class MapHandlingComponent implements OnInit {
     private formValidationService: FormValidationService,
     private router: Router,
     private partnerService: PartnerService,
-    private message: NzMessageService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -59,18 +59,21 @@ export class MapHandlingComponent implements OnInit {
       this.onFormChange();
     });
 
-
-
-    forkJoin([this.commonService.getJsonData(), this.partnerService.getPartner()]).subscribe((res:any) => {
-      this.mapHandlingData = res[1].payload.catalogDetails;
-      this.patchFormValue(this.mapHandlingData);
-      this.dropDownList = res[0];
-      this.isLoading = false;
-    },
-    (error) => {
-      this.message.create('error', 'Something went wrong fetching the data');
-      this.isLoading = false;
-    });
+    forkJoin([
+      this.commonService.getJsonData(),
+      this.partnerService.getPartner(),
+    ]).subscribe(
+      (res: any) => {
+        this.mapHandlingData = res[1].payload.catalogDetails;
+        this.patchFormValue(this.mapHandlingData);
+        this.dropDownList = res[0];
+        this.isLoading = false;
+      },
+      (error) => {
+        this.message.create('error', 'Something went wrong fetching the data');
+        this.isLoading = false;
+      }
+    );
   }
 
   get formControl() {
@@ -91,11 +94,13 @@ export class MapHandlingComponent implements OnInit {
   }
 
   patchFormValue(data: any) {
-
     this.formControl['mapType'].setValue(Number(data?.mapType)); // Convert mapType to a number
-    this.formControl['handlingConfiguration'].setValue(Number(data?.handlingConfiguration)); // Convert handlingConfiguration to a number
-    this.formControl['accountHandlingTimeValue'].setValue(Number(data?.accountHandlingTimeValue));
-
+    this.formControl['handlingConfiguration'].setValue(
+      Number(data?.handlingConfiguration)
+    ); // Convert handlingConfiguration to a number
+    this.formControl['accountHandlingTimeValue'].setValue(
+      Number(data?.accountHandlingTimeValue)
+    );
   }
 
   submitForm() {
@@ -118,8 +123,8 @@ export class MapHandlingComponent implements OnInit {
           : '',
       };
       setTimeout(() => {
-        console.log("payload::",payload);
-        
+        console.log('payload::', payload);
+
         this.partnerService.updatePartner(payload).subscribe(
           (res) => {
             this.message.create('success', 'Edit map-handling successfully!');
@@ -127,21 +132,20 @@ export class MapHandlingComponent implements OnInit {
 
             this.isLoading = true;
             this.partnerService.getPartner().subscribe(
-              (res:any) => {
+              (res: any) => {
                 this.patchFormValue(res.payload.catalogDetails);
-               this.isLoading = false;
+                this.isLoading = false;
               },
               (error) => {
                 this.message.create('error', error?.error_message[0]);
                 this.isLoading = false;
               }
             );
-          },(error) => {
-              this.message.create('error', error?.error_message[0]);
+          },
+          (error) => {
+            this.message.create('error', error?.error_message[0]);
           }
-        )
-
-        
+        );
       }, 500);
     } else {
       Object.values(this.mapHandlingForm.controls).forEach((control) => {
