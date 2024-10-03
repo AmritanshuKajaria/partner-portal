@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef  } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -12,6 +12,8 @@ import * as moment from 'moment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Section } from 'src/app/shared/constants/constants';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { PartnerService } from 'src/app/shared/service/partner.service';
 
 @Component({
   selector: 'app-notification-email',
@@ -21,14 +23,12 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 export class NotificationEmailComponent implements OnInit {
   section = Section;
   isLoading: boolean = false;
-  allDataList = {
+  formFieldOnUI = {
+    email: true,
+    notifications: true,
+  };
+  allDataList : any = {
     accountSetupUpdateNotifications: [
-      'cmacias@4dconceptsusa.com',
-      'jriegsecker@4dconceptsusa.com',
-      'sarah@4dconceptsusa.com',
-      'orderdesk@4dconceptsusa.com',
-      'lstephenson@4dconceptsusa.com',
-      'sgonzalez@4dconceptsusa.com',
     ],
     partnerDetails: {
       partnerId: '101',
@@ -44,11 +44,6 @@ export class NotificationEmailComponent implements OnInit {
       salesStatusReason: '',
     },
     catalogSetupUpdateNotifications: [
-      'sgonzalez@4dconceptsusa.com',
-      'sarah@4dconceptsusa.com',
-      'cmacias@4dconceptsusa.com',
-      'orderdesk@4dconceptsusa.com',
-      'jriegsecker@4dconceptsusa.com',
     ],
     catalogDetails: {
       mapType: '1',
@@ -67,18 +62,8 @@ export class NotificationEmailComponent implements OnInit {
       orderProcessingFeePercentage: '0.04',
     },
     invoicingNotifications: [
-      'orderdesk@4dconceptsusa.com',
-      'cmacias@4dconceptsusa.com',
-      'lstephenson@4dconceptsusa.com',
-      'sgonzalez@4dconceptsusa.com',
-      'jriegsecker@4dconceptsusa.com',
     ],
     remittanceNotifications: [
-      'lstephenson@4dconceptsusa.com',
-      'sgonzalez@4dconceptsusa.com',
-      'jriegsecker@4dconceptsusa.com',
-      'orderdesk@4dconceptsusa.com',
-      'cmacias@4dconceptsusa.com',
     ],
     paymentDetails: {
       paymentStatus: '1',
@@ -97,10 +82,6 @@ export class NotificationEmailComponent implements OnInit {
       routingNumber: '122243062',
     },
     inventoryProcessingNotification: [
-      'jriegsecker@4dconceptsusa.com',
-      'orderdesk@4dconceptsusa.com',
-      'cmacias@4dconceptsusa.com',
-      'sgonzalez@4dconceptsusa.com',
     ],
     shipoutLocationsInactive: [
       {
@@ -186,12 +167,8 @@ export class NotificationEmailComponent implements OnInit {
       },
     ],
     purchaseOrderNotification: [
-      'sgonzalez@4dconceptsusa.com',
-      'orderdesk@4dconceptsusa.com',
     ],
     orderProcessingNotification: [
-      'sgonzalez@4dconceptsusa.com',
-      'orderdesk@4dconceptsusa.com',
     ],
     fulfillmentDetails: {
       poSendingMethod: '2',
@@ -213,9 +190,6 @@ export class NotificationEmailComponent implements OnInit {
       isPackingSlipEnabled: false,
     },
     returnProcessingNotification: [
-      'orderdesk@4dconceptsusa.com',
-      'jriegsecker@4dconceptsusa.com',
-      'sgonzalez@4dconceptsusa.com',
     ],
     returnDetails: {
       returnProfileType: '8',
@@ -371,7 +345,7 @@ export class NotificationEmailComponent implements OnInit {
     },
   ];
 
-  groupByNotificationForm!: FormGroup;
+groupByNotificationForm!: FormGroup;
   groupByEmailForm!: FormGroup;
   addEmailNotificationsForm!: FormGroup;
   notificationsInputLimit = 10;
@@ -380,8 +354,16 @@ export class NotificationEmailComponent implements OnInit {
 
   oldGroupByNotificationsData: any;
   oldGroupByEmailsData: any;
+  isSaving: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService,
+    private formValidationService: FormValidationService,
+    private changeDetectorRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.groupByNotificationForm = this.formBuilder.group({
@@ -392,10 +374,40 @@ export class NotificationEmailComponent implements OnInit {
     });
 
     this.addEmailNotificationsForm = this.formBuilder.group({
-      email: ['', [Validators?.required]],
-      notifications: this.formBuilder.array([]),
+      email: ['', [Validators?.required, Validators?.email]],
+      notifications: this.formBuilder.array([],[Validators?.required]),
     });
-    this.initializeForm(this.allDataList);
+
+    // API calls
+    this.getPartnersAndPatchForm();
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        
+        this.allDataList.accountSetupUpdateNotifications = res?.payload?.accountSetupUpdateNotifications;
+        this.allDataList.catalogSetupUpdateNotifications = res?.payload?.catalogSetupUpdateNotifications;
+        this.allDataList.inventoryProcessingNotification = res?.payload?.inventoryProcessingNotification;
+        this.allDataList.invoicingNotifications = res?.payload?.invoicingNotifications;
+        this.allDataList.orderProcessingNotification = res?.payload?.orderProcessingNotification;
+        this.allDataList.purchaseOrderNotification = res?.payload?.purchaseOrderNotification;
+        this.allDataList.remittanceNotifications = res?.payload?.remittanceNotifications;
+        this.allDataList.returnProcessingNotification = res?.payload?.returnProcessingNotification;
+        this.initializeForm(this.allDataList);
+
+        // this.contactList = res.payload.contacts;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
+        this.isLoading = false;
+      },
+    });
   }
 
   changeFormType(event: string) {
@@ -413,7 +425,7 @@ export class NotificationEmailComponent implements OnInit {
     return this.groupByNotificationForm.get('notificationGroups') as FormArray;
   }
 
-  // Method to get the form array for notification groups
+// Method to get the form array for notification groups
   get emailGroups(): FormArray {
     return this.groupByEmailForm.get('emailGroups') as FormArray;
   }
@@ -429,7 +441,7 @@ export class NotificationEmailComponent implements OnInit {
   clearFormGroups = (formGroup: FormGroup) => {
     Object.keys(formGroup.controls).forEach((key) => {
       const control = formGroup.get(key);
-
+      console.log("DFDFDF");
       if (control instanceof FormGroup) {
         this.clearFormGroups(control);
       } else if (control instanceof FormArray) {
@@ -473,6 +485,7 @@ export class NotificationEmailComponent implements OnInit {
         console.log(this.groupByNotificationForm.value);
       } else {
         this.clearFormGroups(this.groupByEmailForm);
+        this.changeDetectorRef.detectChanges();
         let groupByEmailValues: any = {};
         // Create the data object
         Object.keys(this.groupByNotificationTypeIdLabels).forEach((key) => {
@@ -498,6 +511,10 @@ export class NotificationEmailComponent implements OnInit {
         Object.keys(groupByEmailValues).forEach((key, index) => {
           if (groupByEmailValues[key] && groupByEmailValues[key].length > 0) {
             const emailGroup = this.formBuilder.group({
+              uniqueId: [
+                Math.random().toString(36).substring(2) +
+                  Date.now().toString(36),
+              ],
               email: [
                 { value: key, disabled: true },
                 [
@@ -513,7 +530,10 @@ export class NotificationEmailComponent implements OnInit {
             groupByEmailValues[key].forEach((notification: string) => {
               notificationGroups.push(
                 this.formBuilder.group({
-                  uniqueId: [Math.random().toString(36).substring(2) + Date.now().toString(36)],
+                  uniqueId: [
+                    Math.random().toString(36).substring(2) +
+                      Date.now().toString(36),
+                  ],
                   notification: [notification, [Validators.required]],
                 })
               );
@@ -544,7 +564,9 @@ export class NotificationEmailComponent implements OnInit {
   // Method to create a new notification email form group
   newNotificationEmail(emailValue = ''): FormGroup {
     return this.formBuilder.group({
-      uniqueId: [Math.random().toString(36).substring(2) + Date.now().toString(36)],
+      uniqueId: [
+        Math.random().toString(36).substring(2) + Date.now().toString(36),
+      ],
       email: [
         emailValue,
         [Validators.required, Validators.email, Validators.maxLength(255)],
@@ -571,7 +593,9 @@ export class NotificationEmailComponent implements OnInit {
   // Method to create a new notification email form group
   newNotification(notificationValue = ''): FormGroup {
     return this.formBuilder.group({
-      uniqueId: [Math.random().toString(36).substring(2) + Date.now().toString(36)],
+      uniqueId: [
+        Math.random().toString(36).substring(2) + Date.now().toString(36),
+      ],
       notification: [notificationValue, [Validators.required]],
     });
   }
@@ -599,61 +623,108 @@ export class NotificationEmailComponent implements OnInit {
   deleteAction(data: any) {}
 
   reset() {
-    // this.initializeForm(this.allDataList);
-    // this.notificationEmailForm?.reset();
+    this.initializeForm(this.allDataList);
+    this.addEmailNotificationsForm?.reset();
   }
 
   submitNotificationForm() {
-    const notificationList = this.groupByNotificationForm.value;
-    const payload: any = {
-      accountSetupUpdateNotifications: [],
-      catalogSetupUpdateNotifications: [],
-      inventoryProcessingNotification: [],
-      invoicingNotifications: [],
-      orderProcessingNotification: [],
-      purchaseOrderNotification: [],
-      remittanceNotifications: [],
-      returnProcessingNotification: [],
-    };
-    notificationList?.notificationGroups?.forEach((notification: any) => {
-      notification?.emails.forEach((emails: any) => {
-        const array: any[] = payload[notification?.typeId];
-        array.push(emails?.email);
+    var isValid = true;
+    if(this.formTypes.value === 'notifications') {
+      this.notificationGroups.controls.forEach((x: any) => {
+        const isFormValid = this.formValidationService.checkFormValidity(x, {emails: true});
+        if(!isFormValid) {
+          isValid = false;
+        }
       });
-    });
+    }
+    else {
+      console.log(this.groupByEmailForm)
+      this.emailGroups.controls.forEach((x: any) => {
+        const isFormValid = this.formValidationService.checkFormValidity(x, {email: true, notifications: true});
+        if(!isFormValid) {
+          isValid = false;
+        }
+      });
+    }
 
+    if(isValid) {
+      // Saving Code
+      this.isSaving = true;
+
+      const notificationList = this.groupByNotificationForm.value;
+      const payload: any = {
+        accountSetupUpdateNotifications: [],
+        catalogSetupUpdateNotifications: [],
+        inventoryProcessingNotification: [],
+        invoicingNotifications: [],
+        orderProcessingNotification: [],
+        purchaseOrderNotification: [],
+        remittanceNotifications: [],
+        returnProcessingNotification: [],
+      };
+      notificationList?.notificationGroups?.forEach((notification: any) => {
+        notification?.emails.forEach((emails: any) => {
+          const array: any[] = payload[notification?.typeId];
+          array.push(emails?.email);
+        });
+      });
+  
+      this.partnerService.updatePartner(payload).subscribe({
+        next: (res) => {
+          this.message.create('success', 'Data Updated Successfully!');
+          this.isSaving = false;
+          // Fetch the updated partner data after a successful update
+          this.getPartnersAndPatchForm();
+        },
+        error: (error: any) => {
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          );
+           this.isSaving = false; // Ensure saving state is updated on error
+        },
+      });
     console.log(payload);
-    console.log(this.emailGroups.value);
-    
   }
+  }
+ 
 
   submitForm() {
-    // const valid = this.formValidationService.checkFormValidity(
-    //   this.notificationEmailForm,
-    //   this.formFieldOnUI
-    // );
-    // if (valid) {
-    //   this.isLoading = true;
-    //   const payload = {
-    //     newShippingClosures: 'addPayload',
-    //     partnerCode: 'TDA',
-    //   };
-    //   setTimeout(() => {
-    //     console.log(payload);
-    //     this.isLoading = false;
-    //     this.notificationEmailForm?.reset();
-    //     this.showSection = this.section.TABLE;
-    //   }, 500);
-    // } else {
-    //   Object.values(this.notificationEmailForm.controls).forEach((control) => {
-    //     if (control.invalid) {
-    //       if (control instanceof FormControl) {
-    //         control.markAsDirty();
-    //         control.updateValueAndValidity({ onlySelf: true });
-    //       }
-    //     }
-    //   });
-    // }
+
+    const valid = this.formValidationService.checkFormValidity(
+      this.addEmailNotificationsForm,
+      this.formFieldOnUI
+    );
+
+    if(valid) {
+      console.log(this.allDataList);
+
+      console.log(this.addEmailNotificationsForm.value)
+      const addFormValue = this.addEmailNotificationsForm.value;
+      addFormValue?.notifications?.forEach((grp: any) => {
+        this.allDataList[grp.notification].push(addFormValue.email);
+      });
+      console.log(this.allDataList);
+
+      const payload: any = {
+        accountSetupUpdateNotifications: this.allDataList['accountSetupUpdateNotifications'],
+        catalogSetupUpdateNotifications: this.allDataList['catalogSetupUpdateNotifications'],
+        inventoryProcessingNotification: this.allDataList['inventoryProcessingNotification'],
+        invoicingNotifications: this.allDataList['invoicingNotifications'],
+        orderProcessingNotification: this.allDataList['orderProcessingNotification'],
+        purchaseOrderNotification: this.allDataList['purchaseOrderNotification'],
+        remittanceNotifications: this.allDataList['remittanceNotifications'],
+        returnProcessingNotification: this.allDataList['returnProcessingNotification'],
+      };
+      console.log(payload)
+    }
+
+  }
+  
+  newNotificationType() {
+    return this.formBuilder.group({
+      notification: ['', [Validators.required]],
+    });
   }
 
   onAddNotificationForm() {
@@ -662,13 +733,13 @@ export class NotificationEmailComponent implements OnInit {
 
     // set up the form
     this.addFormNotificationGroups.push(
-      this.formBuilder.control('', [Validators.required])
+      this.newNotificationType()
     );
   }
 
   addNotificationFromAddForm() {
     this.addFormNotificationGroups.push(
-      this.formBuilder.control('', [Validators.required])
+      this.newNotificationType()
     );
   }
 
