@@ -58,7 +58,6 @@ export class OrderProcessingReturnComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     // Initialize form
     this.orderProcessingReturnForm = this.fb.group({
       poSendingMethod: [{ value: '', disabled: true }],
@@ -186,7 +185,7 @@ export class OrderProcessingReturnComponent implements OnInit {
     );
 
     this.authorizedInvoiceSenders.clear();
-    data.authorizedFeedSenders.forEach((email: any) => {
+    data.authorizedInvoiceSenders.forEach((email: any) => {
       const emailFormGroup = new FormGroup({
         email: new FormControl(email), // Create a FormControl for email
       });
