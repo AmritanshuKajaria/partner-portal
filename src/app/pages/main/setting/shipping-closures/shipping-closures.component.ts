@@ -126,40 +126,39 @@ export class ShippingClosuresComponent implements OnInit {
         'Are you sure you want to remove the Manager Shipping Closure Details?',
       
       nzOnOk: () =>
-
-        this.partnerService.updatePartner(data).subscribe({
-          next: (res: any) => {
-            console.log(data)
-            this.isLoading = true;
-            this.message.create('success', 'Data Deleted Successfully!');
-            this.partnerService.getPartner().subscribe({
-              next: (res: any) => {
-                this.shippingClosureForm?.reset();
-                this.showSection = this.section.TABLE;
-                this.shippingClosureList = res.payload.upcomingShippingClosures;
-                this.newShippingClosureList = res.payload.upcomingShippingClosures;
-                this.oldShippingClosureList = res.payload.previousShippingClosures;
-                this.isLoading = false;
-              },
-              error: (error) => {
-                this.message.create(
-                  'error',
-                  error?.error_message?.[0] ||
-                    'Something went wrong fetching the data'
-                );
-                this.isLoading = false;
-              },
-            });
-          },
-          error: (error) => {
-            this.message.create(
-              'error',
-              error?.error_message?.[0] ||
-                'Something went wrong fetching the data'
-            );
-            this.isLoading = false;
-          },
-        })
+        new Promise((resolve, reject) => {
+          this.partnerService.updatePartner(data).subscribe({
+            next: (res: any) => {
+              resolve(res);
+              console.log(data)
+              this.isLoading = true;
+              this.message.create('success', 'Data Deleted Successfully!');
+              this.partnerService.getPartner().subscribe({
+                next: (res: any) => {
+                  this.shippingClosureForm?.reset();
+                  this.showSection = this.section.TABLE;
+                  this.shippingClosureList = res.payload.upcomingShippingClosures;
+                  this.newShippingClosureList = res.payload.upcomingShippingClosures;
+                  this.oldShippingClosureList = res.payload.previousShippingClosures;
+                  this.isLoading = false;
+                },
+                error: (error) => {
+                  reject(error);
+                },
+              });
+            },
+            error: (error) => {
+              reject(error);
+            },
+          })
+        }).catch((error) => {
+          console.log(error);  
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          ),
+          this.isLoading = false;
+        }),
     });
   }
 
