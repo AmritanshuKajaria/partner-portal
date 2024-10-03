@@ -59,7 +59,7 @@ export class ReturnLocationComponent implements OnInit {
     this.returnLocationForm = this.formBuilder.group({
       formType: ['Edit'],
       returnInternalCode: [
-        { value: 'FDC-RETURN-LOCATION-001', disabled: true },
+        { value: '', disabled: true },
         [
           Validators.required,
           Validators.minLength(23),

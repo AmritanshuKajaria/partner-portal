@@ -96,19 +96,31 @@ export class LegalInfoComponent implements OnInit {
     });
 
 
+     // Get Constants JSON
+     this.commonService.getJsonData().subscribe({
+      next: (res) => {
+        this.dropDownList = res;
+      },
+    });
+
     // API calls
-    forkJoin([
-      this.commonService.getJsonData(),
-      this.partnerService.getPartner(),
-    ]).subscribe({
-      next: ([jsonData, partnerData]: any) => {
-        this.legalInfoData = partnerData.payload.legalInfo;
+    this.getPartnersAndPatchForm();
+
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        this.legalInfoData = res.payload.legalInfo;
         this.patchFormValue(this.legalInfoData);
-        this.dropDownList = jsonData;
         this.isLoading = false;
       },
-      error: (e) => {
-        this.message.create('error', 'Something went wrong fetching the data');
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
         this.isLoading = false;
       },
     });

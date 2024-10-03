@@ -54,10 +54,23 @@ export class PrimaryInfoComponent implements OnInit {
       paymentReason: [{ value: '', disabled: true }],
     });
 
-     // Get API call
-     this.partnerService.getPartner().subscribe({
+    
+      // Get Constants JSON
+      this.commonService.getJsonData().subscribe({
+        next: (res) => {
+          this.dropDownList = res;
+        },
+      });
+  
+      // API calls
+      this.getPartnersAndPatchForm();
+  }
+
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
+    this.partnerService.getPartner().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.primaryInfoData = res.payload;
         this.onFormChange();
         this.patchFormValue(this.primaryInfoData);
@@ -71,24 +84,6 @@ export class PrimaryInfoComponent implements OnInit {
         this.isLoading = false;
       },
     });
-
-      // API calls
-      forkJoin([
-        this.commonService.getJsonData(),
-        this.partnerService.getPartner(),
-      ]).subscribe({
-        next: ([jsonData, partnerData]: any) => {
-           this.primaryInfoData = partnerData.payload;
-        // this.onFormChange();
-        this.patchFormValue(this.primaryInfoData);
-          this.dropDownList = jsonData;
-          this.isLoading = false;
-        },
-        error: (e) => {
-          this.message.create('error', 'Something went wrong fetching the data');
-          this.isLoading = false;
-        },
-      });
   }
 
    // Get Form Control
@@ -180,22 +175,8 @@ export class PrimaryInfoComponent implements OnInit {
           this.message.create('success', 'Data Updated Successfully!');
           this.isSaving = false;
 
-          // Fetch the updated partner data after a successful update
-          this.isLoading = true;
-          this.partnerService.getPartner().subscribe({
-            next: (res: any) => {
-              this.patchFormValue(res.payload);
-              this.isLoading = false;
-            },
-            error: (error) => {
-              this.message.create(
-                'error',
-                error?.error_message?.[0] ||
-                  'Something went wrong fetching the data'
-              );
-              this.isLoading = false;
-            },
-          });
+         // Fetch the updated partner data after a successful update
+         this.getPartnersAndPatchForm();
         },
         error: (error: any) => {
           this.message.create(

@@ -15,7 +15,7 @@
     </div>
 
     <div class="body-section" style="margin-left: 0; margin-right: 0">
-      <form [formGroup]="primaryInfoForm" *ngIf="!isLoading">
+      <form [formGroup]="primaryInfoForm">
         <nz-form-item *ngIf="formFieldOnUI?.displayName">
           <nz-form-label class="label-section"
             >Display Name <span style="color: red">*</span></nz-form-label
