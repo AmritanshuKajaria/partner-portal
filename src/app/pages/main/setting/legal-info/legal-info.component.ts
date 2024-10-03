@@ -17,7 +17,6 @@ import {
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { PartnerService } from 'src/app/shared/service/partner.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-legal-info',

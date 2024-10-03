@@ -315,12 +315,12 @@ export class PartnerService {
               addendumList: [''],
             },
             coiConfiguration: {
-              insurerName: '',
-              insuredName: '',
-              policyNumber: '',
-              policyStartDate: '0000-00-00',
-              policyEndDate: '0000-00-00',
-              coiFileID: '0',
+              insurerName: 'jack',
+              insuredName: 'diego',
+              policyNumber: '656767',
+              policyStartDate: '2024-10-03',
+              policyEndDate: '2024-10-11',
+              coiFileID: '034',
             },
           },
         });

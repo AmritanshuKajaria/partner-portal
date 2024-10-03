@@ -8,6 +8,8 @@ import {
 import { Router } from '@angular/router';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { PartnerService } from 'src/app/shared/service/partner.service';
 
 @Component({
   selector: 'app-remittance-info',
@@ -17,6 +19,7 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 export class RemittanceInfoComponent implements OnInit {
   isLoading: boolean = false;
   remittanceInfoForm!: FormGroup;
+  remittanceInfoData: any;
   formFieldOnUI = {
     accountNumber: true,
     bankName: true,
@@ -27,28 +30,71 @@ export class RemittanceInfoComponent implements OnInit {
     discountPercentage: true,
   };
 
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.remittanceInfoForm = this.formBuilder.group({
-      accountNumber: [{ value: '802653096', disabled: true }],
-      bankName: [{ value: 'PNC Banck', disabled: true }],
-      nameOnAccount: [{ value: 'LLC', disabled: true }],
-      routingNumber: [{ value: '031207607', disabled: true }],
-      netDays: [{ value: '10', disabled: true }],
-      discountDays: [{ value: '0', disabled: true }],
-      discountPercentage: [{ value: '0.00', disabled: true }],
+      accountNumber: [{ value: '', disabled: true }],
+      bankName: [{ value: '', disabled: true }],
+      nameOnAccount: [{ value: '', disabled: true }],
+      routingNumber: [{ value: '', disabled: true }],
+      netDays: [{ value: '', disabled: true }],
+      discountDays: [{ value: '', disabled: true }],
+      discountPercentage: [{ value: '', disabled: true }],
+    });
+
+    // Get API call
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.remittanceInfoData = res.payload;
+        this.patchFormValue(this.remittanceInfoData);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
+        this.isLoading = false;
+      },
     });
   }
 
+  // Get Form Control
   get formControl() {
     return this.remittanceInfoForm.controls;
   }
 
+  // Reset form
   reset() {
     this.remittanceInfoForm?.reset();
   }
 
+  // Patch value to the form
+  patchFormValue(data: any) {
+    
+    let achDetails = data.achDetails;
+    let paymentDetails = data.paymentDetails;
+
+    this.formControl['accountNumber'].setValue(achDetails?.accountNumber); 
+    this.formControl['bankName'].setValue(achDetails?.bankName); 
+    this.formControl['nameOnAccount'].setValue(achDetails?.nameOnAccount); 
+    this.formControl['routingNumber'].setValue(achDetails?.routingNumber); 
+
+    this.formControl['netDays'].setValue(paymentDetails?.netDays); 
+    this.formControl['discountDays'].setValue(paymentDetails?.discountDays); 
+    this.formControl['discountPercentage'].setValue(paymentDetails?.discountPercentage); 
+  }
+
+  // Submit form
   submitForm() {
     this.isLoading = true;
     const payload = {
@@ -80,6 +126,7 @@ export class RemittanceInfoComponent implements OnInit {
     }, 500);
   }
 
+  // Navigate back
   goBack() {
     this.router.navigate(['/main/setting']);
   }

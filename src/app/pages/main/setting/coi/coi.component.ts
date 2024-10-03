@@ -11,6 +11,8 @@ import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { PartnerService } from 'src/app/shared/service/partner.service';
 
 @Component({
   selector: 'app-coi',
@@ -21,6 +23,7 @@ export class COIComponent implements OnInit {
   @ViewChild('endDatePicker') endDatePicker!: NzDatePickerComponent;
   isLoading: boolean = false;
   coiForm!: FormGroup;
+  coiData: any;
   dropDownList: any = null;
   formFieldOnUI = {
     insurerName: true,
@@ -31,42 +34,53 @@ export class COIComponent implements OnInit {
     coiFileID: true,
   };
   fileList: any = {
-    uid: '-1',
+    fileId: '',
     name: 'COI File',
-    status: 'done',
-    url: 'https://example.com/path-to-your-file.pdf',
+    // uid: '-1',
+    // status: 'done',
+    // url: 'https://example.com/path-to-your-file.pdf',
   };
 
   constructor(
     private commonService: CommonService,
     private formBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.commonService.getJsonData().subscribe(
-      (res) => {
-        this.dropDownList = res;
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching JSON data', error);
-        this.isLoading = false;
-      }
-    );
+
     this.coiForm = this.formBuilder.group({
-      insurerName: [{ value: 'test 1', disabled: true }],
-      insuredName: [{ value: 'test 2', disabled: true }],
-      policyNumber: [{ value: 12312, disabled: true }],
-      policyStartDate: [{ value: '2024-08-22', disabled: true }],
-      policyEndDate: [{ value: '2024-08-12', disabled: true }],
+      insurerName: [{ value: '', disabled: true }],
+      insuredName: [{ value: '', disabled: true }],
+      policyNumber: [{ value: '', disabled: true }],
+      policyStartDate: [{ value: '', disabled: true }],
+      policyEndDate: [{ value: '', disabled: true }],
       coiFileID: [{ value: '', disabled: true }],
     });
 
     // this.coiForm?.valueChanges.subscribe((value) => {
     //   this.onFormChange();
     // });
+
+    // Get API call
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        console.log(res);
+        this.coiData = res.payload.coiConfiguration;
+        this.patchFormValue(this.coiData);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
+        this.isLoading = false;
+      },
+    });
   }
 
   beforeUpload = (file: NzUploadFile): boolean => {
@@ -74,6 +88,7 @@ export class COIComponent implements OnInit {
     return false;
   };
 
+  // Get Form Control
   get formControl() {
     return this.coiForm.controls;
   }
@@ -96,24 +111,48 @@ export class COIComponent implements OnInit {
     );
   };
 
+  // Reset Form
   reset() {
     this.fileList = [];
     this.coiForm?.reset();
   }
 
-  downloadFile(file: NzUploadFile): void {
-    // Create a temporary link to download the file
-    const link = document.createElement('a');
-    link.href = this.fileList?.url;
-    link.download = this.fileList?.name;
-    link.target = '_blank'; // To open in a new tab (optional)
-    link.click();
+  // downloadFile(file: NzUploadFile): void {
+  downloadFile(data: any) {
+    this.partnerService.getPartnerPdf(data?.field).subscribe({
+      next: (res: any) => {
+        // Create a temporary link to download the file
+        const link = document.createElement('a');
+        link.href = res?.url;
+        link.download = this.fileList?.name;
+        link.target = '_blank'; // To open in a new tab (optional)
+        link.click();
+      },
+      error: (error: any) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Data Update failed!'
+        );
+      },
+    });
   }
 
   removeFile(): void {
     this.fileList = null;
   }
 
+  // Patch Form Value
+  patchFormValue(data: any) {
+    this.formControl['insurerName'].setValue(data?.insurerName);
+    this.formControl['insuredName'].setValue(data?.insuredName);
+    this.formControl['policyNumber'].setValue(data?.policyNumber);
+    this.formControl['policyStartDate'].setValue(data?.policyStartDate);
+    this.formControl['policyEndDate'].setValue(data?.policyEndDate);
+    this.formControl['coiFileID'].setValue(data?.coiFileID);
+    this.fileList.fileId = data?.coiFileID;
+  }
+
+  // Submit Form
   submitForm() {
     this.isLoading = true;
     const formData = new FormData();
@@ -187,6 +226,7 @@ export class COIComponent implements OnInit {
     }, 500);
   }
 
+  // Navigate back
   goBack() {
     this.router.navigate(['/main/setting']);
   }
