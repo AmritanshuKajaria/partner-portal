@@ -89,18 +89,32 @@ export class ShippingClosuresComponent implements OnInit {
 
   // Disable start Date
   disabledStartDate = (startValue: Date): boolean => {
-    if (!startValue || !this.formControl['endDate']?.value) {
-      return false;
-    }
-    return startValue.getTime() > this.formControl['endDate']?.value.getTime();
+    const currentDate = moment(new Date()).startOf('day');
+    const startDate = moment(startValue).startOf('day');
+    const selectedEndDate = this.formControl['endDate']
+      ? moment(this.formControl['endDate'].value).startOf('day')
+      : false;
+    return (
+      // This is to disable dates before current date
+      currentDate.isAfter(startDate) ||
+      // This is to disable dates after selected end date
+      (selectedEndDate && startDate.isAfter(selectedEndDate))
+    );
   };
 
  // Disable end Date
   disabledEndDate = (endValue: Date): boolean => {
-    if (!endValue || !this.formControl['startDate']?.value) {
-      return false;
-    }
-    return endValue.getTime() <= this.formControl['startDate']?.value.getTime();
+    const currentDate = moment(new Date()).startOf('day');
+    const endDate = moment(endValue).startOf('day');
+    const selectedStartDate = this.formControl['startDate']
+      ? moment(this.formControl['startDate'].value).startOf('day')
+      : false;
+    return (
+      // This is to disable dates before current date
+      currentDate.isAfter(endDate) ||
+      // This is to disable dates till selected start date
+      (selectedStartDate && endDate.isBefore(selectedStartDate))
+    );
   };
 
   // Date formate
