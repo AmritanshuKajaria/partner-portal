@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import {
   CanadaStates,
@@ -15,6 +16,8 @@ import {
 } from 'src/app/shared/constants/constants';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { PartnerService } from 'src/app/shared/service/partner.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-legal-info',
@@ -25,6 +28,7 @@ export class LegalInfoComponent implements OnInit {
   isLoading: boolean = false;
   legalInfoForm!: FormGroup;
   dropDownList: any = null;
+  legalInfoData: any;
   federalTaxClassificationOption = FederalTaxClassificationOption;
   formFieldOnUI = {
     documentType: true,
@@ -49,54 +53,68 @@ export class LegalInfoComponent implements OnInit {
   canadaState = CanadaStates;
   countryList = ['US', 'CA'];
   fileList: any = {
-    uid: '-1',
+    fileId : '',
     name: 'W9 File',
-    status: 'done',
-    url: 'https://example.com/path-to-your-file.pdf',
+    // uid: '-1',
+    // status: 'done',
+    // url: 'https://example.com/path-to-your-file.pdf',
   };
 
   constructor(
     private commonService: CommonService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.commonService.getJsonData().subscribe(
-      (res) => {
-        this.dropDownList = res;
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching JSON data', error);
-        this.isLoading = false;
-      }
-    );
-
+ 
+    // Initialize form
     this.legalInfoForm = this.fb.group({
-      documentType: [{ value: 1, disabled: true }],
-      formRevisionNumber: [{ value: '2024-03', disabled: true }],
-      legalName: [{ value: '4D Concepts Inc', disabled: true }],
+      documentType: [{ value: '', disabled: true }],
+      formRevisionNumber: [{ value: '', disabled: true }],
+      legalName: [{ value: '', disabled: true }],
       businessName: [{ value: '', disabled: true }],
-      federalTaxClassification: [{ value: 'S Corporation', disabled: true }],
-      officialAddressLine1: [{ value: '11699 6th Street', disabled: true }],
+      federalTaxClassification: [{ value: '', disabled: true }],
+      officialAddressLine1: [{ value: '', disabled: true }],
       officialAddressLine2: [{ value: '', disabled: true }],
-      officialCity: [{ value: 'Rancho Cucamonga', disabled: true }],
-      tinNumber: [{ value: '203358613', disabled: true }],
-      officialZipCode: [{ value: '91730', disabled: true }],
-      tinType: [{ value: 2, disabled: true }],
-      officialCountry: [{ value: 'US', disabled: true }],
-      officialState: [{ value: 'CA', disabled: true }],
-      w9SigningDate: [{ value: '2018-07-23', disabled: true }],
+      officialCity: [{ value: '', disabled: true }],
+      tinNumber: [{ value: '', disabled: true }],
+      officialZipCode: [{ value: '', disabled: true }],
+      tinType: [{ value: '', disabled: true }],
+      officialCountry: [{ value: '', disabled: true }],
+      officialState: [{ value: '', disabled: true }],
+      w9SigningDate: [{ value: '', disabled: true }],
       w9FileID: [{ value: '', disabled: true }],
     });
 
+    // Set value change listner on form
     this.legalInfoForm?.valueChanges.subscribe((selectedValues) => {
       this.onFormChange();
     });
+
+
+    // API calls
+    forkJoin([
+      this.commonService.getJsonData(),
+      this.partnerService.getPartner(),
+    ]).subscribe({
+      next: ([jsonData, partnerData]: any) => {
+        this.legalInfoData = partnerData.payload.legalInfo;
+        this.patchFormValue(this.legalInfoData);
+        this.dropDownList = jsonData;
+        this.isLoading = false;
+      },
+      error: (e) => {
+        this.message.create('error', 'Something went wrong fetching the data');
+        this.isLoading = false;
+      },
+    });
   }
 
+  // Get Form Control
   get formControl() {
     return this.legalInfoForm.controls;
   }
@@ -117,15 +135,29 @@ export class LegalInfoComponent implements OnInit {
     );
   };
 
-  downloadFile(file: NzUploadFile): void {
-    // Create a temporary link to download the file
-    const link = document.createElement('a');
-    link.href = this.fileList?.url;
-    link.download = this.fileList?.name;
-    link.target = '_blank'; // To open in a new tab (optional)
-    link.click();
+  // downloadFile(file: NzUploadFile): void {
+  downloadFile(data: any) {
+
+    this.partnerService.getPartnerPdf(data?.field).subscribe({
+      next: (res:any) => {
+        // Create a temporary link to download the file
+        const link = document.createElement('a');
+        link.href = res?.url;
+        link.download = this.fileList?.name;
+        link.target = '_blank'; // To open in a new tab (optional)
+        link.click();
+      },
+      error: (error: any) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Data Update failed!'
+        );
+      },
+    });
+  
   }
 
+  // Handle hide show inputs
   onFormChange() {
     if (this.formControl['documentType']?.value === 2) {
       // this.formControl['officialCountry']?.setValue('CA');
@@ -138,10 +170,33 @@ export class LegalInfoComponent implements OnInit {
     }
   }
 
+  // Reset form
   reset() {
     this.legalInfoForm?.reset();
   }
 
+   // Patch Form Value
+   patchFormValue(data: any) {
+
+    this.formControl['documentType'].setValue(Number(data?.documentType));
+    this.formControl['formRevisionNumber'].setValue(data?.formRevisionNumber);
+    this.formControl['legalName'].setValue(data?.legalName);
+    this.formControl['businessName'].setValue(data?.businessName);
+    this.formControl['federalTaxClassification'].setValue(data?.federalTaxClassification);
+    this.formControl['tinType'].setValue(Number(data?.tinType));
+    this.formControl['tinNumber'].setValue(data?.tinNumber);
+    this.formControl['w9SigningDate'].setValue(data?.w9SigningDate);
+    this.formControl['officialAddressLine1'].setValue(data?.officialAddressLine1);
+    this.formControl['officialAddressLine2'].setValue(data?.officialAddressLine2);
+    this.formControl['officialCity'].setValue(data?.officialCity);
+    this.formControl['officialState'].setValue(data?.officialState);
+    this.formControl['officialZipCode'].setValue(data?.officialZipCode );
+    this.formControl['officialCountry'].setValue(data?.officialCountry );
+    this.formControl['w9FileID'].setValue(data?.w9FileID);
+    this.fileList.fileId = data?.w9FileID;
+  } 
+
+  // Submit form
   submitForm() {
     this.isLoading = true;
     const payload = {
@@ -155,6 +210,7 @@ export class LegalInfoComponent implements OnInit {
     }, 500);
   }
 
+  // Navigate back
   goBack() {
     this.router.navigate(['/main/setting']);
   }
