@@ -7,7 +7,6 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 import { PartnerService } from 'src/app/shared/service/partner.service';
 import { forkJoin } from 'rxjs';
 
-
 @Component({
   selector: 'app-primary-info',
   templateUrl: './primary-info.component.html',
@@ -24,11 +23,11 @@ export class PrimaryInfoComponent implements OnInit {
     displayName: true,
     accountManagerName: true,
     accountStatus: true,
+    accountReason: false,
     salesStatus: true,
+    salesReason: false,
     paymentStatus: true,
-    accountReason: true,
-    salesReason: true,
-    paymentReason: true,
+    paymentReason: false,
   };
 
   constructor(
@@ -54,26 +53,24 @@ export class PrimaryInfoComponent implements OnInit {
       paymentReason: [{ value: '', disabled: true }],
     });
 
-    
-      // Get Constants JSON
-      this.commonService.getJsonData().subscribe({
-        next: (res) => {
-          this.dropDownList = res;
-        },
-      });
-  
-      // API calls
-      this.getPartnersAndPatchForm();
-  }
+    // Get Constants JSON
+    this.commonService.getJsonData().subscribe({
+      next: (res) => {
+        this.dropDownList = res;
+      },
+    });
 
+    // API calls
+    this.getPartnersAndPatchForm();
+  }
 
   getPartnersAndPatchForm() {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
         this.primaryInfoData = res.payload;
-        this.onFormChange();
         this.patchFormValue(this.primaryInfoData);
+        this.onFormChange();
         this.isLoading = false;
       },
       error: (error) => {
@@ -86,14 +83,13 @@ export class PrimaryInfoComponent implements OnInit {
     });
   }
 
-   // Get Form Control
+  // Get Form Control
   get formControl() {
     return this.primaryInfoForm.controls;
   }
 
   // Handle hide show inputs
   onFormChange(): void {
-    
     if (this.formControl['accountStatus'].value === 2) {
       this.formFieldOnUI['accountReason'] = true;
     } else {
@@ -105,7 +101,7 @@ export class PrimaryInfoComponent implements OnInit {
     } else {
       this.formFieldOnUI['salesReason'] = false;
     }
-    
+
     if (this.formControl['paymentStatus'].value === 2) {
       this.formFieldOnUI['paymentReason'] = true;
     } else {
@@ -121,21 +117,31 @@ export class PrimaryInfoComponent implements OnInit {
 
   // Patch Form Value
   patchFormValue(data: any) {
-
     let partnerDetails = data?.partnerDetails;
     let paymentDetails = data?.paymentDetails;
 
     this.formControl['displayName'].setValue(partnerDetails?.displayName);
-    this.formControl['accountManagerName'].setValue(partnerDetails?.accountManagerName);
-    this.formControl['accountStatus'].setValue(Number(partnerDetails?.accountStatus));
-    this.formControl['accountReason'].setValue(partnerDetails?.accountStatusReason);
-    this.formControl['salesStatus'].setValue(Number(partnerDetails?.salesStatus));
+    this.formControl['accountManagerName'].setValue(
+      partnerDetails?.accountManagerName
+    );
+    this.formControl['accountStatus'].setValue(
+      Number(partnerDetails?.accountStatus)
+    );
+    this.formControl['accountReason'].setValue(
+      partnerDetails?.accountStatusReason
+    );
+    this.formControl['salesStatus'].setValue(
+      Number(partnerDetails?.salesStatus)
+    );
     this.formControl['salesReason'].setValue(partnerDetails?.salesStatusReason);
 
-    this.formControl['paymentStatus'].setValue(Number(paymentDetails?.paymentStatus));
-    this.formControl['paymentReason'].setValue(paymentDetails?.paymentStatusReason);
-
-  } 
+    this.formControl['paymentStatus'].setValue(
+      Number(paymentDetails?.paymentStatus)
+    );
+    this.formControl['paymentReason'].setValue(
+      paymentDetails?.paymentStatusReason
+    );
+  }
 
   // Submit Form
   submitForm() {
@@ -175,8 +181,8 @@ export class PrimaryInfoComponent implements OnInit {
           this.message.create('success', 'Data Updated Successfully!');
           this.isSaving = false;
 
-         // Fetch the updated partner data after a successful update
-         this.getPartnersAndPatchForm();
+          // Fetch the updated partner data after a successful update
+          this.getPartnersAndPatchForm();
         },
         error: (error: any) => {
           this.message.create(
