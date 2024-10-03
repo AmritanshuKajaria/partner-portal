@@ -119,6 +119,11 @@ export class ShippingClosuresComponent implements OnInit {
 
   // Delete Shipping Closure
   deleteAction(data: any) {
+
+    let payload = { 
+      contactId : data.closureDate,
+      isDeleted : 1
+    };
     
     this.modal.confirm({
       nzTitle: 'Delete Shipping Closure',
@@ -127,7 +132,7 @@ export class ShippingClosuresComponent implements OnInit {
       
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          this.partnerService.updatePartner(data).subscribe({
+          this.partnerService.updatePartner(payload).subscribe({
             next: (res: any) => {
               resolve(res);
               console.log(data)

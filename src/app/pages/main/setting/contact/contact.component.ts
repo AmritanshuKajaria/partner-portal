@@ -14,6 +14,8 @@ import {
 } from 'src/app/shared/constants/constants';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { PartnerService } from 'src/app/shared/service/partner.service';
 
 @Component({
   selector: 'app-contact',
@@ -24,6 +26,7 @@ export class ContactComponent implements OnInit {
   section = Section;
   formAction = FormAction;
   isLoading: boolean = false;
+  isSaving: boolean = false;
   labelList: any = {
     firstName: 'First Name',
     contactPhoneNumberExtension: 'Phone Extension',
@@ -34,34 +37,7 @@ export class ContactComponent implements OnInit {
     designation: 'Designation',
     extra: '',
   };
-  contactList: any = [
-    {
-      contactId: '264',
-      partnerId: '101',
-      firstName: 'Customer Service Desk',
-      lastName: 'wer43',
-      designation: 'Customer Service',
-      contactPhoneNumber: '9099441980',
-      contactPhoneNumberExtension: '',
-      contactTimeZone: 'PST',
-      notes: '',
-      arrRoles: [1, 3, 5],
-      isDeleted: 0,
-    },
-    {
-      contactId: '264',
-      partnerId: '101',
-      firstName: 'Customer Service Desk',
-      lastName: 'wer43',
-      designation: 'Customer Service',
-      contactPhoneNumber: '9099441980',
-      contactPhoneNumberExtension: '',
-      contactTimeZone: 'PST',
-      notes: '',
-      arrRoles: [2, 4],
-      isDeleted: 0,
-    },
-  ];
+  contactList: any = [];
   dropDownList: any = null;
   timeZone = TimeZone;
   formTitle: string = this.formAction.ADD;
@@ -78,27 +54,20 @@ export class ContactComponent implements OnInit {
     arrRoles: true,
   };
   selectedContact: any = null;
+  contactId = '0';
 
   constructor(
     private commonService: CommonService,
     private formBuilder: FormBuilder,
     private formValidationService: FormValidationService,
     private modal: NzModalService,
-    private router: Router
+    private router: Router,
+    private partnerService: PartnerService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.commonService.getJsonData().subscribe(
-      (res) => {
-        this.dropDownList = res;
-        this.isLoading = false;
-      },
-      (error) => {
-        console.error('Error fetching JSON data', error);
-        this.isLoading = false;
-      }
-    );
 
     this.contactForm = this.formBuilder.group({
       firstName: [
@@ -136,6 +105,33 @@ export class ContactComponent implements OnInit {
       ],
       contactTimeZone: ['', [Validators.required]],
       arrRoles: [[], [Validators.required]],
+    });
+
+      // Get Constants JSON
+      this.commonService.getJsonData().subscribe({
+        next: (res) => {
+          this.dropDownList = res;
+        },
+      });
+
+    // API calls
+    this.getPartnersAndPatchForm();
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        this.contactList = res.payload.contacts;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
+        this.isLoading = false;
+      },
     });
   }
 
@@ -184,24 +180,51 @@ export class ContactComponent implements OnInit {
       data?.contactPhoneNumberExtension
     );
     this.formControl['contactTimeZone'].setValue(data?.contactTimeZone);
-    this.formControl['arrRoles'].setValue(data?.arrRoles);
+    this.formControl['arrRoles'].setValue(
+      data?.arrRoles?.map((role:any) => +role) // Convert each element to a number using +
+    );
+    this.contactId = data.contactId;
   }
 
+
   deleteAction(data: any) {
+    let payload = { 
+      contactId : data.contactId,
+      isDeleted : 1
+    };
+    
     this.modal.confirm({
       nzTitle: 'Delete Contact',
       nzContent: 'Are you sure you want to remove the Manager Contact Details?',
       nzOnOk: () =>
         new Promise((resolve, reject) => {
-          setTimeout(Math.random() > 0.5 ? resolve : reject, 1000);
-          console.log(data);
-        }).catch(() => console.log('Oops errors!')),
+          this.partnerService.updatePartner(payload).subscribe({
+            next: (res) => {
+              resolve(res);
+              this.message.create('success', 'Data Updated Successfully!');
+              // Fetch the updated partner data after a successful update
+              this.getPartnersAndPatchForm();
+            },
+            error: (error: any) => {
+              reject(error);
+            },
+          });
+        }).catch((error) => {
+          console.log(error);
+          
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          ),
+          this.isLoading = false;
+        }),
     });
   }
 
   reset() {
     if (this.formTitle === this.formAction?.ADD) {
       this.contactForm?.reset();
+      this.contactId = '0';
     } else {
       this.formControl['firstName'].setValue(this.selectedContact?.firstName);
       this.formControl['lastName'].setValue(this.selectedContact?.lastName);
@@ -211,13 +234,16 @@ export class ContactComponent implements OnInit {
       this.formControl['contactPhoneNumber'].setValue(
         this.selectedContact?.contactPhoneNumber
       );
+      this.phoneInputField();
       this.formControl['contactPhoneNumberExtension'].setValue(
         this.selectedContact?.contactPhoneNumberExtension
       );
       this.formControl['contactTimeZone'].setValue(
         this.selectedContact?.contactTimeZone
       );
-      this.formControl['arrRoles'].setValue(this.selectedContact?.arrRoles);
+      this.formControl['arrRoles'].setValue(
+        this.selectedContact?.arrRoles?.map((role:any) => +role) // Convert each element to a number using +
+      );
     }
   }
 
@@ -228,8 +254,9 @@ export class ContactComponent implements OnInit {
     );
 
     if (valid) {
-      this.isLoading = true;
+      this.isSaving = true;
       const payload = {
+        contactId: this.contactId,
         firstName: this.formFieldOnUI['firstName']
           ? this.formControl['firstName']?.value
           : '',
@@ -254,11 +281,29 @@ export class ContactComponent implements OnInit {
           ? this.formControl['arrRoles']?.value
           : '',
       };
+
       setTimeout(() => {
-        console.log(payload);
-        this.isLoading = false;
-        this.contactForm?.reset();
-        this.showSection = this.section.TABLE;
+        console.log('payload::', payload);
+
+        this.partnerService.updatePartner(payload).subscribe({
+          next: (res) => {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.isSaving = false;
+            this.contactId = '0';
+            this.contactForm?.reset();
+            this.showSection = this.section.TABLE;
+
+            // Fetch the updated partner data after a successful update
+            this.getPartnersAndPatchForm();
+          },
+          error: (error: any) => {
+            this.message.create(
+              'error',
+              error?.error_message?.[0] || 'Data Update failed!'
+            );
+            // this.isSaving = false; // Ensure saving state is updated on error
+          },
+        });
       }, 500);
     } else {
       Object.values(this.contactForm.controls).forEach((control) => {
@@ -276,6 +321,7 @@ export class ContactComponent implements OnInit {
     if (this.showSection !== this.section.TABLE) {
       this.showSection = this.section.TABLE;
       this.contactForm?.reset();
+      this.contactId = '0';
     } else {
       this.router.navigate(['/main/setting']);
     }
