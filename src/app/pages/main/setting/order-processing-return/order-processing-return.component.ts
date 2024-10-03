@@ -58,7 +58,6 @@ export class OrderProcessingReturnComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
 
     // Initialize form
     this.orderProcessingReturnForm = this.fb.group({
@@ -93,9 +92,9 @@ export class OrderProcessingReturnComponent implements OnInit {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
+        this.isLoading = false;
         this.orderProcessingReturnData = res.payload.fulfillmentDetails;
         this.patchFormValue(this.orderProcessingReturnData);
-        this.isLoading = false;
       },
       error: (error) => {
         this.message.create(

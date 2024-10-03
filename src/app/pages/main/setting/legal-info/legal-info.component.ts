@@ -148,8 +148,7 @@ export class LegalInfoComponent implements OnInit {
 
   // downloadFile(file: NzUploadFile): void {
   downloadFile(data: any) {
-
-    this.partnerService.getPartnerPdf(data?.field).subscribe({
+    this.partnerService.getPartnerPdf(data?.fileId).subscribe({
       next: (res:any) => {
         // Create a temporary link to download the file
         const link = document.createElement('a');
@@ -205,6 +204,8 @@ export class LegalInfoComponent implements OnInit {
     this.formControl['officialCountry'].setValue(data?.officialCountry );
     this.formControl['w9FileID'].setValue(data?.w9FileID);
     this.fileList.fileId = data?.w9FileID;
+
+    
   } 
 
   // Submit form
