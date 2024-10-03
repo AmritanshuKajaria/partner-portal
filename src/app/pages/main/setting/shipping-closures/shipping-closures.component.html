@@ -36,6 +36,9 @@
           Add Shipping Closure
         </button>
       </div>
+      <div class="no-data-found" *ngIf="!isLoading && shippingClosureList.length === 0">
+        No Data Found
+      </div>
       <div *ngFor="let item of shippingClosureList" style="margin-bottom: 28px">
         <div nz-row>
           <div
