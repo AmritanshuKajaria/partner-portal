@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class PartnerService {
-  url = environment.settingUrl;
+  url = environment.adminUrl;
   constructor(private http: HttpClient) {}
 
   getPartner() {
