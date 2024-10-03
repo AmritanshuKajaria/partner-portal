@@ -717,6 +717,22 @@ groupByNotificationForm!: FormGroup;
         returnProcessingNotification: this.allDataList['returnProcessingNotification'],
       };
       console.log(payload)
+
+      this.partnerService.updatePartner(payload).subscribe({
+        next: (res) => {
+          this.message.create('success', 'Data Updated Successfully!');
+          this.isSaving = false;
+          // Fetch the updated partner data after a successful update
+          this.getPartnersAndPatchForm();
+        },
+        error: (error: any) => {
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          );
+           this.isSaving = false; // Ensure saving state is updated on error
+        },
+      });
     }
 
   }
