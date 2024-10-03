@@ -84,21 +84,30 @@ export class InventoryFeedComponent implements OnInit {
       this.onFormChange();
     });
 
-    // API calls
-    forkJoin([
-      this.commonService.getJsonData(),
-      this.partnerService.getPartner(),
-    ]).subscribe({
-      next: ([jsonData, partnerData]: any) => {
-        console.log(partnerData.payload);
+    // Get Constants JSON
+    this.commonService.getJsonData().subscribe({
+      next: (res) => {
+        this.dropDownList = res;
+      },
+    });
 
-        this.inventoryFeedData = partnerData.payload.inventoryDetails;
+    // API calls
+    this.getPartnersAndPatchForm();
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        this.inventoryFeedData = res.payload.inventoryDetails;
         this.patchFormValue(this.inventoryFeedData);
-        this.dropDownList = jsonData;
         this.isLoading = false;
       },
-      error: (e) => {
-        this.message.create('error', 'Something went wrong fetching the data');
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
         this.isLoading = false;
       },
     });
@@ -168,7 +177,7 @@ export class InventoryFeedComponent implements OnInit {
   patchFormValue(data: any) {
     this.formControl['inventoryFeedType'].setValue(
       Number(data?.inventoryFeedType)
-    ); 
+    );
     this.formControl['inventoryFeedDetailType'].setValue(
       Number(data?.inventoryFeedDetailType)
     );
@@ -208,7 +217,7 @@ export class InventoryFeedComponent implements OnInit {
         inventoryBucket: this.formFieldOnUI['inventoryBucket']
           ? this.formControl['inventoryBucket'].value
           : '',
-          inventoryFeedFrequency: this.formFieldOnUI['inventorySchedule']
+        inventoryFeedFrequency: this.formFieldOnUI['inventorySchedule']
           ? this.formControl['inventorySchedule'].value
           : '',
         inventoryFeedMPN: this.formFieldOnUI['inventoryFeedMPN']
@@ -234,21 +243,7 @@ export class InventoryFeedComponent implements OnInit {
             this.isSaving = false;
 
             // Fetch the updated partner data after a successful update
-            this.isLoading = true;
-            this.partnerService.getPartner().subscribe({
-              next: (res: any) => {
-                this.patchFormValue(res.payload.inventoryDetails);
-                this.isLoading = false;
-              },
-              error: (error) => {
-                this.message.create(
-                  'error',
-                  error?.error_message?.[0] ||
-                    'Something went wrong fetching the data'
-                );
-                this.isLoading = false;
-              },
-            });
+            this.getPartnersAndPatchForm();
           },
           error: (error: any) => {
             this.message.create(

@@ -63,19 +63,30 @@ export class MapHandlingComponent implements OnInit {
       this.onFormChange();
     });
 
+    // Get Constants JSON
+    this.commonService.getJsonData().subscribe({
+      next: (res) => {
+        this.dropDownList = res;
+      },
+    });
+
     // API calls
-    forkJoin([
-      this.commonService.getJsonData(),
-      this.partnerService.getPartner(),
-    ]).subscribe({
-      next: ([jsonData, partnerData]: any) => {
-        this.mapHandlingData = partnerData.payload.catalogDetails;
+    this.getPartnersAndPatchForm();
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        this.mapHandlingData = res.payload.catalogDetails;
         this.patchFormValue(this.mapHandlingData);
-        this.dropDownList = jsonData;
         this.isLoading = false;
       },
-      error: (e) => {
-        this.message.create('error', 'Something went wrong fetching the data');
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
         this.isLoading = false;
       },
     });
@@ -141,21 +152,7 @@ export class MapHandlingComponent implements OnInit {
             this.isSaving = false;
 
             // Fetch the updated partner data after a successful update
-            this.isLoading = true;
-            this.partnerService.getPartner().subscribe({
-              next: (res: any) => {
-                this.patchFormValue(res.payload.catalogDetails);
-                this.isLoading = false;
-              },
-              error: (error) => {
-                this.message.create(
-                  'error',
-                  error?.error_message?.[0] ||
-                    'Something went wrong fetching the data'
-                );
-                this.isLoading = false;
-              },
-            });
+            this.getPartnersAndPatchForm();
           },
           error: (error: any) => {
             this.message.create(

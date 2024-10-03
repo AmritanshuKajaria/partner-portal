@@ -17,7 +17,6 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { forkJoin } from 'rxjs';
 import { PartnerService } from 'src/app/shared/service/partner.service';
 
-
 @Component({
   selector: 'app-order-processing-return',
   templateUrl: './order-processing-return.component.html',
@@ -60,7 +59,7 @@ export class OrderProcessingReturnComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-  
+
     // Initialize form
     this.orderProcessingReturnForm = this.fb.group({
       poSendingMethod: [{ value: '', disabled: true }],
@@ -79,21 +78,30 @@ export class OrderProcessingReturnComponent implements OnInit {
       this.onFormChange();
     });
 
-     // API calls
-     forkJoin([
-      this.commonService.getJsonData(),
-      this.partnerService.getPartner(),
-    ]).subscribe({
-      next: ([jsonData, partnerData]: any) => {
-        console.log(partnerData.payload);
+    // Get Constants JSON
+    this.commonService.getJsonData().subscribe({
+      next: (res) => {
+        this.dropDownList = res;
+      },
+    });
 
-        this.orderProcessingReturnData = partnerData.payload.fulfillmentDetails;
+    // API calls
+    this.getPartnersAndPatchForm();
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
+    this.partnerService.getPartner().subscribe({
+      next: (res: any) => {
+        this.orderProcessingReturnData = res.payload.fulfillmentDetails;
         this.patchFormValue(this.orderProcessingReturnData);
-        this.dropDownList = jsonData;
         this.isLoading = false;
       },
-      error: (e) => {
-        this.message.create('error', 'Something went wrong fetching the data');
+      error: (error) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
+        );
         this.isLoading = false;
       },
     });
@@ -162,20 +170,21 @@ export class OrderProcessingReturnComponent implements OnInit {
     this.patchFormValue(this.orderProcessingReturnData);
   }
 
-   // Patch value to the form
-   patchFormValue(data: any) {
-    this.formControl['poSendingMethod'].setValue(
-      Number(data?.poSendingMethod)
-    ); 
-    this.formControl['generateLabels'].setValue(
-      Number(data?.generateLabels)
-    );
+  // Patch value to the form
+  patchFormValue(data: any) {
+    this.formControl['poSendingMethod'].setValue(Number(data?.poSendingMethod));
+    this.formControl['generateLabels'].setValue(Number(data?.generateLabels));
     this.formControl['enabledCarriers'].setValue(data?.enabledCarriers);
-    this.formControl['isPackingSlipEnabled'].setValue(data?.isPackingSlipEnabled);
+    this.formControl['isPackingSlipEnabled'].setValue(
+      data?.isPackingSlipEnabled
+    );
     this.formControl['labelPageSize'].setValue(Number(data?.labelPageSize));
-    this.formControl['copyOfPOSentOverEmail'].setValue(data?.copyOfPOSentOverEmail);
-    this.formControl['returnProfile'].setValue(data?.returnDetails?.returnProfileType);
-  
+    this.formControl['copyOfPOSentOverEmail'].setValue(
+      data?.copyOfPOSentOverEmail
+    );
+    this.formControl['returnProfile'].setValue(
+      data?.returnDetails?.returnProfileType
+    );
 
     this.authorizedInvoiceSenders.clear();
     data.authorizedFeedSenders.forEach((email: any) => {
@@ -223,7 +232,7 @@ export class OrderProcessingReturnComponent implements OnInit {
             )
           : '',
       };
- 
+
       setTimeout(() => {
         console.log('payload::', payload);
 
@@ -233,21 +242,7 @@ export class OrderProcessingReturnComponent implements OnInit {
             this.isSaving = false;
 
             // Fetch the updated partner data after a successful update
-            this.isLoading = true;
-            this.partnerService.getPartner().subscribe({
-              next: (res: any) => {
-                this.patchFormValue(res.payload.fulfillmentDetails);
-                this.isLoading = false;
-              },
-              error: (error) => {
-                this.message.create(
-                  'error',
-                  error?.error_message?.[0] ||
-                    'Something went wrong fetching the data'
-                );
-                this.isLoading = false;
-              },
-            });
+            this.getPartnersAndPatchForm();
           },
           error: (error: any) => {
             this.message.create(
