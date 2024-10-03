@@ -121,7 +121,7 @@ export class ShippingClosuresComponent implements OnInit {
   deleteAction(data: any) {
 
     let payload = { 
-      contactId : data.closureDate,
+      closureDate: data.closureDate,
       isDeleted : 1
     };
     
