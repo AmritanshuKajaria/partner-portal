@@ -90,8 +90,15 @@ export class ReturnLocationComponent implements OnInit {
         ],
       ],
     });
+
+    // API calls
+    this.getPartnersAndPatchForm();
     
-    // Get API call
+  
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
         console.log(res);
@@ -109,6 +116,7 @@ export class ReturnLocationComponent implements OnInit {
       },
     });
   }
+
 
   // Get Form Control
   get formControl() {
@@ -285,22 +293,7 @@ export class ReturnLocationComponent implements OnInit {
             this.isSaving = false;
 
             // Fetch the updated partner data after a successful update
-            this.isLoading = true;
-            this.partnerService.getPartner().subscribe({
-              next: (res: any) => {
-                this.selectedData = res.payload.returnLocation;
-                this.setValue(res.payload.returnLocation);
-                this.isLoading = false;
-              },
-              error: (error) => {
-                this.message.create(
-                  'error',
-                  error?.error_message?.[0] ||
-                    'Something went wrong fetching the data'
-                );
-                this.isLoading = false;
-              },
-            });
+            this.getPartnersAndPatchForm();
           },
           error: (error: any) => {
             this.message.create(

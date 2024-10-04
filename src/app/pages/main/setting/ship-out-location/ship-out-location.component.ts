@@ -112,10 +112,17 @@ export class ShipOutLocationComponent implements OnInit {
       ],
     });
 
-    // Get API call
+     // API calls
+     this.getPartnersAndPatchForm();
+
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
         console.log(res);
+        this.shipOutLocationForm?.reset();
         this.shipOutLocationList = res.payload.shipoutLocations;
         this.activateList = res.payload.shipoutLocations;
         this.deactivateList = res.payload.shipoutLocationsInactive;
@@ -197,17 +204,8 @@ export class ShipOutLocationComponent implements OnInit {
               this.isLoading = true;
               this.formTypes.setValue('active');
               // Fetch the updated partner data after a successful update
-              this.partnerService.getPartner().subscribe({
-                next: (res: any) => {
-                  this.shipOutLocationList = res.payload.shipoutLocations;
-                  this.activateList = res.payload.shipoutLocations;
-                  this.deactivateList = res.payload.shipoutLocationsInactive;
-                  this.isLoading = false;
-                },
-                error: (error) => {
-                  reject(error);
-                },
-              });
+              this.getPartnersAndPatchForm();
+
             },
             error: (error: any) => {
               reject(error);
@@ -325,33 +323,17 @@ export class ShipOutLocationComponent implements OnInit {
             this.formTypes.setValue('active');
             this.showSection = this.section.TABLE;
             this.isSaving = false; 
-            this.isLoading = true; 
 
             // Fetch the updated partner data after a successful update
-            this.partnerService.getPartner().subscribe({
-              next: (res: any) => {
-                this.shipOutLocationForm?.reset();
-                this.shipOutLocationList = res.payload.shipoutLocations;
-                this.activateList = res.payload.shipoutLocations;
-                this.deactivateList = res.payload.shipoutLocationsInactive;
-                this.isLoading = false;
-              },
-              error: (error) => {
-                this.message.create(
-                  'error',
-                  error?.error_message?.[0] ||
-                    'Something went wrong fetching the data'
-                );
-                this.isLoading = false;
-              },
-            });
+            this.getPartnersAndPatchForm();
+
           },
           error: (error: any) => {
             this.message.create(
               'error',
               error?.error_message?.[0] || 'Data Update failed!'
             );
-            this.isLoading = false; // Ensure saving state is updated on error
+            this.isSaving = false; // Ensure saving state is updated on error
           },
         });
       }, 500);

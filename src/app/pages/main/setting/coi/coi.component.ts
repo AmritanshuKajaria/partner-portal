@@ -65,7 +65,14 @@ export class COIComponent implements OnInit {
     //   this.onFormChange();
     // });
 
-    // Get API call
+     // API calls
+     this.getPartnersAndPatchForm();
+
+  
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
         console.log(res);

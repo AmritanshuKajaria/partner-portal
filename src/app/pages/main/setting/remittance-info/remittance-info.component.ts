@@ -50,7 +50,14 @@ export class RemittanceInfoComponent implements OnInit {
       discountPercentage: [{ value: '', disabled: true }],
     });
 
-    // Get API call
+    // API calls
+    this.getPartnersAndPatchForm();
+
+   
+  }
+
+  getPartnersAndPatchForm() {
+    this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
         console.log(res);

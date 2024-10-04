@@ -200,13 +200,13 @@
             (click)="submitForm()"
           >
             <span
-              *ngIf="isLoading"
+              *ngIf="isSaving"
               style="color: white; font-size: 16px"
               nz-icon
               nzType="loading"
             ></span>
             <span
-              *ngIf="!isLoading"
+              *ngIf="!isSaving"
               nz-icon
               nzType="file-text"
               nzTheme="outline"

@@ -129,6 +129,8 @@ export class MapHandlingComponent implements OnInit {
       this.mapHandlingForm,
       this.formFieldOnUI
     );
+    console.log(valid);
+    
 
     if (valid) {
       this.isSaving = true;
