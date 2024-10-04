@@ -1,26 +1,25 @@
-@import '../../../../../assets/variable/variable.scss';
-@import '../setting.module.scss';
+@import "../../../../../assets/variable/variable.scss";
+@import "../setting.module.scss";
 
 .return-location-section {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    background-color: $white;
-    background-clip: border-box;
-    border-radius: 5px;
+  border: 0 solid rgba(0, 0, 0, 0.125);
+  background-color: $white;
+  background-clip: border-box;
+  border-radius: 5px;
 
-    .body-section {
-        padding: 16px;
-        height: calc(100vh - 155px);
+  .body-section {
+    padding: 16px;
+    height: calc(100vh - 155px);
 
-        form {
-            .label-section {
-                width: 220px !important;
-            }
+    form {
+      .label-section {
+        width: 234px !important;
+      }
 
-            .input-section {
-                width: 100%;
-                max-width: 400px !important;
-            }
-        }
-
+      .input-section {
+        width: 100%;
+        max-width: 400px !important;
+      }
     }
+  }
 }

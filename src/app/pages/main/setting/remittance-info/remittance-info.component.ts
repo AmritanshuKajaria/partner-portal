@@ -52,8 +52,6 @@ export class RemittanceInfoComponent implements OnInit {
 
     // API calls
     this.getPartnersAndPatchForm();
-
-   
   }
 
   getPartnersAndPatchForm() {
@@ -87,18 +85,19 @@ export class RemittanceInfoComponent implements OnInit {
 
   // Patch value to the form
   patchFormValue(data: any) {
-    
     let achDetails = data.achDetails;
     let paymentDetails = data.paymentDetails;
 
-    this.formControl['accountNumber'].setValue(achDetails?.accountNumber); 
-    this.formControl['bankName'].setValue(achDetails?.bankName); 
-    this.formControl['nameOnAccount'].setValue(achDetails?.nameOnAccount); 
-    this.formControl['routingNumber'].setValue(achDetails?.routingNumber); 
+    this.formControl['accountNumber'].setValue(achDetails?.accountNumber);
+    this.formControl['bankName'].setValue(achDetails?.bankName);
+    this.formControl['nameOnAccount'].setValue(achDetails?.nameOnAccount);
+    this.formControl['routingNumber'].setValue(achDetails?.routingNumber);
 
-    this.formControl['netDays'].setValue(paymentDetails?.netDays); 
-    this.formControl['discountDays'].setValue(paymentDetails?.discountDays); 
-    this.formControl['discountPercentage'].setValue(paymentDetails?.discountPercentage); 
+    this.formControl['netDays'].setValue(paymentDetails?.netDays);
+    this.formControl['discountDays'].setValue(paymentDetails?.discountDays);
+    this.formControl['discountPercentage'].setValue(
+      paymentDetails?.discountPercentage
+    );
   }
 
   // Submit form
@@ -127,10 +126,7 @@ export class RemittanceInfoComponent implements OnInit {
         ? this.formControl['discountPercentage']?.value
         : '',
     };
-    setTimeout(() => {
-      console.log(payload);
-      this.isLoading = false;
-    }, 500);
+    this.isLoading = false;
   }
 
   // Navigate back

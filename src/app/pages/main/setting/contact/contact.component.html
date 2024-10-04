@@ -27,6 +27,9 @@
           Add Contacts
         </button>
       </div>
+      <div class="no-data-found" *ngIf="!isLoading && contactList.length === 0">
+        No Data Found
+      </div>
       <div *ngFor="let item of contactList" style="margin-bottom: 28px">
         <div nz-row>
           <div nz-col [nzXs]="{ span: 20 }" [nzLg]="{ span: 22 }">

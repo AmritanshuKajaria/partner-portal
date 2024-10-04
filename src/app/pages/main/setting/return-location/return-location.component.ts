@@ -93,8 +93,6 @@ export class ReturnLocationComponent implements OnInit {
 
     // API calls
     this.getPartnersAndPatchForm();
-    
-  
   }
 
   getPartnersAndPatchForm() {
@@ -109,14 +107,12 @@ export class ReturnLocationComponent implements OnInit {
       error: (error) => {
         this.message.create(
           'error',
-          error?.error_message?.[0] ||
-            'Something went wrong fetching the data'
+          error?.error_message?.[0] || 'Something went wrong fetching the data'
         );
         this.isLoading = false;
       },
     });
   }
-
 
   // Get Form Control
   get formControl() {
@@ -143,30 +139,32 @@ export class ReturnLocationComponent implements OnInit {
   setInternalCode() {
     // Assuming selectedData is an array, so wrap the single object in an array
     const partnerDataList = [this.selectedData]; // Modify this line to handle the single object
-    
+
     console.log(partnerDataList);
-  
+
     let maxInternalCode = partnerDataList?.reduce(function (
       max: any,
       current: any
     ) {
-      return max?.returnInternalCode > current?.returnInternalCode ? max : current;
+      return max?.returnInternalCode > current?.returnInternalCode
+        ? max
+        : current;
     });
-  
+
     if (maxInternalCode) {
-      
       const no = +maxInternalCode.returnInternalCode.split('-')[3];
-      
+
       this.formControl['returnInternalCode'].setValue(
         maxInternalCode.returnInternalCode.slice(0, -3) +
           String(no + 1).padStart(3, '0')
       );
     } else {
       const selectedPartnerId = 'FRF-RETURN'; // Set this value based on your logic
-      this.formControl['returnInternalCode'].setValue(`${selectedPartnerId}-LOCATION-001`);
+      this.formControl['returnInternalCode'].setValue(
+        `${selectedPartnerId}-LOCATION-001`
+      );
     }
   }
-  
 
   // Phone Input Field
   phoneInputField() {
@@ -283,27 +281,23 @@ export class ReturnLocationComponent implements OnInit {
           ? this.formControl['returnPhoneNumberExtension']?.value
           : '',
       };
-  
-      setTimeout(() => {
-        console.log('payload::', payload);
 
-        this.partnerService.updatePartner(payload).subscribe({
-          next: (res) => {
-            this.message.create('success', 'Data Updated Successfully!');
-            this.isSaving = false;
+      this.partnerService.updatePartner(payload).subscribe({
+        next: (res) => {
+          this.message.create('success', 'Data Updated Successfully!');
+          this.isSaving = false;
 
-            // Fetch the updated partner data after a successful update
-            this.getPartnersAndPatchForm();
-          },
-          error: (error: any) => {
-            this.message.create(
-              'error',
-              error?.error_message?.[0] || 'Data Update failed!'
-            );
-            this.isSaving = false; // Ensure saving state is updated on error
-          },
-        });
-      }, 500);
+          // Fetch the updated partner data after a successful update
+          this.getPartnersAndPatchForm();
+        },
+        error: (error: any) => {
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          );
+          this.isSaving = false; // Ensure saving state is updated on error
+        },
+      });
     } else {
       Object.values(this.returnLocationForm.controls).forEach((control) => {
         if (control.invalid) {

@@ -130,7 +130,6 @@ export class MapHandlingComponent implements OnInit {
       this.formFieldOnUI
     );
     console.log(valid);
-    
 
     if (valid) {
       this.isSaving = true;
@@ -145,26 +144,22 @@ export class MapHandlingComponent implements OnInit {
           ? this.mapHandlingForm?.value?.accountHandlingTimeValue
           : '',
       };
-      setTimeout(() => {
-        console.log('payload::', payload);
+      this.partnerService.updatePartner(payload).subscribe({
+        next: (res) => {
+          this.message.create('success', 'Data Updated Successfully!');
+          this.isSaving = false;
 
-        this.partnerService.updatePartner(payload).subscribe({
-          next: (res) => {
-            this.message.create('success', 'Data Updated Successfully!');
-            this.isSaving = false;
-
-            // Fetch the updated partner data after a successful update
-            this.getPartnersAndPatchForm();
-          },
-          error: (error: any) => {
-            this.message.create(
-              'error',
-              error?.error_message?.[0] || 'Data Update failed!'
-            );
-            this.isSaving = false; // Ensure saving state is updated on error
-          },
-        });
-      }, 500);
+          // Fetch the updated partner data after a successful update
+          this.getPartnersAndPatchForm();
+        },
+        error: (error: any) => {
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          );
+          this.isSaving = false; // Ensure saving state is updated on error
+        },
+      });
     } else {
       Object.values(this.mapHandlingForm.controls).forEach((control) => {
         if (control.invalid) {

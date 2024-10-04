@@ -36,6 +36,9 @@
           Add Ship Out Locations
         </button>
       </div>
+      <div class="no-data-found" *ngIf="!isLoading && shipOutLocationList.length === 0">
+        No Data Found
+      </div>
       <div *ngFor="let item of shipOutLocationList" style="margin-bottom: 28px">
         <div nz-row>
           <div nz-col [nzXs]="{ span: 19 }" [nzLg]="{ span: 21 }">

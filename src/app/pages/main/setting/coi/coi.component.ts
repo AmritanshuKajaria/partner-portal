@@ -65,10 +65,8 @@ export class COIComponent implements OnInit {
     //   this.onFormChange();
     // });
 
-     // API calls
-     this.getPartnersAndPatchForm();
-
-  
+    // API calls
+    this.getPartnersAndPatchForm();
   }
 
   getPartnersAndPatchForm() {
@@ -132,7 +130,6 @@ export class COIComponent implements OnInit {
         const link = document.createElement('a');
         link.href = res?.url;
         link.download = this.fileList?.name;
-        link.target = '_blank'; // To open in a new tab (optional)
         link.click();
       },
       error: (error: any) => {
@@ -153,8 +150,12 @@ export class COIComponent implements OnInit {
     this.formControl['insurerName'].setValue(data?.insurerName);
     this.formControl['insuredName'].setValue(data?.insuredName);
     this.formControl['policyNumber'].setValue(data?.policyNumber);
-    this.formControl['policyStartDate'].setValue(data?.policyStartDate);
-    this.formControl['policyEndDate'].setValue(data?.policyEndDate);
+    this.formControl['policyStartDate'].setValue(
+      moment(data?.policyStartDate).isValid() ? data?.policyStartDate : ''
+    );
+    this.formControl['policyEndDate'].setValue(
+      moment(data?.policyEndDate).isValid() ? data?.policyEndDate : ''
+    );
     this.formControl['coiFileID'].setValue(data?.coiFileID);
     this.fileList.fileId = data?.coiFileID;
   }
@@ -227,10 +228,7 @@ export class COIComponent implements OnInit {
       coiFileID: this.formFieldOnUI['coiFileID'] ? this.fileList : '',
     });
 
-    setTimeout(() => {
-      console.log(formData);
-      this.isLoading = false;
-    }, 500);
+    this.isLoading = false;
   }
 
   // Navigate back

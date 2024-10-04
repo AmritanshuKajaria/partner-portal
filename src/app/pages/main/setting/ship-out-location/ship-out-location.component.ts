@@ -112,9 +112,8 @@ export class ShipOutLocationComponent implements OnInit {
       ],
     });
 
-     // API calls
-     this.getPartnersAndPatchForm();
-
+    // API calls
+    this.getPartnersAndPatchForm();
   }
 
   getPartnersAndPatchForm() {
@@ -205,7 +204,6 @@ export class ShipOutLocationComponent implements OnInit {
               this.formTypes.setValue('active');
               // Fetch the updated partner data after a successful update
               this.getPartnersAndPatchForm();
-
             },
             error: (error: any) => {
               reject(error);
@@ -213,12 +211,12 @@ export class ShipOutLocationComponent implements OnInit {
           });
         }).catch((error) => {
           console.log(error);
-          
+
           this.message.create(
             'error',
             error?.error_message?.[0] || 'Data Update failed!'
           ),
-          this.isLoading = false;
+            (this.isLoading = false);
         }),
     });
   }
@@ -306,7 +304,9 @@ export class ShipOutLocationComponent implements OnInit {
           ? this.formControl['contactName']?.value
           : '',
         phoneNumber: this.formFieldOnUI['phoneNumber']
-          ? this.formControl['phoneNumber']?.value
+          ? this.formControl['phoneNumber']
+            ? this.formControl['phoneNumber']?.value.split('-').join('')
+            : ''
           : '',
         phoneNumberExtension: this.formFieldOnUI['phoneNumberExtension']
           ? this.formControl['phoneNumberExtension']?.value
@@ -314,29 +314,24 @@ export class ShipOutLocationComponent implements OnInit {
         isActive: '1',
       };
 
-      setTimeout(() => {
-        console.log('payload::', payload);
+      this.partnerService.updatePartner(payload).subscribe({
+        next: (res) => {
+          this.message.create('success', 'Data Updated Successfully!');
+          this.formTypes.setValue('active');
+          this.showSection = this.section.TABLE;
+          this.isSaving = false;
 
-        this.partnerService.updatePartner(payload).subscribe({
-          next: (res) => {
-            this.message.create('success', 'Data Updated Successfully!');
-            this.formTypes.setValue('active');
-            this.showSection = this.section.TABLE;
-            this.isSaving = false; 
-
-            // Fetch the updated partner data after a successful update
-            this.getPartnersAndPatchForm();
-
-          },
-          error: (error: any) => {
-            this.message.create(
-              'error',
-              error?.error_message?.[0] || 'Data Update failed!'
-            );
-            this.isSaving = false; // Ensure saving state is updated on error
-          },
-        });
-      }, 500);
+          // Fetch the updated partner data after a successful update
+          this.getPartnersAndPatchForm();
+        },
+        error: (error: any) => {
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          );
+          this.isSaving = false; // Ensure saving state is updated on error
+        },
+      });
     } else {
       Object.values(this.shipOutLocationForm.controls).forEach((control) => {
         if (control.invalid) {

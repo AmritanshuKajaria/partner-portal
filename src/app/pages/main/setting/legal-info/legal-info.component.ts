@@ -52,7 +52,7 @@ export class LegalInfoComponent implements OnInit {
   canadaState = CanadaStates;
   countryList = ['US', 'CA'];
   fileList: any = {
-    fileId : '',
+    fileId: '',
     name: 'W9 File',
     // uid: '-1',
     // status: 'done',
@@ -69,7 +69,7 @@ export class LegalInfoComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
- 
+
     // Initialize form
     this.legalInfoForm = this.fb.group({
       documentType: [{ value: '', disabled: true }],
@@ -94,9 +94,8 @@ export class LegalInfoComponent implements OnInit {
       this.onFormChange();
     });
 
-
-     // Get Constants JSON
-     this.commonService.getJsonData().subscribe({
+    // Get Constants JSON
+    this.commonService.getJsonData().subscribe({
       next: (res) => {
         this.dropDownList = res;
       },
@@ -104,7 +103,6 @@ export class LegalInfoComponent implements OnInit {
 
     // API calls
     this.getPartnersAndPatchForm();
-
   }
 
   getPartnersAndPatchForm() {
@@ -149,12 +147,11 @@ export class LegalInfoComponent implements OnInit {
   // downloadFile(file: NzUploadFile): void {
   downloadFile(data: any) {
     this.partnerService.getPartnerPdf(data?.fileId).subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         // Create a temporary link to download the file
         const link = document.createElement('a');
         link.href = res?.url;
         link.download = this.fileList?.name;
-        link.target = '_blank'; // To open in a new tab (optional)
         link.click();
       },
       error: (error: any) => {
@@ -164,14 +161,11 @@ export class LegalInfoComponent implements OnInit {
         );
       },
     });
-  
   }
 
   // Handle hide show inputs
   onFormChange() {
     if (this.formControl['documentType']?.value === 2) {
-      // this.formControl['officialCountry']?.setValue('CA');
-      // this.formControl['officialState']?.setValue('');
       this.countryList = ['CA'];
       this.formFieldOnUI['usState'] = false;
     } else {
@@ -185,28 +179,31 @@ export class LegalInfoComponent implements OnInit {
     this.legalInfoForm?.reset();
   }
 
-   // Patch Form Value
-   patchFormValue(data: any) {
-
+  // Patch Form Value
+  patchFormValue(data: any) {
     this.formControl['documentType'].setValue(Number(data?.documentType));
     this.formControl['formRevisionNumber'].setValue(data?.formRevisionNumber);
     this.formControl['legalName'].setValue(data?.legalName);
     this.formControl['businessName'].setValue(data?.businessName);
-    this.formControl['federalTaxClassification'].setValue(data?.federalTaxClassification);
+    this.formControl['federalTaxClassification'].setValue(
+      data?.federalTaxClassification
+    );
     this.formControl['tinType'].setValue(Number(data?.tinType));
     this.formControl['tinNumber'].setValue(data?.tinNumber);
     this.formControl['w9SigningDate'].setValue(data?.w9SigningDate);
-    this.formControl['officialAddressLine1'].setValue(data?.officialAddressLine1);
-    this.formControl['officialAddressLine2'].setValue(data?.officialAddressLine2);
+    this.formControl['officialAddressLine1'].setValue(
+      data?.officialAddressLine1
+    );
+    this.formControl['officialAddressLine2'].setValue(
+      data?.officialAddressLine2
+    );
     this.formControl['officialCity'].setValue(data?.officialCity);
     this.formControl['officialState'].setValue(data?.officialState);
-    this.formControl['officialZipCode'].setValue(data?.officialZipCode );
-    this.formControl['officialCountry'].setValue(data?.officialCountry );
+    this.formControl['officialZipCode'].setValue(data?.officialZipCode);
+    this.formControl['officialCountry'].setValue(data?.officialCountry);
     this.formControl['w9FileID'].setValue(data?.w9FileID);
     this.fileList.fileId = data?.w9FileID;
-
-    
-  } 
+  }
 
   // Submit form
   submitForm() {
@@ -216,10 +213,7 @@ export class LegalInfoComponent implements OnInit {
       //   ? this.formControl['inventoryFeedType'].value
       //   : '',
     };
-    setTimeout(() => {
-      console.log(payload);
-      this.isLoading = false;
-    }, 500);
+    this.isLoading = false;
   }
 
   // Navigate back

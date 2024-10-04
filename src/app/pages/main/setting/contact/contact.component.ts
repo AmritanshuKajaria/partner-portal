@@ -107,12 +107,12 @@ export class ContactComponent implements OnInit {
       arrRoles: [[], [Validators.required]],
     });
 
-      // Get Constants JSON
-      this.commonService.getJsonData().subscribe({
-        next: (res) => {
-          this.dropDownList = res;
-        },
-      });
+    // Get Constants JSON
+    this.commonService.getJsonData().subscribe({
+      next: (res) => {
+        this.dropDownList = res;
+      },
+    });
 
     // API calls
     this.getPartnersAndPatchForm();
@@ -181,18 +181,17 @@ export class ContactComponent implements OnInit {
     );
     this.formControl['contactTimeZone'].setValue(data?.contactTimeZone);
     this.formControl['arrRoles'].setValue(
-      data?.arrRoles?.map((role:any) => +role) // Convert each element to a number using +
+      data?.arrRoles?.map((role: any) => +role) // Convert each element to a number using +
     );
     this.contactId = data.contactId;
   }
 
-
   deleteAction(data: any) {
-    let payload = { 
-      contactId : data.contactId,
-      isDeleted : 1
+    let payload = {
+      contactId: data.contactId,
+      isDeleted: 1,
     };
-    
+
     this.modal.confirm({
       nzTitle: 'Delete Contact',
       nzContent: 'Are you sure you want to remove the Manager Contact Details?',
@@ -211,12 +210,12 @@ export class ContactComponent implements OnInit {
           });
         }).catch((error) => {
           console.log(error);
-          
+
           this.message.create(
             'error',
             error?.error_message?.[0] || 'Data Update failed!'
           ),
-          this.isLoading = false;
+            (this.isLoading = false);
         }),
     });
   }
@@ -242,7 +241,7 @@ export class ContactComponent implements OnInit {
         this.selectedContact?.contactTimeZone
       );
       this.formControl['arrRoles'].setValue(
-        this.selectedContact?.arrRoles?.map((role:any) => +role) // Convert each element to a number using +
+        this.selectedContact?.arrRoles?.map((role: any) => +role) // Convert each element to a number using +
       );
     }
   }
@@ -282,29 +281,25 @@ export class ContactComponent implements OnInit {
           : '',
       };
 
-      setTimeout(() => {
-        console.log('payload::', payload);
+      this.partnerService.updatePartner(payload).subscribe({
+        next: (res) => {
+          this.message.create('success', 'Data Updated Successfully!');
+          this.isSaving = false;
+          this.contactId = '0';
+          this.contactForm?.reset();
+          this.showSection = this.section.TABLE;
 
-        this.partnerService.updatePartner(payload).subscribe({
-          next: (res) => {
-            this.message.create('success', 'Data Updated Successfully!');
-            this.isSaving = false;
-            this.contactId = '0';
-            this.contactForm?.reset();
-            this.showSection = this.section.TABLE;
-
-            // Fetch the updated partner data after a successful update
-            this.getPartnersAndPatchForm();
-          },
-          error: (error: any) => {
-            this.message.create(
-              'error',
-              error?.error_message?.[0] || 'Data Update failed!'
-            );
-            // this.isSaving = false; // Ensure saving state is updated on error
-          },
-        });
-      }, 500);
+          // Fetch the updated partner data after a successful update
+          this.getPartnersAndPatchForm();
+        },
+        error: (error: any) => {
+          this.message.create(
+            'error',
+            error?.error_message?.[0] || 'Data Update failed!'
+          );
+          // this.isSaving = false; // Ensure saving state is updated on error
+        },
+      });
     } else {
       Object.values(this.contactForm.controls).forEach((control) => {
         if (control.invalid) {
