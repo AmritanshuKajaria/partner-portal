@@ -652,6 +652,7 @@ groupByNotificationForm!: FormGroup;
       this.isSaving = true;
 
       const notificationList = this.groupByNotificationForm.value;
+      const emailGroups = this.emailGroups.value;
       const payload: any = {
         accountSetupUpdateNotifications: [],
         catalogSetupUpdateNotifications: [],
@@ -662,13 +663,24 @@ groupByNotificationForm!: FormGroup;
         remittanceNotifications: [],
         returnProcessingNotification: [],
       };
-      notificationList?.notificationGroups?.forEach((notification: any) => {
-        notification?.emails.forEach((emails: any) => {
-          const array: any[] = payload[notification?.typeId];
-          array.push(emails?.email);
+
+      if (this.formTypes.value === 'notifications') {
+        notificationList?.notificationGroups?.forEach((notification: any) => {
+          notification?.emails.forEach((emails: any) => {
+            const array: any[] = payload[notification?.typeId];
+            array.push(emails?.email);
+          });
         });
-      });
-  
+      }else{
+        emailGroups?.forEach((group: any) => {
+          const email = group.email.email ?? group.email.oldEmail;
+          group.notifications.forEach((notification: any) => {
+            const array: any[] = payload[notification.notification];
+            array.push(email);
+          });
+        });
+      }
+
       this.partnerService.updatePartner(payload).subscribe({
         next: (res) => {
           this.message.create('success', 'Data Updated Successfully!');
@@ -684,7 +696,7 @@ groupByNotificationForm!: FormGroup;
            this.isSaving = false; // Ensure saving state is updated on error
         },
       });
-    console.log(payload);
+    
   }
   }
  
@@ -772,3 +784,5 @@ groupByNotificationForm!: FormGroup;
     }
   }
 }
+
+
