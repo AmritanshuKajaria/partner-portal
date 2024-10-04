@@ -441,7 +441,6 @@ groupByNotificationForm!: FormGroup;
   clearFormGroups = (formGroup: FormGroup) => {
     Object.keys(formGroup.controls).forEach((key) => {
       const control = formGroup.get(key);
-      console.log("DFDFDF");
       if (control instanceof FormGroup) {
         this.clearFormGroups(control);
       } else if (control instanceof FormArray) {
@@ -482,7 +481,6 @@ groupByNotificationForm!: FormGroup;
           }
         );
         this.oldGroupByNotificationsData = this.groupByNotificationForm.value;
-        console.log(this.groupByNotificationForm.value);
       } else {
         this.clearFormGroups(this.groupByEmailForm);
         this.changeDetectorRef.detectChanges();
@@ -638,7 +636,6 @@ groupByNotificationForm!: FormGroup;
       });
     }
     else {
-      console.log(this.groupByEmailForm)
       this.emailGroups.controls.forEach((x: any) => {
         const isFormValid = this.formValidationService.checkFormValidity(x, {email: true, notifications: true});
         if(!isFormValid) {
@@ -696,6 +693,7 @@ groupByNotificationForm!: FormGroup;
            this.isSaving = false; // Ensure saving state is updated on error
         },
       });
+      console.log(payload)
     
   }
   }
@@ -709,14 +707,11 @@ groupByNotificationForm!: FormGroup;
     );
 
     if(valid) {
-      console.log(this.allDataList);
 
-      console.log(this.addEmailNotificationsForm.value)
       const addFormValue = this.addEmailNotificationsForm.value;
       addFormValue?.notifications?.forEach((grp: any) => {
         this.allDataList[grp.notification].push(addFormValue.email);
       });
-      console.log(this.allDataList);
 
       const payload: any = {
         accountSetupUpdateNotifications: this.allDataList['accountSetupUpdateNotifications'],
