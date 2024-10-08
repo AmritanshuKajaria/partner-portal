@@ -220,14 +220,11 @@
                 nzPlaceHolder="Select A Return Profile"
                 formControlName="returnProfile"
               >
-                <!-- <nz-option
-                  *ngFor="let option of dropDownList?.returnDetails"
-                  [nzLabel]="option?.name"
-                  [nzValue]="option?.value"
-                ></nz-option> -->
-            
-                  <nz-option nzLabel="Return To Partner Location" nzValue="1"></nz-option>
-                  <nz-option nzLabel="Field Destroy" nzValue="2"></nz-option>
+                <nz-option
+                  *ngFor="let option of returnProfileOptions"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.value"
+                ></nz-option>
           
               </nz-select>
             </nz-input-group>

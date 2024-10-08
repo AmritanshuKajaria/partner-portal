@@ -28,6 +28,7 @@ export class OrderProcessingReturnComponent implements OnInit {
   orderProcessingReturnForm!: FormGroup;
   dropDownList: any = null;
   orderProcessingReturnData: any;
+  returnDetails: any;
   enabledCarriersOptions: {
     name: string;
     value: string;
@@ -47,6 +48,10 @@ export class OrderProcessingReturnComponent implements OnInit {
     isPackingSlipEnabled: true,
     returnProfile: true,
   };
+  returnProfileOptions = [
+    { name: 'Return To Partner Location', value: 1 },
+    { name: 'Field Destroy', value: 2 },
+  ];
 
   constructor(
     private commonService: CommonService,
@@ -93,6 +98,7 @@ export class OrderProcessingReturnComponent implements OnInit {
       next: (res: any) => {
         this.isLoading = false;
         this.orderProcessingReturnData = res.payload.fulfillmentDetails;
+        this.returnDetails = res.payload.returnDetails;
         this.patchFormValue(this.orderProcessingReturnData);
       },
       error: (error) => {
@@ -158,10 +164,6 @@ export class OrderProcessingReturnComponent implements OnInit {
     }
 
     this.orderProcessingReturnForm?.reset();
-    this.formControl['poSendingMethod'].setValue(2);
-    this.formControl['generateLabels'].setValue(1);
-    this.formControl['isPackingSlipEnabled'].setValue(true);
-    this.formControl['returnProfile'].setValue('Field Destroy');
     if (this.authorizedInvoiceSenders.length === 0) {
       this.addAuthorizedFeedSender();
     }
@@ -181,7 +183,7 @@ export class OrderProcessingReturnComponent implements OnInit {
       data?.copyOfPOSentOverEmail
     );
     this.formControl['returnProfile'].setValue(
-      data?.returnDetails?.returnProfileType
+      this.returnDetails?.returnProfileType <= 5 ? 1 : 2
     );
 
     this.authorizedInvoiceSenders.clear();
@@ -220,9 +222,6 @@ export class OrderProcessingReturnComponent implements OnInit {
           : '',
         isPackingSlipEnabled: this.formFieldOnUI['isPackingSlipEnabled']
           ? this.formControl['isPackingSlipEnabled']?.value
-          : '',
-        returnProfile: this.formFieldOnUI['returnProfile']
-          ? this.formControl['returnProfile']?.value
           : '',
         authorizedInvoiceSenders: this.formFieldOnUI['authorizedInvoiceSenders']
           ? this.formControl['authorizedInvoiceSenders'].value?.map(
