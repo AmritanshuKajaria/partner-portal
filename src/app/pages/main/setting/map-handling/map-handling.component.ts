@@ -155,7 +155,7 @@ export class MapHandlingComponent implements OnInit {
         error: (error: any) => {
           this.message.create(
             'error',
-            error?.error_message?.[0] || 'Data Update failed!'
+            error?.error_message?.[0] || 'Date Update Failed!'
           );
           this.isSaving = false; // Ensure saving state is updated on error
         },
