@@ -28,7 +28,7 @@ export class MapHandlingComponent implements OnInit {
   formFieldOnUI = {
     mapType: true,
     handlingConfiguration: true,
-    accountHandlingTimeValue: true,
+    accountHandlingTimeValue: false,
   };
 
   constructor(
