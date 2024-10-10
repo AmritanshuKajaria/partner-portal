@@ -131,6 +131,14 @@
         <span nz-icon nzType="calculator" nzTheme="outline"></span>
         <span>Calculator</span>
       </li> -->
+      <li
+        nz-menu-item
+        [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'"
+        routerLink="/main/setting"
+      >
+        <span nz-icon nzType="setting" nzTheme="outline"></span>
+        <span>Settings</span>
+      </li>
     </ul>
     <!-- <ul nz-menu nzMode="inline" class="sider-menu" style="margin-top: auto">
       <li nz-menu-item [ngClass]="{ logout: isCollapsed }">

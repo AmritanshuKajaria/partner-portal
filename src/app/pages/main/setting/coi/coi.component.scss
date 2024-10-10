@@ -1,0 +1,31 @@
+@import '../../../../../assets/variable/variable.scss';
+@import '../setting.module.scss';
+
+.map-handling-section {
+    border: 0 solid rgba(0, 0, 0, 0.125);
+    background-color: $white;
+    background-clip: border-box;
+    border-radius: 5px;
+
+    .body-section {
+
+        form {
+            .label-section {
+                width: 175px !important;
+            }
+
+            .input-section {
+                width: 100%;
+                max-width: 410px !important;
+            }
+
+            nz-form-item {
+                nz-form-control {
+                    max-width: 270px;
+                }
+            }
+        }
+
+    }
+
+}

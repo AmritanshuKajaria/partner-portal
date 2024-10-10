@@ -1,0 +1,59 @@
+@import'../../../../assets/variable/variable.scss';
+
+.setting-section {
+    border: 0 solid rgba(0, 0, 0, 0.125);
+    background-color: $white;
+    background-clip: border-box;
+    border-radius: 5px;
+
+    .body-section {
+        padding: 16px;
+        padding-bottom: 15px;
+
+        .card-title {
+            font-weight: 700;
+        }
+
+        nz-card {
+            margin-bottom: 20px;
+            border-radius: 5px;
+            border-top: 2px solid $darkBlue;
+
+            ::ng-deep .ant-card-body {
+                padding: 0px;
+            }
+        }
+
+        .card-body {
+            padding: 10px 15px;
+
+            .menu-section {
+                display: flex;
+                justify-content: space-between;
+                padding: 5px;
+
+                .menu-item {
+                    border-radius: 5px;
+                    padding: 15px;
+                    border: 1px solid $lightgrey;
+                    width: 100%;
+                    color: $darkBlue;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 13px;
+                    font-weight: 600;
+                }
+            }
+        }
+
+        .header {
+            padding: 12px 20px;
+            background-color: rgba(33, 33, 195, 0.08) !important;
+        }
+
+        .ant-divider-horizontal {
+            margin: 5px 0;
+        }
+    }
+}
