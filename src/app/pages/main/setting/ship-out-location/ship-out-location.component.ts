@@ -43,6 +43,7 @@ export class ShipOutLocationComponent implements OnInit {
     phoneNumberExtension: 'Phone Extension',
   };
 
+  labelListEntries: any[] = [];
   shipOutLocationList: any = [];
   activateList: any = [];
   deactivateList: any = [];
@@ -81,6 +82,7 @@ export class ShipOutLocationComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.labelListEntries = Object.entries(this.labelList);
 
     this.shipOutLocationForm = this.formBuilder.group({
       internalCode: [
@@ -148,10 +150,6 @@ export class ShipOutLocationComponent implements OnInit {
     } else {
       this.shipOutLocationList = this.deactivateList;
     }
-  }
-
-  objectKeys(obj: any): any[] {
-    return Object.entries(obj);
   }
 
   changeState() {

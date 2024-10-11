@@ -44,7 +44,7 @@
           <div nz-col [nzXs]="{ span: 19 }" [nzLg]="{ span: 21 }">
             <div class="row-section" nz-row>
               <div
-                *ngFor="let row of objectKeys(labelList)"
+                *ngFor="let row of labelListEntries"
                 class="col-section border-top"
                 [ngClass]="{
                   'border-bottom':

@@ -37,6 +37,7 @@ export class ContactComponent implements OnInit {
     designation: 'Designation',
     extra: '',
   };
+  labelListEntries: any[] = [];
   contactList: any = [];
   dropDownList: any = null;
   timeZone = TimeZone;
@@ -68,6 +69,7 @@ export class ContactComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
+    this.labelListEntries = Object.entries(this.labelList);
 
     this.contactForm = this.formBuilder.group({
       firstName: [
@@ -137,10 +139,6 @@ export class ContactComponent implements OnInit {
 
   get formControl() {
     return this.contactForm.controls;
-  }
-
-  objectKeys(obj: any): any[] {
-    return Object.entries(obj);
   }
 
   phoneInputField() {
