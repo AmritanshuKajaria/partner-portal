@@ -1,0 +1,141 @@
+<div class="map-handling-section setting-section">
+  <nz-spin [nzSpinning]="isLoading">
+    <div class="section-header">
+      <div class="tab-header">
+        <span>MAP & HANDLING</span>
+        <button
+          nz-button
+          nzType="default"
+          class="reset-button"
+          (click)="goBack()"
+        >
+          <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+        </button>
+      </div>
+    </div>
+
+    <div class="body-section" style="margin-left: 0; margin-right: 0">
+      <form [formGroup]="mapHandlingForm">
+        <nz-form-item>
+          <nz-form-label class="label-section"
+            >MAP Setup <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="mapTypeError">
+            <nz-input-group class="small-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select MAP Setup"
+                formControlName="mapType"
+              >
+                <nz-option
+                  *ngFor="let option of dropDownList?.mapType"
+                  [nzLabel]="option?.name"
+                  [nzValue]="option?.value"
+                ></nz-option>
+              </nz-select>
+              <ng-template #mapTypeError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Map setup is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label class="label-section"
+            >Handling Time Setup
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="handlingConfigurationError"
+          >
+            <nz-input-group class="small-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select Handling Time"
+                formControlName="handlingConfiguration"
+              >
+                <nz-option
+                  *ngFor="let option of dropDownList?.handlingConfiguration"
+                  [nzLabel]="option?.name"
+                  [nzValue]="option?.value"
+                ></nz-option>
+              </nz-select>
+              <ng-template #handlingConfigurationError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Handling time setup is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item *ngIf="formFieldOnUI?.accountHandlingTimeValue">
+          <nz-form-label class="label-section"
+            >Common Handling Time (In Days)
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="accountHandlingTime"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="number"
+                nz-input
+                placeholder="Enter Common Handling Time"
+                formControlName="accountHandlingTimeValue"
+              />
+              <ng-template #accountHandlingTime let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Handling time is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('min')"
+                  >Handling Time can only be between 1 & 10 days<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('max')"
+                  >Handling Time can only be between 1 & 10 days<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('pattern')"
+                  >Handling time can not have decimal value<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isSaving"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isSaving"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </nz-spin>
+</div>

@@ -1,0 +1,378 @@
+<div class="return-location-section setting-section">
+  <nz-spin [nzSpinning]="isLoading">
+    <div class="section-header">
+      <div class="tab-header">
+        <span>RETURN LOCATION</span>
+        <button
+          nz-button
+          nzType="default"
+          class="reset-button"
+          (click)="goBack()"
+        >
+          <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+        </button>
+      </div>
+    </div>
+
+    <div class="body-section" style="margin-left: 0; margin-right: 0">
+      <form [formGroup]="returnLocationForm">
+        <nz-form-item>
+          <nz-form-control class="input-section">
+            <nz-input-group class="large-input d-flex justify-content-center">
+              <nz-radio-group
+                formControlName="formType"
+                (ngModelChange)="changeFormType($event)"
+              >
+                <label nz-radio nzValue="Edit">Edit Existing location</label>
+                <label nz-radio nzValue="Add">Set New location</label>
+              </nz-radio-group>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnInternalCode">
+          <nz-form-label class="label-section"
+            >Return Internal Code
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnExternalCodeError"
+          >
+            <nz-input-group class="medium-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return Internal Code"
+                formControlName="returnInternalCode"
+              />
+              <ng-template #returnExternalCodeError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return internal code is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Return internal code can only be 23 digits<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return internal code can only be 23 digits<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnExternalCode">
+          <nz-form-label class="label-section"
+            >Return External Code
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnExternalCodeError"
+          >
+            <nz-input-group class="medium-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return External Code"
+                formControlName="returnExternalCode"
+              />
+              <ng-template #returnExternalCodeError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return external code is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return external code can only be between 1 & 100<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnAddressLine1">
+          <nz-form-label class="label-section"
+            >Return Address Line1
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnAddressLine1Error"
+          >
+            <nz-input-group class="large-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return Address Line1"
+                formControlName="returnAddressLine1"
+              />
+              <ng-template #returnAddressLine1Error let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return address line 1 is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return address line 1 can only be between 1 & 255<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnAddressLine2">
+          <nz-form-label class="label-section"
+            >Return Address Line2
+          </nz-form-label>
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnAddressLine2Error"
+          >
+            <nz-input-group class="large-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return Address Line2
+"
+                formControlName="returnAddressLine2"
+              />
+              <ng-template #returnAddressLine2Error let-control>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return address line 2 can only be between 1 & 255<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnCity">
+          <nz-form-label class="label-section"
+            >Return City <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control class="input-section" [nzErrorTip]="returnCityError">
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return City"
+                formControlName="returnCity"
+              />
+              <ng-template #returnCityError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return city is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return city can only be between 1 & 100<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnState">
+          <nz-form-label class="label-section"
+            >Return State <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnStateError"
+          >
+            <nz-input-group class="medium-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select Return State"
+                formControlName="returnState"
+                [nzDisabled]="disabledSection"
+              >
+                <nz-option-group nzLabel="United State">
+                  <nz-option
+                    *ngFor="let option of usStates"
+                    [nzLabel]="option.label"
+                    [nzValue]="option.value"
+                  ></nz-option>
+                </nz-option-group>
+              </nz-select>
+              <ng-template #returnStateError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return state is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnZipCode">
+          <nz-form-label class="label-section"
+            >Return Zip Code <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnZipCodeError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return Zip Code"
+                formControlName="returnZipCode"
+              />
+              <ng-template #returnZipCodeError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return zip code is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return zip code can only be between 1 & 10<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnTimeZone">
+          <nz-form-label class="label-section"
+            >Return Time Zone <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnTimeZoneError"
+          >
+            <nz-input-group class="small-input">
+              <nz-select
+                nzShowSearch
+                nzPlaceHolder="Select Return Time Zone"
+                formControlName="returnTimeZone"
+              >
+                <nz-option
+                  *ngFor="let option of timeZone"
+                  [nzLabel]="option.name"
+                  [nzValue]="option.value"
+                ></nz-option>
+              </nz-select>
+              <ng-template #returnTimeZoneError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return time zone is required<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnContactName">
+          <nz-form-label class="label-section"
+            >Return Contact Name
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnContactNameError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return Contact Name"
+                formControlName="returnContactName"
+              />
+              <ng-template #returnContactNameError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return contact name is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return contact name can only be between 1 & 30<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnPhoneNumber">
+          <nz-form-label class="label-section"
+            >Return Phone Number
+            <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnPhoneNumberError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return Phone Number"
+                formControlName="returnPhoneNumber"
+                (input)="phoneInputField()"
+              />
+              <ng-template #returnPhoneNumberError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Return phone number is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Return phone number can only be 10 digits<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item *ngIf="formFieldOnUI?.returnPhoneNumberExtension">
+          <nz-form-label class="label-section"
+            >Return Phone Number Extension</nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="returnPhoneNumberExtensionError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Return Phone Number Extension"
+                formControlName="returnPhoneNumberExtension"
+              />
+              <ng-template #returnPhoneNumberExtensionError let-control>
+                <ng-container *ngIf="control.hasError('minlength')"
+                  >Return phone number extension can only be between 1 & 5<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('maxlength')"
+                  >Return phone number extension can only be between 1 & 5<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('pattern')"
+                  >Return phone number extension can only number<br
+                /></ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isSaving"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isSaving"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </nz-spin>
+</div>

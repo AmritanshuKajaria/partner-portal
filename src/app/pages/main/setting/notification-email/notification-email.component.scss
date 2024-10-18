@@ -1,0 +1,53 @@
+@import "../../../../../assets/variable/variable.scss";
+@import "../setting.module.scss";
+
+.notification-email-section {
+  border: 0 solid rgba(0, 0, 0, 0.125);
+  background-color: $white;
+  background-clip: border-box;
+  border-radius: 5px;
+
+  .body-section {
+    padding: 16px;
+    height: calc(100vh - 155px);
+    overflow-y: auto;
+
+    .table-section {
+      .email-button {
+        margin-left: 8px;
+        border: 0;
+        font-size: xx-large;
+        line-height: 0;
+        display: flex;
+        justify-content: center;
+        padding-top: 8px;
+      }
+
+      .actions {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+
+    form {
+      margin-top: 10px;
+
+      .label-section {
+        width: 180px !important;
+      }
+
+      .input-section {
+        width: 100%;
+        max-width: 410px !important;
+        display: flex;
+      }
+
+      nz-form-item {
+        nz-form-control {
+          max-width: 200px;
+        }
+      }
+    }
+  }
+}
