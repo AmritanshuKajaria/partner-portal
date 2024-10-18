@@ -1,34 +1,13 @@
 <nz-layout class="app-layout">
-  <nz-sider
-    class="menu-sidebar"
-    nzCollapsible
-    [(nzCollapsed)]="isCollapsed"
-    [nzTrigger]="null"
-  >
+  <nz-sider class="menu-sidebar" nzCollapsible [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
     <a class="logo" routerLinkActive="active" routerLink="/main/dashboard">
-      <img
-        *ngIf="isCollapsed"
-        width="50px"
-        height="40px"
-        src="assets\img\small-logo.png"
-        alt=""
-      />
-      <img
-        *ngIf="!isCollapsed"
-        width="150px"
-        height="40px"
-        src="assets\img\logo.png"
-        alt=""
-      />
+      <img *ngIf="isCollapsed" width="50px" height="40px" src="assets\img\small-logo.png" alt="" />
+      <img *ngIf="!isCollapsed" width="150px" height="40px" src="assets\img\logo.png" alt="" />
     </a>
     <ul nz-menu nzMode="inline" class="sider-menu">
-      <li
-        nz-menu-item
-        [ngClass]="
+      <li nz-menu-item [ngClass]="
           router.url.includes('/main/dashboard') ? 'active' : 'inactive'
-        "
-        routerLink="/main/dashboard"
-      >
+        " routerLink="/main/dashboard">
         <span nz-icon nzType="dashboard"></span>
         <span>Dashboard</span>
       </li>
@@ -36,34 +15,21 @@
         <span nz-icon nzType="user"></span>
         <span>Profile</span>
       </li> -->
-      <li
-        nz-menu-item
-        [ngClass]="
+      <li nz-menu-item [ngClass]="
           router.url.includes('/main/products') ? 'active' : 'inactive'
-        "
-        routerLink="/main/products"
-      >
+        " routerLink="/main/products">
         <span nz-icon nzType="shop"></span>
         <span>Products</span>
       </li>
-      <li
-        nz-menu-item
-        [ngClass]="
+      <li nz-menu-item [ngClass]="
           router.url.includes('/main/inventory-feeds') ? 'active' : 'inactive'
-        "
-        routerLink="/main/inventory-feeds"
-      >
+        " routerLink="/main/inventory-feeds">
         <span nz-icon nzType="user"></span>
         <span>Inventory</span>
       </li>
-      <li
-        nz-menu-item
-        *ngIf="
+      <li nz-menu-item *ngIf="
           userPartnerDetails && userPartnerDetails?.is_order_tab_active === 1
-        "
-        routerLinkActive="active"
-        routerLink="/main/orders/order-section"
-      >
+        " routerLinkActive="active" routerLink="/main/orders/order-section">
         <span nz-icon nzType="shopping"></span>
         <span>Orders</span>
       </li>
@@ -83,43 +49,33 @@
         <span nz-icon nzType="dollar-circle" nzTheme="outline"></span>
         <span>Payments</span>
       </li> -->
-      <li
-        nz-menu-item
-        [ngClass]="
+      <li nz-menu-item [ngClass]="
           router.url.includes('/main/promotions') ? 'active' : 'inactive'
-        "
-        routerLink="/main/promotions"
-      >
+        " routerLink="/main/promotions">
         <span nz-icon nzType="sound" nzTheme="outline"></span>
         <span>Promotions</span>
       </li>
-      <li
-        *ngIf="
+      <li *ngIf="
           userPartnerDetails?.current_plan &&
           userPartnerDetails?.current_plan !== 'no_plan'
-        "
-        nz-menu-item
-        [ngClass]="
+        " nz-menu-item [ngClass]="
           router.url.includes('/main/retail-pricing') ? 'active' : 'inactive'
-        "
-        routerLink="/main/retail-pricing"
-      >
+        " routerLink="/main/retail-pricing">
         <span nz-icon nzType="calculator" nzTheme="outline"></span>
         <span>Retail Pricing</span>
       </li>
-      <li
-        *ngIf="
+      <li *ngIf="
           userPartnerDetails?.current_plan &&
           userPartnerDetails?.current_plan !== 'no_plan'
-        "
-        nz-menu-item
-        [ngClass]="
+        " nz-menu-item [ngClass]="
           router.url.includes('/main/plus-plans') ? 'active' : 'inactive'
-        "
-        routerLink="/main/plus-plans"
-      >
+        " routerLink="/main/plus-plans">
         <span nz-icon nzType="dollar" nzTheme="outline"></span>
         <span>Plus Plans</span>
+      </li>
+      <li nz-menu-item [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'" routerLink="/main/setting">
+        <span nz-icon nzType="setting" nzTheme="outline"></span>
+        <span>Settings</span>
       </li>
       <!-- <li
         nz-menu-item
@@ -141,36 +97,22 @@
   </nz-sider>
   <nz-layout>
     <nz-header>
-      <span
-        class="trigger"
-        nz-icon
-        [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
-        (click)="isCollapsed = !isCollapsed"
-      ></span>
+      <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+        (click)="isCollapsed = !isCollapsed"></span>
       <div class="profile-menu">
-        <span
-          style="
+        <span style="
             display: flex;
             flex-direction: column;
             line-height: normal;
             margin-right: 16px;
-          "
-        >
-          <a
-            *ngIf="
+          ">
+          <a *ngIf="
               userPartnerDetails?.current_plan &&
               userPartnerDetails?.current_plan !== 'no_plan'
-            "
-            routerLink="/main/plus-plans"
-            nzType="default"
-          >
+            " routerLink="/main/plus-plans" nzType="default">
             <span style="display: flex; align-items: center; line-height: 0">
               <span style="margin-right: 8px">
-                <span
-                  nz-icon
-                  nzType="dollar-circle"
-                  class="star"
-                  [style.color]="
+                <span nz-icon nzType="dollar-circle" class="star" [style.color]="
                     userPartnerDetails?.current_plan ===
                     PlanLabels['tier1'].value
                       ? PlanLabels['tier1'].color
@@ -184,25 +126,21 @@
                         PlanLabels['tier4'].value
                       ? PlanLabels['tier4'].color
                       : 'red'
-                  "
-                  style="font-size: 24px; line-height: 0"
-                  nzTheme="fill"
-                ></span
-              ></span>
+                  " style="font-size: 24px; line-height: 0" nzTheme="fill"></span></span>
               <span style="font-weight: bold; line-height: 0">{{
                 userPartnerDetails?.current_plan === PlanLabels["tier1"].value
-                  ? PlanLabels["tier1"].label
-                  : userPartnerDetails?.current_plan ===
-                    PlanLabels["tier2"].value
-                  ? PlanLabels["tier2"].label
-                  : userPartnerDetails?.current_plan ===
-                    PlanLabels["tier3"].value
-                  ? PlanLabels["tier3"].label
-                  : userPartnerDetails?.current_plan ===
-                    PlanLabels["tier4"].value
-                  ? PlanLabels["tier4"].label
-                  : "No Plan Found"
-              }}</span>
+                ? PlanLabels["tier1"].label
+                : userPartnerDetails?.current_plan ===
+                PlanLabels["tier2"].value
+                ? PlanLabels["tier2"].label
+                : userPartnerDetails?.current_plan ===
+                PlanLabels["tier3"].value
+                ? PlanLabels["tier3"].label
+                : userPartnerDetails?.current_plan ===
+                PlanLabels["tier4"].value
+                ? PlanLabels["tier4"].label
+                : "No Plan Found"
+                }}</span>
             </span>
           </a>
           <!-- <button>
@@ -225,10 +163,8 @@
         <!-- href="https://flyontechsolutions.zendesk.com/hc/en-us/requests/" -->
         <div class="profile-menu">
           <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
-            <nz-avatar
-              [nzText]="userPartnerCode | uppercase"
-              style="color: #fff; background-color: #2121c3; margin-right: 5px"
-            ></nz-avatar>
+            <nz-avatar [nzText]="userPartnerCode | uppercase"
+              style="color: #fff; background-color: #2121c3; margin-right: 5px"></nz-avatar>
             <span nz-icon nzType="caret-down" nzTheme="fill"></span>
           </a>
           <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -236,10 +172,8 @@
               Account
             </div>
             <div class="profile">
-              <nz-avatar
-                [nzText]="userPartnerCode | uppercase"
-                style="color: #fff; background-color: #2121c3"
-              ></nz-avatar>
+              <nz-avatar [nzText]="userPartnerCode | uppercase"
+                style="color: #fff; background-color: #2121c3"></nz-avatar>
               <div>
                 <div class="user-type">
                   <span>{{ userPartnerName }}</span>
@@ -258,21 +192,11 @@
                 <span>WEF</span>
               </li> -->
               <li nz-menu-item routerLink="/main/change-password">
-                <span
-                  nz-icon
-                  nzType="user"
-                  nzTheme="outline"
-                  style="margin-right: 10px"
-                ></span>
+                <span nz-icon nzType="user" nzTheme="outline" style="margin-right: 10px"></span>
                 <span>Change Password</span>
               </li>
               <li nz-menu-item (click)="logOutUser()">
-                <span
-                  nz-icon
-                  nzType="logout"
-                  nzTheme="outline"
-                  style="margin-right: 10px"
-                ></span>
+                <span nz-icon nzType="logout" nzTheme="outline" style="margin-right: 10px"></span>
                 <span>Logout</span>
               </li>
             </ul>

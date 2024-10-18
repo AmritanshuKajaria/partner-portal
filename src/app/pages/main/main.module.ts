@@ -13,9 +13,15 @@ import { HomeModule } from './home/home.module';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { PlansComponent } from './plans/plans.component';
+import { SettingModule } from './setting/setting.module';
+import { InventoryFeedComponent } from './setting/inventory-feed/inventory-feed.component';
 
 @NgModule({
-  declarations: [ChangePasswordComponent, PlansComponent],
+  declarations: [
+    ChangePasswordComponent,
+    PlansComponent,
+    InventoryFeedComponent,
+  ],
   imports: [
     MainRoutingModule,
     NzLayoutModule,
@@ -27,6 +33,7 @@ import { PlansComponent } from './plans/plans.component';
     ProfileModule,
     ProductModule,
     HomeModule,
+    SettingModule,
     ComponentModule,
   ],
   exports: [],

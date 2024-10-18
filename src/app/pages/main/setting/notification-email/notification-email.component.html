@@ -1,0 +1,603 @@
+<div class="notification-email-section setting-section">
+  <nz-spin [nzSpinning]="isLoading">
+  <div class="section-header">
+    <div class="tab-header">
+      <span>NOTIFICATION EMAILS</span>
+      <button
+        nz-button
+        nzType="default"
+        class="reset-button"
+        (click)="goBack()"
+      >
+        <span nz-icon nzType="arrow-left" nzTheme="outline"></span> Back
+      </button>
+    </div>
+  </div>
+
+  <div class="body-section" style="margin-left: 0; margin-right: 0">
+    <div *ngIf="showSection === section?.TABLE" class="table-section container">
+      <div class="header-action-button" nz-col nzSpan="20">
+        <span style="width: 188px"></span>
+        <nz-radio-group
+          [formControl]="formTypes"
+          nzButtonStyle="solid"
+          (ngModelChange)="changeFormType($event)"
+        >
+          <label nz-radio-button nzValue="notifications"
+            >Group By Notifications</label
+          >
+          <label nz-radio-button nzValue="emails">Group By Emails</label>
+        </nz-radio-group>
+        <button
+          nz-button
+          nzType="primary"
+          style="display: block"
+          (click)="onAddNotificationForm()"
+        >
+          <span nz-icon nzType="plus" nzTheme="outline"></span>
+          Add Notification Email
+        </button>
+      </div>
+      <div class="table-section" *ngIf="formTypes.value === 'notifications'">
+        <div nz-row class="type-list-section data-row">
+          <div
+            nz-col
+            nzSpan="24"
+            id="header-row"
+            class="d-flex justify-content-center"
+          >
+            <div
+              nz-col
+              [nzSpan]="8"
+              class="d-flex justify-content-center align-items-center border"
+              style="padding: 8px"
+            >
+              <b>Email</b>
+            </div>
+            <div
+              nz-col
+              [nzSpan]="12"
+              class="d-flex justify-content-center align-items-center border border-left-0"
+              style="padding: 8px"
+            >
+              <b>Notification Type</b>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="type-list-section data-row"
+          [formGroup]="groupByNotificationForm"
+        >
+          <div
+            nz-row
+            class="d-flex justify-content-center"
+            formArrayName="notificationGroups"
+            *ngFor="
+              let group of notificationGroups.controls;
+              let i = index;
+              trackBy: trackByFn
+            "
+          >
+            <div
+              [formGroupName]="i"
+              class="d-flex justify-content-center"
+              style="width: 100%"
+            >
+              <div
+                nz-col
+                [nzSpan]="8"
+                class="d-flex justify-content-center align-items-center border border-top-0"
+                nzBordered
+                style="padding: 8px"
+              >
+                {{ group.get("typeName")?.value }}
+              </div>
+              <div
+                class="email-group"
+                nz-col
+                [nzSpan]="12"
+                class="d-flex justify-content-center align-items-center border border-top-0 border-left-0"
+                style="padding: 8px; flex-direction: column"
+              >
+                <div
+                  formArrayName="emails"
+                  *ngFor="
+                    let emailCtrl of group.get('emails')?.value;
+                    let j = index;
+                    trackBy: trackByFn
+                  "
+                  style="width: 70%"
+                >
+                  <div [formGroupName]="j" class="email-item">
+                    <nz-form-item>
+                      <nz-form-control class="input-section" [nzErrorTip]="groupByNotificationEmailError">
+                        <nz-input-group>
+                          <input
+                            type="text"
+                            nz-input
+                            placeholder="Enter Email"
+                            formControlName="email"
+                          />
+                          <ng-template #groupByNotificationEmailError let-control>
+                            <ng-container *ngIf="control.hasError('required')"
+                              >Email is required<br
+                            /></ng-container>
+                            <ng-container *ngIf="control.hasError('email')"
+                            >Please input valid email!</ng-container>
+                          </ng-template>
+                        </nz-input-group>
+                        <div
+                          style="
+                            margin-top: 6px;
+                            min-width: 64px;
+                            display: flex;
+                          "
+                        >
+                          <button
+                            (click)="removeNotificationEmail(i, j)"
+                            nz-button
+                            nzType="primary"
+                            nzShape="circle"
+                            style="
+                              background: #f41e2c !important;
+                              margin-left: 8px;
+                              border: 0;
+                            "
+                            *ngIf="group.get('emails')?.value.length > 1"
+                            nzSize="small"
+                          >
+                            <span nz-icon nzType="minus"></span>
+                          </button>
+                          <button
+                            (click)="addNotificationEmail(i)"
+                            nz-button
+                            nzType="primary"
+                            nzShape="circle"
+                            style="
+                              background: #00c13b !important;
+                              margin-left: 8px;
+                              border: 0;
+                            "
+                            *ngIf="
+                              j === group.get('emails')?.value.length - 1 &&
+                              j < notificationsInputLimit - 1
+                            "
+                            nzSize="small"
+                          >
+                            <span nz-icon nzType="plus"></span>
+                          </button>
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-section" *ngIf="!isLoading">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitNotificationForm()"
+          >
+            <span
+              *ngIf="isSaving"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isSaving"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </div>
+
+      <div class="table-section" *ngIf="formTypes.value === 'emails'">
+        <div nz-row class="type-list-section data-row">
+          <div
+            nz-col
+            nzSpan="24"
+            id="header-row"
+            class="d-flex justify-content-center"
+          >
+            <div
+              nz-col
+              [nzSpan]="6"
+              class="d-flex justify-content-center align-items-center border"
+              style="padding: 8px"
+            >
+              <b>Email</b>
+            </div>
+            <div
+              nz-col
+              [nzSpan]="10"
+              class="d-flex justify-content-center align-items-center border border-left-0"
+              style="padding: 8px"
+            >
+              <b>Notification Type</b>
+            </div>
+            <div
+              nz-col
+              [nzSpan]="4"
+              class="d-flex justify-content-center align-items-center border border-left-0"
+              style="padding: 8px"
+            >
+              <b>Action</b>
+            </div>
+          </div>
+        </div>
+        <div
+          id="type-list-section"
+          class="type-list-section data-row"
+          [formGroup]="groupByEmailForm"
+        >
+          <div
+            nz-row
+            id="email-groups"
+            class="d-flex justify-content-center"
+            formArrayName="emailGroups"
+            *ngFor="
+              let group of emailGroups.controls;
+              let i = index;
+              trackBy: trackByFn
+            "
+          >
+            <div
+              [formGroupName]="i"
+              class="d-flex justify-content-center"
+              style="width: 100%"
+            >
+              <div
+                nz-col
+                [nzSpan]="6"
+                class="d-flex justify-content-center align-items-center border border-top-0"
+                nzBordered
+                style="padding: 8px"
+                formGroupName="email"
+              >
+              <nz-form-item style="width: 100%;">
+                <nz-form-control [nzErrorTip]="groupByNotificationEmailError">
+                  <nz-input-group>
+                    <input
+                      type="text"
+                      nz-input
+                      placeholder="Enter Email"
+                      formControlName="email"
+                    />
+                    <ng-template #groupByNotificationEmailError let-control>
+                      <ng-container *ngIf="control.hasError('required')"
+                        >Email is required<br
+                      /></ng-container>
+                      <ng-container *ngIf="control.hasError('email')"
+                      >Please input valid email!</ng-container>
+                    </ng-template>
+                  </nz-input-group>
+                </nz-form-control>
+              </nz-form-item>
+                <div class="d-flex gap-2">
+                  <a
+                    *ngIf="!group.get('email')?.get('email')?.enabled"
+                    nzTooltipTitle="Edit"
+                    nzTooltipPlacement="top"
+                    nz-tooltip
+                    style="margin: 0 5px; color: #2121c3; font-size: large"
+                    (click)="enableEmailInput(group.get('email'))"
+                  >
+                    <span nz-icon nzType="edit" nzTheme="outline"></span>
+                  </a>
+                  <a
+                    *ngIf="group.get('email')?.get('email')?.enabled"
+                    nzTooltipTitle="Reset"
+                    nzTooltipPlacement="top"
+                    nz-tooltip
+                    style="margin: 0 5px; color: #2121c3; font-size: large"
+                    (click)="resetEmailInput(group.get('email'))"
+                  >
+                    <span nz-icon nzType="undo" nzTheme="outline"></span>
+                  </a>
+                </div>
+              </div>
+              <div
+                class="email-group"
+                nz-col
+                [nzSpan]="10"
+                class="d-flex justify-content-center align-items-center border border-top-0 border-left-0"
+                style="padding: 8px; flex-direction: column"
+              >
+                <div
+                  formArrayName="notifications"
+                  *ngFor="
+                    let notificationCtrl of group.get('notifications')?.value;
+                    let j = index;
+                    trackBy: trackByFn
+                  "
+                >
+                  <div [formGroupName]="j" class="email-item">
+                    <nz-form-item>
+                      <nz-form-control class="input-section" [nzErrorTip]="groupByEmailNotification">
+                        <nz-input-group class="medium-input" >
+                          <nz-select
+                            nzPlaceHolder="Select A Notification Type"
+                            formControlName="notification"
+                          >
+                            <nz-option
+                              *ngFor="let option of notificationsOptions"
+                              [nzLabel]="option?.name"
+                              [nzValue]="option?.value"
+                            ></nz-option>
+                          </nz-select>
+                          <ng-template #groupByEmailNotification let-control>
+                            <ng-container *ngIf="control.hasError('required')"
+                              >List type is required</ng-container
+                            >
+                          </ng-template>
+                        </nz-input-group>
+                        <div
+                          style="
+                            margin-top: 6px;
+                            min-width: 64px;
+                            display: flex;
+                          "
+                        >
+                          <button
+                            (click)="removeNotification(i, j)"
+                            nz-button
+                            nzType="primary"
+                            nzShape="circle"
+                            style="
+                              background: #f41e2c !important;
+                              margin-left: 8px;
+                              border: 0;
+                            "
+                            *ngIf="group.get('notifications')?.value.length > 1"
+                            nzSize="small"
+                          >
+                            <span nz-icon nzType="minus"></span>
+                          </button>
+                          <button
+                            (click)="addNotification(i)"
+                            nz-button
+                            nzType="primary"
+                            nzShape="circle"
+                            style="
+                              background: #00c13b !important;
+                              margin-left: 8px;
+                              border: 0;
+                            "
+                            *ngIf="
+                              j ===
+                                group.get('notifications')?.value.length - 1 &&
+                              j < emailInputLimit - 1
+                            "
+                            nzSize="small"
+                          >
+                            <span nz-icon nzType="plus"></span>
+                          </button>
+                        </div>
+                      </nz-form-control>
+                    </nz-form-item>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="actions border border-top-0 border-left-0"
+                nz-col
+                [nzSpan]="4"
+              >
+                <div class="d-flex gap-2">
+                  <a
+                    nzTooltipTitle="Delete"
+                    nzTooltipPlacement="top"
+                    nz-tooltip
+                    style="margin: 0 5px; color: red; font-size: large"
+                    (click)="removeGroupByEmailRow(i)"
+                  >
+                    <span nz-icon nzType="delete" nzTheme="outline"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-section" >
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitNotificationForm()"
+          >
+            <span
+              *ngIf="isSaving"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isSaving"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="showSection === section?.FORM" class="form-section container">
+      <div class="section-header" style="margin-top: 0">
+        <div
+          class="tab-header justify-content-center"
+          style="border-bottom: 0px; padding: 0px"
+        >
+          <span>Add Notification Email</span>
+        </div>
+      </div>
+      <form [formGroup]="addEmailNotificationsForm">
+        <nz-form-item>
+          <nz-form-label class="label-section"
+            >Email <span style="color: red">*</span></nz-form-label
+          >
+          <nz-form-control
+            class="input-section"
+            [nzErrorTip]="addFromEmailError"
+          >
+            <nz-input-group class="small-input">
+              <input
+                type="text"
+                nz-input
+                placeholder="Enter Email"
+                formControlName="email"
+              />
+              <ng-template #addFromEmailError let-control>
+                <ng-container *ngIf="control.hasError('required')"
+                  >Email is required<br
+                /></ng-container>
+                <ng-container *ngIf="control.hasError('email')"
+                >Please input valid email!</ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <div formArrayName="notifications">
+          <div
+          *ngFor="
+            let notification of addFormNotificationGroups.controls;
+            let i = index
+          "
+        >
+        <div [formGroupName]="i">
+          <nz-form-item>
+            <nz-form-label
+              class="label-section"
+              nzFor="brand"
+              *ngIf="i === 0"
+            >
+              List Type<span style="color: red; font-weight: 500">*</span>
+            </nz-form-label>
+            <div class="label-section" *ngIf="i !== 0"></div>
+            <nz-form-control
+
+              class="input-section"
+              [nzErrorTip]="notificationError"
+            >
+              <nz-input-group class="medium-input">
+                <nz-select
+                  nzPlaceHolder="Select A Notification Type"
+                  formControlName="notification"
+                >
+                  <nz-option
+                    *ngFor="let option of notificationsOptions"
+                    [nzLabel]="option?.name"
+                    [nzValue]="option?.value"
+                  ></nz-option>
+                </nz-select>
+                <ng-template #notificationError let-control>
+                  <ng-container *ngIf="control.hasError('required')"
+                    >List type is required</ng-container
+                  >
+                </ng-template>
+              </nz-input-group>
+              <div style="margin-top: 6px">
+                <button
+                  nz-button
+                  nzType="primary"
+                  nzShape="circle"
+                  style="
+                    background: #f41e2c !important;
+                    margin-left: 8px;
+                    border: 0;
+                  "
+                  *ngIf="addFormNotificationGroups.controls.length > 1"
+                  (click)="removeNotificationFromAddForm(i)"
+                  nzSize="small"
+                >
+                  <span nz-icon nzType="minus"></span>
+                </button>
+                <button
+                  [disabled]="i >= 9"
+                  nz-button
+                  nzType="primary"
+                  nzShape="circle"
+                  *ngIf="i === addFormNotificationGroups.controls.length - 1"
+                  style="
+                    background: #00c13b !important;
+                    margin-left: 8px;
+                    border: 0;
+                  "
+                  (click)="addNotificationFromAddForm()"
+                  nzSize="small"
+                >
+                  <span nz-icon nzType="plus"></span>
+                </button>
+              </div>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        </div>
+  
+        </div>
+        <div class="footer-section">
+          <button
+            nz-button
+            nzType="default"
+            class="reset-button"
+            (click)="reset()"
+          >
+            <span nz-icon nzType="reload" nzTheme="outline"></span> Reset
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            (click)="submitForm()"
+          >
+            <span
+              *ngIf="isSaving"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isSaving"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  </nz-spin>
+</div>
