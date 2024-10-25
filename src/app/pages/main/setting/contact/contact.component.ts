@@ -159,7 +159,7 @@ export class ContactComponent implements OnInit {
     let matchingValues = [];
     if (arrRoles) {
       matchingValues = arrRoles.map((res: any) => {
-        return this.dropDownList?.contactRoles.find(
+        return this.dropDownList?.arrRoles.find(
           (role: any) => role.value == res
         )?.name;
       });
