@@ -1,379 +1,140 @@
 {
   "documentType": [
-    {
-      "name": "W9",
-      "value": 1
-    },
-    {
-      "name": "W8",
-      "value": 2
-    }
+    { "name": "W9", "value": 1 },
+    { "name": "W8", "value": 2 }
   ],
   "tinType": [
-    {
-      "name": "SSN",
-      "value": 1
-    },
-    {
-      "name": "EIN",
-      "value": 2
-    },
-    {
-      "name": "Foreign EIN",
-      "value": 3
-    },
-    {
-      "name": "Foreign TIN",
-      "value": 4
-    }
+    { "name": "SSN", "value": 1 },
+    { "name": "EIN", "value": 2 },
+    { "name": "Foreign EIN", "value": 3 },
+    { "name": "Foreign TIN", "value": 4 }
   ],
   "accountStatus": [
-    {
-      "name": "Active",
-      "value": 1
-    },
-    {
-      "name": "Inactive",
-      "value": 2
-    }
+    { "name": "Active", "value": 1 },
+    { "name": "Inactive", "value": 2 }
   ],
   "salesStatus": [
-    {
-      "name": "Active",
-      "value": 1
-    },
-    {
-      "name": "Inactive",
-      "value": 2
-    }
+    { "name": "Active", "value": 1 },
+    { "name": "Inactive", "value": 2 }
   ],
   "paymentStatus": [
-    {
-      "name": "Active",
-      "value": 1
-    },
-    {
-      "name": "On Hold",
-      "value": 2
-    }
+    { "name": "Active", "value": 1 },
+    { "name": "On Hold", "value": 2 }
   ],
   "mapType": [
-    {
-      "name": "No MAP",
-      "value": 1
-    },
-    {
-      "name": "Has MAP",
-      "value": 2
-    },
-    {
-      "name": "Has MAP Masking",
-      "value": 3
-    }
+    { "name": "No MAP", "value": 1 },
+    { "name": "Has MAP", "value": 2 },
+    { "name": "Has MAP Masking", "value": 3 }
   ],
   "handlingConfiguration": [
-    {
-      "name": "Account Level",
-      "value": 1
-    },
-    {
-      "name": "SKU Level",
-      "value": 2
-    }
+    { "name": "Account Level", "value": 1 },
+    { "name": "SKU Level", "value": 2 }
   ],
   "poSendingMethod": [
-    {
-      "name": "Email",
-      "value": 1
-    },
-    {
-      "name": "EDI",
-      "value": 2
-    }
+    { "name": "Email", "value": 1 },
+    { "name": "EDI", "value": 2 }
   ],
   "labelPageSize": [
-    {
-      "name": "FOUR_BY_SIX",
-      "value": 1
-    },
-    {
-      "name": "LETTER_BOTTOM_HALF",
-      "value": 2
-    },
-    {
-      "name": "LETTER_FULLPAGE",
-      "value": 3
-    }
+    { "name": "FOUR_BY_SIX", "value": 1 },
+    { "name": "LETTER_BOTTOM_HALF", "value": 2 },
+    { "name": "LETTER_FULLPAGE", "value": 3 }
   ],
-  "feedType": [
-    {
-      "name": "Email",
-      "value": 1
-    },
-    {
-      "name": "EDI",
-      "value": 2
-    }
+  "inventoryFeedType": [
+    { "name": "Email", "value": 1 },
+    { "name": "EDI", "value": 2 }
   ],
-  "feedFrequency": [
-    {
-      "name": "Sunday",
-      "value": 0
-    },
-    {
-      "name": "Monday",
-      "value": 1
-    },
-    {
-      "name": "Tuesday",
-      "value": 2
-    },
-    {
-      "name": "Wednesday",
-      "value": 3
-    },
-    {
-      "name": "Thursday",
-      "value": 4
-    },
-    {
-      "name": "Friday",
-      "value": 5
-    },
-    {
-      "name": "Saturday",
-      "value": 6
-    }
+  "inventoryFeedFrequency": [
+    { "name": "Sunday", "value": 0 },
+    { "name": "Monday", "value": 1 },
+    { "name": "Tuesday", "value": 2 },
+    { "name": "Wednesday", "value": 3 },
+    { "name": "Thursday", "value": 4 },
+    { "name": "Friday", "value": 5 },
+    { "name": "Saturday", "value": 6 }
   ],
-  "feedDetailType": [
-    {
-      "name": "Consolidated",
-      "value": 1
-    },
-    {
-      "name": "Location Wise",
-      "value": 2
-    }
+  "inventoryFeedDetailType": [
+    { "name": "Consolidated", "value": 1 },
+    { "name": "Location Wise", "value": 2 }
   ],
   "inventoryBucket": [
-    {
-      "name": "Passive",
-      "value": 1
-    },
-    {
-      "name": "Normal",
-      "value": 2
-    },
-    {
-      "name": "Aggresive",
-      "value": 3
-    }
+    { "name": "Passive", "value": 1 },
+    { "name": "Normal", "value": 2 },
+    { "name": "Aggresive", "value": 3 }
   ],
-  "ediEnvironment": [
-    {
-      "name": "Test",
-      "value": 1
-    },
-    {
-      "name": "Live",
-      "value": 2
-    }
+  "environment": [
+    { "name": "Test", "value": 1 },
+    { "name": "Live", "value": 2 }
   ],
-  "ediConnectionStatus": [
-    {
-      "name": "Active",
-      "value": 1
-    },
-    {
-      "name": "Inactive",
-      "value": 2
-    }
+  "connectionStatus": [
+    { "name": "Active", "value": 1 },
+    { "name": "Inactive", "value": 2 }
   ],
-  "ediConnectionType": [
-    {
-      "name": "Direct",
-      "value": 1
-    },
-    {
-      "name": "VAN",
-      "value": 2
-    }
+  "connectionType": [
+    { "name": "Direct", "value": 1 },
+    { "name": "VAN", "value": 2 }
   ],
-  "ediSegmentTerminator": [
-    {
-      "name": "Tilde (~)",
-      "value": 1
-    },
-    {
-      "name": "New Line (\\n)",
-      "value": 2
-    }
+  "segmentTerminator": [
+    { "name": "Tilde (~)", "value": 1 },
+    { "name": "New Line (\\n)", "value": 2 }
   ],
-  "ediElementTerminator": [
-    {
-      "name": "Asterisk (*)",
-      "value": 1
-    }
+  "elementTerminator": [{ "name": "Asterisk (*)", "value": 1 }],
+  "subElementTerminator": [
+    { "name": "Colon (:)", "value": 1 },
+    { "name": "Greater Than (>)", "value": 2 }
   ],
-  "ediSubElementTerminator": [
-    {
-      "name": "Colon (:)",
-      "value": 1
-    },
-    {
-      "name": "Greater Than (>)",
-      "value": 2
-    }
+  "signatureAlgo": [
+    { "name": "sha1", "value": 1 },
+    { "name": "sha256", "value": 2 },
+    { "name": "md5", "value": 3 }
   ],
-  "ediAs2SignatureAlgo": [
-    {
-      "name": "sha1",
-      "value": 1
-    },
-    {
-      "name": "sha256",
-      "value": 2
-    },
-    {
-      "name": "md5",
-      "value": 3
-    }
-  ],
-  "ediAs2EncryptionAlgo": [
+  "encryptionAlgo": [
     { "name": "DES3", "value": 1 },
     { "name": "RC2-128", "value": 2 },
     { "name": "AES-128", "value": 3 }
   ],
-  "ediMdnReceiptSecurity": [
-    {
-      "name": "Signed",
-      "value": 1
-    },
-    {
-      "name": "Unsigned",
-      "value": 2
-    }
+  "mdnReceiptsSecurity": [
+    { "name": "Signed", "value": 1 },
+    { "name": "Unsigned", "value": 2 }
   ],
-  "ediMdnReceiptDelivery": [
-    {
-      "name": "Synchronous",
-      "value": 1
-    },
-    {
-      "name": "Asynchronous",
-      "value": 2
-    }
+  "mdnReceiptsDelivery": [
+    { "name": "Synchronous", "value": 1 },
+    { "name": "Asynchronous", "value": 2 }
   ],
   "coOpCalculationMethod": [
-    {
-      "name": "Only on Unit Price",
-      "value": 1
-    },
-    {
-      "name": "On Net of Unit Price & Promo",
-      "value": 2
-    }
+    { "name": "Only on Unit Price", "value": 1 },
+    { "name": "On Net of Unit Price & Promo", "value": 2 }
   ],
-  "daCalculationMethod": [
-    {
-      "name": "On Unit Price",
-      "value": 1
-    },
-    {
-      "name": "On Unit Price Less Promo",
-      "value": 2
-    },
-    {
-      "name": "On Unit Price Less Promo & CoOp",
-      "value": 3
-    }
+  "returnDaCalculationMethod": [
+    { "name": "On Unit Price", "value": 1 },
+    { "name": "On Unit Price Less Promo", "value": 2 },
+    { "name": "On Unit Price Less Promo & CoOp", "value": 3 }
   ],
-  "ediFileTransferMode": [
-    {
-      "name": "AS2",
-      "value": 1
-    },
-    {
-      "name": "SFTP",
-      "value": 2
-    }
+  "fileTransferMode": [
+    { "name": "AS2", "value": 1 },
+    { "name": "SFTP", "value": 2 }
   ],
-  "contactRoles": [
-    {
-      "name": "Catalog",
-      "value": 1
-    },
-    {
-      "name": "Orders",
-      "value": 2
-    },
-    {
-      "name": "Feed",
-      "value": 3
-    },
-    {
-      "name": "Payments",
-      "value": 4
-    },
-    {
-      "name": "Reception",
-      "value": 5
-    },
-    {
-      "name": "Account Manager",
-      "value": 6
-    },
-    {
-      "name": "Returns",
-      "value": 7
-    },
-    {
-      "name": "EDI",
-      "value": 8
-    }
+  "arrRoles": [
+    { "name": "Catalog", "value": 1 },
+    { "name": "Orders", "value": 2 },
+    { "name": "Feed", "value": 3 },
+    { "name": "Payments", "value": 4 },
+    { "name": "Reception", "value": 5 },
+    { "name": "Account Manager", "value": 6 },
+    { "name": "Returns", "value": 7 },
+    { "name": "EDI", "value": 8 }
   ],
-  "returnSetupProfileTypes": [
-    {
-      "name": "01A",
-      "value": 1
-    },
-    {
-      "name": "01B",
-      "value": 2
-    },
-    {
-      "name": "02A",
-      "value": 3
-    },
-    {
-      "name": "02B",
-      "value": 4
-    },
-    {
-      "name": "02C",
-      "value": 5
-    },
-    {
-      "name": "03A",
-      "value": 6
-    },
-    {
-      "name": "04A",
-      "value": 7
-    },
-    {
-      "name": "05A",
-      "value": 8
-    }
+  "returnProfileType": [
+    { "name": "01A", "value": 1 },
+    { "name": "01B", "value": 2 },
+    { "name": "02A", "value": 3 },
+    { "name": "02B", "value": 4 },
+    { "name": "02C", "value": 5 },
+    { "name": "03A", "value": 6 },
+    { "name": "04A", "value": 7 },
+    { "name": "05A", "value": 8 }
   ],
-  "returnSetupReimbursementMethod": [
-    {
-      "name": "Credit",
-      "value": 1
-    },
-    {
-      "name": "RGI",
-      "value": 2
-    }
+  "returnReimbursementMethod": [
+    { "name": "Credit", "value": 1 },
+    { "name": "RGI", "value": 2 }
   ]
 }
