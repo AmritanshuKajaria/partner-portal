@@ -99,7 +99,6 @@ export class ReturnLocationComponent implements OnInit {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.selectedData = res.payload.returnLocation;
         this.setValue(this.selectedData);
         this.isLoading = false;
