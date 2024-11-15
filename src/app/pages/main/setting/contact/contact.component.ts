@@ -37,6 +37,16 @@ export class ContactComponent implements OnInit {
     designation: 'Designation',
     extra: '',
   };
+  labelListArray: any = [
+    'firstName',
+    'contactPhoneNumberExtension',
+    'lastName',
+    'contactPhoneNumber',
+    'contactTimeZone',
+    'arrRoles',
+    'designation',
+    'extra',
+  ];
   contactList: any = [];
   dropDownList: any = null;
   timeZone = TimeZone;
@@ -122,7 +132,12 @@ export class ContactComponent implements OnInit {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
-        this.contactList = res.payload.contacts;
+        if (res.payload.contacts && res.payload.contacts.length > 0) {
+          this.contactList = res.payload.contacts.map((x: any) => ({
+            ...x,
+            mappedLabelRoles: this.getRoleLabelList(x.arrRoles),
+          }));
+        }
         this.isLoading = false;
       },
       error: (error) => {
@@ -137,10 +152,6 @@ export class ContactComponent implements OnInit {
 
   get formControl() {
     return this.contactForm.controls;
-  }
-
-  objectKeys(obj: any): any[] {
-    return Object.entries(obj);
   }
 
   phoneInputField() {
