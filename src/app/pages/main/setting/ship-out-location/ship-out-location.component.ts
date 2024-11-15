@@ -120,8 +120,6 @@ export class ShipOutLocationComponent implements OnInit {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
-        console.log(res);
-        this.shipOutLocationForm?.reset();
         this.shipOutLocationList = res.payload.shipoutLocations;
         this.activateList = res.payload.shipoutLocations;
         this.deactivateList = res.payload.shipoutLocationsInactive;

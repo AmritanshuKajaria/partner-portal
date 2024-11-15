@@ -58,7 +58,6 @@ export class RemittanceInfoComponent implements OnInit {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.remittanceInfoData = res.payload;
         this.patchFormValue(this.remittanceInfoData);
         this.isLoading = false;
