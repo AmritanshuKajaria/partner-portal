@@ -14,7 +14,7 @@
           <span
             ><b>Promotion Code : </b>{{ viewData?.requested_promo_code }}</span
           >
-          <span><b>Number of SKUs : </b>{{ viewData?.total_mpn }}</span>
+          <span><b>Number of MPNs : </b>{{ viewData?.total_mpn }}</span>
           <span><b>Status : </b>{{ viewData?.promo_status }}</span>
         </div>
         <div
@@ -56,14 +56,14 @@
             <tr>
               <th>MPN</th>
               <th class="text-end">Unit Price ($)</th>
-              <th class="text-end">Promotion Unit Price ($)</th>
+              <th class="text-end">Promotional Unit Price ($)</th>
               <th class="text-end">Discount ($)</th>
               <th class="text-end">Discount (%)</th>
               <th class="text-end" *ngIf="userPermissions.partner_map">
-                Map Price
+                Map Price ($)
               </th>
               <th class="text-end" *ngIf="userPermissions.partner_map">
-                Promotional Map Price
+                Promotional Map Price ($)
               </th>
               <th class="text-end">Units Sold</th>
               <th class="text-end">Sales ($)</th>

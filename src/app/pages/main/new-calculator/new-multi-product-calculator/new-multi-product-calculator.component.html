@@ -59,11 +59,11 @@
             <div style="font-size: 12px">UPC</div>
           </th>
           <th>Unit Price</th>
-          <th>Estimated Amazon Selling Fees</th>
-          <th>Estimated Shipping Cost</th>
-          <th>Estimated Order Processing Fees</th>
-          <th>Estimated Return Cost</th>
-          <th>Estimated Landed Retail Price</th>
+          <th>Amazon Commission</th>
+          <th>Shipping Cost</th>
+          <th>123 Order Processing Fees</th>
+          <!-- <th>Estimated Return Cost</th> -->
+          <th>Retail Price</th>
           <th nzRight class="action-column"><div>Actions</div></th>
         </tr>
       </thead>
@@ -113,7 +113,7 @@
               <div>
                 {{
                   data?.amazon_fees_percentage
-                    ? " (" + +data.amazon_fees_percentage * 100 + "%" + ")"
+                    ? " (" + (data.amazon_fees_percentage * 100 | number:'1.0-2') + "%" + ")"
                     : ""
                 }}
               </div>
@@ -125,9 +125,12 @@
               <div class="text-wrap">
                 Boxes:
                 {{
-                  data?.boxes +
-                    (data?.size_tier ? " (" + data?.size_tier + ")" : "")
+                data?.boxes
+              
                 }}
+              </div>
+              <div>
+                {{(data?.size_tier ? " (" + data?.size_tier + ")" : "")}}
               </div>
             </div>
           </td>
@@ -144,7 +147,7 @@
                 {{
                   data?.order_processing_fees_percentage
                     ? " (" +
-                      +data.order_processing_fees_percentage * 100 +
+                      (data.order_processing_fees_percentage * 100 | number:'1.0-2') +
                       "%" +
                       ")"
                     : ""
@@ -152,7 +155,7 @@
               </div>
             </div>
           </td>
-          <td>
+          <!-- <td>
             <div class="exported-item-content">
               <div>
                 {{
@@ -169,7 +172,7 @@
                 }}
               </div>
             </div>
-          </td>
+          </td> -->
           <td>
             <nz-form-item style="margin-bottom: 0; width: 150px">
               <nz-form-control>
