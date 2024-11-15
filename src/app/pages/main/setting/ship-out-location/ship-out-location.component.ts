@@ -42,6 +42,20 @@ export class ShipOutLocationComponent implements OnInit {
     state: 'State',
     phoneNumberExtension: 'Phone Extension',
   };
+  labelListArray: any = [
+    'internalCode',
+    'zipCode',
+    'externalCode',
+    'timeZone',
+    'addressLine1',
+    'cutOffTime',
+    'addressLine2',
+    'contactName',
+    'city',
+    'phoneNumber',
+    'state',
+    'phoneNumberExtension',
+  ];
 
   shipOutLocationList: any = [];
   activateList: any = [];
@@ -146,10 +160,6 @@ export class ShipOutLocationComponent implements OnInit {
     } else {
       this.shipOutLocationList = this.deactivateList;
     }
-  }
-
-  objectKeys(obj: any): any[] {
-    return Object.entries(obj);
   }
 
   changeState() {
