@@ -64,7 +64,7 @@
         <span nz-icon nzType="calculator" nzTheme="outline"></span>
         <span>Retail Pricing</span>
       </li>
-      <li *ngIf="
+      <!-- <li *ngIf="
           userPartnerDetails?.current_plan &&
           userPartnerDetails?.current_plan !== 'no_plan'
         " nz-menu-item [ngClass]="
@@ -72,7 +72,7 @@
         " routerLink="/main/plus-plans">
         <span nz-icon nzType="dollar" nzTheme="outline"></span>
         <span>Plus Plans</span>
-      </li>
+      </li> -->
       <li nz-menu-item [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'" routerLink="/main/setting">
         <span nz-icon nzType="setting" nzTheme="outline"></span>
         <span>Settings</span>
@@ -106,7 +106,7 @@
             line-height: normal;
             margin-right: 16px;
           ">
-          <a *ngIf="
+          <!-- <a *ngIf="
               userPartnerDetails?.current_plan &&
               userPartnerDetails?.current_plan !== 'no_plan'
             " routerLink="/main/plus-plans" nzType="default">
@@ -142,7 +142,7 @@
                 : "No Plan Found"
                 }}</span>
             </span>
-          </a>
+          </a> -->
           <!-- <button>
             <span style="display: flex; align-items: center">
               <span style="margin-right: 8px">
@@ -158,7 +158,8 @@
             </span>
           </button> -->
         </span>
-        <span class="name">{{ userPartnerName }} ({{ userPartnerCode }})</span>
+        <!-- <span class="name">{{ userPartnerName }} ({{ userPartnerCode }})</span> -->
+        <span class="name">{{ userPartnerName }}</span>
         <a style="color: #2121c3" target="_blank" (click)="help()">Help</a>
         <!-- href="https://flyontechsolutions.zendesk.com/hc/en-us/requests/" -->
         <div class="profile-menu">
