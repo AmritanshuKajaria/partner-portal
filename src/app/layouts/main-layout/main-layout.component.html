@@ -64,15 +64,14 @@
         <span nz-icon nzType="calculator" nzTheme="outline"></span>
         <span>Retail Pricing</span>
       </li>
-      <!-- <li *ngIf="
-          userPartnerDetails?.current_plan &&
-          userPartnerDetails?.current_plan !== 'no_plan'
+      <li *ngIf="
+          userPartnerDetails?.plan_tab
         " nz-menu-item [ngClass]="
           router.url.includes('/main/plus-plans') ? 'active' : 'inactive'
         " routerLink="/main/plus-plans">
         <span nz-icon nzType="dollar" nzTheme="outline"></span>
         <span>Plus Plans</span>
-      </li> -->
+      </li>
       <li nz-menu-item [ngClass]="router.url.includes('/setting') ? 'active' : 'inactive'" routerLink="/main/setting">
         <span nz-icon nzType="setting" nzTheme="outline"></span>
         <span>Settings</span>
@@ -106,9 +105,8 @@
             line-height: normal;
             margin-right: 16px;
           ">
-          <!-- <a *ngIf="
-              userPartnerDetails?.current_plan &&
-              userPartnerDetails?.current_plan !== 'no_plan'
+          <a *ngIf="
+              userPartnerDetails?.plan_tab
             " routerLink="/main/plus-plans" nzType="default">
             <span style="display: flex; align-items: center; line-height: 0">
               <span style="margin-right: 8px">
@@ -142,7 +140,7 @@
                 : "No Plan Found"
                 }}</span>
             </span>
-          </a> -->
+          </a>
           <!-- <button>
             <span style="display: flex; align-items: center">
               <span style="margin-right: 8px">
