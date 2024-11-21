@@ -20,8 +20,8 @@
   ></nz-alert>
 
   <div class="body-section" style="padding-top: 16px">
-    <div nz-row [nzGutter]="16">
-      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+    <div style="justify-content: center;" nz-row [nzGutter]="16">
+      <!-- <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
           *ngIf="currentPlan === PlanLabels['tier1'].value; else tier1plan"
           nzColor="red"
@@ -30,9 +30,9 @@
         >
           <ng-container *ngTemplateOutlet="tier1plan"></ng-container>
         </nz-ribbon>
-      </div>
+      </div> -->
 
-      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+      <div nz-col class="gutter-row" [nzLg]="8" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
           *ngIf="currentPlan === PlanLabels['tier2'].value; else tier2plan"
           nzColor="red"
@@ -42,7 +42,7 @@
           <ng-container *ngTemplateOutlet="tier2plan"></ng-container>
         </nz-ribbon>
       </div>
-      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+      <div nz-col class="gutter-row" [nzLg]="8" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
           [nzColor]="currentPlan === PlanLabels['tier3'].value ? 'red' : 'blue'"
           style="height: 100%"
@@ -55,7 +55,7 @@
           <ng-container *ngTemplateOutlet="tier3plan"></ng-container>
         </nz-ribbon>
       </div>
-      <div nz-col class="gutter-row" [nzLg]="6" [nzMd]="12" [nzXs]="24">
+      <div nz-col class="gutter-row" [nzLg]="8" [nzMd]="12" [nzXs]="24">
         <nz-ribbon
           *ngIf="currentPlan === PlanLabels['tier4'].value; else tier4plan"
           nzColor="red"
