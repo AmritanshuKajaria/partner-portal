@@ -10,10 +10,17 @@ export class NewCalculatorService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getMultiProductCalculatorList(page: number) {
-    let params = new HttpParams().set('page', page);
+  getMultiProductCalculatorList(data: any) {
+    let params = new HttpParams().set('page', data.page);
+    if (data?.search_term) {
+      params = params.append('search_term', data?.search_term);
+    }
     return this.httpClient.get(this.url + '/pricings', {
       params: params,
     });
+  }
+
+  exportMultiProductCalculator() {
+    return this.httpClient.post(this.url + '/pricing-export', {});
   }
 }
