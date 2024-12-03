@@ -105,15 +105,23 @@
             <div class="exported-item-content">
               <div>
                 {{
-                  data?.amazon_fees_percentage
-                    ? "$" + estimatedPrices[no].amazon_fees_percentage
+                  data?.market_place_fees
+                    ? "$" + estimatedPrices[no].market_place_fees
                     : ""
                 }}
               </div>
               <div>
                 {{
-                  data?.amazon_fees_percentage
-                    ? " (" + (data.amazon_fees_percentage * 100 | number:'1.0-2') + "%" + ")"
+                  data?.market_place_fees
+                    ? " (" +
+                      ([
+                        data?.pre_slab_percentage ?? 0,
+                        data?.post_slab_percentage ?? 0
+                      ]
+                        | maxValue
+                        | number : "1.0-2") +
+                      "%" +
+                      ")"
                     : ""
                 }}
               </div>
@@ -124,13 +132,10 @@
               <div>{{ data?.shipping_cost | currency }}</div>
               <div class="text-wrap">
                 Boxes:
-                {{
-                data?.boxes
-              
-                }}
+                {{ data?.boxes }}
               </div>
               <div>
-                {{(data?.size_tier ? " (" + data?.size_tier + ")" : "")}}
+                {{ data?.size_tier ? " (" + data?.size_tier + ")" : "" }}
               </div>
             </div>
           </td>
@@ -147,7 +152,8 @@
                 {{
                   data?.order_processing_fees_percentage
                     ? " (" +
-                      (data.order_processing_fees_percentage * 100 | number:'1.0-2') +
+                      (data.order_processing_fees_percentage * 100
+                        | number : "1.0-2") +
                       "%" +
                       ")"
                     : ""

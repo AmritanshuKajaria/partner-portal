@@ -12,17 +12,23 @@ export interface CalculatorMultiData {
 }
 
 export interface NewCalculatorMultiData {
-  mpn: string;
   sku: string;
-  upc: string;
-  asin: string;
-  shipping_cost: number;
-  boxes: number;
-  amazon_fees_percentage: number;
+  mpn: string;
   name: string;
-  order_processing_fees_percentage: number;
-  retail_price: number;
-  return_cost_percentage: number;
-  size_tier: '2 - Medium';
+  asin: string;
+  upc: string;
   unit_price: number;
+  allowance: number;
+  slab_amt: number;
+  pre_slab_percentage: number;
+  post_slab_percentage: number;
+  order_processing_fees_percentage: number;
+  return_cost_percentage: number;
+  shipping_cost: number;
+  market_place_fees: number;
+  has_map: number;
+  map_price: number;
+  retail_price: number;
+  boxes: number;
+  size_tier: string;
 }

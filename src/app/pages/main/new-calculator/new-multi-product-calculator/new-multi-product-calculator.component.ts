@@ -40,7 +40,8 @@ export class NewMultiProductCalculatorComponent {
 
   constructor(
     private newCalculatorService: NewCalculatorService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +78,7 @@ export class NewMultiProductCalculatorComponent {
     };
     this.newCalculatorService.getMultiProductCalculatorList(data).subscribe({
       next: (res: any) => {
+        console.log(res, 'data');
         this.isLoading = false;
         this.total = res.pagination?.total_rows ?? 0;
         this.multiProductList = res.products ?? [];
@@ -84,7 +86,7 @@ export class NewMultiProductCalculatorComponent {
         this.multiData = lodash.cloneDeep(this.multiProductList);
         this.multiData.forEach((x: any, index) => {
           this.estimatedPrices.push({
-            amazon_fees_percentage: 0,
+            market_place_fees: 0,
             order_processing_fees_percentage: 0,
             return_cost_percentage: 0,
           });
@@ -97,21 +99,33 @@ export class NewMultiProductCalculatorComponent {
 
   changePrice(price: any, type: string, index: number) {
     let changeData: any;
+    const newPrice = +price.target.value;
     if (type === 'unit') {
+      if (
+        this.multiData[index].has_map === 1 &&
+        newPrice < this.multiData[index].map_price
+      ) {
+        this.message.create(
+          'error',
+          'MAP exists, retail price cannot be updated'
+        );
+      }
       changeData = this.calculatePricesFromUnitPrice(
         +price.target.value,
-        +this.multiData[index].order_processing_fees_percentage,
-        +this.multiData[index].amazon_fees_percentage,
         +this.multiData[index].shipping_cost,
-        +this.multiData[index].return_cost_percentage * 100
+        +this.multiData[index].order_processing_fees_percentage,
+        +this.multiData[index].slab_amt,
+        +this.multiData[index].pre_slab_percentage,
+        +this.multiData[index].post_slab_percentage
       );
     } else {
       changeData = this.calculatePricesFromRetailPrice(
         +price.target.value,
-        +this.multiData[index].order_processing_fees_percentage,
-        +this.multiData[index].amazon_fees_percentage,
         +this.multiData[index].shipping_cost,
-        +this.multiData[index].return_cost_percentage * 100
+        +this.multiData[index].order_processing_fees_percentage,
+        +this.multiData[index].slab_amt,
+        +this.multiData[index].pre_slab_percentage,
+        +this.multiData[index].post_slab_percentage
       );
     }
 
@@ -121,8 +135,8 @@ export class NewMultiProductCalculatorComponent {
   }
 
   calculateEstimatedPrices(data: NewCalculatorMultiData, index: number) {
-    this.estimatedPrices[index].amazon_fees_percentage = (
-      data.retail_price * +this.multiData[index].amazon_fees_percentage
+    this.estimatedPrices[index].market_place_fees = (
+      data.retail_price * +this.multiData[index].market_place_fees
     ).toFixed(2);
     this.estimatedPrices[index].order_processing_fees_percentage = (
       data.retail_price *
@@ -135,63 +149,56 @@ export class NewMultiProductCalculatorComponent {
 
   calculatePricesFromRetailPrice(
     retail_price: number,
-    orders_processing_fees_percentage: number,
-    amazon_fees_percentage: number,
     shipping_cost: number,
-    returns_processing_fees: number
+    order_processing_fees_percentage: number,
+    slab_amt: number,
+    pre_slab_percentage: number,
+    post_slab_percentage: number
   ) {
-    let orders_processing_fees = Number(
-      (retail_price * orders_processing_fees_percentage).toFixed(2)
-    );
-    let amazon_fees = Number(
-      (retail_price * amazon_fees_percentage).toFixed(2)
-    );
-    let unit_price = Number(
-      (
-        retail_price -
-        (orders_processing_fees +
-          returns_processing_fees +
-          shipping_cost +
-          amazon_fees)
-      ).toFixed(2)
-    );
+    const commissionFirst = slab_amt * pre_slab_percentage;
+    const commissionAbove = (retail_price - slab_amt) * post_slab_percentage;
+    const commission =
+      Math.round(commissionFirst + commissionAbove * 100) / 100;
+
+    const bepBeforeMpf =
+      Math.round(
+        (retail_price * (1 - order_processing_fees_percentage) - commission) *
+          100
+      ) / 100;
+    const unit_price = Math.round((bepBeforeMpf - shipping_cost) * 100) / 100;
+
     return {
-      retail_price: retail_price,
-      orders_processing_fees: orders_processing_fees,
-      returns_processing_fees: returns_processing_fees,
-      amazon_fees: amazon_fees,
-      shipping_cost: shipping_cost,
       unit_price: unit_price,
+      market_place_fees: commission,
     };
   }
 
   calculatePricesFromUnitPrice(
     unit_price: number,
-    orders_processing_fees_percentage: number,
-    amazon_fees_percentage: number,
     shipping_cost: number,
-    returns_processing_fees: number
+    order_processing_fees_percentage: number,
+    slab_amt: number,
+    pre_slab_percentage: number,
+    post_slab_percentage: number
   ) {
-    let retail_price = Number(
-      (
-        (unit_price + shipping_cost + returns_processing_fees) /
-        (1 - amazon_fees_percentage - orders_processing_fees_percentage)
-      ).toFixed(2)
-    );
-    let orders_processing_fees = Number(
-      (retail_price * orders_processing_fees_percentage).toFixed(2)
-    );
-    let amazon_fees = Number(
-      (retail_price * amazon_fees_percentage).toFixed(2)
-    );
+    const retail_price =
+      Math.round(
+        ((unit_price +
+          shipping_cost +
+          (slab_amt * pre_slab_percentage - slab_amt * post_slab_percentage)) /
+          (1 - order_processing_fees_percentage - post_slab_percentage)) *
+          100
+      ) / 100;
+    const commission =
+      Math.round(
+        (slab_amt * pre_slab_percentage +
+          (retail_price - slab_amt) * post_slab_percentage) *
+          100
+      ) / 100;
 
     return {
-      unit_price: unit_price,
-      orders_processing_fees: orders_processing_fees,
-      returns_processing_fees: returns_processing_fees,
-      shipping_cost: shipping_cost,
-      amazon_fees: amazon_fees,
       retail_price: retail_price,
+      market_place_fees: commission,
     };
   }
 
