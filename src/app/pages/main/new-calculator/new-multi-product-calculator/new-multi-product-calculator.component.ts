@@ -100,16 +100,18 @@ export class NewMultiProductCalculatorComponent {
   changePrice(price: any, type: string, index: number) {
     let changeData: any;
     const newPrice = +price.target.value;
+
+    if (
+      this.multiData[index].has_map === 1 &&
+      newPrice < this.multiData[index].map_price
+    ) {
+      // We can do something like create one object {} index => saveDisabled
+      this.message.create(
+        'error',
+        'MAP exists, retail price cannot be updated'
+      );
+    }
     if (type === 'unit') {
-      if (
-        this.multiData[index].has_map === 1 &&
-        newPrice < this.multiData[index].map_price
-      ) {
-        this.message.create(
-          'error',
-          'MAP exists, retail price cannot be updated'
-        );
-      }
       changeData = this.calculatePricesFromUnitPrice(
         +price.target.value,
         +this.multiData[index].shipping_cost,
@@ -135,9 +137,13 @@ export class NewMultiProductCalculatorComponent {
   }
 
   calculateEstimatedPrices(data: NewCalculatorMultiData, index: number) {
-    this.estimatedPrices[index].market_place_fees = (
-      data.retail_price * +this.multiData[index].market_place_fees
+    this.estimatedPrices[index].market_place_fees = this.getAmazonCommission(
+      +data.retail_price,
+      +data.slab_amt,
+      +data.pre_slab_percentage,
+      +data.post_slab_percentage
     ).toFixed(2);
+
     this.estimatedPrices[index].order_processing_fees_percentage = (
       data.retail_price *
       +this.multiData[index].order_processing_fees_percentage
@@ -147,6 +153,19 @@ export class NewMultiProductCalculatorComponent {
     ).toFixed(2);
   }
 
+  getAmazonCommission = (
+    retail_price: number,
+    slab_amt: number,
+    pre_slab_percentage: number,
+    post_slab_percentage: number
+  ) => {
+    const commissionFirst = slab_amt * pre_slab_percentage;
+    const commissionAbove = (retail_price - slab_amt) * post_slab_percentage;
+    const commission =
+      Math.round(commissionFirst + commissionAbove * 100) / 100;
+    return commission;
+  };
+
   calculatePricesFromRetailPrice(
     retail_price: number,
     shipping_cost: number,
@@ -155,10 +174,12 @@ export class NewMultiProductCalculatorComponent {
     pre_slab_percentage: number,
     post_slab_percentage: number
   ) {
-    const commissionFirst = slab_amt * pre_slab_percentage;
-    const commissionAbove = (retail_price - slab_amt) * post_slab_percentage;
-    const commission =
-      Math.round(commissionFirst + commissionAbove * 100) / 100;
+    const commission = this.getAmazonCommission(
+      retail_price,
+      slab_amt,
+      pre_slab_percentage,
+      post_slab_percentage
+    );
 
     const bepBeforeMpf =
       Math.round(
@@ -169,7 +190,7 @@ export class NewMultiProductCalculatorComponent {
 
     return {
       unit_price: unit_price,
-      market_place_fees: commission,
+      retail_price: retail_price,
     };
   }
 
@@ -189,16 +210,10 @@ export class NewMultiProductCalculatorComponent {
           (1 - order_processing_fees_percentage - post_slab_percentage)) *
           100
       ) / 100;
-    const commission =
-      Math.round(
-        (slab_amt * pre_slab_percentage +
-          (retail_price - slab_amt) * post_slab_percentage) *
-          100
-      ) / 100;
 
     return {
+      unit_price: unit_price,
       retail_price: retail_price,
-      market_place_fees: commission,
     };
   }
 
