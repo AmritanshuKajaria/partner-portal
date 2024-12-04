@@ -39,6 +39,8 @@ export class NewMultiProductCalculatorComponent {
   addScroll = false;
   saveDisabled: { [key: number]: boolean } = {};
 
+  retailPriceErrorTimer: any;
+
   constructor(
     private newCalculatorService: NewCalculatorService,
     private renderer: Renderer2,
@@ -90,6 +92,19 @@ export class NewMultiProductCalculatorComponent {
             order_processing_fees_percentage: 0,
             return_cost_percentage: 0,
           });
+
+          // Dislabe if map is present and retail price is less than map price
+          if (
+            this.checkIfRetailPriceCanBeUpdated(
+              this.multiData[index].retail_price,
+              this.multiData[index].has_map,
+              this.multiData[index].map_price
+            )
+          ) {
+            this.saveDisabled[index] = false;
+          } else {
+            this.saveDisabled[index] = true;
+          }
           this.calculateEstimatedPrices(x, index);
         });
       },
@@ -99,22 +114,6 @@ export class NewMultiProductCalculatorComponent {
 
   changePrice(price: any, type: string, index: number) {
     let changeData: any;
-    const newPrice = +price.target.value;
-
-    if (
-      this.multiData[index].has_map === 1 &&
-      newPrice < this.multiData[index].map_price
-    ) {
-      // Update saveDisabled object
-      this.saveDisabled[index] = true;
-      this.message.create(
-        'error',
-        'MAP exists, retail price cannot be updated'
-      );
-    } else {
-      // Ensure saveDisabled is false if the condition is not met
-      this.saveDisabled[index] = false;
-    }
     if (type === 'unit') {
       changeData = this.calculatePricesFromUnitPrice(
         +price.target.value,
@@ -138,6 +137,34 @@ export class NewMultiProductCalculatorComponent {
     this.multiProductList[index].unit_price = changeData.unit_price;
     this.multiProductList[index].retail_price = changeData.retail_price;
     this.calculateEstimatedPrices(this.multiProductList[index], index);
+
+    if (
+      this.checkIfRetailPriceCanBeUpdated(
+        this.multiProductList[index].retail_price,
+        this.multiProductList[index].has_map,
+        this.multiProductList[index].map_price
+      )
+    ) {
+      // Update saveDisabled object
+      this.saveDisabled[index] = true;
+
+      if (this.retailPriceErrorTimer) {
+        clearTimeout(this.retailPriceErrorTimer);
+      }
+
+      this.retailPriceErrorTimer = setTimeout(() => {
+        this.message.create(
+          'error',
+          'MAP exists, retail price cannot be updated'
+        );
+      }, 750);
+    } else {
+      if (this.retailPriceErrorTimer) {
+        clearTimeout(this.retailPriceErrorTimer);
+      }
+      // Ensure saveDisabled is false if the condition is not met
+      this.saveDisabled[index] = false;
+    }
   }
 
   calculateEstimatedPrices(data: NewCalculatorMultiData, index: number) {
@@ -251,5 +278,25 @@ export class NewMultiProductCalculatorComponent {
       this.multiData[index].retail_price;
 
     this.calculateEstimatedPrices(this.multiProductList[index], index);
+
+    if (
+      this.checkIfRetailPriceCanBeUpdated(
+        this.multiProductList[index].retail_price,
+        this.multiProductList[index].has_map,
+        this.multiProductList[index].map_price
+      )
+    ) {
+      this.saveDisabled[index] = false;
+    } else {
+      this.saveDisabled[index] = true;
+    }
+  }
+
+  checkIfRetailPriceCanBeUpdated(
+    retail_price: number,
+    has_map: number,
+    map_price: number
+  ) {
+    return has_map === 1 && retail_price <= map_price;
   }
 }
