@@ -113,28 +113,17 @@ export class NewMultiProductCalculatorComponent2 {
     });
   }
 
-  changePrice(price: any, type: string, index: number) {
+  changePrice(price: any, index: number) {
     let changeData: any;
 
-    if (type === 'unit') {
-      changeData = this.calculatePricesFromUnitPrice(
-        +price.target.value,
-        +this.multiData[index].shipping_cost,
-        +this.multiData[index].order_processing_fees_percentage,
-        +this.multiData[index].slab_amt,
-        +this.multiData[index].pre_slab_percentage,
-        +this.multiData[index].post_slab_percentage
-      );
-    } else {
-      changeData = this.calculatePricesFromRetailPrice(
-        +price.target.value,
-        +this.multiData[index].shipping_cost,
-        +this.multiData[index].order_processing_fees_percentage,
-        +this.multiData[index].slab_amt,
-        +this.multiData[index].pre_slab_percentage,
-        +this.multiData[index].post_slab_percentage
-      );
-    }
+    changeData = this.calculatePricesFromRetailPrice(
+      +price.target.value,
+      +this.multiData[index].shipping_cost,
+      +this.multiData[index].order_processing_fees_percentage,
+      +this.multiData[index].slab_amt,
+      +this.multiData[index].pre_slab_percentage,
+      +this.multiData[index].post_slab_percentage
+    );
 
     this.multiProductList[index].unit_price = changeData.unit_price;
     this.multiProductList[index].retail_price = changeData.retail_price;
@@ -223,29 +212,6 @@ export class NewMultiProductCalculatorComponent2 {
           100
       ) / 100;
     const unit_price = Math.round((bepBeforeMpf - shipping_cost) * 100) / 100;
-
-    return {
-      unit_price: unit_price,
-      retail_price: retail_price,
-    };
-  }
-
-  calculatePricesFromUnitPrice(
-    unit_price: number,
-    shipping_cost: number,
-    order_processing_fees_percentage: number,
-    slab_amt: number,
-    pre_slab_percentage: number,
-    post_slab_percentage: number
-  ) {
-    const retail_price =
-      Math.round(
-        ((unit_price +
-          shipping_cost +
-          (slab_amt * pre_slab_percentage - slab_amt * post_slab_percentage)) /
-          (1 - order_processing_fees_percentage - post_slab_percentage)) *
-          100
-      ) / 100;
 
     return {
       unit_price: unit_price,
