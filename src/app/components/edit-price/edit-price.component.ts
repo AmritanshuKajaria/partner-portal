@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -33,7 +34,8 @@ export class EditPriceComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private newCalculatorService: NewCalculatorService
   ) {}
   ngOnInit(): void {
     this.editPriceForm = new FormGroup({
@@ -47,8 +49,8 @@ export class EditPriceComponent implements OnInit {
 
   onPriceChange(value: any) {
     if (this.section === 'Unit Price') {
-      const price = this.calculatePricesFromUnitPrice(
-        value,
+      const price = this.newCalculatorService.calculatePricesFromUnitPrice(
+        +value,
         this.extraData.shipping_cost,
         this.extraData.order_processing_fees_percentage,
         this.extraData.slab_amt,
@@ -56,13 +58,13 @@ export class EditPriceComponent implements OnInit {
         this.extraData.post_slab_percentage
       );
 
-      const validate = this.checkIfRetailPriceCanBeUpdated(
+      const validate = this.newCalculatorService.canRetailPriceBeUpdated(
         price.retail_price,
         this.extraData.has_map,
         this.extraData.map_price
       );
 
-      if (validate) {
+      if (!validate && value) {
         this.editPriceForm.get('new')?.setErrors({
           customError: 'MAP exists, retail price cannot be updated',
         });
@@ -70,22 +72,13 @@ export class EditPriceComponent implements OnInit {
     }
 
     if (this.section === 'Retail Price') {
-      const price = this.calculatePricesFromRetailPrice(
-        value,
-        this.extraData.shipping_cost,
-        this.extraData.order_processing_fees_percentage,
-        this.extraData.slab_amt,
-        this.extraData.pre_slab_percentage,
-        this.extraData.post_slab_percentage
-      );
-
-      const validate = this.checkIfRetailPriceCanBeUpdated(
-        price.retail_price,
+      const validate = this.newCalculatorService.canRetailPriceBeUpdated(
+        +value,
         this.extraData.has_map,
         this.extraData.map_price
       );
 
-      if (validate) {
+      if (!validate && value) {
         this.editPriceForm.get('new')?.setErrors({
           customError: 'MAP exists, retail price cannot be updated',
         });
@@ -99,7 +92,6 @@ export class EditPriceComponent implements OnInit {
       this.isLoading = true;
       let data: any = {
         product: {
-          mpn: this.editData.mpn,
           sku: this.editData.sku,
         },
       };
@@ -119,6 +111,7 @@ export class EditPriceComponent implements OnInit {
           );
           break;
         case 'Unit Price':
+          data.product['mpn'] = this.editData.mpn;
           data.product['unit_price'] = this.editPriceForm.value.new;
 
           this.productService.editProduct(data).subscribe(
@@ -135,78 +128,6 @@ export class EditPriceComponent implements OnInit {
       }
     }
   }
-
-  checkIfRetailPriceCanBeUpdated(
-    retail_price: number,
-    has_map: number,
-    map_price: number
-  ) {
-    return has_map === 1 && retail_price <= map_price;
-  }
-
-  calculatePricesFromUnitPrice(
-    unit_price: number,
-    shipping_cost: number,
-    order_processing_fees_percentage: number,
-    slab_amt: number,
-    pre_slab_percentage: number,
-    post_slab_percentage: number
-  ) {
-    const retail_price =
-      Math.round(
-        ((unit_price +
-          shipping_cost +
-          (slab_amt * pre_slab_percentage - slab_amt * post_slab_percentage)) /
-          (1 - order_processing_fees_percentage - post_slab_percentage)) *
-          100
-      ) / 100;
-
-    return {
-      unit_price: unit_price,
-      retail_price: retail_price,
-    };
-  }
-
-  calculatePricesFromRetailPrice(
-    retail_price: number,
-    shipping_cost: number,
-    order_processing_fees_percentage: number,
-    slab_amt: number,
-    pre_slab_percentage: number,
-    post_slab_percentage: number
-  ) {
-    const commission = this.getAmazonCommission(
-      retail_price,
-      slab_amt,
-      pre_slab_percentage,
-      post_slab_percentage
-    );
-
-    const bepBeforeMpf =
-      Math.round(
-        (retail_price * (1 - order_processing_fees_percentage) - commission) *
-          100
-      ) / 100;
-    const unit_price = Math.round((bepBeforeMpf - shipping_cost) * 100) / 100;
-
-    return {
-      unit_price: unit_price,
-      retail_price: retail_price,
-    };
-  }
-
-  getAmazonCommission = (
-    retail_price: number,
-    slab_amt: number,
-    pre_slab_percentage: number,
-    post_slab_percentage: number
-  ) => {
-    const commissionFirst = slab_amt * pre_slab_percentage;
-    const commissionAbove = (retail_price - slab_amt) * post_slab_percentage;
-    const commission =
-      Math.round(commissionFirst + commissionAbove * 100) / 100;
-    return commission;
-  };
 
   handleCancel() {
     this.isVisible = false;

@@ -106,7 +106,7 @@
               <div>
                 {{
                   data?.market_place_fees
-                    ? "$" + estimatedPrices[no].market_place_fees
+                    ? "$" + data.market_place_fees
                     : ""
                 }}
               </div>
@@ -142,15 +142,15 @@
               <div>
                 {{
                   data?.order_processing_fees_percentage
-                    ? "$" + estimatedPrices[no].order_processing_fees_percentage
+                    ? "$" + data.order_processing_fees_percentage
                     : ""
                 }}
               </div>
               <div>
                 {{
-                  data?.order_processing_fees_percentage
+                  multiData[no].order_processing_fees_percentage
                     ? " (" +
-                      (data.order_processing_fees_percentage * 100
+                      (multiData[no].order_processing_fees_percentage * 100
                         | number : "1.0-2") +
                       "%" +
                       ")"

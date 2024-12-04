@@ -21,8 +21,6 @@ export class NewMultiProductCalculatorComponent {
   pageSizeOptions = [100];
   multiProductList: NewCalculatorMultiData[] = [];
 
-  estimatedPrices: any[] = [];
-
   multiData: NewCalculatorMultiData[] = [];
   isExportVisible = false;
   retailPricingSearch = new Subject<any>();
@@ -88,27 +86,6 @@ export class NewMultiProductCalculatorComponent {
         this.multiProductList = res.products ?? [];
 
         this.multiData = lodash.cloneDeep(this.multiProductList);
-        this.multiData.forEach((x: any, index) => {
-          this.estimatedPrices.push({
-            market_place_fees: 0,
-            order_processing_fees_percentage: 0,
-            return_cost_percentage: 0,
-          });
-
-          // Dislabe if map is present and retail price is less than map price
-          if (
-            this.checkIfRetailPriceCanBeUpdated(
-              this.multiData[index].retail_price,
-              this.multiData[index].has_map,
-              this.multiData[index].map_price
-            )
-          ) {
-            this.saveDisabled[index] = false;
-          } else {
-            this.saveDisabled[index] = true;
-          }
-          this.calculateEstimatedPrices(x, index);
-        });
       },
       error: (err) => (this.isLoading = false),
     });
@@ -117,7 +94,7 @@ export class NewMultiProductCalculatorComponent {
   changePrice(price: any, type: string, index: number) {
     let changeData: any;
     if (type === 'unit') {
-      changeData = this.calculatePricesFromUnitPrice(
+      changeData = this.newCalculatorService.calculatePricesFromUnitPrice(
         +price.target.value,
         +this.multiData[index].shipping_cost,
         +this.multiData[index].order_processing_fees_percentage,
@@ -126,30 +103,53 @@ export class NewMultiProductCalculatorComponent {
         +this.multiData[index].post_slab_percentage
       );
     } else {
-      changeData = this.calculatePricesFromRetailPrice(
+      changeData = this.newCalculatorService.calculatePricesFromRetailPrice(
         +price.target.value,
         +this.multiData[index].shipping_cost,
         +this.multiData[index].order_processing_fees_percentage,
         +this.multiData[index].slab_amt,
         +this.multiData[index].pre_slab_percentage,
-        +this.multiData[index].post_slab_percentage
+        +this.multiData[index].post_slab_percentage,
+        +this.multiProductList[index].unit_price
       );
     }
-
+    // Update unit price
     this.multiProductList[index].unit_price = changeData.unit_price;
+
+    // Update retail price
     this.multiProductList[index].retail_price = changeData.retail_price;
-    this.calculateEstimatedPrices(this.multiProductList[index], index);
+
+    // Update market place fees
+    this.multiProductList[index].market_place_fees =
+      changeData.market_place_fees;
+
+    // Update order processing fees percentage ( margin )
+    this.multiProductList[index].order_processing_fees_percentage =
+      this.newCalculatorService.getOrderProcessingFeesPercentage(
+        +changeData.retail_price,
+        +this.multiData[index].order_processing_fees_percentage
+      );
+
+    // Update return cost percentage
+    this.multiProductList[index].return_cost_percentage =
+      this.newCalculatorService.getReturnCostPercentage(
+        +changeData.retail_price,
+        +this.multiData[index].return_cost_percentage
+      );
 
     if (
-      this.checkIfRetailPriceCanBeUpdated(
+      this.newCalculatorService.canRetailPriceBeUpdated(
         this.multiProductList[index].retail_price,
         this.multiProductList[index].has_map,
         this.multiProductList[index].map_price
       )
     ) {
+      if (this.retailPriceErrorTimer) {
+        clearTimeout(this.retailPriceErrorTimer);
+      }
       // Update saveDisabled object
-      this.saveDisabled[index] = true;
-
+      this.saveDisabled[index] = false;
+    } else {
       if (this.retailPriceErrorTimer) {
         clearTimeout(this.retailPriceErrorTimer);
       }
@@ -160,94 +160,10 @@ export class NewMultiProductCalculatorComponent {
           'MAP exists, retail price cannot be updated'
         );
       }, 750);
-    } else {
-      if (this.retailPriceErrorTimer) {
-        clearTimeout(this.retailPriceErrorTimer);
-      }
-      // Ensure saveDisabled is false if the condition is not met
-      this.saveDisabled[index] = false;
+
+      // Ensure saveDisabled is true if the condition is not met
+      this.saveDisabled[index] = true;
     }
-  }
-
-  calculateEstimatedPrices(data: NewCalculatorMultiData, index: number) {
-    this.estimatedPrices[index].market_place_fees = this.getAmazonCommission(
-      +data.retail_price,
-      +data.slab_amt,
-      +data.pre_slab_percentage,
-      +data.post_slab_percentage
-    ).toFixed(2);
-
-    this.estimatedPrices[index].order_processing_fees_percentage = (
-      data.retail_price *
-      +this.multiData[index].order_processing_fees_percentage
-    ).toFixed(2);
-    this.estimatedPrices[index].return_cost_percentage = (
-      data.retail_price * +this.multiData[index].return_cost_percentage
-    ).toFixed(2);
-  }
-
-  getAmazonCommission = (
-    retail_price: number,
-    slab_amt: number,
-    pre_slab_percentage: number,
-    post_slab_percentage: number
-  ) => {
-    const commissionFirst = slab_amt * pre_slab_percentage;
-    const commissionAbove = (retail_price - slab_amt) * post_slab_percentage;
-    const commission =
-      Math.round(commissionFirst + commissionAbove * 100) / 100;
-    return commission;
-  };
-
-  calculatePricesFromRetailPrice(
-    retail_price: number,
-    shipping_cost: number,
-    order_processing_fees_percentage: number,
-    slab_amt: number,
-    pre_slab_percentage: number,
-    post_slab_percentage: number
-  ) {
-    const commission = this.getAmazonCommission(
-      retail_price,
-      slab_amt,
-      pre_slab_percentage,
-      post_slab_percentage
-    );
-
-    const bepBeforeMpf =
-      Math.round(
-        (retail_price * (1 - order_processing_fees_percentage) - commission) *
-          100
-      ) / 100;
-    const unit_price = Math.round((bepBeforeMpf - shipping_cost) * 100) / 100;
-
-    return {
-      unit_price: unit_price,
-      retail_price: retail_price,
-    };
-  }
-
-  calculatePricesFromUnitPrice(
-    unit_price: number,
-    shipping_cost: number,
-    order_processing_fees_percentage: number,
-    slab_amt: number,
-    pre_slab_percentage: number,
-    post_slab_percentage: number
-  ) {
-    const retail_price =
-      Math.round(
-        ((unit_price +
-          shipping_cost +
-          (slab_amt * pre_slab_percentage - slab_amt * post_slab_percentage)) /
-          (1 - order_processing_fees_percentage - post_slab_percentage)) *
-          100
-      ) / 100;
-
-    return {
-      unit_price: unit_price,
-      retail_price: retail_price,
-    };
   }
 
   handleError(data: any) {
@@ -280,20 +196,34 @@ export class NewMultiProductCalculatorComponent {
       slab_amt: this.multiData[index].slab_amt,
       pre_slab_percentage: this.multiData[index].pre_slab_percentage,
       post_slab_percentage: this.multiData[index].post_slab_percentage,
+      unit_price: this.multiData[index].unit_price,
     };
     this.editLabel = ['MPN', 'Current Unit Price', 'New Unit Price'];
     this.isEditVisible = true;
   }
 
   resetData(index: number) {
+    // Update unit price
     this.multiProductList[index].unit_price = this.multiData[index].unit_price;
+
+    // Update retail price
     this.multiProductList[index].retail_price =
       this.multiData[index].retail_price;
 
-    this.calculateEstimatedPrices(this.multiProductList[index], index);
+    // Update market place fees
+    this.multiProductList[index].market_place_fees =
+      this.multiData[index].market_place_fees;
+
+    // Update order processing fees percentage ( margin )
+    this.multiProductList[index].order_processing_fees_percentage =
+      this.multiData[index].order_processing_fees_percentage;
+
+    // Update return cost percentage
+    this.multiProductList[index].return_cost_percentage =
+      this.multiData[index].return_cost_percentage;
 
     if (
-      this.checkIfRetailPriceCanBeUpdated(
+      this.newCalculatorService.canRetailPriceBeUpdated(
         this.multiProductList[index].retail_price,
         this.multiProductList[index].has_map,
         this.multiProductList[index].map_price
@@ -303,13 +233,5 @@ export class NewMultiProductCalculatorComponent {
     } else {
       this.saveDisabled[index] = true;
     }
-  }
-
-  checkIfRetailPriceCanBeUpdated(
-    retail_price: number,
-    has_map: number,
-    map_price: number
-  ) {
-    return has_map === 1 && retail_price <= map_price;
   }
 }
