@@ -39,6 +39,8 @@ export class NewMultiProductCalculatorComponent {
   addScroll = false;
   saveDisabled: { [key: number]: boolean } = {};
 
+  extraData: {} = {};
+
   retailPriceErrorTimer: any;
 
   constructor(
@@ -267,6 +269,17 @@ export class NewMultiProductCalculatorComponent {
       current: this.multiData[index].unit_price,
       new: this.multiProductList[index].unit_price,
       sku: this.multiData[index].sku,
+    };
+    this.extraData = {
+      retail_price: this.multiData[index].retail_price,
+      has_map: this.multiData[index].has_map,
+      map_price: this.multiData[index].map_price,
+      shipping_cost: this.multiData[index].shipping_cost,
+      order_processing_fees_percentage:
+        this.multiData[index].order_processing_fees_percentage,
+      slab_amt: this.multiData[index].slab_amt,
+      pre_slab_percentage: this.multiData[index].pre_slab_percentage,
+      post_slab_percentage: this.multiData[index].post_slab_percentage,
     };
     this.editLabel = ['MPN', 'Current Unit Price', 'New Unit Price'];
     this.isEditVisible = true;

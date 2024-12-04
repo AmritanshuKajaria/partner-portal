@@ -28,6 +28,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.component';
 import { SharedModule } from '../shared/shared.module';
 import { DateTimeComponent } from './date-time/date-time.component';
+import { EditPriceComponent } from './edit-price/edit-price.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { DateTimeComponent } from './date-time/date-time.component';
     PoClarificationComponent,
     ConfirmShippedComponent,
     DateTimeComponent,
+    EditPriceComponent,
   ],
   exports: [
     StatusBadgeComponent,
@@ -74,6 +76,7 @@ import { DateTimeComponent } from './date-time/date-time.component';
     PoClarificationComponent,
     ConfirmShippedComponent,
     DateTimeComponent,
+    EditPriceComponent,
   ],
   imports: [
     CommonModule,

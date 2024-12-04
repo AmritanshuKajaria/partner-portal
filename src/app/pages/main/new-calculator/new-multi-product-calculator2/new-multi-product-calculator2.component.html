@@ -214,12 +214,13 @@
 </nz-modal>
 
 <div *ngIf="isEditVisible">
-  <app-edit-time
+  <app-edit-price
     [isVisible]="isEditVisible"
     [editData]="editData"
     [editLabel]="editLabel"
     [section]="'Retail Price'"
     (close)="isEditVisible = false"
     (dataSavedSuccessful)="onDataSave($event)"
-  ></app-edit-time>
+    [extraData]="extraData"
+  ></app-edit-price>
 </div>
