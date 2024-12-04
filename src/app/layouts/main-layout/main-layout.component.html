@@ -101,6 +101,7 @@
         <span>New Calculator</span>
       </li> -->
       <li
+        *ngIf="userPartnerDetails?.pricing_tab"
         nz-menu-item
         [ngClass]="
           router.url.includes('/main/new-calculator') ? 'active' : 'inactive'

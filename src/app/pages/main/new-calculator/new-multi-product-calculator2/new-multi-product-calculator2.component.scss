@@ -1,0 +1,96 @@
+@import "../../../../../assets/variable/variable.scss";
+
+.multi-product-calculator {
+  td {
+    ::ng-deep .ant-input-prefix {
+      font-size: 18px;
+      margin-left: -11px;
+      margin-right: 10px;
+      padding: 0 10px;
+      background: $darkBlue;
+      border-radius: 4px 0 0 4px;
+      color: $white;
+    }
+
+    ::ng-deep .ant-input {
+      border-radius: 5px !important;
+    }
+
+    ::ng-deep .ant-form-item {
+      margin-bottom: 10px;
+    }
+
+    ::ng-deep .ant-input-affix-wrapper {
+      padding: 0px 11px !important;
+    }
+
+    nz-input-group {
+      border-radius: 5px;
+
+      input {
+        height: 35px;
+        font-size: 16px;
+      }
+    }
+
+    a.disabled {
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+  .multi-product-calculator-section-content {
+    .exported-item-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .action {
+      display: flex;
+      justify-content: end;
+      border: 1px solid $border;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .tag-section {
+      border-left: 1px solid $border;
+      border-right: 1px solid $border;
+      padding-bottom: 13px;
+      padding-left: 10px;
+    }
+
+    form {
+      .search {
+        // width: 12%;
+        border-radius: 17px;
+        float: right;
+
+        .ant-input:disabled {
+          background-color: transparent !important;
+        }
+      }
+
+      ::ng-deep .ant-form-item {
+        display: inline-block;
+        float: right;
+        margin-left: 4px;
+      }
+    }
+
+    button {
+      float: right;
+      margin-left: 4px;
+    }
+
+    .action-column {
+      width: 50px;
+      padding: 0;
+      background-color: rgba(239, 239, 250) !important;
+
+      div {
+        padding: 16px;
+      }
+    }
+  }
+}

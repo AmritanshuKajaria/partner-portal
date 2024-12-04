@@ -19,7 +19,6 @@ export class NewCalculatorService {
     // return this.httpClient.get(this.url + '/pricings', {
     //   params: params,
     // });
-    setTimeout(() => {}, 1000);
     return of({
       success: true,
       processed_at: '2024-12-02T09:48:17.000Z',
@@ -51,6 +50,7 @@ export class NewCalculatorService {
           retail_price: 22.0,
           boxes: 1,
           size_tier: '0 - Lite',
+          adjustment: 5,
         },
 
         {
@@ -73,6 +73,7 @@ export class NewCalculatorService {
           retail_price: 25.0,
           boxes: 1,
           size_tier: '1 - Medium',
+          adjustment: 10,
         },
         {
           sku: '789-TAC-3030',
@@ -94,6 +95,7 @@ export class NewCalculatorService {
           retail_price: 30.0,
           boxes: 1,
           size_tier: '2 - Large',
+          adjustment: 15,
         },
       ],
     }).pipe(delay(500));

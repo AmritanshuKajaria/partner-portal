@@ -31,4 +31,5 @@ export interface NewCalculatorMultiData {
   retail_price: number;
   boxes: number;
   size_tier: string;
+  adjustment?: number;
 }
