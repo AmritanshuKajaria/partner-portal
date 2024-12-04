@@ -37,6 +37,7 @@ export class NewMultiProductCalculatorComponent {
   isEditVisible = false;
   updatingIndex: number = -1;
   addScroll = false;
+  saveDisabled: { [key: number]: boolean } = {};
 
   constructor(
     private newCalculatorService: NewCalculatorService,
@@ -78,7 +79,6 @@ export class NewMultiProductCalculatorComponent {
     };
     this.newCalculatorService.getMultiProductCalculatorList(data).subscribe({
       next: (res: any) => {
-        console.log(res, 'data');
         this.isLoading = false;
         this.total = res.pagination?.total_rows ?? 0;
         this.multiProductList = res.products ?? [];
@@ -105,11 +105,15 @@ export class NewMultiProductCalculatorComponent {
       this.multiData[index].has_map === 1 &&
       newPrice < this.multiData[index].map_price
     ) {
-      // We can do something like create one object {} index => saveDisabled
+      // Update saveDisabled object
+      this.saveDisabled[index] = true;
       this.message.create(
         'error',
         'MAP exists, retail price cannot be updated'
       );
+    } else {
+      // Ensure saveDisabled is false if the condition is not met
+      this.saveDisabled[index] = false;
     }
     if (type === 'unit') {
       changeData = this.calculatePricesFromUnitPrice(
@@ -242,8 +246,6 @@ export class NewMultiProductCalculatorComponent {
   }
 
   resetData(index: number) {
-    console.log(this.multiProductList[index]);
-
     this.multiProductList[index].unit_price = this.multiData[index].unit_price;
     this.multiProductList[index].retail_price =
       this.multiData[index].retail_price;

@@ -10,14 +10,12 @@ import { NewCalculatorRoutingModule } from './new-calculator-routing.module';
 import { NewCalculatorComponent } from './new-calculator.component';
 import { NewMultiProductCalculatorComponent } from './new-multi-product-calculator/new-multi-product-calculator.component';
 import { NewSingleProductCalculatorComponent } from './new-single-product-calculator/new-single-product-calculator.component';
-import { MaxValuePipe } from 'src/app/shared/pipes/max-value';
 
 @NgModule({
   declarations: [
     NewCalculatorComponent,
     NewSingleProductCalculatorComponent,
     NewMultiProductCalculatorComponent,
-    MaxValuePipe,
   ],
   imports: [
     CommonModule,

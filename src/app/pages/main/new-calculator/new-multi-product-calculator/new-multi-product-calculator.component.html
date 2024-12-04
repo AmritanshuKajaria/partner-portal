@@ -114,12 +114,10 @@
                 {{
                   data?.market_place_fees
                     ? " (" +
-                      ([
-                        data?.pre_slab_percentage ?? 0,
-                        data?.post_slab_percentage ?? 0
-                      ]
-                        | maxValue
-                        | number : "1.0-2") +
+                      ((data.pre_slab_percentage > data.post_slab_percentage
+                        ? data?.pre_slab_percentage
+                        : data?.post_slab_percentage
+                      ) | number : "1.0-2") +
                       "%" +
                       ")"
                     : ""
@@ -198,10 +196,12 @@
           <td nzRight>
             <div style="display: flex; align-items: center">
               <a
-                (click)="matchValue(no)"
+                (click)="!saveDisabled[no] && matchValue(no)"
                 style="margin: 0 5px; color: #2121c3; font-size: large"
                 nz-tooltip
                 nzTooltipTitle="Save"
+                [class.disabled]="saveDisabled[no]"
+                [attr.disabled]="saveDisabled[no] ? true : null"
               >
                 <span nz-icon nzType="save" nzTheme="outline"></span>
               </a>
