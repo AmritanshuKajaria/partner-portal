@@ -66,17 +66,18 @@ export class ConfirmShippedComponent implements OnInit {
   }
 
   submit() {
-    // const data = {
-    //   po_number: this.poNo,
-    //   clarification_message: 'Shipping Issue',
-    //   contact_via: 'Email',
-    //   user_email: 'sudip.das@123srores.com',
-    // };
-    // this.ordersService.clarificationOrders(data).subscribe((res: any) => {
-    //   if (res.success) {
-    //     this.message.success('PO clarification successfully!');
-    //   }
-    // });
+    const data = {
+      carrier: this.confirmShippedForm.value.carrier,
+      shipping_date: this.confirmShippedForm.value.shipping_date,
+      tracking_list: this.confirmShippedForm.value.trackingList.map(
+        (tracking: any) => tracking.tracking
+      ),
+    };
+    this.ordersService.markOrderShipped(data).subscribe((res: any) => {
+      if (res.success) {
+        this.message.success('Mark shipped successfully!');
+      }
+    });
   }
 
   handleCancel() {

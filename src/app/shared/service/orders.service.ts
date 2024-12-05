@@ -130,7 +130,7 @@ export class OrdersService {
     return this.http.post(this.url + '/export-orders', data);
   }
 
-  markOrderShipped(data: MarkOrderShipped) {
+  markOrderShipped(data: any) {
     return this.http.post(this.url + '/mark-order-shipped', data);
   }
 

@@ -103,7 +103,7 @@
               <div class="sub-section-one">
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Status"
-                    ><b>{{ poDetailData?.order_status?.po_status }}</b>
+                    ><b>{{ poDetailData?.order_status?.status }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <nz-descriptions>
@@ -263,54 +263,54 @@
                     <div *ngFor="let box of createArray(unit[units])">
                       <div>Unit#: {{ units }} - Box#{{ box }}</div>
                       <div>
-                        Shipping Dims: {{ unit[units][box].height }}
-                        <span *ngIf="unit[units][box].height">"</span> x
-                        {{ unit[units][box].length
-                        }}<span *ngIf="unit[units][box].length">"</span> x
-                        {{ unit[units][box].weight
-                        }}<span *ngIf="unit[units][box].weight">"</span>
+                        Shipping Dims: {{ unit[units][box].dims?.height }}
+                        <span *ngIf="unit[units][box].dims?.height">"</span> x
+                        {{ unit[units][box].dims?.length
+                        }}<span *ngIf="unit[units][box].dims?.length">"</span> x
+                        {{ unit[units][box].dims?.weight
+                        }}<span *ngIf="unit[units][box].dims?.weight">"</span>
                         x
-                        {{ unit[units][box].width }}
-                        <span *ngIf="unit[units][box].width">lbs</span>
+                        {{ unit[units][box].dims?.width }}
+                        <span *ngIf="unit[units][box].dims?.width">lbs</span>
                       </div>
                     </div>
                     <br />
                   </div>
                 </div>
               </td>
-              <td style="text-align: center">{{ data?.qty }}</td>
+              <td style="text-align: center">{{ data?.quantity }}</td>
               <td style="text-align: center">
                 {{ data?.unit_price | currency }}
               </td>
               <td style="text-align: center">
                 <div
                   *ngIf="
-                    data?.allowances?.co_op_allowance ||
-                    data?.allowances?.promotional_allowance
+                    data?.allowances?.onInvoiceCoOp ||
+                    data?.allowances?.onInvoicePromotion
                   "
                 >
                   {{
-                    data?.allowances?.co_op_allowance +
-                      data?.allowances?.promotional_allowance | currency
+                    data?.allowances?.onInvoiceCoOp +
+                      data?.allowances?.onInvoicePromotion | currency
                   }}
                 </div>
                 <div
                   *ngIf="
-                    !data?.allowances?.co_op_allowance &&
-                    !data?.allowances?.promotional_allowance
+                    !data?.allowances?.onInvoiceCoOp &&
+                    !data?.allowances?.onInvoicePromotion
                   "
                 >
                   {{ 0.0 | currency }}
                 </div>
-                <div *ngIf="data?.allowances?.co_op_allowance">
+                <div *ngIf="data?.allowances?.onInvoiceCoOp">
                   <br />
                   (CO-OP Allowance
-                  {{ data?.allowances?.co_op_allowance | currency }})
+                  {{ data?.allowances?.onInvoiceCoOp | currency }})
                 </div>
-                <div *ngIf="data?.allowances?.promotional_allowance">
+                <div *ngIf="data?.allowances?.onInvoicePromotion">
                   <br />
                   (Promotional Allowance
-                  {{ data?.allowances?.promotional_allowance | currency }})
+                  {{ data?.allowances?.onInvoicePromotion | currency }})
                 </div>
               </td>
               <td style="text-align: center">
@@ -329,14 +329,16 @@
             </tr>
             <tr
               *ngIf="
-                poDetailData.order_item[0].defective_allowance &&
-                poDetailData.order_item[0].defective_allowance !== 0
+                poDetailData.order_item[0]?.allowances?.daOnInvoice &&
+                poDetailData.order_item[0]?.allowances?.daOnInvoice !== 0
               "
             >
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end">Defective Allowance</td>
               <td style="text-align: center">
-                {{ poDetailData.order_item[0].defective_allowance | currency }}
+                {{
+                  poDetailData.order_item[0]?.allowances?.daOnInvoice | currency
+                }}
               </td>
             </tr>
             <tr>

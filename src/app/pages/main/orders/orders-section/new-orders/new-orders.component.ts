@@ -30,36 +30,38 @@ export class NewOrdersComponent implements OnInit {
   mode = 'date';
   newOrdersData: any[] = [
     {
-      po_no: 'ABW-2785',
-      location_code: 'ABW-LOC-001',
+      po_no: 'RAZ-7591',
+      location_code: 'CA-92324',
       po_method: 'EDI',
-      po_datetime: '2023-02-08T20:09:59.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Michelle Zhou ',
-      sku: '123-ABW-AWI-BAY-14',
-      product_mpn: 'AWI-Bay-14',
-      product_asin: 'B074PKMS5S',
-      product_qty: 1,
-      po_total: 50,
-      committed_ship_date: '2023-02-10',
-      cancel_after_date: '2023-02-17',
-      carrier: 'UPS',
+      po_datetime: '2024-08-05 20:00:13',
+      customer_name: 'Lavinia Macovschi ',
+      porduct_mpn: '130-132-08',
+      porduct_asin: 'B07QDF18K3',
+      porduct_qty: 1,
+      po_total: 87.22,
+      committed_ship_date: '2024-08-07',
+      cancel_after_date: '2024-08-14',
+      carrier: 'CHR-FEDEX',
+      ship_date: '2024-08-07 20:38:00',
+      invoice_no: '3707018-00',
+      status: 'Completed',
     },
     {
-      po_no: 'ABW-2786',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '2023-02-09T01:17:06.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Terry Winters',
-      sku: '123-ABW-100-34-482',
-      product_mpn: '100-34-482',
-      product_asin: 'B07HBN6L3J',
-      product_qty: 2,
-      po_total: 76,
-      committed_ship_date: '2023-02-10',
-      cancel_after_date: '2023-02-17',
+      po_no: 'RAZ-7592',
+      location_code: 'NY-10001',
+      po_method: 'Online',
+      po_datetime: '2024-08-06 14:30:00',
+      customer_name: 'John Doe',
+      porduct_mpn: '140-142-09',
+      porduct_asin: 'B08QDF18K4',
+      porduct_qty: 2,
+      po_total: 150.5,
+      committed_ship_date: '2024-08-08',
+      cancel_after_date: '2024-08-15',
       carrier: 'UPS',
+      ship_date: '2024-08-08 10:00:00',
+      invoice_no: '3707019-00',
+      status: 'Pending',
     },
   ];
   clear_btn: boolean = false;
@@ -133,6 +135,8 @@ export class NewOrdersComponent implements OnInit {
             this.total = response?.pagination?.total_rows ?? 0;
             this.totalData.emit(response?.order_count?.new);
             this.newOrdersData = response.orders ?? [];
+            const totalRecords = response.orders?.length;
+            this.totalData.emit(totalRecords);
           }
           this.isLoading = false;
         },

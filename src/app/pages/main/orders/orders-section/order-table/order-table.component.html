@@ -93,14 +93,14 @@
             class="link"
             style="color: black"
             [routerLink]="'/main/products/details/' + data?.sku"
-            >{{ data.product_mpn }}</a
+            >{{ data.porduct_mpn }}</a
           ><br />
-          <app-asin [asin]="data?.product_asin"></app-asin>
+          <app-asin [asin]="data?.porduct_asin"></app-asin>
           <ul class="sub-section">
             <li class="no-wrap">
               <div class="sub-val">
                 <span class="title">Qty&nbsp;&nbsp;-&nbsp;</span
-                >{{ data?.product_qty }}
+                >{{ data?.porduct_qty }}
               </div>
             </li>
           </ul>
@@ -170,7 +170,7 @@
           </a>
         </td>
         <td *ngIf="tabName === 'All'">
-          {{ data?.po_status }}
+          {{ data?.status }}
         </td>
         <td *ngIf="tabName !== 'new'">
           {{ data?.status_remark }}
