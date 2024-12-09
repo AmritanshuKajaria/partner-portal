@@ -19,7 +19,6 @@ export interface GetAllOrders {
     all?: number;
   };
   orders?: SingleOrder[];
-  count?: number;
 }
 
 export interface AppliedFilters {

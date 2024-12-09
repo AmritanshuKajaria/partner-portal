@@ -68,9 +68,7 @@ export class PendingInvoiceComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(2);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -103,7 +101,7 @@ export class PendingInvoiceComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.count);
+            this.totalData.emit(+this.total);
             this.pendingInvoiceData = response.orders ?? [];
           }
           this.isLoading = false;

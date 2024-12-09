@@ -71,7 +71,6 @@ export class AllOrdersComponent implements OnInit {
       committedShipDate: new FormControl(''),
       status: new FormControl(''),
     });
-    this.totalData.emit(30);
   }
 
   getOrderList(
@@ -101,7 +100,7 @@ export class AllOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.count);
+            this.totalData.emit(+this.total);
             this.allOrdersData = response.orders ?? [];
           }
           this.isLoading = false;

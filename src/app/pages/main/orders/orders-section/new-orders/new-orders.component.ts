@@ -65,9 +65,7 @@ export class NewOrdersComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(2);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -98,7 +96,7 @@ export class NewOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.count);
+            this.totalData.emit(+this.total);
             this.newOrdersData = response.orders ?? [];
           }
           this.isLoading = false;
