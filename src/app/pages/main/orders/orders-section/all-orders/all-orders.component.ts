@@ -23,7 +23,7 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
 export class AllOrdersComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Output() totalData = new EventEmitter();
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
   isLoading: boolean = false;
@@ -100,9 +100,9 @@ export class AllOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(+this.total);
             this.allOrdersData = response.orders ?? [];
           }
+          this.totalData.emit(+this.total);
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),

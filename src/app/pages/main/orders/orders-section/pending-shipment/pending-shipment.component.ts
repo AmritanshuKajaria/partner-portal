@@ -96,9 +96,9 @@ export class PendingShipmentComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(+this.total);
             this.pendingShipmentData = response.orders ?? [];
           }
+          this.totalData.emit(+this.total);
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),

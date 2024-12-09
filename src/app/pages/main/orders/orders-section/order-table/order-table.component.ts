@@ -11,7 +11,7 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
   styleUrls: ['./order-table.component.scss'],
 })
 export class OrderTableComponent implements OnInit {
-  @Input() total: number = 1;
+  @Input() total: number = 0;
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
