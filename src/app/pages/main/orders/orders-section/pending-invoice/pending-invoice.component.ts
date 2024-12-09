@@ -28,27 +28,7 @@ export class PendingInvoiceComponent implements OnInit {
   isLoading: boolean = false;
   isCancelOrderVisible: boolean = false;
   mode = 'date';
-  pendingInvoiceData: any[] = [
-    {
-      po_no: 'RAZ-7591',
-      location_code: 'CA-92324',
-      po_method: 'EDI',
-      po_datetime: '2024-08-05 20:00:13',
-      customer_name: 'Lavinia Macovschi ',
-      porduct_mpn: '13013208',
-      porduct_asin: 'B07QDF18K3',
-      porduct_qty: 1,
-      po_total: 87.22,
-      committed_ship_date: '2024-08-07',
-      cancel_after_date: '2024-08-14',
-      carrier: 'CHR-FEDEX',
-      ship_date: '2024-08-07 20:38:00',
-      cancel_date: '0000-00-00 00:00:00',
-      invoice_no: '3707018-00',
-      status: 'Completed',
-      tracking: ['673600792226'],
-    },
-  ];
+  pendingInvoiceData: any[] = [];
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
@@ -108,7 +88,7 @@ export class PendingInvoiceComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'PIR',
+        order_type: '4',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -123,8 +103,8 @@ export class PendingInvoiceComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.count ?? 2);
-            // this.pendingInvoiceData = response.orders ?? [];
+            this.totalData.emit(response?.count);
+            this.pendingInvoiceData = response.orders ?? [];
           }
           this.isLoading = false;
         },

@@ -64,7 +64,7 @@ export interface SingleOrder {
 export interface OrderAction {
   page: number;
   po_list_type?: string;
-  type?: number | string;
+  order_type?: number | string;
   sku?: string;
   ship_out_location?: string;
   carrier?: string;

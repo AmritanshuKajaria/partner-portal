@@ -42,8 +42,7 @@ export class AuthService {
   }
 
   getAccessToken() {
-    // return localStorage.getItem(TOKEN_KEY);
-    return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiIxMjNTdG9yZXMiLCJhdWQiOiJQYXJ0bmVyUG9ydGFsIiwiaWF0IjoxNzI4Mzg3NjgyLCJleHAiOjE3Mjg0MDkyODIsImRhdGEiOnsiZW1haWwiOiJtZWdoYWwuamFpbkAxMjNzdG9yZXMuY29tIn19.Nagk2veGTiYu47_DFlrXFSDuZCaRQSA4TQRLEZfyDP8';
+    return localStorage.getItem(TOKEN_KEY);
   }
 
   setRefreshToken(token: string) {
