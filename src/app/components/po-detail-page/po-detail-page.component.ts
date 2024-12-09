@@ -172,7 +172,7 @@ export class PoDetailPageComponent implements OnInit {
         this.ordersService.downloadPo(this.poNo).subscribe((res: any) => {
           if (res.success) {
             this.message.success('Download po successfully!');
-            window.open(res.label);
+            window.open(res?.po_copy_url);
           }
         });
         break;
@@ -180,7 +180,7 @@ export class PoDetailPageComponent implements OnInit {
         this.ordersService.downloadLabel(this.poNo).subscribe((res: any) => {
           if (res.success) {
             this.message.success('Download label successfully!');
-            window.open(res.label);
+            window.open(res?.label_url);
           }
         });
         break;
