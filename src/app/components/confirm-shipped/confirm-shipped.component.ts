@@ -72,7 +72,7 @@ export class ConfirmShippedComponent implements OnInit {
   submit() {
     this.isLoading = true;
     const data = {
-      po_number: this.poNo,
+      po_no: this.poNo,
       carrier: this.confirmShippedForm.value.carrier,
       shipping_date: moment(this.confirmShippedForm.value.shipping_date).format(
         'YYYY-MM-DD'

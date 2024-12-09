@@ -85,19 +85,19 @@ export interface OrderAction {
 }
 
 export interface MarkOrderShipped {
-  po_number: string;
+  po_no: string;
   reason: string;
 }
 
 export interface ClarificationOrders {
-  po_number: string;
+  po_no: string;
   clarification_message: string;
   user_phone: string;
   user_name: string;
 }
 
 export interface CancelOrders {
-  po_number: string;
+  po_no: string;
   reason: string;
   reason_others_message: string;
 }
