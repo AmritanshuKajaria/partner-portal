@@ -15,6 +15,7 @@
             <span style="margin-right: 5px">New</span>
             <nz-badge
               nzStandalone
+              [nzShowZero]="true"
               [nzCount]="newTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 0 ? '#ff4d4f' : '#fff',
@@ -37,6 +38,7 @@
             <span style="margin-right: 5px">Pending Shipment</span>
             <nz-badge
               nzStandalone
+              [nzShowZero]="true"
               [nzCount]="pendingShipmentTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 1 ? '#ff4d4f' : '#fff',
@@ -58,6 +60,7 @@
             <span style="margin-right: 5px">Buyer Cancellation Requested</span>
             <nz-badge
               nzStandalone
+              [nzShowZero]="true"
               [nzCount]="cancellationRequestedTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 2 ? '#ff4d4f' : '#fff',
@@ -79,6 +82,7 @@
             <span style="margin-right: 5px">Pending Invoice</span>
             <nz-badge
               nzStandalone
+              [nzShowZero]="true"
               [nzCount]="pendingInvoiceTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 3 ? '#ff4d4f' : '#fff',
@@ -100,6 +104,7 @@
             <span style="margin-right: 5px">In Transit</span>
             <nz-badge
               nzStandalone
+              [nzShowZero]="true"
               [nzCount]="inTransitTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 3 ? '#ff4d4f' : '#fff',
@@ -121,6 +126,7 @@
             <span style="margin-right: 5px">Delivered</span>
             <nz-badge
               nzStandalone
+              [nzShowZero]="true"
               [nzCount]="deliveredTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 4 ? '#ff4d4f' : '#fff',
@@ -143,6 +149,7 @@
             <span style="margin-right: 5px">All</span>
             <nz-badge
               nzStandalone
+              [nzShowZero]="true"
               [nzCount]="allTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 4 ? '#ff4d4f' : '#fff',
