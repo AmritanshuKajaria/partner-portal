@@ -11,6 +11,7 @@
     [nzLoading]="isLoading"
     [nzData]="listOfData"
     [nzScroll]="{ x: '100%' }"
+    (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
       <tr>
@@ -55,7 +56,15 @@
         <th id="carrier">Carrier</th>
         <th id="invoice_no" *ngIf="tabName === 'All'">Invoice no</th>
         <th id="po_status" *ngIf="tabName === 'All'">PO Status</th>
-        <th id="Remark" *ngIf="tabName !== 'new'">Remark</th>
+        <th
+          id="Remark"
+          *ngIf="
+            tabName === 'pending-shipment' ||
+            tabName === 'Cancellation Requested'
+          "
+        >
+          Remark
+        </th>
         <th
           id="action"
           class="action-column"
@@ -93,14 +102,14 @@
             class="link"
             style="color: black"
             [routerLink]="'/main/products/details/' + data?.sku"
-            >{{ data.product_mpn }}</a
+            >{{ data.porduct_mpn }}</a
           ><br />
-          <app-asin [asin]="data?.product_asin"></app-asin>
+          <app-asin [asin]="data?.porduct_asin"></app-asin>
           <ul class="sub-section">
             <li class="no-wrap">
               <div class="sub-val">
                 <span class="title">Qty&nbsp;&nbsp;-&nbsp;</span
-                >{{ data?.product_qty }}
+                >{{ data?.porduct_qty }}
               </div>
             </li>
           </ul>
@@ -125,8 +134,8 @@
           <div class="date">
             {{
               tabName === "Cancellation Requested"
-                ? data.action_by_date
-                  ? (data.action_by_date | customDate)
+                ? data.cancel_date
+                  ? (data.cancel_date | customDate)
                   : ""
                 : data.cancel_after_date
                 ? (data.cancel_after_date | customDate)
@@ -170,10 +179,15 @@
           </a>
         </td>
         <td *ngIf="tabName === 'All'">
-          {{ data?.po_status }}
+          {{ data?.status }}
         </td>
-        <td *ngIf="tabName !== 'new'">
-          {{ data?.status_remark }}
+        <td
+          *ngIf="
+            tabName === 'pending-shipment' ||
+            tabName === 'Cancellation Requested'
+          "
+        >
+          {{ data?.remark }}
         </td>
         <td nzRight>
           <div
@@ -244,7 +258,7 @@
               <button
                 style="border: 1px solid #28a745; color: #28a745"
                 nz-button
-                (click)="isUploadModelVisible = true"
+                (click)="selectAction(data?.po_no, 'Upload Invoice')"
               >
                 Upload Invoice
               </button>
@@ -361,6 +375,9 @@
   (nzOnCancel)="isUploadModelVisible = false"
 >
   <ng-container *nzModalContent>
-    <app-upload (closeModel)="isUploadModelVisible = false"></app-upload>
+    <app-upload
+      [poNo]="poNo"
+      (closeModel)="isUploadModelVisible = false"
+    ></app-upload>
   </ng-container>
 </nz-modal>

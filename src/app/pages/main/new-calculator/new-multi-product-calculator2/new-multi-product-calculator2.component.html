@@ -50,57 +50,45 @@
     >
       <thead>
         <tr>
-          <th>
-            <u>MPN</u>
-            <div style="font-size: 12px">Product Name</div>
-          </th>
-          <th>
-            <u>ASIN</u>
-            <div style="font-size: 12px">UPC</div>
-          </th>
-          <th>Unit Price</th>
-          <th>Amazon Commission</th>
-          <th>Shipping Cost</th>
-          <th>123 Order Processing Fees</th>
-          <!-- <th>Estimated Return Cost</th> -->
           <th>Retail Price</th>
+          <th>Adjustment</th>
+          <th>Amazon Commission</th>
+          <th>123 Order Processing Fees</th>
+          <th>Shipping Cost</th>
+          <th>Unit Price</th>
           <th nzRight class="action-column"><div>Actions</div></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let data of nzTable.data; let no = index">
-          <td>
-            <div nz-col style="min-width: 200px">
-              <a
-                class="link"
-                [routerLink]="'/main/products/details/' + data?.sku"
-                >{{ data?.mpn }}</a
-              >
-              <div style="padding-top: 8px">{{ data?.name }}</div>
-            </div>
-          </td>
-          <td>
-            <div nz-col>
-              <app-asin [asin]="data.asin"></app-asin>
-              <div style="padding-top: 8px">{{ data?.upc }}</div>
-            </div>
-          </td>
-          <td>
+          <!-- Retail Price  -->
+          <td style="width: 150px">
             <nz-form-item style="margin-bottom: 0; width: 150px">
               <nz-form-control>
                 <nz-input-group nzPrefix="$">
                   <input
-                    [value]="data?.unit_price"
-                    [(ngModel)]="data.unit_price"
-                    (input)="changePrice($event, 'unit', no)"
+                    [value]="data?.retail_price"
+                    [(ngModel)]="data.retail_price"
+                    (input)="changePrice($event, no)"
                     nz-input
                     type="number"
-                    placeholder="Unit"
+                    placeholder="Retail"
                   />
                 </nz-input-group>
               </nz-form-control>
             </nz-form-item>
           </td>
+          <!-- Adjustment -->
+          <td>
+            <div class="exported-item-content">
+              <div>
+                {{
+                  "$" + data.adjustment
+                }}
+              </div>
+            </div>
+          </td>
+          <!-- Amazon Commision -->
           <td>
             <div class="exported-item-content">
               <div>
@@ -125,18 +113,7 @@
               </div>
             </div>
           </td>
-          <td>
-            <div class="exported-item-content">
-              <div>{{ data?.shipping_cost | currency }}</div>
-              <div class="text-wrap">
-                Boxes:
-                {{ data?.boxes }}
-              </div>
-              <div>
-                {{ data?.size_tier ? " (" + data?.size_tier + ")" : "" }}
-              </div>
-            </div>
-          </td>
+          <!-- 123 Order Processing Fees -->
           <td>
             <div class="exported-item-content">
               <div>
@@ -159,40 +136,23 @@
               </div>
             </div>
           </td>
-          <!-- <td>
+          <!-- Shipping Cost -->
+          <td>
             <div class="exported-item-content">
+              <div>{{ data?.shipping_cost | currency }}</div>
+              <div class="text-wrap">Boxes: {{ data?.boxes }}</div>
               <div>
-                {{
-                  data?.return_cost_percentage
-                    ? "$" + estimatedPrices[no].return_cost_percentage
-                    : ""
-                }}
-              </div>
-              <div>
-                {{
-                  data?.return_cost_percentage
-                    ? " (" + +data.return_cost_percentage * 100 + "%" + ")"
-                    : ""
-                }}
+                {{ data?.size_tier ? " (" + data?.size_tier + ")" : "" }}
               </div>
             </div>
-          </td> -->
-          <td>
-            <nz-form-item style="margin-bottom: 0; width: 150px">
-              <nz-form-control>
-                <nz-input-group nzPrefix="$">
-                  <input
-                    [value]="data?.retail_price"
-                    [(ngModel)]="data.retail_price"
-                    (input)="changePrice($event, 'retail', no)"
-                    nz-input
-                    type="number"
-                    placeholder="Retail"
-                  />
-                </nz-input-group>
-              </nz-form-control>
-            </nz-form-item>
           </td>
+          <!-- Unit Price -->
+          <td>
+            <div class="exported-item-content">
+              {{ "$" + (data.unit_price | number : "1.0-2") }}
+            </div>
+          </td>
+          <!-- Actions -->
           <td nzRight>
             <div style="display: flex; align-items: center">
               <a
@@ -256,7 +216,7 @@
     [isVisible]="isEditVisible"
     [editData]="editData"
     [editLabel]="editLabel"
-    [section]="'Unit Price'"
+    [section]="'Retail Price'"
     (close)="isEditVisible = false"
     (dataSavedSuccessful)="onDataSave($event)"
     [extraData]="extraData"

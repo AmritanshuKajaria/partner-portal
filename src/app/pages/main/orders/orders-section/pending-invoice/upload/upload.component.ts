@@ -11,6 +11,7 @@ import { InventoryService } from 'src/app/shared/service/inventory.service';
 export class UploadComponent implements OnInit {
   @Output() closeModel = new EventEmitter();
   @Input() sectionType: string = '';
+  @Input() poNo: string = '';
   name = new FormControl('');
   isLoading: boolean = false;
   selectFile: any = '';
@@ -47,7 +48,8 @@ export class UploadComponent implements OnInit {
     if (this.uploadForm.valid) {
       this.isLoading = true;
       let formData = new FormData();
-      formData.append('uploaded_file', this.selectFile);
+      formData.append('po_no', this.poNo);
+      formData.append('invoice_pdf ', this.selectFile);
       this.inventoryService.inventoryFeedUpload(formData).subscribe({
         next: (res: any) => {
           console.log(res);

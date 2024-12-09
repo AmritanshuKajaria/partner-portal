@@ -10,12 +10,14 @@ import { NewCalculatorRoutingModule } from './new-calculator-routing.module';
 import { NewCalculatorComponent } from './new-calculator.component';
 import { NewMultiProductCalculatorComponent } from './new-multi-product-calculator/new-multi-product-calculator.component';
 import { NewSingleProductCalculatorComponent } from './new-single-product-calculator/new-single-product-calculator.component';
+import { NewMultiProductCalculatorComponent2 } from './new-multi-product-calculator2/new-multi-product-calculator2.component';
 
 @NgModule({
   declarations: [
     NewCalculatorComponent,
     NewSingleProductCalculatorComponent,
     NewMultiProductCalculatorComponent,
+    NewMultiProductCalculatorComponent2,
   ],
   imports: [
     CommonModule,

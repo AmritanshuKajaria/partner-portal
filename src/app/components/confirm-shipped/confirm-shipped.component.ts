@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -66,17 +67,28 @@ export class ConfirmShippedComponent implements OnInit {
   }
 
   submit() {
-    // const data = {
-    //   po_number: this.poNo,
-    //   clarification_message: 'Shipping Issue',
-    //   contact_via: 'Email',
-    //   user_email: 'sudip.das@123srores.com',
-    // };
-    // this.ordersService.clarificationOrders(data).subscribe((res: any) => {
-    //   if (res.success) {
-    //     this.message.success('PO clarification successfully!');
-    //   }
-    // });
+    this.isLoading = true;
+    const data = {
+      carrier: this.confirmShippedForm.value.carrier,
+      shipping_date: moment(this.confirmShippedForm.value.shipping_date).format(
+        'YYYY-MM-DD'
+      ),
+      tracking_list: this.confirmShippedForm.value.trackingList.map(
+        (tracking: any) => tracking.tracking
+      ),
+    };
+    this.ordersService.markOrderShipped(data).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.message.success('Mark shipped successfully!');
+        }
+        this.isLoading = false;
+        this.handleCancel();
+      },
+      (error: any) => {
+        this.isLoading = false;
+      }
+    );
   }
 
   handleCancel() {

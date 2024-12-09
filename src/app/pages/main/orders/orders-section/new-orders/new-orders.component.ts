@@ -28,40 +28,7 @@ export class NewOrdersComponent implements OnInit {
   isLoading: boolean = false;
   isCancelOrderVisible: boolean = false;
   mode = 'date';
-  newOrdersData: any[] = [
-    {
-      po_no: 'ABW-2785',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '2023-02-08T20:09:59.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Michelle Zhou ',
-      sku: '123-ABW-AWI-BAY-14',
-      product_mpn: 'AWI-Bay-14',
-      product_asin: 'B074PKMS5S',
-      product_qty: 1,
-      po_total: 50,
-      committed_ship_date: '2023-02-10',
-      cancel_after_date: '2023-02-17',
-      carrier: 'UPS',
-    },
-    {
-      po_no: 'ABW-2786',
-      location_code: 'ABW-LOC-001',
-      po_method: 'EDI',
-      po_datetime: '2023-02-09T01:17:06.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Terry Winters',
-      sku: '123-ABW-100-34-482',
-      product_mpn: '100-34-482',
-      product_asin: 'B07HBN6L3J',
-      product_qty: 2,
-      po_total: 76,
-      committed_ship_date: '2023-02-10',
-      cancel_after_date: '2023-02-17',
-      carrier: 'UPS',
-    },
-  ];
+  newOrdersData: any[] = [];
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
@@ -98,9 +65,7 @@ export class NewOrdersComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(2);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -117,7 +82,7 @@ export class NewOrdersComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'NEW',
+        order_type: '1',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -131,13 +96,28 @@ export class NewOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.new);
+            this.totalData.emit(+this.total);
             this.newOrdersData = response.orders ?? [];
           }
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),
       });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.search_term
+    );
   }
 
   searchDataChanges(event: string) {

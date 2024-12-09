@@ -29,56 +29,7 @@ export class AllOrdersComponent implements OnInit {
   isLoading: boolean = false;
   mode = 'date';
   filter!: FormGroup;
-  allOrdersData: any[] = [
-    {
-      po_no: 'AVO-2690',
-      location_code: 'AVO-LOC-002',
-      po_method: 'Email',
-      po_datetime: '2023-07-04T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32924',
-      product_mpn: '32924',
-      product_asin: 'B0B52573JC',
-      product_qty: 2,
-      po_total: 117.04,
-      committed_ship_date: '2023-07-06',
-      cancel_after_date: '2023-07-13',
-      ship_date: '2023-07-06',
-      cancel_date: '',
-      carrier: 'USPS',
-      tracking: ['9434609104250515015334'],
-      invoice_no: 22345,
-      po_status: 'Delivered',
-      status_remark: 'Shipped Late',
-    },
-    {
-      po_no: 'AVO-2692',
-      location_code: 'AVO-LOC-001',
-      po_method: 'Email',
-      po_datetime: '2023-07-08T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32925',
-      product_mpn: '32925',
-      product_asin: 'B08LTPFBTB',
-      product_qty: 1,
-      po_total: 82.62,
-      committed_ship_date: '2023-07-10',
-      cancel_after_date: '2023-07-17',
-      ship_date: '',
-      cancel_date: '2023-07-08T23:20:00.000Z',
-      carrier: 'UPS',
-      tracking: [
-        '1ZRR11990392758858',
-        '1ZRR11990392502785',
-        '1ZRR11990395317686',
-      ],
-      invoice_no: 987514,
-      po_status: 'Cancelled',
-      status_remark: '07 – Late PO Auto Canceled',
-    },
-  ];
+  allOrdersData: any[] = [];
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
@@ -120,7 +71,6 @@ export class AllOrdersComponent implements OnInit {
       committedShipDate: new FormControl(''),
       status: new FormControl(''),
     });
-    this.totalData.emit(30);
   }
 
   getOrderList(
@@ -137,7 +87,7 @@ export class AllOrdersComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'ALL',
+        order_type: '5',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -150,13 +100,27 @@ export class AllOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.all);
+            this.totalData.emit(+this.total);
             this.allOrdersData = response.orders ?? [];
           }
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),
       });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.remarkStatus,
+      this.search_term
+    );
   }
 
   searchDataChanges(event: string) {

@@ -24,8 +24,8 @@ export class OrdersService {
     if (action.po_list_type) {
       params = params.append('po_list_type', action.po_list_type);
     }
-    if (action.type) {
-      params = params.append('type', action.type);
+    if (action.order_type) {
+      params = params.append('order_type', action.order_type);
     }
     // filter
     if (action.filter_from_po_date) {
@@ -130,7 +130,7 @@ export class OrdersService {
     return this.http.post(this.url + '/export-orders', data);
   }
 
-  markOrderShipped(data: MarkOrderShipped) {
+  markOrderShipped(data: any) {
     return this.http.post(this.url + '/mark-order-shipped', data);
   }
 

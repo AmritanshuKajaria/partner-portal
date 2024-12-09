@@ -27,66 +27,7 @@ export class PendingShipmentComponent implements OnInit {
   isLoading: boolean = false;
   isCancelOrderVisible: boolean = false;
   mode = 'date';
-  pendingShipmentData: any = [
-    {
-      po_no: 'AVO-2691',
-      location_code: 'AVO-LOC-002',
-      po_method: 'Email',
-      po_datetime: '2023-07-04T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32924',
-      product_mpn: '32924',
-      product_asin: 'B0B52573JC',
-      product_qty: 2,
-      po_total: 117.04,
-      committed_ship_date: '2023-07-06',
-      cancel_after_date: '2023-07-13',
-      carrier: 'USPS',
-      tracking: ['9434609104250515015334'],
-      status_remark: 'Will be cancelled EOD',
-    },
-    {
-      po_no: 'AVO-2692',
-      location_code: 'AVO-LOC-001',
-      po_method: 'Email',
-      po_datetime: '2023-07-08T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32925',
-      product_mpn: '32925',
-      product_asin: 'B08LTPFBTB',
-      product_qty: 1,
-      po_total: 82.62,
-      committed_ship_date: '2023-07-10',
-      cancel_after_date: '2023-07-17',
-      carrier: 'FedEx',
-      tracking: ['785703529694', '773824098610'],
-      status_remark: 'Late 5 Days',
-    },
-    {
-      po_no: 'AVO-2693',
-      location_code: 'AVO-LOC-001',
-      po_method: 'Email',
-      po_datetime: '2023-07-08T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32925',
-      product_mpn: '32925',
-      product_asin: 'B08LTPFBTB',
-      product_qty: 1,
-      po_total: 82.62,
-      committed_ship_date: '2023-07-10',
-      cancel_after_date: '2023-07-17',
-      carrier: 'UPS',
-      tracking: [
-        '1ZRR11990392758858',
-        '1ZRR11990392502785',
-        '1ZRR11990395317686',
-      ],
-      status_remark: 'On Time',
-    },
-  ];
+  pendingShipmentData: any = [];
   clear_btn: boolean = false;
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
@@ -122,9 +63,7 @@ export class PendingShipmentComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(3);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -142,7 +81,7 @@ export class PendingShipmentComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'PSH',
+        order_type: '2',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -157,7 +96,7 @@ export class PendingShipmentComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.psh);
+            this.totalData.emit(+this.total);
             this.pendingShipmentData = response.orders ?? [];
           }
           this.isLoading = false;
@@ -168,6 +107,22 @@ export class PendingShipmentComponent implements OnInit {
 
   searchDataChanges(event: string) {
     this.search_term = event;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.selectStatus,
+      this.search_term
+    );
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,

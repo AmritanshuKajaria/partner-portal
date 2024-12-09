@@ -7,11 +7,11 @@ import { NewCalculatorService } from 'src/app/shared/service/new-calculator.serv
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
-  selector: 'app-new-multi-product-calculator',
-  templateUrl: './new-multi-product-calculator.component.html',
-  styleUrls: ['./new-multi-product-calculator.component.scss'],
+  selector: 'app-new-multi-product-calculator2',
+  templateUrl: './new-multi-product-calculator2.component.html',
+  styleUrls: ['./new-multi-product-calculator2.component.scss'],
 })
-export class NewMultiProductCalculatorComponent {
+export class NewMultiProductCalculatorComponent2 {
   @Input('showCalculator') showCalculator: boolean = false;
 
   isLoading: boolean = false;
@@ -36,10 +36,9 @@ export class NewMultiProductCalculatorComponent {
   updatingIndex: number = -1;
   addScroll = false;
   saveDisabled: { [key: number]: boolean } = {};
-
   extraData: {} = {};
 
-  retailPriceErrorTimer: any;
+  unitPriceErrorTimer: any;
 
   constructor(
     private newCalculatorService: NewCalculatorService,
@@ -84,40 +83,33 @@ export class NewMultiProductCalculatorComponent {
         this.isLoading = false;
         this.total = res.pagination?.total_rows ?? 0;
         this.multiProductList = res.products ?? [];
-
         this.multiData = lodash.cloneDeep(this.multiProductList);
       },
       error: (err) => (this.isLoading = false),
     });
   }
 
-  changePrice(price: any, type: string, index: number) {
+  changePrice(price: any, index: number) {
     let changeData: any;
-    if (type === 'unit') {
-      changeData = this.newCalculatorService.calculatePricesFromUnitPrice(
-        +price.target.value,
-        +this.multiData[index].shipping_cost,
-        +this.multiData[index].order_processing_fees_percentage,
-        +this.multiData[index].slab_amt,
-        +this.multiData[index].pre_slab_percentage,
-        +this.multiData[index].post_slab_percentage
-      );
-    } else {
-      changeData = this.newCalculatorService.calculatePricesFromRetailPrice(
-        +price.target.value,
-        +this.multiData[index].shipping_cost,
-        +this.multiData[index].order_processing_fees_percentage,
-        +this.multiData[index].slab_amt,
-        +this.multiData[index].pre_slab_percentage,
-        +this.multiData[index].post_slab_percentage,
-        +this.multiProductList[index].unit_price
-      );
-    }
+
+    changeData = this.newCalculatorService.calculatePricesFromRetailPrice(
+      +price.target.value,
+      +this.multiData[index].shipping_cost,
+      +this.multiData[index].order_processing_fees_percentage,
+      +this.multiData[index].slab_amt,
+      +this.multiData[index].pre_slab_percentage,
+      +this.multiData[index].post_slab_percentage,
+      +this.multiProductList[index].unit_price
+    );
+
     // Update unit price
     this.multiProductList[index].unit_price = changeData.unit_price;
 
     // Update retail price
     this.multiProductList[index].retail_price = changeData.retail_price;
+
+    // Update adjustment
+    this.multiProductList[index].adjustment = changeData.adjustment;
 
     // Update market place fees
     this.multiProductList[index].market_place_fees =
@@ -144,17 +136,17 @@ export class NewMultiProductCalculatorComponent {
         this.multiProductList[index].map_price
       )
     ) {
-      if (this.retailPriceErrorTimer) {
-        clearTimeout(this.retailPriceErrorTimer);
+      if (this.unitPriceErrorTimer) {
+        clearTimeout(this.unitPriceErrorTimer);
       }
       // Update saveDisabled object
       this.saveDisabled[index] = false;
     } else {
-      if (this.retailPriceErrorTimer) {
-        clearTimeout(this.retailPriceErrorTimer);
+      if (this.unitPriceErrorTimer) {
+        clearTimeout(this.unitPriceErrorTimer);
       }
 
-      this.retailPriceErrorTimer = setTimeout(() => {
+      this.unitPriceErrorTimer = setTimeout(() => {
         this.message.create(
           'error',
           'MAP exists, retail price cannot be updated'
@@ -182,8 +174,8 @@ export class NewMultiProductCalculatorComponent {
     this.updatingIndex = index;
     this.editData = {
       mpn: this.multiData[index].mpn,
-      current: this.multiData[index].unit_price,
-      new: this.multiProductList[index].unit_price,
+      current: this.multiData[index].retail_price,
+      new: this.multiProductList[index].retail_price,
       sku: this.multiData[index].sku,
     };
     this.extraData = {
@@ -198,7 +190,7 @@ export class NewMultiProductCalculatorComponent {
       post_slab_percentage: this.multiData[index].post_slab_percentage,
       unit_price: this.multiData[index].unit_price,
     };
-    this.editLabel = ['MPN', 'Current Unit Price', 'New Unit Price'];
+    this.editLabel = ['MPN', 'Current Retail Price', 'New Retail Price'];
     this.isEditVisible = true;
   }
 
@@ -209,6 +201,9 @@ export class NewMultiProductCalculatorComponent {
     // Update retail price
     this.multiProductList[index].retail_price =
       this.multiData[index].retail_price;
+
+    // Update adjustment
+    this.multiProductList[index].adjustment = this.multiData[index].adjustment;
 
     // Update market place fees
     this.multiProductList[index].market_place_fees =

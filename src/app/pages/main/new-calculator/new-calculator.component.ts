@@ -20,6 +20,7 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
     `;
 
   currentPlan = '';
+  showConfig: '1' | '2' = '1';
 
   constructor(private userPermissionService: UserPermissionService) {
     this.userPermissionService.userPermission
@@ -31,6 +32,7 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
           if (res.current_plan !== 'basic') {
             this.showCalculator = true;
           }
+          this.showConfig = res?.pricing_tab === 1 ? '1' : '2';
         }
       });
   }

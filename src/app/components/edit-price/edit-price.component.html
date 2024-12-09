@@ -1,0 +1,96 @@
+<div class="edit-time">
+  <nz-modal
+    [(nzVisible)]="isVisible"
+    [nzTitle]="'Edit ' + section"
+    (nzOnCancel)="handleCancel()"
+  >
+    <ng-container *nzModalContent>
+      <div class="body-section">
+        <form [formGroup]="editPriceForm">
+          <nz-form-item>
+            <nz-form-label [nzSm]="10" [nzXs]="24">{{
+              editLabel[0]
+            }}</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <nz-input-group>
+                <b>{{ editData.mpn }}</b>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="10" [nzXs]="24"
+              >{{ editLabel[1] }}
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24">
+              <nz-input-group>
+                <b>{{ "$" + editData.current }}</b>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="10" [nzXs]="24">{{
+              editLabel[2]
+            }}</nz-form-label>
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              [nzValidateStatus]="
+                submitError && !editPriceForm.controls['new'].value
+                  ? 'error'
+                  : ''
+              "
+              [nzErrorTip]="
+                editPriceForm.controls['new'].hasError('required')
+                  ? 'Please input your new value!'
+                  : editPriceForm.controls['new'].getError('customError')
+              "
+            >
+              <nz-input-group nzPrefix="$">
+                <input
+                  formControlName="new"
+                  type="number"
+                  nz-input
+                  placeholder="Enter new"
+                  required="true"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+      <div class="model-footer">
+        <div class="model-action">
+          <button
+            nz-button
+            nzType="default"
+            style="color: black; margin-right: 5px"
+            (click)="handleCancel()"
+          >
+            Cancel
+          </button>
+          <button
+            nz-button
+            class="action-btn"
+            [nzType]="'primary'"
+            style="width: 100px"
+            (click)="submit()"
+          >
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 15px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            <span
+              *ngIf="!isLoading"
+              nz-icon
+              nzType="file-text"
+              nzTheme="outline"
+            ></span>
+            Save
+          </button>
+        </div>
+      </div>
+    </ng-container>
+  </nz-modal>
+</div>

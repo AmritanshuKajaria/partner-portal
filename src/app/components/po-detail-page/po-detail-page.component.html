@@ -103,12 +103,7 @@
               <div class="sub-section-one">
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Status"
-                    ><b>{{ poDetailData?.order_status?.po_status }}</b>
-                  </nz-descriptions-item>
-                </nz-descriptions>
-                <nz-descriptions>
-                  <nz-descriptions-item nzTitle="Remark"
-                    ><b>{{ poDetailData?.order_status?.status_remark }}</b>
+                    ><b>{{ poDetailData?.order_status?.status }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
               </div>
@@ -153,7 +148,7 @@
               </div>
             </div>
             <div class="sub-section">
-              <div class="sub-section-one">
+              <div *ngIf="poDetailData" class="sub-section-one">
                 <div>
                   <b>{{ poDetailData?.ship_from?.company_name }}</b>
                 </div>
@@ -186,7 +181,7 @@
               </div>
             </div>
             <div class="sub-section">
-              <div class="sub-section-one">
+              <div *ngIf="poDetailData" class="sub-section-one">
                 <div class="sub-section-one">
                   <div>
                     <b>{{ poDetailData?.ship_to?.name }}</b>
@@ -220,13 +215,12 @@
           #nzTable
           nzShowSizeChanger
           nzBordered
-          [nzPageSizeOptions]="poDetailData.order_item"
+          [nzPageSizeOptions]="poDetailData?.order_item"
           [nzFrontPagination]="false"
           [nzTotal]="total"
           [nzPageSize]="pageSize"
           [nzPageIndex]="pageIndex"
-          [nzLoading]="isLoading"
-          [nzData]="poDescriptionData"
+          [nzData]="poDetailData?.order_item"
         >
           <thead>
             <tr>
@@ -239,7 +233,7 @@
               <th id="extendedTotal">Extended Total</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="poDetailData">
             <tr *ngFor="let data of poDetailData.order_item; let i = index">
               <td style="text-align: center">{{ i + 1 }}.</td>
               <td>
@@ -256,94 +250,87 @@
                 <div
                   *ngFor="
                     let unit of data?.shipping_dimensions;
-                    let indexU = index
+                    let unitIndex = index
                   "
                 >
-                  <div *ngFor="let units of createArray(unit)">
-                    <div *ngFor="let box of createArray(unit[units])">
-                      <div>Unit#: {{ units }} - Box#{{ box }}</div>
-                      <div>
-                        Shipping Dims: {{ unit[units][box].height }}
-                        <span *ngIf="unit[units][box].height">"</span> x
-                        {{ unit[units][box].length
-                        }}<span *ngIf="unit[units][box].length">"</span> x
-                        {{ unit[units][box].weight
-                        }}<span *ngIf="unit[units][box].weight">"</span>
-                        x
-                        {{ unit[units][box].width }}
-                        <span *ngIf="unit[units][box].width">lbs</span>
-                      </div>
+                  <div *ngFor="let box of unit">
+                    <div>Unit#: {{ unitIndex + 1 }} - Box#{{ box.box_no }}</div>
+                    <div>
+                      Shipping Dims: {{ box.height }}" x {{ box.length }}" x
+                      {{ box.width }}" x {{ box.weight }}" lbs
                     </div>
-                    <br />
                   </div>
+                  <br />
                 </div>
               </td>
-              <td style="text-align: center">{{ data?.qty }}</td>
+              <td style="text-align: center">{{ data?.porduct_qty }}</td>
               <td style="text-align: center">
-                {{ data?.unit_price | currency }}
+                {{ +data?.unit_price | currency }}
               </td>
               <td style="text-align: center">
                 <div
                   *ngIf="
-                    data?.allowances?.co_op_allowance ||
-                    data?.allowances?.promotional_allowance
+                    data?.allowances?.onInvoiceCoOp ||
+                    data?.allowances?.onInvoicePromotion
                   "
                 >
                   {{
-                    data?.allowances?.co_op_allowance +
-                      data?.allowances?.promotional_allowance | currency
+                    +data?.allowances?.onInvoiceCoOp +
+                      +data?.allowances?.onInvoicePromotion | currency
                   }}
                 </div>
                 <div
                   *ngIf="
-                    !data?.allowances?.co_op_allowance &&
-                    !data?.allowances?.promotional_allowance
+                    !data?.allowances?.onInvoiceCoOp &&
+                    !data?.allowances?.onInvoicePromotion
                   "
                 >
                   {{ 0.0 | currency }}
                 </div>
-                <div *ngIf="data?.allowances?.co_op_allowance">
+                <div *ngIf="data?.allowances?.onInvoiceCoOp">
                   <br />
                   (CO-OP Allowance
-                  {{ data?.allowances?.co_op_allowance | currency }})
+                  {{ +data?.allowances?.onInvoiceCoOp | currency }})
                 </div>
-                <div *ngIf="data?.allowances?.promotional_allowance">
+                <div *ngIf="data?.allowances?.onInvoicePromotion">
                   <br />
                   (Promotional Allowance
-                  {{ data?.allowances?.promotional_allowance | currency }})
+                  {{ +data?.allowances?.onInvoicePromotion | currency }})
                 </div>
               </td>
               <td style="text-align: center">
-                {{ data?.unit_extended_price | currency }}
+                {{ +data?.unitExtendedPrice | currency }}
               </td>
               <td style="text-align: center">
-                {{ data?.unit_extended_total | currency }}
+                {{ +data?.extendedTotal | currency }}
               </td>
             </tr>
             <tr>
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end">Sub Total</td>
               <td style="text-align: center">
-                {{ poDetailData.order_item[0].unit_extended_total | currency }}
+                {{ +poDetailData?.order_item[0]?.extendedTotal | currency }}
               </td>
             </tr>
             <tr
               *ngIf="
-                poDetailData.order_item[0].defective_allowance &&
-                poDetailData.order_item[0].defective_allowance !== 0
+                poDetailData?.order_item[0]?.allowances?.daOnInvoice &&
+                poDetailData?.order_item[0]?.allowances?.daOnInvoice !== 0
               "
             >
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end">Defective Allowance</td>
               <td style="text-align: center">
-                {{ poDetailData.order_item[0].defective_allowance | currency }}
+                {{
+                  +poDetailData?.order_item[0]?.allowances?.daOnInvoice | currency
+                }}
               </td>
             </tr>
             <tr>
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end"><b>PO Total</b></td>
               <td style="text-align: center">
-                <b>{{ poDetailData.order_item[0].po_total | currency }}</b>
+                <b>{{ +poDetailData?.order_item[0]?.poTotal | currency }}</b>
               </td>
             </tr>
           </tbody>

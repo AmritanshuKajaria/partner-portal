@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 
 let AppDateFormate = 'MMM d, y';
 
@@ -12,9 +13,13 @@ export class CustomDatePipe implements PipeTransform {
   transform(date: any, timeFormate: string = ''): string | null {
     if (timeFormate) {
       const dateTimeFormate = AppDateFormate + timeFormate;
-      return date ? this.datePipe.transform(date, dateTimeFormate) : '';
+      return date && moment(date).isValid()
+        ? this.datePipe.transform(date, dateTimeFormate)
+        : '';
     } else {
-      return date ? this.datePipe.transform(date, AppDateFormate) : '';
+      return date && moment(date).isValid()
+        ? this.datePipe.transform(date, AppDateFormate)
+        : '';
     }
   }
 }

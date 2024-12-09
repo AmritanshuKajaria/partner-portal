@@ -26,42 +26,7 @@ export class CancellationRequestedComponent implements OnInit {
   pageIndex = 1;
   isLoading: boolean = false;
   mode = 'date';
-  cancellationRequestedData: any = [
-    {
-      po_no: 'AVO-2691',
-      location_code: 'AVO-LOC-002',
-      po_method: 'Email',
-      po_datetime: '2023-07-04T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32924',
-      product_mpn: '32924',
-      product_asin: 'B0B52573JC',
-      product_qty: 2,
-      po_total: 117.04,
-      action_by_date: '2023-07-06',
-      carrier: 'USPS',
-      tracking: ['9434609104250515015334'],
-      status_remark: 'Will be cancelled EOD',
-    },
-    {
-      po_no: 'AVO-2692',
-      location_code: 'AVO-LOC-001',
-      po_method: 'Email',
-      po_datetime: '2023-07-08T23:20:00.000Z',
-      po_timezone: 'PST',
-      customer_name: 'Joe Duffield',
-      sku: '23-AVO-32925',
-      product_mpn: '32925',
-      product_asin: 'B08LTPFBTB',
-      product_qty: 1,
-      po_total: 82.62,
-      action_by_date: '2023-07-10',
-      carrier: 'FedEx',
-      tracking: ['785703529694', '773824098610'],
-      status_remark: 'Open',
-    },
-  ];
+  cancellationRequestedData: any = [];
   clear_btn: boolean = false;
 
   badgeTotal: number = 0;
@@ -94,9 +59,7 @@ export class CancellationRequestedComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(2);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -112,7 +75,7 @@ export class CancellationRequestedComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'BCR',
+        order_type: '3',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -125,13 +88,27 @@ export class CancellationRequestedComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.bcr);
+            this.totalData.emit(+this.total);
             this.cancellationRequestedData = response.orders ?? [];
           }
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),
       });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.remarkStatus,
+      this.search_term
+    );
   }
 
   searchDataChanges(event: string) {
