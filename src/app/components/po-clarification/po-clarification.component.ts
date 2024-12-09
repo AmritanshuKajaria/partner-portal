@@ -31,17 +31,37 @@ export class PoClarificationComponent implements OnInit {
   }
 
   submit() {
+    if (this.poClarificationForm.invalid) {
+      for (const i in this.poClarificationForm.controls) {
+        this.poClarificationForm.controls[i].markAsDirty();
+        this.poClarificationForm.controls[i].updateValueAndValidity();
+      }
+      return;
+    }
+
+    this.isLoading = true;
     const data = {
       po_number: this.poNo,
-      clarification_message: 'Shipping Issue',
+      clarification_message: this.poClarificationForm.value.detail,
       contact_via: 'Email',
-      user_email: 'sudip.das@123srores.com',
+      user_email: this.poClarificationForm.value.email,
     };
-    this.ordersService.clarificationOrders(data).subscribe((res: any) => {
-      if (res.success) {
-        this.message.success('PO clarification successfully!');
+
+    this.ordersService.clarificationOrders(data).subscribe(
+      (res: any) => {
+        this.isLoading = false;
+        if (res.success) {
+          this.message.success('PO clarification successfully!');
+          this.close.emit();
+        } else {
+          this.message.error('Failed to clarify PO.');
+        }
+      },
+      (error: any) => {
+        this.isLoading = false;
+        this.message.error('An error occurred while clarifying PO.');
       }
-    });
+    );
   }
 
   handleCancel() {

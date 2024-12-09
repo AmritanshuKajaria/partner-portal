@@ -44,7 +44,9 @@ export class OrderTableComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Please click OK to Acknowledge this PO?',
       nzOnOk: () => {
+        this.isLoading = true;
         this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
+          this.isLoading = false;
           console.log(res);
           if (res.success) {
             this.message.success('Order acknowledge successfully!');
@@ -53,6 +55,7 @@ export class OrderTableComponent implements OnInit {
       },
       nzCancelText: 'Close',
       nzOnCancel: () => console.log('Close'),
+      nzOkLoading: this.isLoading,
     });
   }
 

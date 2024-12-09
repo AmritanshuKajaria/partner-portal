@@ -189,12 +189,6 @@ export class PoDetailPageComponent implements OnInit {
   }
   ngOnInit(): void {}
 
-  createArray(obj: any) {
-    console.log(Object.keys(obj));
-
-    return Object.keys(obj);
-  }
-
   downloadAction(type: string) {
     switch (type) {
       case 'Download PO':

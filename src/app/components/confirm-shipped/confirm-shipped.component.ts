@@ -66,6 +66,7 @@ export class ConfirmShippedComponent implements OnInit {
   }
 
   submit() {
+    this.isLoading = true;
     const data = {
       carrier: this.confirmShippedForm.value.carrier,
       shipping_date: this.confirmShippedForm.value.shipping_date,
@@ -73,11 +74,18 @@ export class ConfirmShippedComponent implements OnInit {
         (tracking: any) => tracking.tracking
       ),
     };
-    this.ordersService.markOrderShipped(data).subscribe((res: any) => {
-      if (res.success) {
-        this.message.success('Mark shipped successfully!');
+    this.ordersService.markOrderShipped(data).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.message.success('Mark shipped successfully!');
+        }
+        this.isLoading = false;
+        this.handleCancel();
+      },
+      (error: any) => {
+        this.isLoading = false;
       }
-    });
+    );
   }
 
   handleCancel() {

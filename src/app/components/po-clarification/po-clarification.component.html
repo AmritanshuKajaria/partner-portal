@@ -94,6 +94,7 @@
         style="margin-top: 0"
         class="action-button"
         [nzType]="'primary'"
+        [disabled]="isLoading"
         (click)="submit()"
       >
         <span
