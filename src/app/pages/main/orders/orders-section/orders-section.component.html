@@ -14,6 +14,7 @@
           >
             <span style="margin-right: 5px">New</span>
             <nz-badge
+              *ngIf="newTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="newTotal"
@@ -37,6 +38,7 @@
           >
             <span style="margin-right: 5px">Pending Shipment</span>
             <nz-badge
+              *ngIf="pendingShipmentTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="pendingShipmentTotal"
@@ -59,6 +61,7 @@
           >
             <span style="margin-right: 5px">Buyer Cancellation Requested</span>
             <nz-badge
+              *ngIf="cancellationRequestedTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="cancellationRequestedTotal"
@@ -81,6 +84,7 @@
           >
             <span style="margin-right: 5px">Pending Invoice</span>
             <nz-badge
+              *ngIf="pendingInvoiceTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="pendingInvoiceTotal"
@@ -103,6 +107,7 @@
           >
             <span style="margin-right: 5px">In Transit</span>
             <nz-badge
+              *ngIf="inTransitTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="inTransitTotal"
@@ -125,6 +130,7 @@
           >
             <span style="margin-right: 5px">Delivered</span>
             <nz-badge
+              *ngIf="deliveredTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="deliveredTotal"
@@ -148,6 +154,7 @@
           >
             <span style="margin-right: 5px">All</span>
             <nz-badge
+              *ngIf="newTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="allTotal"
