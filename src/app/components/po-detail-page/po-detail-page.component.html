@@ -259,6 +259,9 @@
                       Shipping Dims: {{ box.height }}" x {{ box.length }}" x
                       {{ box.width }}" x {{ box.weight }}" lbs
                     </div>
+                    <div *ngIf="box.tracking_no">
+                      Tracking No: {{box.tracking_no}}
+                    </div>
                   </div>
                   <br />
                 </div>
