@@ -164,6 +164,22 @@ export class PendingShipmentComponent implements OnInit {
     );
   }
 
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.selectStatus,
+      this.search_term
+    );
+  }
+
   onChange(result: Date[]): void {
     console.log('From: ', result[0], ', to: ', result[1]);
   }

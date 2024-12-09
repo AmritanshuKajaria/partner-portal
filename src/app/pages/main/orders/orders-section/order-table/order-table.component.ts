@@ -19,6 +19,7 @@ export class OrderTableComponent implements OnInit {
   @Input() tabName: string = '';
 
   @Output() changeModel = new EventEmitter();
+  @Output() pageIndexChange = new EventEmitter<number>();
 
   statusEnum: typeof StatusEnum = StatusEnum;
   isCancelOrderVisible: boolean = false;
@@ -53,6 +54,10 @@ export class OrderTableComponent implements OnInit {
       nzCancelText: 'Close',
       nzOnCancel: () => console.log('Close'),
     });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndexChange.emit(page);
   }
 
   markOrderShipped(po_no: string) {

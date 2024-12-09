@@ -11,6 +11,7 @@
     [nzLoading]="isLoading"
     [nzData]="listOfData"
     [nzScroll]="{ x: '100%' }"
+    (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
       <tr>

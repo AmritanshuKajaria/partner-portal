@@ -144,6 +144,21 @@ export class NewOrdersComponent implements OnInit {
       });
   }
 
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.search_term
+    );
+  }
+
   searchDataChanges(event: string) {
     this.search_term = event;
     this.getOrderList(
