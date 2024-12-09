@@ -88,14 +88,14 @@ export class OrderTableComponent implements OnInit {
       this.ordersService.downloadPo(po_no).subscribe((res: any) => {
         if (res.success) {
           this.message.success('Download po successfully!');
-          window.open(res.label);
+          window.open(res.po_copy_url);
         }
       });
     } else if (type === 'Download Label') {
       this.ordersService.downloadLabel(po_no).subscribe((res: any) => {
         if (res.success) {
           this.message.success('Download label successfully!');
-          window.open(res.label);
+          window.open(res.label_url);
         }
       });
     } else if (type === 'PO Clarification') {
