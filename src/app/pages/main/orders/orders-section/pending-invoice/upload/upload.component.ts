@@ -49,7 +49,7 @@ export class UploadComponent implements OnInit {
       this.isLoading = true;
       let formData = new FormData();
       formData.append('po_no', this.poNo);
-      formData.append('invoice_pdf ', this.selectFile);
+      formData.append('uploaded_file', this.selectFile);
       this.inventoryService.inventoryFeedUpload(formData).subscribe({
         next: (res: any) => {
           console.log(res);
