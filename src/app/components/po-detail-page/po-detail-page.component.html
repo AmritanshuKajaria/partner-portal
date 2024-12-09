@@ -269,7 +269,7 @@
                   <br />
                 </div>
               </td>
-              <td style="text-align: center">{{ data?.quantity }}</td>
+              <td style="text-align: center">{{ data?.porduct_qty }}</td>
               <td style="text-align: center">
                 {{ data?.unit_price | currency }}
               </td>
@@ -305,17 +305,17 @@
                 </div>
               </td>
               <td style="text-align: center">
-                {{ data?.unit_extended_price | currency }}
+                {{ data?.unitExtendedPrice | currency }}
               </td>
               <td style="text-align: center">
-                {{ data?.unit_extended_total | currency }}
+                {{ data?.extendedTotal | currency }}
               </td>
             </tr>
             <tr>
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end">Sub Total</td>
               <td style="text-align: center">
-                {{ poDetailData.order_item[0].unit_extended_total | currency }}
+                {{ poDetailData.order_item[0].extendedTotal | currency }}
               </td>
             </tr>
             <tr
@@ -336,7 +336,7 @@
               <td colspan="4"></td>
               <td colspan="2" style="text-align: end"><b>PO Total</b></td>
               <td style="text-align: center">
-                <b>{{ poDetailData.order_item[0].po_total | currency }}</b>
+                <b>{{ poDetailData.order_item[0].poTotal | currency }}</b>
               </td>
             </tr>
           </tbody>

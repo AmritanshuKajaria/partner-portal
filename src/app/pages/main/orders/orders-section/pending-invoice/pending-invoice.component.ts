@@ -43,29 +43,10 @@ export class PendingInvoiceComponent implements OnInit {
       cancel_after_date: '2024-08-14',
       carrier: 'CHR-FEDEX',
       ship_date: '2024-08-07 20:38:00',
+      cancel_date: '0000-00-00 00:00:00',
       invoice_no: '3707018-00',
       status: 'Completed',
-      tracking: ['785703529694', '773824098610'],
-      status_remark: 'Pending 10 days',
-    },
-    {
-      po_no: 'RAZ-7592',
-      location_code: 'NY-10001',
-      po_method: 'Online',
-      po_datetime: '2024-08-06 15:30:00',
-      customer_name: 'John Doe',
-      porduct_mpn: '13013209',
-      porduct_asin: 'B07QDF18K4',
-      porduct_qty: 2,
-      po_total: 150.5,
-      committed_ship_date: '2024-08-08',
-      cancel_after_date: '2024-08-15',
-      carrier: 'UPS',
-      ship_date: '2024-08-08 10:00:00',
-      invoice_no: '3707019-00',
-      status: 'Pending',
-      tracking: ['785703529695'],
-      status_remark: 'Pending 5 days',
+      tracking: ['673600792226'],
     },
   ];
   clear_btn: boolean = false;
@@ -142,10 +123,8 @@ export class PendingInvoiceComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.pir);
-            this.pendingInvoiceData = response.orders ?? [];
-            const totalRecords = response.orders?.length;
-            this.totalData.emit(totalRecords);
+            this.totalData.emit(response?.count ?? 2);
+            // this.pendingInvoiceData = response.orders ?? [];
           }
           this.isLoading = false;
         },

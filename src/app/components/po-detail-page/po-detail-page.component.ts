@@ -56,7 +56,7 @@ export class PoDetailPageComponent implements OnInit {
     });
     let res = {
       success: true,
-      processed_at: '2024-12-05T06:10:57.000Z',
+      processed_at: '2024-12-09T07:14:23.000Z',
       requested_po_no: 'RAZ-8052',
       order: {
         order_summary: {
@@ -71,7 +71,6 @@ export class PoDetailPageComponent implements OnInit {
         },
         order_status: {
           status: 'Shipment Pending',
-          status_remark: 'Late',
         },
         ship_from: {
           address_line1: '3996 S Riverside Avenue',
@@ -97,11 +96,11 @@ export class PoDetailPageComponent implements OnInit {
           {
             mpn: '15130894',
             product_name: 'Pocket Mod Petite - Blue (ISTA)',
+            porduct_qty: 1,
             upc: '845423023263',
             brand: 'Razor',
             asin: 'B085ZDDY11',
             number_of_boxes: 1,
-            quantity: 2,
             shipping_dimensions: {
               '1': {
                 '1': {
@@ -113,46 +112,17 @@ export class PoDetailPageComponent implements OnInit {
                     weight: '35.00',
                   },
                 },
-                '2': {
-                  dims: {
-                    box_no: '2',
-                    length: '54.75',
-                    width: '32.38',
-                    height: '15.75',
-                    weight: '12.00',
-                  },
-                },
-              },
-              '2': {
-                '1': {
-                  dims: {
-                    box_no: '1',
-                    length: '52.75',
-                    width: '63.38',
-                    height: '25.75',
-                    weight: '65.00',
-                  },
-                },
-                '2': {
-                  dims: {
-                    box_no: '5',
-                    length: '35.75',
-                    width: '65.38',
-                    height: '65.75',
-                    weight: '95.00',
-                  },
-                },
               },
             },
             unit_price: '233.93',
-            unit_extended_price: '25.65',
-            unit_extended_total: '50.20',
-            po_total: '85.60',
             allowances: {
-              onInvoicePromotion: '1.00',
-              onInvoiceCoOp: '2.00',
-              daOnInvoice: '5.00',
+              onInvoicePromotion: '0.00',
+              onInvoiceCoOp: '0.00',
+              daOnInvoice: '0.00',
             },
+            unitExtendedPrice: 233.93,
+            extendedTotal: 233.93,
+            poTotal: 233.93,
           },
         ],
       },
@@ -160,7 +130,15 @@ export class PoDetailPageComponent implements OnInit {
     if (res.success) {
       this.poDetailData = res?.order;
 
-      console.log(res, 'res from objd');
+      res.order.order_item.map((item: any) => {
+        item.shipping_dimensions = Object.keys(item.shipping_dimensions).map(
+          (key1) => {
+            return Object.keys(item.shipping_dimensions[key1]).map((key2) => {
+              return item.shipping_dimensions[key1][key2].dims;
+            });
+          }
+        );
+      });
     } else {
       this.poNotExist = res.success;
     }
@@ -169,19 +147,18 @@ export class PoDetailPageComponent implements OnInit {
       next: (res: any) => {
         this.isLoading = false;
         if (res.success) {
-          this.poDetailData = res?.order;
-
-          res.order.order_item.map((item: any) => {
-            item.shipping_dimensions = Object.keys(
-              item.shipping_dimensions
-            ).map((key1) => {
-              return Object.keys(item.shipping_dimensions[key1]).map((key2) => {
-                return item.shipping_dimensions[key1][key2].dims;
-              });
-            });
-          });
+          // this.poDetailData = res?.order;
+          // res.order.order_item.map((item: any) => {
+          //   item.shipping_dimensions = Object.keys(
+          //     item.shipping_dimensions
+          //   ).map((key1) => {
+          //     return Object.keys(item.shipping_dimensions[key1]).map((key2) => {
+          //       return item.shipping_dimensions[key1][key2].dims;
+          //     });
+          //   });
+          // });
         } else {
-          this.poNotExist = res.success;
+          // this.poNotExist = res.success;
         }
       },
       error: (err) => (this.isLoading = false),

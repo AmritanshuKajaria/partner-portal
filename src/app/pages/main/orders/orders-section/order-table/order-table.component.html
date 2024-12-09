@@ -126,8 +126,8 @@
           <div class="date">
             {{
               tabName === "Cancellation Requested"
-                ? data.action_by_date
-                  ? (data.action_by_date | customDate)
+                ? data.cancel_date
+                  ? (data.cancel_date | customDate)
                   : ""
                 : data.cancel_after_date
                 ? (data.cancel_after_date | customDate)
