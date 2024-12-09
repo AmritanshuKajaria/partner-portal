@@ -1,5 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
@@ -11,9 +17,8 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
   styleUrls: ['./confirm-shipped.component.scss'],
 })
 export class ConfirmShippedComponent implements OnInit {
-  @Input() poNo: string = '';
-  @Output()
-  close = new EventEmitter();
+  @Output() close = new EventEmitter();
+  @Input() poNo = '';
 
   isLoading: boolean = false;
   confirmShippedForm!: FormGroup;
@@ -65,29 +70,29 @@ export class ConfirmShippedComponent implements OnInit {
   }
 
   submit() {
-    const data: any = {
-      po_no: this.poNo,
-      carrier:
-        this.confirmShippedForm.controls['carrier'].value === 'Others'
-          ? this.confirmShippedForm.controls['other_carrier'].value ?? ''
-          : this.confirmShippedForm.controls['carrier'].value ?? '',
-      shipping_date: this.confirmShippedForm.controls['shipping_date'].value
-        ? moment(
-            this.confirmShippedForm.controls['shipping_date'].value
-          ).format('YYYY-MM-DD')
-        : '',
-      tracking_no: [],
+    this.isLoading = true;
+    const data = {
+      po_number: this.poNo,
+      carrier: this.confirmShippedForm.value.carrier,
+      shipping_date: moment(this.confirmShippedForm.value.shipping_date).format(
+        'YYYY-MM-DD'
+      ),
+      tracking_list: this.confirmShippedForm.value.trackingList.map(
+        (tracking: any) => tracking.tracking
+      ),
     };
-    let trackingList = this.confirmShippedForm.controls['trackingList'].value;
-    trackingList.forEach((element: any) => {
-      data['tracking_no'].push(element?.tracking);
-    });
-    this.ordersService.confirmShipped(data).subscribe((res: any) => {
-      if (res.success) {
+    this.ordersService.markOrderShipped(data).subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.message.success('Mark shipped successfully!');
+        }
+        this.isLoading = false;
         this.handleCancel();
-        this.message.success('Confirm shipping successfully!');
+      },
+      (error: any) => {
+        this.isLoading = false;
       }
-    });
+    );
   }
 
   handleCancel() {

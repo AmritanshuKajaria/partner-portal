@@ -59,9 +59,7 @@ export class CancellationRequestedComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(2);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -77,7 +75,7 @@ export class CancellationRequestedComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'BCR',
+        order_type: '3',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -90,13 +88,27 @@ export class CancellationRequestedComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.bcr);
+            this.totalData.emit(+this.total);
             this.cancellationRequestedData = response.orders ?? [];
           }
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),
       });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.remarkStatus,
+      this.search_term
+    );
   }
 
   searchDataChanges(event: string) {
