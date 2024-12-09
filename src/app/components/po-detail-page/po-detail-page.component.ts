@@ -71,7 +71,7 @@ export class PoDetailPageComponent implements OnInit {
         this.ordersService.downloadLabel(this.poNo).subscribe((res: any) => {
           if (res.success) {
             this.message.success('Download label successfully!');
-            window.open(res?.label_url);
+            window.open(`https://${res?.label_url}`);
           }
         });
         break;

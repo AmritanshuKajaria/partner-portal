@@ -96,7 +96,7 @@ export class OrderTableComponent implements OnInit {
       this.ordersService.downloadLabel(po_no).subscribe((res: any) => {
         if (res.success) {
           this.message.success('Download label successfully!');
-          window.open(res.label_url);
+          window.open(`https://${res?.label_url}`);
         }
       });
     } else if (type === 'PO Clarification') {
