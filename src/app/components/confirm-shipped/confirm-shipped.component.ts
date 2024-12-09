@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -69,7 +70,9 @@ export class ConfirmShippedComponent implements OnInit {
     this.isLoading = true;
     const data = {
       carrier: this.confirmShippedForm.value.carrier,
-      shipping_date: this.confirmShippedForm.value.shipping_date,
+      shipping_date: moment(this.confirmShippedForm.value.shipping_date).format(
+        'YYYY-MM-DD'
+      ),
       tracking_list: this.confirmShippedForm.value.trackingList.map(
         (tracking: any) => tracking.tracking
       ),
