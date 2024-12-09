@@ -256,26 +256,17 @@
                 <div
                   *ngFor="
                     let unit of data?.shipping_dimensions;
-                    let indexU = index
+                    let unitIndex = index
                   "
                 >
-                  <div *ngFor="let units of createArray(unit)">
-                    <div *ngFor="let box of createArray(unit[units])">
-                      <div>Unit#: {{ units }} - Box#{{ box }}</div>
-                      <div>
-                        Shipping Dims: {{ unit[units][box].dims?.height }}
-                        <span *ngIf="unit[units][box].dims?.height">"</span> x
-                        {{ unit[units][box].dims?.length
-                        }}<span *ngIf="unit[units][box].dims?.length">"</span> x
-                        {{ unit[units][box].dims?.weight
-                        }}<span *ngIf="unit[units][box].dims?.weight">"</span>
-                        x
-                        {{ unit[units][box].dims?.width }}
-                        <span *ngIf="unit[units][box].dims?.width">lbs</span>
-                      </div>
+                  <div *ngFor="let box of unit">
+                    <div>Unit#: {{ unitIndex + 1 }} - Box#{{ box.box_no }}</div>
+                    <div>
+                      Shipping Dims: {{ box.height }}" x {{ box.length }}" x
+                      {{ box.width }}" x {{ box.weight }}" lbs
                     </div>
-                    <br />
                   </div>
+                  <br />
                 </div>
               </td>
               <td style="text-align: center">{{ data?.quantity }}</td>
