@@ -44,9 +44,9 @@ export class OrderTableComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Please click OK to Acknowledge this PO?',
       nzOnOk: () => {
-        this.isLoading = true;
+        // this.isLoading = true;
         this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
-          this.isLoading = false;
+          // this.isLoading = false;
           console.log(res);
           if (res.success) {
             this.message.success('Order acknowledge successfully!');
@@ -104,6 +104,9 @@ export class OrderTableComponent implements OnInit {
     } else if (type === 'Upload Invoice') {
       this.poNo = po_no;
       this.isUploadModelVisible = true;
+    } else {
+      this.poNo = po_no;
+      this.isCancelOrderVisible = true;
     }
   }
 
