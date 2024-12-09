@@ -70,7 +70,7 @@
         [nzType]="'primary'"
         style="width: 100px"
         (click)="submit()"
-        [disabled]="showFileSizeError || uploadForm.invalid"
+        [disabled]="showFileSizeError || uploadForm.invalid || isLoading"
         [ngClass]="{ 'disabled-btn': showFileSizeError || uploadForm.invalid }"
       >
         <span

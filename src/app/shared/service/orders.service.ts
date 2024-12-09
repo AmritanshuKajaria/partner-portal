@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import {
   CancelOrders,
   ClarificationOrders,
-  ConfirmShipped,
   MarkOrderShipped,
   OrderAction,
 } from '../model/orders.model';
@@ -25,8 +24,8 @@ export class OrdersService {
     if (action.po_list_type) {
       params = params.append('po_list_type', action.po_list_type);
     }
-    if (action.type) {
-      params = params.append('type', action.type);
+    if (action.order_type) {
+      params = params.append('order_type', action.order_type);
     }
     // filter
     if (action.filter_from_po_date) {
@@ -110,7 +109,7 @@ export class OrdersService {
   }
 
   acknowledgeOrders(po_no: string) {
-    return this.http.post(this.url + '/acknowledged-po', { po_no: po_no });
+    return this.http.post(this.url + '/acknowledge-orders', { po_no: po_no });
   }
 
   downloadLabel(po_no: string) {
@@ -124,28 +123,24 @@ export class OrdersService {
   }
 
   cancelOrder(data: CancelOrders) {
-    return this.http.post(this.url + '/supplier-cancel-order', data);
+    return this.http.post(this.url + '/cancel-order', data);
   }
 
   exportOrders(data: any) {
     return this.http.post(this.url + '/export-orders', data);
   }
 
-  markOrderShipped(data: MarkOrderShipped) {
+  markOrderShipped(data: any) {
     return this.http.post(this.url + '/mark-order-shipped', data);
   }
 
-  confirmBuyerCancellation(po_no: string) {
-    return this.http.post(this.url + '/confirm-buyer-cancellation', {
-      po_no: po_no,
+  acceptCancellation(po_no: string) {
+    return this.http.post(this.url + '/accept-cancellation', {
+      po_number: po_no,
     });
   }
 
   clarificationOrders(data: ClarificationOrders) {
-    return this.http.post(this.url + '/po-clarification', data);
-  }
-
-  confirmShipped(data: ConfirmShipped) {
-    return this.http.post(this.url + '/confirm-shipped', data);
+    return this.http.post(this.url + '/clarification-orders', data);
   }
 }

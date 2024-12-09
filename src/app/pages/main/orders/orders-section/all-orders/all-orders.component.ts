@@ -71,7 +71,6 @@ export class AllOrdersComponent implements OnInit {
       committedShipDate: new FormControl(''),
       status: new FormControl(''),
     });
-    this.totalData.emit(30);
   }
 
   getOrderList(
@@ -88,7 +87,7 @@ export class AllOrdersComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'ALL',
+        order_type: '5',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -101,13 +100,27 @@ export class AllOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.all);
+            this.totalData.emit(+this.total);
             this.allOrdersData = response.orders ?? [];
           }
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),
       });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.remarkStatus,
+      this.search_term
+    );
   }
 
   searchDataChanges(event: string) {

@@ -13,7 +13,7 @@ export class PoDetailPageComponent implements OnInit {
   pageSize = 100;
   pageIndex = 1;
   pageSizeOptions = [100];
-  poDetailData: any = '';
+  poDetailData: any;
   isLoading: boolean = false;
   poNotExist: boolean = true;
 
@@ -22,7 +22,6 @@ export class PoDetailPageComponent implements OnInit {
     action: 'Cancel Order',
     actions: 'Mark as shipped',
   };
-  poDescriptionData = [];
   poNo: string = '';
   poClarification: boolean = false;
 
@@ -37,41 +36,42 @@ export class PoDetailPageComponent implements OnInit {
     this.isLoading = true;
     ordersService.getSingleOrder(this.poNo).subscribe({
       next: (res: any) => {
-        this.isLoading = false;
         if (res.success) {
+          res.order.order_item.map((item: any) => {
+            item.shipping_dimensions = Object.keys(
+              item.shipping_dimensions
+            ).map((key1) => {
+              return Object.keys(item.shipping_dimensions[key1]).map((key2) => {
+                return item.shipping_dimensions[key1][key2].dims;
+              });
+            });
+          });
           this.poDetailData = res?.order;
         } else {
           this.poNotExist = res.success;
         }
+        this.isLoading = false;
       },
       error: (err) => (this.isLoading = false),
     });
   }
   ngOnInit(): void {}
 
-  createArray(obj: any) {
-    return Object.keys(obj);
-  }
-
   downloadAction(type: string) {
     switch (type) {
       case 'Download PO':
         this.ordersService.downloadPo(this.poNo).subscribe((res: any) => {
           if (res.success) {
-            let a = document.createElement('a');
-            a.href = 'https://' + res.po_copy_url;
-            a.click();
             this.message.success('Download po successfully!');
+            window.open(res?.po_copy_url);
           }
         });
         break;
       case 'Download Shipping Labels':
         this.ordersService.downloadLabel(this.poNo).subscribe((res: any) => {
           if (res.success) {
-            let link = document.createElement('a');
-            link.href = 'https://' + res.label;
-            link.click();
             this.message.success('Download label successfully!');
+            window.open(res?.label_url);
           }
         });
         break;

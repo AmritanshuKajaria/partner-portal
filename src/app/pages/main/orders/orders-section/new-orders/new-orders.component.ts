@@ -65,9 +65,7 @@ export class NewOrdersComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(2);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -84,7 +82,7 @@ export class NewOrdersComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'NEW',
+        order_type: '1',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -98,13 +96,28 @@ export class NewOrdersComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.new);
+            this.totalData.emit(+this.total);
             this.newOrdersData = response.orders ?? [];
           }
           this.isLoading = false;
         },
         error: (err) => (this.isLoading = false),
       });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.search_term
+    );
   }
 
   searchDataChanges(event: string) {

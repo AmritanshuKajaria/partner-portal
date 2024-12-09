@@ -63,9 +63,7 @@ export class PendingShipmentComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {
-    this.totalData.emit(3);
-  }
+  ngOnInit(): void {}
 
   getOrderList(
     page: number,
@@ -83,7 +81,7 @@ export class PendingShipmentComponent implements OnInit {
     this.ordersService
       .getAllOrder({
         page: page,
-        type: 'PSH',
+        order_type: '2',
         filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
         filter_carrier: filter_carrier,
@@ -98,7 +96,7 @@ export class PendingShipmentComponent implements OnInit {
         next: (response: GetAllOrders) => {
           if (response.success) {
             this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(response?.order_count?.psh);
+            this.totalData.emit(+this.total);
             this.pendingShipmentData = response.orders ?? [];
           }
           this.isLoading = false;
@@ -109,6 +107,22 @@ export class PendingShipmentComponent implements OnInit {
 
   searchDataChanges(event: string) {
     this.search_term = event;
+    this.getOrderList(
+      this.pageIndex,
+      this.selectMPN,
+      this.selectLocation,
+      this.selectCarrier,
+      this.selectDate[0],
+      this.selectDate[1],
+      this.selectRangeDate[0],
+      this.selectRangeDate[1],
+      this.selectStatus,
+      this.search_term
+    );
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,

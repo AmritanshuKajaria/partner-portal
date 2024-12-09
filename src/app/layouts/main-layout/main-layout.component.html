@@ -28,7 +28,7 @@
         <span>Inventory</span>
       </li>
       <li nz-menu-item *ngIf="
-          userPartnerDetails && userPartnerDetails?.is_order_tab_active === 1
+          userPartnerDetails && userPartnerDetails?.order_tab === 1
         " routerLinkActive="active" routerLink="/main/orders/order-section">
         <span nz-icon nzType="shopping"></span>
         <span>Orders</span>

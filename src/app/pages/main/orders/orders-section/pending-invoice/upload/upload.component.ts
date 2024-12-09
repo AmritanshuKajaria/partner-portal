@@ -44,18 +44,17 @@ export class UploadComponent implements OnInit {
     this.showFileSizeError = false;
     this.selectFile = event?.target?.files[0];
   }
-
   submit() {
     if (this.uploadForm.valid) {
       this.isLoading = true;
       let formData = new FormData();
       formData.append('po_no', this.poNo);
-      formData.append('uploaded_file', this.selectFile);
-      this.inventoryService.uploadInvoice(formData).subscribe({
+      formData.append('invoice_pdf ', this.selectFile);
+      this.inventoryService.inventoryFeedUpload(formData).subscribe({
         next: (res: any) => {
           console.log(res);
           if (res.success) {
-            this.message.create('success', 'Upload inventory successfully!');
+            this.message.create('success', 'Inventory upload successfully!');
           }
           this.handleCancel(res?.feed_code);
           this.isLoading = false;

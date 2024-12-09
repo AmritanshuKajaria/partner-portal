@@ -63,7 +63,7 @@ export interface SingleOrder {
 export interface OrderAction {
   page: number;
   po_list_type?: string;
-  type?: number | string;
+  order_type?: number | string;
   sku?: string;
   ship_out_location?: string;
   carrier?: string;
@@ -90,22 +90,14 @@ export interface MarkOrderShipped {
 }
 
 export interface ClarificationOrders {
-  po_no?: string;
-  message?: string;
-  name?: string;
-  email?: string;
-  phone?: string;
-}
-
-export interface ConfirmShipped {
-  po_no?: string;
-  carrier?: string;
-  tracking_no?: string;
-  shipping_date?: string;
+  po_number: string;
+  clarification_message: string;
+  user_phone: string;
+  user_name: string;
 }
 
 export interface CancelOrders {
-  po_no: string;
-  cancel_reason?: string;
-  supporting_cancel_reason?: string;
+  po_number: string;
+  reason: string;
+  reason_others_message: string;
 }

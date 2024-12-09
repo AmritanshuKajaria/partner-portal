@@ -28,6 +28,7 @@
       [pageIndex]="pageIndex"
       [isLoading]="isLoading"
       [tabName]="'pending-invoice'"
+      (pageIndexChange)="onPageIndexChange($event)"
     ></app-order-table>
   </div>
   <div #mySidenav class="filter-section">

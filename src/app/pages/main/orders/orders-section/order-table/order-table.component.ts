@@ -19,6 +19,7 @@ export class OrderTableComponent implements OnInit {
   @Input() tabName: string = '';
 
   @Output() changeModel = new EventEmitter();
+  @Output() pageIndexChange = new EventEmitter<number>();
 
   statusEnum: typeof StatusEnum = StatusEnum;
   isCancelOrderVisible: boolean = false;
@@ -43,7 +44,9 @@ export class OrderTableComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Please click OK to Acknowledge this PO?',
       nzOnOk: () => {
+        // this.isLoading = true;
         this.ordersService.acknowledgeOrders(po_no).subscribe((res: any) => {
+          // this.isLoading = false;
           console.log(res);
           if (res.success) {
             this.message.success('Order acknowledge successfully!');
@@ -52,7 +55,12 @@ export class OrderTableComponent implements OnInit {
       },
       nzCancelText: 'Close',
       nzOnCancel: () => console.log('Close'),
+      nzOkLoading: this.isLoading,
     });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndexChange.emit(page);
   }
 
   markOrderShipped(po_no: string) {
@@ -64,14 +72,12 @@ export class OrderTableComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Please click OK to Cancel this PO?',
       nzOnOk: () => {
-        this.ordersService
-          .confirmBuyerCancellation(po_no)
-          .subscribe((res: any) => {
-            console.log(res);
-            if (res.success) {
-              this.message.success('Confirm buyer cancellation successfully!');
-            }
-          });
+        this.ordersService.acceptCancellation(po_no).subscribe((res: any) => {
+          console.log(res);
+          if (res.success) {
+            this.message.success('Accept cancellation successfully!');
+          }
+        });
       },
       nzCancelText: 'Close',
       nzOnCancel: () => console.log('Close'),
@@ -82,25 +88,21 @@ export class OrderTableComponent implements OnInit {
     if (type === 'Download PO') {
       this.ordersService.downloadPo(po_no).subscribe((res: any) => {
         if (res.success) {
-          let a = document.createElement('a');
-          a.href = 'https://' + res.po_copy_url;
-          a.click();
-          this.message.success('Download PO successfully!');
+          this.message.success('Download po successfully!');
+          window.open(res.po_copy_url);
         }
       });
     } else if (type === 'Download Label') {
       this.ordersService.downloadLabel(po_no).subscribe((res: any) => {
         if (res.success) {
-          let link = document.createElement('a');
-          link.href = 'https://' + res.label;
-          link.click();
           this.message.success('Download label successfully!');
+          window.open(res.label_url);
         }
       });
     } else if (type === 'PO Clarification') {
       this.poNo = po_no;
       this.poClarification = true;
-    } else if (type === 'Upload invoice') {
+    } else if (type === 'Upload Invoice') {
       this.poNo = po_no;
       this.isUploadModelVisible = true;
     } else {
@@ -109,15 +111,11 @@ export class OrderTableComponent implements OnInit {
     }
   }
 
-  getDownloadInvoice(po_no: string) {
-    this.inventoryService.getDownloadInvoice(po_no).subscribe((res: any) => {
+  getDownloadInvoice() {
+    this.inventoryService.getDownloadInvoice().subscribe((res: any) => {
+      console.log(res);
       if (res.success) {
-        if (res?.invoice_copy_url) {
-          let a = document.createElement('a');
-          a.href = 'https://' + res.invoice_copy_url;
-          a.click();
-          this.message.success('Download invoice successfully!');
-        }
+        this.message.success('Download invoice successfully!');
       }
     });
   }
