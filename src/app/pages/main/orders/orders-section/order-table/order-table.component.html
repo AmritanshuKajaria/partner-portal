@@ -245,7 +245,7 @@
               <button
                 style="border: 1px solid #28a745; color: #28a745"
                 nz-button
-                (click)="isUploadModelVisible = true"
+                (click)="selectAction(data?.po_no, 'Upload Invoice')"
               >
                 Upload Invoice
               </button>
@@ -362,6 +362,9 @@
   (nzOnCancel)="isUploadModelVisible = false"
 >
   <ng-container *nzModalContent>
-    <app-upload (closeModel)="isUploadModelVisible = false"></app-upload>
+    <app-upload
+      [poNo]="poNo"
+      (closeModel)="isUploadModelVisible = false"
+    ></app-upload>
   </ng-container>
 </nz-modal>

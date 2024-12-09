@@ -93,8 +93,8 @@ export interface MarkOrderShipped {
 export interface ClarificationOrders {
   po_number: string;
   clarification_message: string;
-  contact_via: string;
-  user_email: string;
+  user_phone: string;
+  user_name: string;
 }
 
 export interface CancelOrders {

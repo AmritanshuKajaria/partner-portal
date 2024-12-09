@@ -101,9 +101,9 @@ export class OrderTableComponent implements OnInit {
     } else if (type === 'PO Clarification') {
       this.poNo = po_no;
       this.poClarification = true;
-    } else {
+    } else if (type === 'Upload Invoice') {
       this.poNo = po_no;
-      this.isCancelOrderVisible = true;
+      this.isUploadModelVisible = true;
     }
   }
 
