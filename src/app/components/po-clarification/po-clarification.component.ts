@@ -26,7 +26,6 @@ export class PoClarificationComponent implements OnInit {
       detail: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required]),
     });
   }
 
@@ -41,7 +40,7 @@ export class PoClarificationComponent implements OnInit {
 
     this.isLoading = true;
     const data = {
-      po_number: this.poNo,
+      po_no: this.poNo,
       clarification_message: this.poClarificationForm.value.detail,
       user_name: this.poClarificationForm.value.name,
       user_email: this.poClarificationForm.value.email,

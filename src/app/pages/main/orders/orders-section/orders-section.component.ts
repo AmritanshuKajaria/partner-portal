@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
 })
 export class OrdersSectionComponent implements OnInit {
   selectedTab: number = 0;
-  newTotal: number = 0;
-  pendingShipmentTotal: number = 0;
-  cancellationRequestedTotal: number = 0;
-  pendingInvoiceTotal: number = 0;
-  inTransitTotal: number = 0;
-  deliveredTotal: number = 0;
-  allTotal: number = 0;
+  newTotal: number = -1;
+  pendingShipmentTotal: number = -1;
+  cancellationRequestedTotal: number = -1;
+  pendingInvoiceTotal: number = -1;
+  inTransitTotal: number = -1;
+  deliveredTotal: number = -1;
+  allTotal: number = -1;
 
   constructor(private router: Router) {
     const navigation = this.router.getCurrentNavigation();
