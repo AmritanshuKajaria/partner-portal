@@ -111,9 +111,8 @@ export class OrderTableComponent implements OnInit {
     }
   }
 
-  getDownloadInvoice() {
-    this.inventoryService.getDownloadInvoice().subscribe((res: any) => {
-      console.log(res);
+  getDownloadInvoice(po_no: any) {
+    this.inventoryService.getDownloadInvoice(po_no).subscribe((res: any) => {
       if (res.success) {
         this.message.success('Download invoice successfully!');
       }
