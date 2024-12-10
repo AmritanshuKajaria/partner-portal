@@ -124,6 +124,6 @@ export class NewCalculatorService {
     has_map: number,
     map_price: number
   ) {
-    return has_map === 1 && retail_price > map_price;
+    return has_map === 1 ? retail_price > map_price : true;
   }
 }
