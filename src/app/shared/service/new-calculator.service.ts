@@ -16,88 +16,9 @@ export class NewCalculatorService {
     if (data?.search_term) {
       params = params.append('search_term', data?.search_term);
     }
-    // return this.httpClient.get(this.url + '/pricings', {
-    //   params: params,
-    // });
-    return of({
-      success: true,
-      processed_at: '2024-12-09T13:35:05.000Z',
-      pagination: {
-        total_rows: '498',
-        current_page: 1,
-        total_pages: 5,
-      },
-      searched: false,
-      applied_search_term: '',
-      products: [
-        {
-          sku: '123-RAZ-10068001',
-          mpn: '10068001',
-          name: 'GoGo Pogo ISTA -BLK',
-          asin: 'B073XPXY8X',
-          upc: '845423019884',
-          unit_price: 38.32,
-          allowance: 0,
-          shipping_cost: 14,
-          amazon_fees_percentage: 0.15,
-          slab_amt: 0,
-          pre_slab_percentage: 15,
-          post_slab_percentage: 15,
-          order_processing_fees_percentage: 0.07,
-          return_cost_percentage: 0,
-          market_place_fees: 9.23,
-          map_price: 0,
-          retail_price: 65.86,
-          boxes: 1,
-          size_tier: '2 - Medium',
-        },
-
-        {
-          sku: '456-TAC-2020',
-          mpn: '2020',
-          name: 'Tachikara Rubber Volleyball',
-          asin: 'B003WXDP5L',
-          upc: '793917777844',
-          unit_price: 12.95,
-          allowance: 0.0,
-          slab_amt: 150,
-          pre_slab_percentage: 0.12,
-          post_slab_percentage: 0.08,
-          order_processing_fees_percentage: 0.05,
-          return_cost_percentage: 0,
-          shipping_cost: 10.0,
-          market_place_fees: 5.01,
-          has_map: 1,
-          map_price: 25.0,
-          retail_price: 25.0,
-          boxes: 1,
-          size_tier: '1 - Medium',
-          adjustment: 10,
-        },
-        {
-          sku: '789-TAC-3030',
-          mpn: '3030',
-          name: 'Tachikara Leather Basketball',
-          asin: 'B003WXDP6M',
-          upc: '793917777845',
-          unit_price: 18.95,
-          allowance: 0.0,
-          slab_amt: 100,
-          pre_slab_percentage: 0.1,
-          post_slab_percentage: 0.07,
-          order_processing_fees_percentage: 0.06,
-          return_cost_percentage: 0,
-          shipping_cost: 12.0,
-          market_place_fees: 6.01,
-          has_map: 1,
-          map_price: 30.0,
-          retail_price: 30.0,
-          boxes: 1,
-          size_tier: '2 - Large',
-          adjustment: 15,
-        },
-      ],
-    }).pipe(delay(500));
+    return this.httpClient.get(this.url + '/pricings', {
+      params: params,
+    });
   }
 
   exportMultiProductCalculator() {
