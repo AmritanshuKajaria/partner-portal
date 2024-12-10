@@ -20,6 +20,7 @@
         <th id="customer-name">Customer Name</th>
         <th id="product">Products</th>
         <th id="po-total">PO Total</th>
+        <th id="po_status" *ngIf="tabName === 'All'">PO Status</th>
 
         <th
           id="committed_ship_date"
@@ -55,7 +56,6 @@
         <th id="cancelled_date" *ngIf="tabName === 'All'">Cancelled Date</th>
         <th id="carrier">Carrier</th>
         <th id="invoice_no" *ngIf="tabName === 'All'">Invoice no</th>
-        <th id="po_status" *ngIf="tabName === 'All'">PO Status</th>
         <th
           id="Remark"
           *ngIf="
@@ -115,6 +115,9 @@
           </ul>
         </td>
         <td>{{ data.po_total | currency }}</td>
+        <td *ngIf="tabName === 'All'">
+          {{ data?.status }}
+        </td>
         <td
           *ngIf="
             tabName === 'new' ||
@@ -177,9 +180,6 @@
           <a class="link" (click)="getDownloadInvoice(data?.po_no)">
             {{ data?.invoice_no }}
           </a>
-        </td>
-        <td *ngIf="tabName === 'All'">
-          {{ data?.status }}
         </td>
         <td
           *ngIf="
