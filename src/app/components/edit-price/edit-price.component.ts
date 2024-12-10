@@ -91,36 +91,34 @@ export class EditPriceComponent implements OnInit {
     if (this.editPriceForm.valid) {
       this.isLoading = true;
       let data: any = {
-        product: {
-          sku: this.editData.sku,
-        },
+        sku: this.editData.sku,
       };
 
       switch (this.section) {
         case 'Retail Price':
-          data.product['retail_price'] = this.editPriceForm.value.new;
+          data['retail_price'] = this.editPriceForm.value.new;
           this.productService.editProductRetailPrice(data).subscribe(
             (res: any) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
+                this.handleCancel();
               }
               this.isLoading = false;
-              this.handleCancel();
             },
             (err) => (this.isLoading = false)
           );
           break;
         case 'Unit Price':
-          data.product['mpn'] = this.editData.mpn;
-          data.product['unit_price'] = this.editPriceForm.value.new;
+          data['mpn'] = this.editData.mpn;
+          data['unit_price'] = this.editPriceForm.value.new;
 
           this.productService.editProduct(data).subscribe(
             (res: any) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
+                this.handleCancel();
               }
               this.isLoading = false;
-              this.handleCancel();
             },
             (err) => (this.isLoading = false)
           );

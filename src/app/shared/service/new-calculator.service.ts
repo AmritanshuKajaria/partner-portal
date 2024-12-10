@@ -21,36 +21,35 @@ export class NewCalculatorService {
     // });
     return of({
       success: true,
-      processed_at: '2024-12-02T09:48:17.000Z',
+      processed_at: '2024-12-09T13:35:05.000Z',
       pagination: {
-        total_rows: '303',
+        total_rows: '498',
         current_page: 1,
+        total_pages: 5,
       },
-      total_pages: 4,
       searched: false,
       applied_search_term: '',
       products: [
         {
-          sku: '123-TAC-1015',
-          mpn: '1015',
-          name: 'Tachikara Aluminum Valve Tool',
-          asin: 'B003WXDP4K',
-          upc: '793917777843',
-          unit_price: 57.5,
-          allowance: 0.0,
-          slab_amt: 50.0,
-          pre_slab_percentage: 0.1,
-          post_slab_percentage: 0.15,
-          order_processing_fees_percentage: 0.2,
+          sku: '123-RAZ-10068001',
+          mpn: '10068001',
+          name: 'GoGo Pogo ISTA -BLK',
+          asin: 'B073XPXY8X',
+          upc: '845423019884',
+          unit_price: 38.32,
+          allowance: 0,
+          shipping_cost: 14,
+          amazon_fees_percentage: 0.15,
+          slab_amt: 0,
+          pre_slab_percentage: 15,
+          post_slab_percentage: 15,
+          order_processing_fees_percentage: 0.07,
           return_cost_percentage: 0,
-          shipping_cost: 10.0,
-          market_place_fees: 4.01,
-          has_map: 1,
-          map_price: 22.0,
-          retail_price: 100.0,
+          market_place_fees: 9.23,
+          map_price: 0,
+          retail_price: 65.86,
           boxes: 1,
-          size_tier: '0 - Lite',
-          adjustment: 5,
+          size_tier: '2 - Medium',
         },
 
         {
@@ -187,9 +186,6 @@ export class NewCalculatorService {
     retail_price: number,
     order_processing_fees_percentage: number
   ) => {
-    console.log(
-      parseFloat((retail_price * order_processing_fees_percentage).toFixed(2))
-    );
     return parseFloat(
       (retail_price * order_processing_fees_percentage).toFixed(2)
     );
