@@ -27,6 +27,7 @@ export class EditPriceComponent implements OnInit {
   @Input() section: string = '';
   @Input() extraData: any;
   @Output() close = new EventEmitter();
+  @Output() dataSavedSuccessful = new EventEmitter<any>();
   @Input() customValidator!: ValidatorFn;
   editPriceForm!: FormGroup;
   isLoading: boolean = false;
@@ -102,6 +103,7 @@ export class EditPriceComponent implements OnInit {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
+                this.dataSavedSuccessful.emit(true);
               }
               this.isLoading = false;
             },
@@ -117,6 +119,7 @@ export class EditPriceComponent implements OnInit {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
+                this.dataSavedSuccessful.emit(true);
               }
               this.isLoading = false;
             },
