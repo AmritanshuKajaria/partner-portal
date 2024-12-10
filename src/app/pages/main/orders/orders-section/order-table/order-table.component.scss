@@ -35,7 +35,6 @@
                 margin-top: -10px;
             }
         }
-
     }
 
     .date {
@@ -53,6 +52,10 @@
         }
     }
 
+    // for table scrollbar
+    ::ng-deep .nz-table-hide-scrollbar {
+        scrollbar-color: auto !important;
+    }
 }
 
 .tracking-id {
