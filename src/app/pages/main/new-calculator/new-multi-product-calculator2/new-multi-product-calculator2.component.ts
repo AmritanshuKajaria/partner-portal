@@ -101,10 +101,7 @@ export class NewMultiProductCalculatorComponent2 {
       +this.multiData[index].post_slab_percentage,
       +this.multiProductList[index].unit_price
     );
-
-    // Update unit price
-    this.multiProductList[index].unit_price = changeData.unit_price;
-
+    
     // Update retail price
     this.multiProductList[index].retail_price = changeData.retail_price;
 

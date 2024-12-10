@@ -83,7 +83,7 @@
             <div class="exported-item-content">
               <div>
                 {{
-                  "$" + data.adjustment
+                  "$" + (data.adjustment ?? '0')
                 }}
               </div>
             </div>
@@ -103,8 +103,8 @@
                   data?.market_place_fees
                     ? " (" +
                       ((data.pre_slab_percentage > data.post_slab_percentage
-                        ? data?.pre_slab_percentage
-                        : data?.post_slab_percentage
+                        ? data.pre_slab_percentage * 100
+                        : data.post_slab_percentage * 100
                       ) | number : "1.0-2") +
                       "%" +
                       ")"

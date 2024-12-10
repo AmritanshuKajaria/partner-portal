@@ -32,4 +32,5 @@ export interface NewCalculatorMultiData {
   boxes: number;
   size_tier: string;
   adjustment?: number;
+  amazon_fees_percentage?: number;
 }
