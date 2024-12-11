@@ -21,29 +21,7 @@ export class NewMultiProductCalculatorComponent2 {
   pageSizeOptions = [100];
   multiProductList: NewCalculatorMultiData[] = [];
 
-  multiData: NewCalculatorMultiData[] = [
-    {
-      sku: '123-RAZ-10068001',
-      mpn: '10068001',
-      name: 'GoGo Pogo ISTA -BLK',
-      asin: 'B073XPXY8X',
-      upc: '845423019884',
-      unit_price: 38.32,
-      allowance: 0,
-      shipping_cost: 14,
-      amazon_fees_percentage: 0.15,
-      slab_amt: 0,
-      pre_slab_percentage: 15,
-      post_slab_percentage: 15,
-      order_processing_fees_percentage: 0.07,
-      return_cost_percentage: 0,
-      market_place_fees: 9.23,
-      map_price: 0,
-      retail_price: 65.86,
-      boxes: 1,
-      size_tier: '2 - Medium',
-    },
-  ];
+  multiData: NewCalculatorMultiData[] = [];
   isExportVisible = false;
   retailPricingSearch = new Subject<any>();
   searchVal = '';
