@@ -140,7 +140,7 @@ export class NewMultiProductCalculatorComponent {
     if (
       this.newCalculatorService.canRetailPriceBeUpdated(
         this.multiProductList[index].retail_price,
-        this.multiProductList[index].has_map,
+        this.multiProductList[index].has_map ?? 0,
         this.multiProductList[index].map_price
       )
     ) {
@@ -162,6 +162,27 @@ export class NewMultiProductCalculatorComponent {
       }, 750);
 
       // Ensure saveDisabled is true if the condition is not met
+      this.saveDisabled[index] = true;
+    }
+
+    if (this.multiProductList[index].unit_price < 0) {
+      if (this.retailPriceErrorTimer) {
+        clearTimeout(this.retailPriceErrorTimer);
+      }
+      this.retailPriceErrorTimer = setTimeout(() => {
+        this.message.create('error', 'Unit Price cannot be less than 0');
+      }, 750);
+      this.saveDisabled[index] = true;
+    }
+
+    if (this.multiProductList[index].retail_price < 0) {
+      if (this.retailPriceErrorTimer) {
+        clearTimeout(this.retailPriceErrorTimer);
+      }
+      this.retailPriceErrorTimer = setTimeout(() => {
+        this.message.create('error', 'Retail Price cannot be less than 0');
+      }, 750);
+
       this.saveDisabled[index] = true;
     }
   }
@@ -188,7 +209,7 @@ export class NewMultiProductCalculatorComponent {
     };
     this.extraData = {
       retail_price: this.multiData[index].retail_price,
-      has_map: this.multiData[index].has_map,
+      has_map: this.multiData[index].has_map ?? 0,
       map_price: this.multiData[index].map_price,
       shipping_cost: this.multiData[index].shipping_cost,
       order_processing_fees_percentage:
@@ -225,7 +246,7 @@ export class NewMultiProductCalculatorComponent {
     if (
       this.newCalculatorService.canRetailPriceBeUpdated(
         this.multiProductList[index].retail_price,
-        this.multiProductList[index].has_map,
+        this.multiProductList[index].has_map ?? 0,
         this.multiProductList[index].map_price
       )
     ) {

@@ -20,6 +20,7 @@ export class EditPriceComponent implements OnInit {
   editData!: {
     mpn: string;
     current: number;
+    new: number;
     extraData?: any;
     sku?: string;
   };
@@ -27,6 +28,7 @@ export class EditPriceComponent implements OnInit {
   @Input() section: string = '';
   @Input() extraData: any;
   @Output() close = new EventEmitter();
+  @Output() dataSavedSuccessful = new EventEmitter<any>();
   @Input() customValidator!: ValidatorFn;
   editPriceForm!: FormGroup;
   isLoading: boolean = false;
@@ -39,7 +41,7 @@ export class EditPriceComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.editPriceForm = new FormGroup({
-      new: new FormControl('', [Validators.required]),
+      new: new FormControl(this.editData?.new || '', [Validators.required]),
     });
 
     this.editPriceForm.get('new')?.valueChanges.subscribe((value) => {
@@ -96,12 +98,13 @@ export class EditPriceComponent implements OnInit {
 
       switch (this.section) {
         case 'Retail Price':
-          data['retail_price'] = this.editPriceForm.value.new;
+          data['retail_price'] = +this.editPriceForm.value.new;
           this.productService.editProductRetailPrice(data).subscribe(
             (res: any) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
+                this.dataSavedSuccessful.emit(true);
               }
               this.isLoading = false;
             },
@@ -110,13 +113,14 @@ export class EditPriceComponent implements OnInit {
           break;
         case 'Unit Price':
           data['mpn'] = this.editData.mpn;
-          data['unit_price'] = this.editPriceForm.value.new;
+          data['unit_price'] = +this.editPriceForm.value.new;
 
           this.productService.editProduct(data).subscribe(
             (res: any) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
+                this.dataSavedSuccessful.emit(true);
               }
               this.isLoading = false;
             },
