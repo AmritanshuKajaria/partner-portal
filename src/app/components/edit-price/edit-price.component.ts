@@ -20,6 +20,7 @@ export class EditPriceComponent implements OnInit {
   editData!: {
     mpn: string;
     current: number;
+    new: number;
     extraData?: any;
     sku?: string;
   };
@@ -40,7 +41,7 @@ export class EditPriceComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.editPriceForm = new FormGroup({
-      new: new FormControl('', [Validators.required]),
+      new: new FormControl(this.editData?.new || '', [Validators.required]),
     });
 
     this.editPriceForm.get('new')?.valueChanges.subscribe((value) => {

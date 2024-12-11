@@ -21,7 +21,29 @@ export class NewMultiProductCalculatorComponent2 {
   pageSizeOptions = [100];
   multiProductList: NewCalculatorMultiData[] = [];
 
-  multiData: NewCalculatorMultiData[] = [];
+  multiData: NewCalculatorMultiData[] = [
+    {
+      sku: '123-RAZ-10068001',
+      mpn: '10068001',
+      name: 'GoGo Pogo ISTA -BLK',
+      asin: 'B073XPXY8X',
+      upc: '845423019884',
+      unit_price: 38.32,
+      allowance: 0,
+      shipping_cost: 14,
+      amazon_fees_percentage: 0.15,
+      slab_amt: 0,
+      pre_slab_percentage: 15,
+      post_slab_percentage: 15,
+      order_processing_fees_percentage: 0.07,
+      return_cost_percentage: 0,
+      market_place_fees: 9.23,
+      map_price: 0,
+      retail_price: 65.86,
+      boxes: 1,
+      size_tier: '2 - Medium',
+    },
+  ];
   isExportVisible = false;
   retailPricingSearch = new Subject<any>();
   searchVal = '';
@@ -101,7 +123,7 @@ export class NewMultiProductCalculatorComponent2 {
       +this.multiData[index].post_slab_percentage,
       +this.multiProductList[index].unit_price
     );
-    
+
     // Update retail price
     this.multiProductList[index].retail_price = changeData.retail_price;
 
@@ -129,7 +151,7 @@ export class NewMultiProductCalculatorComponent2 {
     if (
       this.newCalculatorService.canRetailPriceBeUpdated(
         this.multiProductList[index].retail_price,
-        this.multiProductList[index].has_map,
+        this.multiProductList[index].has_map ?? 0,
         this.multiProductList[index].map_price
       )
     ) {
@@ -151,6 +173,27 @@ export class NewMultiProductCalculatorComponent2 {
       }, 750);
 
       // Ensure saveDisabled is true if the condition is not met
+      this.saveDisabled[index] = true;
+    }
+
+    if (this.multiProductList[index].unit_price < 0) {
+      if (this.unitPriceErrorTimer) {
+        clearTimeout(this.unitPriceErrorTimer);
+      }
+      this.unitPriceErrorTimer = setTimeout(() => {
+        this.message.create('error', 'Unit Price cannot be less than 0');
+      }, 750);
+      this.saveDisabled[index] = true;
+    }
+
+    if (this.multiProductList[index].retail_price < 0) {
+      if (this.unitPriceErrorTimer) {
+        clearTimeout(this.unitPriceErrorTimer);
+      }
+      this.unitPriceErrorTimer = setTimeout(() => {
+        this.message.create('error', 'Retail Price cannot be less than 0');
+      }, 750);
+
       this.saveDisabled[index] = true;
     }
   }
@@ -177,7 +220,7 @@ export class NewMultiProductCalculatorComponent2 {
     };
     this.extraData = {
       retail_price: this.multiData[index].retail_price,
-      has_map: this.multiData[index].has_map,
+      has_map: this.multiData[index].has_map ?? 0,
       map_price: this.multiData[index].map_price,
       shipping_cost: this.multiData[index].shipping_cost,
       order_processing_fees_percentage:
@@ -217,7 +260,7 @@ export class NewMultiProductCalculatorComponent2 {
     if (
       this.newCalculatorService.canRetailPriceBeUpdated(
         this.multiProductList[index].retail_price,
-        this.multiProductList[index].has_map,
+        this.multiProductList[index].has_map ?? 0,
         this.multiProductList[index].map_price
       )
     ) {

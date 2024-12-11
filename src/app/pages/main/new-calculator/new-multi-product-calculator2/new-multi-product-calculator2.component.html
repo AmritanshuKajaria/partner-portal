@@ -73,6 +73,7 @@
                     nz-input
                     type="number"
                     placeholder="Retail"
+                    oninput="this.value = Math.abs(this.value)"
                   />
                 </nz-input-group>
               </nz-form-control>
@@ -82,9 +83,7 @@
           <td>
             <div class="exported-item-content">
               <div>
-                {{
-                  "$" + (data.adjustment ?? '0')
-                }}
+                {{ "$" + (data.adjustment ?? "0") }}
               </div>
             </div>
           </td>
@@ -93,9 +92,7 @@
             <div class="exported-item-content">
               <div>
                 {{
-                  data?.market_place_fees
-                    ? "$" + data.market_place_fees
-                    : ""
+                  data?.market_place_fees ? "$" + data.market_place_fees : ""
                 }}
               </div>
               <div>
