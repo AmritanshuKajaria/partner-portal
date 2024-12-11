@@ -73,9 +73,16 @@
         </nz-input-group>
       </nz-form-control> -->
     </nz-form-item>
+
     <app-new-multi-product-calculator
+      *ngIf="showConfig === '1'"
       [showCalculator]="showCalculator"
     ></app-new-multi-product-calculator>
+
+    <app-new-multi-product-calculator2
+      *ngIf="showConfig === '2'"
+      [showCalculator]="showCalculator"
+    ></app-new-multi-product-calculator2>
     <!-- <nz-tabset nzType="card">
       <nz-tab nzTitle="Single Product Calculate">
         <app-new-single-product-calculator></app-new-single-product-calculator>

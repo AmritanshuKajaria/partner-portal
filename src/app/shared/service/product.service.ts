@@ -79,6 +79,13 @@ export class ProductService {
     return this.httpClient.post(this.url + '/update-product', data);
   }
 
+  editProductRetailPrice(data: any) {
+    return this.httpClient.post(
+      this.url + '/update-product-retail-price',
+      data
+    );
+  }
+
   // Add Edit multiple Product
 
   exportProducts(action: Filters) {

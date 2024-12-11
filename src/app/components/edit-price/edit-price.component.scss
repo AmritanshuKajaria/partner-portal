@@ -1,0 +1,72 @@
+@import "../../../assets/variable/variable.scss";
+
+.body-section {
+  form {
+    padding: 15px !important;
+    width: 100%;
+    padding: 0 2px;
+
+    nz-form-label {
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      padding-bottom: 2px;
+    }
+
+    nz-select {
+      width: 100%;
+    }
+
+    ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
+    .ant-picker {
+      border-radius: 5px !important;
+      height: 35px !important;
+      font-size: 16px;
+    }
+
+    ::ng-deep .ant-input-prefix {
+      font-size: 18px;
+      margin-left: -11px;
+      margin-right: 0px;
+      padding: 0 10px;
+      // background: $darkBlue;
+      color: black;
+    }
+
+    ::ng-deep .ant-card-head-title {
+      font-weight: bold;
+      font-size: 15px;
+    }
+
+
+    ::ng-deep .ant-input {
+      border-radius: 5px !important;
+    }
+
+    ::ng-deep .ant-form-item {
+      margin-bottom: 10px;
+    }
+
+    ::ng-deep .ant-input-affix-wrapper {
+      padding: 0px 11px !important;
+    }
+
+    nz-input-group {
+      border-radius: 5px;
+
+      input {
+        height: 35px;
+        font-size: 16px;
+      }
+    }
+
+    button {
+      height: 35px !important;
+    }
+
+    .button-disabled {
+      background: $darkBlue;
+      opacity: 0.8;
+      color: $white;
+    }
+  }
+}
