@@ -15,8 +15,8 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
   destroy$: Subject<any> = new Subject();
 
   PlanLabels = PlanLabels;
-
   currentPlan = '';
+  showConfig: '1' | '2' = '1';
 
   constructor(private userPermissionService: UserPermissionService) {
     this.userPermissionService.userPermission
@@ -25,9 +25,10 @@ export class NewCalculatorComponent implements OnInit, OnDestroy {
         if (res) {
           this.isDataLoaded = true;
           this.currentPlan = res?.current_plan;
-          if (res.current_plan !== this.PlanLabels['tier1'].value) {
+          if (res.current_plan !== 'basic') {
             this.showCalculator = true;
           }
+          this.showConfig = res?.pricing_tab === 1 ? '1' : '2';
         }
       });
   }
