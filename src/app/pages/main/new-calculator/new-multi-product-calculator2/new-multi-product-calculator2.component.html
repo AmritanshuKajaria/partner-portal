@@ -50,6 +50,14 @@
     >
       <thead>
         <tr>
+          <th>
+            <u>MPN</u>
+            <div style="font-size: 12px">Product Name</div>
+          </th>
+          <th>
+            <u>ASIN</u>
+            <div style="font-size: 12px">UPC</div>
+          </th>
           <th>Retail Price</th>
           <th>Adjustment</th>
           <th>Amazon Commission</th>
@@ -61,6 +69,24 @@
       </thead>
       <tbody>
         <tr *ngFor="let data of nzTable.data; let no = index">
+          <!-- mpn -->
+          <td>
+            <div nz-col style="min-width: 200px">
+              <a
+                class="link"
+                [routerLink]="'/main/products/details/' + data?.sku"
+                >{{ data?.mpn }}</a
+              >
+              <div style="padding-top: 8px">{{ data?.name }}</div>
+            </div>
+          </td>
+          <!-- asin -->
+          <td>
+            <div nz-col>
+              <app-asin [asin]="data.asin"></app-asin>
+              <div style="padding-top: 8px">{{ data?.upc }}</div>
+            </div>
+          </td>
           <!-- Retail Price  -->
           <td style="width: 150px">
             <nz-form-item style="margin-bottom: 0; width: 150px">
