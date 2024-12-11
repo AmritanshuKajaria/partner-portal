@@ -48,11 +48,11 @@
               <nz-input-group nzPrefix="$">
                 <input
                   formControlName="new"
-                  type="number"
+                  type="textbox"
                   nz-input
                   placeholder="Enter new"
                   required="true"
-                  oninput="this.value = Math.abs(this.value)"
+                  appTwoDigitDecimaNumber
                 />
               </nz-input-group>
             </nz-form-control>

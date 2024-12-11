@@ -98,7 +98,7 @@ export class EditPriceComponent implements OnInit {
 
       switch (this.section) {
         case 'Retail Price':
-          data['retail_price'] = this.editPriceForm.value.new;
+          data['retail_price'] = +this.editPriceForm.value.new;
           this.productService.editProductRetailPrice(data).subscribe(
             (res: any) => {
               if (res.success) {
@@ -113,7 +113,7 @@ export class EditPriceComponent implements OnInit {
           break;
         case 'Unit Price':
           data['mpn'] = this.editData.mpn;
-          data['unit_price'] = this.editPriceForm.value.new;
+          data['unit_price'] = +this.editPriceForm.value.new;
 
           this.productService.editProduct(data).subscribe(
             (res: any) => {
