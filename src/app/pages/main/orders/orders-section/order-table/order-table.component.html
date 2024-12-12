@@ -10,15 +10,6 @@
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
     [nzData]="listOfData"
-    [nzScroll]="{
-      x:
-        tabName === 'All'
-          ? '1600px'
-          : tabName === 'pending-shipment'
-          ? '1400px'
-          : '1200px',
-      y: 'calc(100vh - 416px)'
-    }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
@@ -62,7 +53,7 @@
           Ship Date
         </th>
         <th id="cancelled_date" *ngIf="tabName === 'All'">Cancelled Date</th>
-        <th id="carrier">Carrier</th>
+        <th id="carrier" [nzWidth]="'160px'">Carrier</th>
         <th id="invoice_no" *ngIf="tabName === 'All'">Invoice no</th>
         <th
           id="Remark"
