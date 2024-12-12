@@ -21,7 +21,7 @@ export class PendingShipmentComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Output() totalData = new EventEmitter();
 
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
   isLoading: boolean = false;
