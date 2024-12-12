@@ -10,7 +10,15 @@
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
     [nzData]="listOfData"
-    [nzScroll]="{ x: '100%' }"
+    [nzScroll]="{
+      x:
+        tabName === 'All'
+          ? '1600px'
+          : tabName === 'pending-shipment'
+          ? '1400px'
+          : '1200px',
+      y: 'calc(100vh - 416px)'
+    }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
@@ -68,7 +76,7 @@
         <th
           id="action"
           class="action-column"
-          [ngStyle]="{ width: tabName === 'All' ? '50px' : '190px' }"
+          [nzWidth]="tabName === 'All' ? '78px' : '227px'"
           nzRight
         >
           <div>Action</div>
