@@ -7,6 +7,12 @@ import { DashboardService } from 'src/app/shared/service/dashboard.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 import { PlanLabels } from 'src/app/shared/constants/constants';
 
+declare global {
+  interface Window {
+    zESettings: any;
+  }
+}
+
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
@@ -37,6 +43,26 @@ export class MainLayoutComponent implements OnInit {
 
     this.getPartnerDetails();
     this.dashboardService.getAllIssues();
+
+    if (this.authService.getAccessToken()) {
+      const script = document.createElement('script');
+      script.id = 'ze-snippet';
+      script.src =
+        'https://static.zdassets.com/ekr/snippet.js?key=f9809c66-1993-4f45-907c-3cf05b0dde73';
+      // script.onload = () => {
+      //   window.zESettings = {
+      //     webWidget: {
+      //       messaging: {
+      //         prefill: {
+      //           name: 'test',
+      //           email: 'test@gmail.com',
+      //         },
+      //       },
+      //     },
+      //   };
+      // };
+      document.body.appendChild(script);
+    }
   }
 
   help() {
