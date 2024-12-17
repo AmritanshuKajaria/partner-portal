@@ -1,4 +1,4 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import "../../../../../../assets/variable/variable.scss";
 
 .order-table {
     ::ng-deep .ant-table table {
@@ -57,11 +57,6 @@
         div {
             padding: 16px;
         }
-    }
-
-    // for table scrollbar
-    ::ng-deep .nz-table-hide-scrollbar {
-        scrollbar-color: auto !important;
     }
 }
 
