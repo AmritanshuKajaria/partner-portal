@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
+import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
   selector: 'app-filter-section',
@@ -24,12 +25,20 @@ export class FilterSectionComponent implements OnInit {
   accountSearch = new Subject<any>();
   appDateFormate = AppDateFormate;
 
-  constructor() {
+  listOfShipOutLocation: [] = [];
+
+  constructor(private userPermissionService: UserPermissionService) {
     this.accountSearch
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
         this.changeValue(value.target.value ? value.target.value : '', 'mpn');
       });
+
+    this.userPermissionService.userPermission.subscribe((permission: any) => {
+      if (permission?.ship_out_location) {
+        this.listOfShipOutLocation = permission?.ship_out_location;
+      }
+    });
   }
   ngOnInit(): void {}
 

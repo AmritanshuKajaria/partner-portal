@@ -88,6 +88,11 @@
                     }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Payment Terms"
+                    ><b>{{ poDetailData?.order_summary?.payment_terms }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
               </div>
             </div>
           </div>
@@ -115,7 +120,7 @@
                     >
                   </nz-descriptions-item>
                 </nz-descriptions>
-                <nz-descriptions>
+                <nz-descriptions *ngIf="showDownloadLabel">
                   <nz-descriptions-item nzTitle="Download Shipping Labels"
                     ><a
                       class="link"
@@ -256,8 +261,8 @@
                   <div *ngFor="let box of unit">
                     <div>Unit#: {{ unitIndex + 1 }} - Box#{{ box.box_no }}</div>
                     <div>
-                      Shipping Dims: {{ box.height }}" x {{ box.length }}" x
-                      {{ box.width }}" x {{ box.weight }}" lbs
+                      Shipping Dims: {{ box.length }}" x {{ box.width }}" x
+                      {{ box.height }}" x {{ box.weight }} lbs
                     </div>
                     <div *ngIf="box.tracking_no">
                       Tracking No: {{box.tracking_no}}
@@ -325,7 +330,8 @@
               <td colspan="2" style="text-align: end">Defective Allowance</td>
               <td style="text-align: center">
                 {{
-                  +poDetailData?.order_item[0]?.allowances?.daOnInvoice | currency
+                  +poDetailData?.order_item[0]?.allowances?.daOnInvoice
+                    | currency
                 }}
               </td>
             </tr>

@@ -55,7 +55,8 @@
         </th>
         <th id="cancelled_date" *ngIf="tabName === 'All'">Cancelled Date</th>
         <th id="carrier">Carrier</th>
-        <th id="invoice_no" *ngIf="tabName === 'All'">Invoice no</th>
+        <th id="invoice_no" *ngIf="tabName === 'All'">Invoice No.</th>
+        <th id="po_status" *ngIf="tabName === 'All'">PO Status</th>
         <th
           id="Remark"
           *ngIf="
@@ -292,6 +293,7 @@
                   Download PO
                 </li>
                 <li
+                  *ngIf="showDownloadLabel"
                   (click)="selectAction(data?.po_no, 'Download Label')"
                   nz-menu-item
                 >
