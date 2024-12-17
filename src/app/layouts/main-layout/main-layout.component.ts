@@ -7,11 +7,7 @@ import { DashboardService } from 'src/app/shared/service/dashboard.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 import { PlanLabels } from 'src/app/shared/constants/constants';
 
-declare global {
-  interface Window {
-    zESettings: any;
-  }
-}
+declare var zE: any;
 
 @Component({
   selector: 'app-main-layout',
@@ -49,18 +45,11 @@ export class MainLayoutComponent implements OnInit {
       script.id = 'ze-snippet';
       script.src =
         'https://static.zdassets.com/ekr/snippet.js?key=f9809c66-1993-4f45-907c-3cf05b0dde73';
-      // script.onload = () => {
-      //   window.zESettings = {
-      //     webWidget: {
-      //       messaging: {
-      //         prefill: {
-      //           name: 'test',
-      //           email: 'test@gmail.com',
-      //         },
-      //       },
-      //     },
-      //   };
-      // };
+      script.onload = () => {
+        zE('messenger', 'loginUser', function (callback: any) {
+          callback('token');
+        });
+      };
       document.body.appendChild(script);
     }
   }
