@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class NewCalculatorService {
-  url = environment.apiUrl;
+  url = 'https://api.123stores.com:8080';
 
   constructor(private httpClient: HttpClient) {}
 
