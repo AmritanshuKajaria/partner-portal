@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { InventoryService } from 'src/app/shared/service/inventory.service';
+import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
   selector: 'app-upload',
@@ -20,7 +20,7 @@ export class UploadComponent implements OnInit {
   maxUploadFileSize = 10;
 
   constructor(
-    private inventoryService: InventoryService,
+    private ordersService: OrdersService,
     private message: NzMessageService
   ) {}
 
@@ -50,11 +50,11 @@ export class UploadComponent implements OnInit {
       let formData = new FormData();
       formData.append('po_no', this.poNo);
       formData.append('uploaded_file', this.selectFile);
-      this.inventoryService.inventoryFeedUpload(formData).subscribe({
+      this.ordersService.uploadInvoice(formData).subscribe({
         next: (res: any) => {
           console.log(res);
           if (res.success) {
-            this.message.create('success', 'Inventory upload successfully!');
+            this.message.create('success', 'Invoice upload successfully!');
           }
           this.handleCancel(res?.feed_code);
           this.isLoading = false;
