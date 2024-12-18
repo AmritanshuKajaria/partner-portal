@@ -36,7 +36,6 @@ export class OrderTableComponent implements OnInit {
 
   constructor(
     private ordersService: OrdersService,
-    private inventoryService: InventoryService,
     private message: NzMessageService,
     private modal: NzModalService,
     private userPermissionService: UserPermissionService
@@ -120,10 +119,11 @@ export class OrderTableComponent implements OnInit {
     }
   }
 
-  getDownloadInvoice(po_no: any) {
-    this.inventoryService.getDownloadInvoice(po_no).subscribe((res: any) => {
+  getDownloadInvoice(po_no: string) {
+    this.ordersService.downloadInvoice(po_no).subscribe((res: any) => {
       if (res.success) {
         this.message.success('Download invoice successfully!');
+        window.open(res?.invoice_url);
       }
     });
   }

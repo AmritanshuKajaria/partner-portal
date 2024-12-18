@@ -99,10 +99,9 @@ export class PendingInvoiceComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          if (response.success) {
-            this.total = response?.pagination?.total_rows ?? 0;
-            this.pendingInvoiceData = response.orders ?? [];
-          }
+          this.total = response?.pagination?.total_rows ?? 0;
+          this.pendingInvoiceData = response?.orders ?? [];
+
           this.totalData.emit(+this.total);
           this.isLoading = false;
         },
