@@ -38,9 +38,7 @@ export class CancellationRequestedComponent implements OnInit {
 
   selectRangeDate: string = '';
   search_term: string = '';
-  selectMPN: string = '';
   selectLocation: string = '';
-  selectCarrier: string = '';
   remarkStatus: string = '';
 
   isExportVisible: boolean = false;
@@ -49,9 +47,7 @@ export class CancellationRequestedComponent implements OnInit {
   constructor(private ordersService: OrdersService) {
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -63,9 +59,7 @@ export class CancellationRequestedComponent implements OnInit {
 
   getOrderList(
     page: number,
-    filter_mpn?: string,
     filter_ship_out_location?: string,
-    filter_carrier?: string,
     filter_from_po_date?: string,
     filter_to_po_date?: string,
     filter_status_remark?: string,
@@ -76,9 +70,7 @@ export class CancellationRequestedComponent implements OnInit {
       .getAllOrder({
         page: page,
         order_type: '3',
-        filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
-        filter_carrier: filter_carrier,
         filter_from_po_date: filter_from_po_date,
         filter_to_po_date: filter_to_po_date,
         filter_status_remark: filter_status_remark,
@@ -101,9 +93,7 @@ export class CancellationRequestedComponent implements OnInit {
     this.pageIndex = page;
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -115,9 +105,7 @@ export class CancellationRequestedComponent implements OnInit {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -145,22 +133,6 @@ export class CancellationRequestedComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
-        case 'mpn':
-          this.clear_btn = true;
-          this.selectMPN = data.value;
-          if (this.mpnCount === 0) {
-            this.mpnCount++;
-            this.badgeTotal++;
-          }
-          break;
-        case 'carrier':
-          this.clear_btn = true;
-          this.selectCarrier = data.value;
-          if (this.carrierCount === 0) {
-            this.carrierCount++;
-            this.badgeTotal++;
-          }
-          break;
         case 'rangeDate':
           this.clear_btn = true;
           this.selectRangeDate = data.value;
@@ -180,9 +152,7 @@ export class CancellationRequestedComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectMPN,
         this.selectLocation,
-        this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
         this.remarkStatus,
@@ -190,9 +160,7 @@ export class CancellationRequestedComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'Cancellation Requested',
-        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
-        filter_carrier: this.selectCarrier,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
         filter_status_remark: this.remarkStatus,
@@ -205,16 +173,7 @@ export class CancellationRequestedComponent implements OnInit {
             this.locationCount = 0;
             this.badgeTotal--;
             break;
-          case 'mpn':
-            this.selectMPN = '';
-            this.mpnCount = 0;
-            this.badgeTotal--;
-            break;
-          case 'carrier':
-            this.selectCarrier = '';
-            this.carrierCount = 0;
-            this.badgeTotal--;
-            break;
+
           case 'rangeDate':
             this.selectRangeDate = '';
             this.rangeDateCount = 0;
@@ -229,9 +188,7 @@ export class CancellationRequestedComponent implements OnInit {
 
         this.getOrderList(
           this.pageIndex,
-          this.selectMPN,
           this.selectLocation,
-          this.selectCarrier,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
           this.remarkStatus,
@@ -239,9 +196,7 @@ export class CancellationRequestedComponent implements OnInit {
         );
         this.listOfFilter = {
           filter_po_list_type: 'Cancellation Requested',
-          filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
-          filter_carrier: this.selectCarrier,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
           filter_status_remark: this.remarkStatus,
@@ -253,8 +208,6 @@ export class CancellationRequestedComponent implements OnInit {
   tagRemove() {
     this.remarkStatus = '';
     this.selectLocation = '';
-    this.selectMPN = '';
-    this.selectCarrier = '';
     this.selectRangeDate = '';
 
     this.remarkStatusCount = 0;
@@ -267,9 +220,7 @@ export class CancellationRequestedComponent implements OnInit {
     this.clear_btn = false;
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -277,9 +228,7 @@ export class CancellationRequestedComponent implements OnInit {
     );
     this.listOfFilter = {
       filter_po_list_type: 'Cancellation Requested',
-      filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
-      filter_carrier: this.selectCarrier,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
       filter_status_remark: this.remarkStatus,
@@ -298,9 +247,7 @@ export class CancellationRequestedComponent implements OnInit {
     }
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -308,9 +255,7 @@ export class CancellationRequestedComponent implements OnInit {
     );
     this.listOfFilter = {
       filter_po_list_type: 'Cancellation Requested',
-      filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
-      filter_carrier: this.selectCarrier,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
       filter_status_remark: this.remarkStatus,

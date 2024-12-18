@@ -40,8 +40,6 @@ export class AllOrdersComponent implements OnInit {
   remarkStatusCount: number = 0;
 
   selectLocation: string = '';
-  selectMPN: string = '';
-  selectCarrier: string = '';
   search_term: string = '';
   selectRangeDate: string = '';
   remarkStatus: string = '';
@@ -53,9 +51,7 @@ export class AllOrdersComponent implements OnInit {
   constructor(private ordersService: OrdersService) {
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -75,9 +71,7 @@ export class AllOrdersComponent implements OnInit {
 
   getOrderList(
     page: number,
-    filter_mpn?: string,
     filter_ship_out_location?: string,
-    filter_carrier?: string,
     filter_from_po_date?: string,
     filter_to_po_date?: string,
     filter_po_status?: string,
@@ -88,9 +82,7 @@ export class AllOrdersComponent implements OnInit {
       .getAllOrder({
         page: page,
         order_type: '5',
-        filter_mpn: filter_mpn,
         filter_ship_out_location: filter_ship_out_location,
-        filter_carrier: filter_carrier,
         filter_from_po_date: filter_from_po_date,
         filter_to_po_date: filter_to_po_date,
         filter_po_status: filter_po_status,
@@ -113,9 +105,7 @@ export class AllOrdersComponent implements OnInit {
     this.pageIndex = page;
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -127,9 +117,7 @@ export class AllOrdersComponent implements OnInit {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -160,22 +148,6 @@ export class AllOrdersComponent implements OnInit {
             this.badgeTotal++;
           }
           break;
-        case 'mpn':
-          this.clear_btn = true;
-          this.selectMPN = data.value;
-          if (this.mpnCount === 0) {
-            this.mpnCount++;
-            this.badgeTotal++;
-          }
-          break;
-        case 'carrier':
-          this.clear_btn = true;
-          this.selectCarrier = data.value;
-          if (this.carrierCount === 0) {
-            this.carrierCount++;
-            this.badgeTotal++;
-          }
-          break;
         case 'rangeDate':
           this.clear_btn = true;
           this.selectRangeDate = data.value;
@@ -195,9 +167,7 @@ export class AllOrdersComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectMPN,
         this.selectLocation,
-        this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
         this.remarkStatus,
@@ -205,9 +175,7 @@ export class AllOrdersComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'All',
-        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
-        filter_carrier: this.selectCarrier,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
         filter_po_status: this.remarkStatus,
@@ -218,16 +186,6 @@ export class AllOrdersComponent implements OnInit {
           case 'shipOutLocation':
             this.selectLocation = '';
             this.locationCount = 0;
-            this.badgeTotal--;
-            break;
-          case 'mpn':
-            this.selectMPN = '';
-            this.mpnCount = 0;
-            this.badgeTotal--;
-            break;
-          case 'carrier':
-            this.selectCarrier = '';
-            this.carrierCount = 0;
             this.badgeTotal--;
             break;
           case 'rangeDate':
@@ -243,9 +201,7 @@ export class AllOrdersComponent implements OnInit {
         }
         this.getOrderList(
           this.pageIndex,
-          this.selectMPN,
           this.selectLocation,
-          this.selectCarrier,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
           this.remarkStatus,
@@ -253,9 +209,7 @@ export class AllOrdersComponent implements OnInit {
         );
         this.listOfFilter = {
           filter_po_list_type: 'All',
-          filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
-          filter_carrier: this.selectCarrier,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
           filter_po_status: this.remarkStatus,
@@ -266,8 +220,6 @@ export class AllOrdersComponent implements OnInit {
 
   tagRemove() {
     this.selectLocation = '';
-    this.selectMPN = '';
-    this.selectCarrier = '';
     this.remarkStatus = '';
     this.selectRangeDate = '';
 
@@ -283,9 +235,7 @@ export class AllOrdersComponent implements OnInit {
     console.log(this.badgeTotal);
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
       this.selectLocation,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.remarkStatus,
@@ -293,9 +243,7 @@ export class AllOrdersComponent implements OnInit {
     );
     this.listOfFilter = {
       filter_po_list_type: 'All',
-      filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
-      filter_carrier: this.selectCarrier,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
       filter_po_status: this.remarkStatus,
@@ -308,16 +256,6 @@ export class AllOrdersComponent implements OnInit {
         case 'shipOutLocation':
           this.selectLocation = '';
           this.locationCount = 0;
-          this.badgeTotal--;
-          break;
-        case 'mpn':
-          this.selectMPN = '';
-          this.mpnCount = 0;
-          this.badgeTotal--;
-          break;
-        case 'carrier':
-          this.selectCarrier = '';
-          this.carrierCount = 0;
           this.badgeTotal--;
           break;
         case 'rangeDate':
@@ -333,9 +271,7 @@ export class AllOrdersComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectMPN,
         this.selectLocation,
-        this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
         this.remarkStatus,
@@ -343,9 +279,7 @@ export class AllOrdersComponent implements OnInit {
       );
       this.listOfFilter = {
         filter_po_list_type: 'All',
-        filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
-        filter_carrier: this.selectCarrier,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
         filter_po_status: this.remarkStatus,

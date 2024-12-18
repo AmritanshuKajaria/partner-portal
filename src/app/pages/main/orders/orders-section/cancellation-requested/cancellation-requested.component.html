@@ -13,8 +13,6 @@
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
         [selectLocation]="selectLocation"
-        [selectMPN]="selectMPN"
-        [selectCarrier]="selectCarrier"
         [selectRangeDate]="selectRangeDate"
         [selectStatus]="remarkStatus"
       ></app-filter-tag>
@@ -36,8 +34,6 @@
       (changeData)="change($event)"
       [tabName]="'cancellationRequested'"
       [shipOutLocation]="selectLocation"
-      [mpn]="selectMPN"
-      [carrier]="selectCarrier"
       [rangeDate]="selectRangeDate"
       [remarkStatus]="remarkStatus"
     ></app-filter-section>

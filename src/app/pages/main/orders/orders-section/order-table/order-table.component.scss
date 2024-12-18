@@ -1,4 +1,4 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import "../../../../../../assets/variable/variable.scss";
 
 .order-table {
     ::ng-deep .ant-table table {
@@ -39,7 +39,6 @@
                 margin-top: -10px;
             }
         }
-
     }
 
     .date {
@@ -59,7 +58,6 @@
             padding: 16px;
         }
     }
-
 }
 
 .tracking-id {

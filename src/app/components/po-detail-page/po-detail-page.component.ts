@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { OrdersService } from 'src/app/shared/service/orders.service';
+import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
   selector: 'app-po-detail-page',
@@ -24,11 +25,13 @@ export class PoDetailPageComponent implements OnInit {
   };
   poNo: string = '';
   poClarification: boolean = false;
+  showDownloadLabel: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private ordersService: OrdersService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private userPermissionService: UserPermissionService
   ) {
     this.route.params.subscribe((params) => {
       this.poNo = params['poNo'];
@@ -53,6 +56,12 @@ export class PoDetailPageComponent implements OnInit {
         this.isLoading = false;
       },
       error: (err) => (this.isLoading = false),
+    });
+
+    this.userPermissionService.userPermission.subscribe((permission: any) => {
+      if (permission?.label_enabled && permission.label_enabled !== 0) {
+        this.showDownloadLabel = true;
+      }
     });
   }
   ngOnInit(): void {}

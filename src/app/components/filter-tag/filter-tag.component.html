@@ -5,23 +5,7 @@
     (nzOnClose)="close('shipOutLocation')"
     >{{ selectLocation }}</nz-tag
   >
-  <nz-tag *ngIf="selectMPN" nzMode="closeable" (nzOnClose)="close('mpn')">{{
-    selectMPN
-  }}</nz-tag>
 
-  <nz-tag
-    *ngIf="selectCarrier"
-    nzMode="closeable"
-    (nzOnClose)="close('carrier')"
-    >{{ selectCarrier }}</nz-tag
-  >
-  <nz-tag
-    *ngIf="selectDate"
-    nzMode="closeable"
-    (nzOnClose)="close('committedShipDate')"
-  >
-    {{ selectDate[0] | customDate }} To {{ selectDate[1] | customDate }}</nz-tag
-  >
   <nz-tag
     *ngIf="selectStatus"
     nzMode="closeable"

@@ -4,6 +4,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { OrdersService } from 'src/app/shared/service/orders.service';
+import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
   selector: 'app-order-table',
@@ -31,13 +32,21 @@ export class OrderTableComponent implements OnInit {
   poNo: string = '';
   poClarification: boolean = false;
   trackingList: string[] = [];
+  showDownloadLabel: boolean = false;
 
   constructor(
     private ordersService: OrdersService,
     private inventoryService: InventoryService,
     private message: NzMessageService,
-    private modal: NzModalService
-  ) {}
+    private modal: NzModalService,
+    private userPermissionService: UserPermissionService
+  ) {
+    this.userPermissionService.userPermission.subscribe((permission: any) => {
+      if (permission?.label_enabled && permission.label_enabled !== 0) {
+        this.showDownloadLabel = true;
+      }
+    });
+  }
   ngOnInit(): void {}
 
   acknowledgeOrders(po_no: string) {
