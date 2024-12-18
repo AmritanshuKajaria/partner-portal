@@ -40,14 +40,18 @@ export class MainLayoutComponent implements OnInit {
     this.getPartnerDetails();
     this.dashboardService.getAllIssues();
 
-    if (this.authService.getAccessToken()) {
+    // const zeToken = this.authService.getZeToken();
+    const zeToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF82NzYxNTRlZWIzYzU1ZjBkNjdkZTRiYzkifQ.eyJleHRlcm5hbF9pZCI6IjI5ODczNzQtODkyMzQ3IiwiZW1haWwiOiIxMjNAZ21haWwuY29tIiwibmFtZSI6IjEyMyIsInNjb3BlIjoidXNlciIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpYXQiOjE3MzQ1MTA3MjZ9.ShtqsWeG5QoJYCmxkved69shKDpOAZswqqTCBgzu6qQ';
+
+    if (zeToken) {
       const script = document.createElement('script');
       script.id = 'ze-snippet';
       script.src =
         'https://static.zdassets.com/ekr/snippet.js?key=f9809c66-1993-4f45-907c-3cf05b0dde73';
       script.onload = () => {
         zE('messenger', 'loginUser', function (callback: any) {
-          callback('token');
+          callback(zeToken);
         });
       };
       document.body.appendChild(script);

@@ -14,6 +14,7 @@ import { Route, Router } from '@angular/router';
 const TOKEN_KEY = 'access_token';
 const REFRESHTOKEN_KEY = 'refresh_token';
 const USER_KEY = 'user_profile';
+const ZE_TOKEN_KEY = 'ze_token';
 
 @Injectable({
   providedIn: 'root',
@@ -35,6 +36,14 @@ export class AuthService {
 
   setAccessToken(token: string) {
     localStorage.setItem(TOKEN_KEY, token);
+  }
+
+  setZeToken(token: string) {
+    localStorage.setItem(ZE_TOKEN_KEY, token);
+  }
+
+  getZeToken() {
+    return localStorage.getItem(ZE_TOKEN_KEY);
   }
 
   clearToken() {
