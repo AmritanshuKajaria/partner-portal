@@ -130,7 +130,7 @@
                 Boxes:
                 {{ data?.boxes }}
               </div>
-              <div>
+              <div style="white-space: nowrap;">
                 {{ data?.size_tier ? " (" + data?.size_tier + ")" : "" }}
               </div>
             </div>
@@ -140,7 +140,7 @@
               <div>
                 {{
                   data?.order_processing_fees_percentage
-                    ? "$" + data.order_processing_fees_percentage
+                    ? "$" +  ((data?.retail_price ?? 0) * (data?.order_processing_fees_percentage ?? 0) | number : "1.0-2")
                     : ""
                 }}
               </div>
@@ -162,7 +162,7 @@
               <div>
                 {{
                   data?.return_cost_percentage
-                    ? "$" + estimatedPrices[no].return_cost_percentage
+                    ? "$" + ((data?.retail_price ?? 0) * (data?.return_cost_percentage ?? 0) | number : "1.0-2")
                     : ""
                 }}
               </div>

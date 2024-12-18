@@ -83,6 +83,14 @@ export class NewMultiProductCalculatorComponent2 {
         this.isLoading = false;
         this.total = res.pagination?.total_rows ?? 0;
         this.multiProductList = res.products ?? [];
+
+        this.multiProductList.forEach((product) => {
+          if (!product.pre_slab_percentage && !product.post_slab_percentage) {
+            // set default pre and post slab percentage to 15
+            product.pre_slab_percentage = 0.15;
+            product.post_slab_percentage = 0.15;
+          }
+        });
         this.multiData = lodash.cloneDeep(this.multiProductList);
       },
       error: (err) => (this.isLoading = false),
@@ -111,20 +119,6 @@ export class NewMultiProductCalculatorComponent2 {
     // Update market place fees
     this.multiProductList[index].market_place_fees =
       changeData.market_place_fees;
-
-    // Update order processing fees percentage ( margin )
-    this.multiProductList[index].order_processing_fees_percentage =
-      this.newCalculatorService.getOrderProcessingFeesPercentage(
-        +changeData.retail_price,
-        +this.multiData[index].order_processing_fees_percentage
-      );
-
-    // Update return cost percentage
-    this.multiProductList[index].return_cost_percentage =
-      this.newCalculatorService.getReturnCostPercentage(
-        +changeData.retail_price,
-        +this.multiData[index].return_cost_percentage
-      );
 
     if (
       this.newCalculatorService.canRetailPriceBeUpdated(
@@ -226,14 +220,6 @@ export class NewMultiProductCalculatorComponent2 {
     // Update market place fees
     this.multiProductList[index].market_place_fees =
       this.multiData[index].market_place_fees;
-
-    // Update order processing fees percentage ( margin )
-    this.multiProductList[index].order_processing_fees_percentage =
-      this.multiData[index].order_processing_fees_percentage;
-
-    // Update return cost percentage
-    this.multiProductList[index].return_cost_percentage =
-      this.multiData[index].return_cost_percentage;
 
     if (
       this.newCalculatorService.canRetailPriceBeUpdated(
