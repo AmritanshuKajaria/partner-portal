@@ -102,22 +102,6 @@ export class NewCalculatorService {
     return commission;
   };
 
-  getOrderProcessingFeesPercentage = (
-    retail_price: number,
-    order_processing_fees_percentage: number
-  ) => {
-    return parseFloat(
-      (retail_price * order_processing_fees_percentage).toFixed(2)
-    );
-  };
-
-  getReturnCostPercentage = (
-    retail_price: number,
-    return_cost_percentage: number
-  ) => {
-    return parseFloat((retail_price * +return_cost_percentage).toFixed(2));
-  };
-
   canRetailPriceBeUpdated(
     retail_price: number,
     has_map: number,

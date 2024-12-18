@@ -141,7 +141,7 @@
               <div>
                 {{
                   data?.order_processing_fees_percentage
-                    ? "$" + data.order_processing_fees_percentage
+                    ? "$" +  ((data?.retail_price ?? 0) * (data?.order_processing_fees_percentage ?? 0) | number : "1.0-2")
                     : ""
                 }}
               </div>
@@ -163,7 +163,7 @@
             <div class="exported-item-content">
               <div>{{ data?.shipping_cost | currency }}</div>
               <div class="text-wrap">Boxes: {{ data?.boxes }}</div>
-              <div>
+              <div style="white-space: nowrap;">
                 {{ data?.size_tier ? " (" + data?.size_tier + ")" : "" }}
               </div>
             </div>
