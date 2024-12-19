@@ -67,7 +67,7 @@
           <td>
             <a
               class="link"
-              [routerLink]="'/main/products/details/?sku=' + data?.sku"
+              (click)="navigatePage('products/details', { sku: data?.sku })"
               >{{ data?.mpn }}</a
             >
           </td>

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
@@ -38,7 +38,8 @@ export class OrderTableComponent implements OnInit {
     private ordersService: OrdersService,
     private message: NzMessageService,
     private modal: NzModalService,
-    private userPermissionService: UserPermissionService
+    private userPermissionService: UserPermissionService,
+    private router: Router
   ) {
     this.userPermissionService.userPermission.subscribe((permission: any) => {
       if (permission?.label_enabled && permission.label_enabled !== 0) {
@@ -65,6 +66,11 @@ export class OrderTableComponent implements OnInit {
       nzOnCancel: () => console.log('Close'),
       nzOkLoading: this.isLoading,
     });
+  }
+
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
   }
 
   onPageIndexChange(page: number): void {

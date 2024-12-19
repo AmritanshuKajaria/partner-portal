@@ -109,7 +109,7 @@
           <a
             class="link"
             style="color: black"
-            [routerLink]="'/main/products/details/?sku=' + data?.porduct_sku"
+            (click)="navigatePage('products/details', { sku: data?.porduct_sku })"
             >{{ data.porduct_mpn }}</a
           ><br />
           <app-asin [asin]="data?.porduct_asin"></app-asin>

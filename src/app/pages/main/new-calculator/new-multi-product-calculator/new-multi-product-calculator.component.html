@@ -73,7 +73,7 @@
             <div nz-col style="min-width: 200px">
               <a
                 class="link"
-                [routerLink]="'/main/products/details/?sku=' + data?.sku"
+                (click)="navigatePage('products/details', { sku: data?.sku })"
                 >{{ data?.mpn }}</a
               >
               <div style="padding-top: 8px">{{ data?.name }}</div>
