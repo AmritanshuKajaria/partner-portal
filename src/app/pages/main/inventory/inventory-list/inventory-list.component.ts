@@ -68,6 +68,7 @@ export class InventoryListComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
         this.inventory_search = value.target.value;
+        this.pageIndex = 1;
         this.getInventoryList(
           this.pageIndex,
           this.inventory_search,
@@ -170,6 +171,8 @@ export class InventoryListComponent implements OnInit {
     this.badgeTotal = 0;
     this.clear_btn = false;
     this.filter.reset();
+
+    this.pageIndex = 1;
     this.getInventoryList(
       this.pageIndex,
       this.inventory_search,
@@ -210,6 +213,8 @@ export class InventoryListComponent implements OnInit {
         default:
           break;
       }
+
+      this.pageIndex = 1;
       this.getInventoryList(
         this.pageIndex,
         this.inventory_search,
@@ -262,6 +267,8 @@ export class InventoryListComponent implements OnInit {
           }
           break;
       }
+
+      this.pageIndex = 1;
       this.getInventoryList(
         this.pageIndex,
         this.inventory_search,
@@ -296,6 +303,8 @@ export class InventoryListComponent implements OnInit {
             break;
         }
       }
+
+      this.pageIndex = 1;
       this.getInventoryList(
         this.pageIndex,
         this.inventory_search,

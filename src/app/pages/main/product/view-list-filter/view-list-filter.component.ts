@@ -108,6 +108,7 @@ export class ViewListFilterComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
         this.product_search = value.target.value;
+        this.pageIndex = 1;
         this.getProductList(
           this.pageIndex,
           this.selectStatus,
@@ -148,20 +149,6 @@ export class ViewListFilterComponent implements OnInit {
       collection: new FormControl(''),
       salesTire: new FormControl(''),
     });
-    this.getProductList(
-      this.pageIndex,
-      this.selectStatus,
-      this.inventory,
-      this.selectBrand,
-      this.selectCollection,
-      this.selectCategory,
-      this.selectSales,
-      this.product_search
-    );
-  }
-
-  searchProduct(event: any) {
-    this.product_search = event?.target.value;
     this.getProductList(
       this.pageIndex,
       this.selectStatus,
@@ -287,6 +274,8 @@ export class ViewListFilterComponent implements OnInit {
     this.badgeTotal = 0;
     this.clear_btn = false;
     this.filter.reset();
+
+    this.pageIndex = 1;
     this.getProductList(
       this.pageIndex,
       this.selectStatus,
@@ -351,6 +340,8 @@ export class ViewListFilterComponent implements OnInit {
         default:
           break;
       }
+
+      this.pageIndex = 1;
       this.getProductList(
         this.pageIndex,
         this.selectStatus,
@@ -462,6 +453,7 @@ export class ViewListFilterComponent implements OnInit {
           }
           break;
       }
+      this.pageIndex = 1;
       this.getProductList(
         this.pageIndex,
         this.selectStatus,
@@ -515,6 +507,7 @@ export class ViewListFilterComponent implements OnInit {
             this.badgeTotal--;
             break;
         }
+        this.pageIndex = 1;
         this.getProductList(
           this.pageIndex,
           this.selectStatus,
