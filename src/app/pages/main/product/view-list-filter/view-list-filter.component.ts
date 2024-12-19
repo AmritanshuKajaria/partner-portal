@@ -207,8 +207,8 @@ export class ViewListFilterComponent implements OnInit {
     );
   }
 
-  navigatePage(path: string) {
-    this.router.navigate([`/main/${path}`]);
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
   }
 
   openNav() {
