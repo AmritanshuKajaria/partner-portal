@@ -207,6 +207,7 @@ export class ViewListFilterComponent implements OnInit {
     );
   }
 
+  // for - if path include /
   navigatePage(path: string, queryParams?: any) {
     this.router.navigate([`/main/${path}`], { queryParams });
   }

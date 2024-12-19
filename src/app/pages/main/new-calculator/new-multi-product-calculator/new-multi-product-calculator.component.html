@@ -73,7 +73,7 @@
             <div nz-col style="min-width: 200px">
               <a
                 class="link"
-                [routerLink]="'/main/products/details/' + data?.sku"
+                [routerLink]="'/main/products/details/?sku=' + data?.sku"
                 >{{ data?.mpn }}</a
               >
               <div style="padding-top: 8px">{{ data?.name }}</div>
@@ -130,7 +130,7 @@
                 Boxes:
                 {{ data?.boxes }}
               </div>
-              <div style="white-space: nowrap;">
+              <div style="white-space: nowrap">
                 {{ data?.size_tier ? " (" + data?.size_tier + ")" : "" }}
               </div>
             </div>
@@ -140,7 +140,10 @@
               <div>
                 {{
                   data?.order_processing_fees_percentage
-                    ? "$" +  ((data?.retail_price ?? 0) * (data?.order_processing_fees_percentage ?? 0) | number : "1.0-2")
+                    ? "$" +
+                      ((data?.retail_price ?? 0) *
+                        (data?.order_processing_fees_percentage ?? 0)
+                        | number : "1.0-2")
                     : ""
                 }}
               </div>
