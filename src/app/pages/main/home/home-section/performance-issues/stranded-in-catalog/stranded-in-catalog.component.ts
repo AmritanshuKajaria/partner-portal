@@ -81,6 +81,11 @@ export class StrandedInCatalogComponent implements OnInit {
   }
   ngOnInit(): void {}
 
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
+
   getData() {
     this.isLoading = true;
     if (this.code) {
@@ -93,7 +98,7 @@ export class StrandedInCatalogComponent implements OnInit {
         (res: any) => {
           this.isLoading = false;
           if (res.success) {
-            this.total = +res.pagination?.total_rows ?? 0;
+            this.total = +(res.pagination?.total_rows ?? 0);
             this.strandedInCatalogList = res.data;
           }
         },

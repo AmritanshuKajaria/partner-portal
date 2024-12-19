@@ -69,7 +69,7 @@ export class AddEditProductComponent implements OnInit {
     private message: NzMessageService,
     private userPermissionService: UserPermissionService
   ) {
-    this.sku = this.activatedRoute.snapshot.paramMap.get('sku') ?? '';
+    this.sku = this.activatedRoute.snapshot.queryParamMap.get('sku') ?? '';
     this.userPermissionService.userPermission.subscribe((result: any) => {
       if (result.success) {
         this.listOfBrand = result.brands;

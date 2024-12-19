@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recommendation-issue-table',
@@ -28,8 +29,13 @@ export class RecommendationIssueTableComponent implements OnInit {
   editLabel: string[] = [];
   isVisible: boolean = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
   ngOnInit(): void {}
+
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
 
   navigateAsin(asin: string) {
     window.open(`https://www.amazon.com/dp/${asin}`);

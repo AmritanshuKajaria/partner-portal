@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   DashboardService,
   SalesReport,
@@ -19,7 +19,8 @@ export class SalesReportComponent implements OnInit {
 
   constructor(
     private dashboardService: DashboardService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.type = this.route.snapshot.paramMap.get('type') ?? '';
     this.isLoading = true;
@@ -44,6 +45,11 @@ export class SalesReportComponent implements OnInit {
   }
 
   ngOnInit(): void {}
+
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
 
   downloadReport() {
     const reqData: SalesReport = {
