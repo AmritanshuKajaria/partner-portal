@@ -78,6 +78,7 @@ export class CompletedPromotionsComponent implements OnInit {
 
   searchDataChanges(event: string) {
     this.search_term = event;
+    this.pageIndex = 1;
     this.getAllCompletedPromotions(
       this.pageIndex,
       this.filter_start_date,
@@ -91,6 +92,7 @@ export class CompletedPromotionsComponent implements OnInit {
     (this.filter_start_date = filters?.start_date),
       (this.filter_end_date = filters?.end_date),
       (this.filter_status = filters?.promo_status),
+      this.pageIndex = 1;
       this.getAllCompletedPromotions(
         this.pageIndex,
         this.filter_start_date,

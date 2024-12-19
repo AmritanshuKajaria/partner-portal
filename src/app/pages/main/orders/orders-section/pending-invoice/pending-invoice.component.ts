@@ -111,6 +111,7 @@ export class PendingInvoiceComponent implements OnInit {
 
   searchDataChanges(event: string) {
     this.search_term = event;
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -202,7 +203,7 @@ export class PendingInvoiceComponent implements OnInit {
           }
           break;
       }
-
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,
@@ -262,6 +263,7 @@ export class PendingInvoiceComponent implements OnInit {
 
             break;
         }
+        this.pageIndex = 1;
         this.getOrderList(
           this.pageIndex,
           this.selectMPN,
@@ -306,6 +308,8 @@ export class PendingInvoiceComponent implements OnInit {
 
     this.badgeTotal = 0;
     this.clear_btn = false;
+
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -360,6 +364,7 @@ export class PendingInvoiceComponent implements OnInit {
           this.badgeTotal--;
           break;
       }
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,

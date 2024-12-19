@@ -113,6 +113,7 @@ export class AllOrdersComponent implements OnInit {
 
   searchDataChanges(event: string) {
     this.search_term = event;
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectLocation,
@@ -163,6 +164,7 @@ export class AllOrdersComponent implements OnInit {
           }
           break;
       }
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectLocation,
@@ -197,6 +199,7 @@ export class AllOrdersComponent implements OnInit {
             this.badgeTotal--;
             break;
         }
+        this.pageIndex = 1;
         this.getOrderList(
           this.pageIndex,
           this.selectLocation,
@@ -230,7 +233,8 @@ export class AllOrdersComponent implements OnInit {
     this.filter.reset();
     this.badgeTotal = 0;
     this.clear_btn = false;
-    console.log(this.badgeTotal);
+
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectLocation,
@@ -267,6 +271,8 @@ export class AllOrdersComponent implements OnInit {
           this.badgeTotal--;
           break;
       }
+
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectLocation,
