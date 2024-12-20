@@ -18,11 +18,21 @@ export class BreadcrumbComponent implements OnInit {
   ) {
     this.path = this.router.url.replace(/\//g, ' ').substring(1).split(' ');
     this.path.shift();
+
     if (
-      (this.path[0] === 'products' && this.path[1] === 'details') ||
-      this.path[0] === 'inventory-feeds' ||
-      this.path[0] === 'promotions'
+      // Have added includes for products/details?sku=12
+      this.path[0] === 'products' &&
+      this.path[1].includes('details')
     ) {
+      if (this.path[1].includes('?')) {
+        // remove ?sku=12
+        this.path[1] = this.path[1].split('?')[0];
+      } else {
+        this.path.pop();
+      }
+      this.breadcrumbList = this.path;
+    }
+    if (this.path[0] === 'inventory-feeds' || this.path[0] === 'promotions') {
       this.path.pop();
       this.breadcrumbList = this.path;
     }

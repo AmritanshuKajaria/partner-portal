@@ -83,6 +83,11 @@ export class HandlingTimeConflictComponent implements OnInit {
   }
   ngOnInit(): void {}
 
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
+
   getData() {
     this.isLoading = true;
     if (this.code) {
@@ -96,7 +101,7 @@ export class HandlingTimeConflictComponent implements OnInit {
           console.log(res);
           this.isLoading = false;
           if (res.success) {
-            this.total = +res.pagination?.total_rows ?? 0;
+            this.total = +(res.pagination?.total_rows ?? 0);
             this.handlingTimeConflictList = res.data;
           }
         },

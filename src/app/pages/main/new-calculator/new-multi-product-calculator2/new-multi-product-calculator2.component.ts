@@ -1,4 +1,5 @@
 import { Component, Input, Renderer2 } from '@angular/core';
+import { Router } from '@angular/router';
 import * as lodash from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
@@ -43,7 +44,8 @@ export class NewMultiProductCalculatorComponent2 {
   constructor(
     private newCalculatorService: NewCalculatorService,
     private renderer: Renderer2,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -65,6 +67,11 @@ export class NewMultiProductCalculatorComponent2 {
         this.addScroll = true;
       }
     });
+  }
+
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
   }
 
   pageIndexChange(page: number) {
