@@ -42,7 +42,7 @@ export class MainLayoutComponent implements OnInit {
 
     // const zeToken = this.authService.getZeToken();
     const zeToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF82NzYxNTRlZWIzYzU1ZjBkNjdkZTRiYzkifQ.eyJleHRlcm5hbF9pZCI6IjI5ODczNzQtODkyMzQ3IiwiZW1haWwiOiIxMjNAZ21haWwuY29tIiwibmFtZSI6IjEyMyIsInNjb3BlIjoidXNlciIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJpYXQiOjE3MzQ1MTA3MjZ9.ShtqsWeG5QoJYCmxkved69shKDpOAZswqqTCBgzu6qQ';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF82NzYxNTRlZWIzYzU1ZjBkNjdkZTRiYzkifQ.eyJleHRlcm5hbF9pZCI6IjQ1Njc4OTI1ODY1NDgiLCJlbWFpbCI6InNoYWxpbm1pc2hyYTkyQGdtYWlsLmNvbSIsIm5hbWUiOiJTaGFsaW4gVGVzdCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJzY29wZSI6InVzZXIiLCJpYXQiOjE3MzUyMDIxMDJ9.ERApy4n6-P9VzRfbEzlGUCV7Q2J0-YKSk1eKwP0g0Jw';
 
     if (zeToken) {
       const script = document.createElement('script');
