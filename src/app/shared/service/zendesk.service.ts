@@ -23,9 +23,9 @@ export class ZendeskService {
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15),
   };
-  ssosecret = 'Pgy6kfhGYvi54VhRjXzHqQH9kphtdjttd66bMHFT5c5hiaFW';
-  hostUrl = 'https://123stores7086.zendesk.com/access/jwt';
-  redirectUrl = 'https://123stores7086.zendesk.com/hc/en-us/requests';
+  ssosecret = 'Jw4JXJB6n6G0Lu8q7fYPHJyPLZLuQCU9nA7yto7XvBrLVfGI';
+  hostUrl = 'https://123stores5080.zendesk.com/access/jwt';
+  redirectUrl = 'https://123stores5080.zendesk.com/hc/en-us/requests';
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 

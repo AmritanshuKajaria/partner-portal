@@ -42,13 +42,13 @@ export class MainLayoutComponent implements OnInit {
 
     // const zeToken = this.authService.getZeToken();
     const zeToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF82NzYxNTRlZWIzYzU1ZjBkNjdkZTRiYzkifQ.eyJleHRlcm5hbF9pZCI6IjQ1Njc4OTI1ODY1NDgiLCJlbWFpbCI6InNoYWxpbm1pc2hyYTkyQGdtYWlsLmNvbSIsIm5hbWUiOiJTaGFsaW4gVGVzdCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJzY29wZSI6InVzZXIiLCJpYXQiOjE3MzUyMDIxMDJ9.ERApy4n6-P9VzRfbEzlGUCV7Q2J0-YKSk1eKwP0g0Jw';
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImFwcF82NzZlNzE0YzIyZWNkZjY5ODNkYzk4MTAifQ.eyJleHRlcm5hbF9pZCI6IjQ1Njc4OTI1ODY1NDgiLCJlbWFpbCI6InNoYWxpbm1pc2hyYTkyQGdtYWlsLmNvbSIsIm5hbWUiOiJTaGFsaW4gVGVzdCIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJzY29wZSI6InVzZXIiLCJpYXQiOjE3MzUyOTU0NjJ9.dIM-fNVm3Uk4X_iKS_I1m4Wb2xVNKZb9OqrgH7q6I0E';
 
     if (zeToken) {
       const script = document.createElement('script');
       script.id = 'ze-snippet';
       script.src =
-        'https://static.zdassets.com/ekr/snippet.js?key=f9809c66-1993-4f45-907c-3cf05b0dde73';
+        'https://static.zdassets.com/ekr/snippet.js?key=8cfc19e8-7386-4251-9400-03a36c2906be';
       script.onload = () => {
         zE('messenger', 'loginUser', function (callback: any) {
           callback(zeToken);
