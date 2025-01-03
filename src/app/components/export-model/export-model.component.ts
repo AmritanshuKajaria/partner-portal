@@ -18,6 +18,7 @@ import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 import { formatDate } from '@angular/common';
+import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 
 @Component({
   selector: 'app-export-model',
@@ -44,6 +45,7 @@ export class ExportModelComponent implements OnInit {
     private promotionsService: PromotionsService,
     private dashboardService: DashboardService,
     private ordersService: OrdersService,
+    private newCalculatorService: NewCalculatorService,
     @Inject(LOCALE_ID) public locale: string
   ) {}
   ngOnInit(): void {}
@@ -240,6 +242,21 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_status_remark
         : '';
       this.ordersService.exportOrders(filters).subscribe({
+        next: (response: any) => {
+          this.handleCancel();
+          console.log(response);
+          if (response.success) {
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          }
+          this.isLoading = false;
+        },
+        error: (err: any) => (this.isLoading = false),
+      });
+    } else if (this.sectionName === 'retailPricing') {
+      this.newCalculatorService.exportMultiProductCalculator().subscribe({
         next: (response: any) => {
           this.handleCancel();
           console.log(response);
