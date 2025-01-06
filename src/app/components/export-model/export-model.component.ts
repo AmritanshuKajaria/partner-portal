@@ -95,18 +95,27 @@ export class ExportModelComponent implements OnInit {
       );
     } else if (this.sectionName === 'inventory') {
       let filters: any = {};
-      filters['filter_start_date'] = this.exportType
-        ? formatDate(
-            this.listOfFilter?.filter_start_date,
-            'yyyy-MM-dd',
-            this.locale
-          )
-        : '';
-      filters['filter_end_date'] = formatDate(
-        this.exportType ? this.listOfFilter?.filter_end_date : '',
-        'yyyy-MM-dd',
-        this.locale
-      );
+
+      if (this.listOfFilter?.filter_start_date) {
+        filters['filter_start_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.filter_end_date) {
+        filters['filter_end_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
       filters['filter_inventory_method'] = this.exportType
         ? this.listOfFilter?.filter_inventory_method
         : '';
@@ -133,12 +142,19 @@ export class ExportModelComponent implements OnInit {
       filters['filter_promo_status'] = this.exportType
         ? this.listOfFilter?.promo_status
         : '';
-      filters['filter_start_date'] = this.exportType
-        ? formatDate(this.listOfFilter?.start_date, 'yyyy-MM-dd', this.locale)
-        : '';
-      filters['filter_end_date'] = this.exportType
-        ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
-        : '';
+
+      if (this.listOfFilter?.start_date) {
+        filters['filter_start_date'] = this.exportType
+          ? formatDate(this.listOfFilter?.start_date, 'yyyy-MM-dd', this.locale)
+          : '';
+      }
+
+      if (this.listOfFilter?.end_date) {
+        filters['filter_end_date'] = this.exportType
+          ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
+          : '';
+      }
+
       this.promotionsService.exportPromo(filters).subscribe(
         (response: any) => {
           console.log(response);
