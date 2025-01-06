@@ -56,8 +56,7 @@
         <span>Promotions</span>
       </li>
       <li *ngIf="
-          userPartnerDetails?.current_plan &&
-          userPartnerDetails?.current_plan !== 'no_plan'
+          userPartnerDetails?.pricing_tab
         " nz-menu-item [ngClass]="
           router.url.includes('/main/retail-pricing') ? 'active' : 'inactive'
         " routerLink="/main/retail-pricing">
