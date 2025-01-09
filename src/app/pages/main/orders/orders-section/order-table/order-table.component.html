@@ -212,11 +212,18 @@
             </div>
             <div *ngIf="tabName === 'new'" class="action-btn">
               <button
-                style="border: 1px solid #28a745; color: #28a745"
+                style="border: 1px solid #2121c3; color: #2121c3"
                 nz-button
                 (click)="acknowledgeOrders(data?.po_no)"
               >
                 Acknowledge
+              </button>
+              <button
+                style="border: 1px solid #28a745; color: #28a745"
+                nz-button
+                (click)="markOrderShipped(data?.po_no)"
+              >
+                Confirm Shipped
               </button>
               <button
                 style="border: 1px solid #dc3545; color: #dc3545"
