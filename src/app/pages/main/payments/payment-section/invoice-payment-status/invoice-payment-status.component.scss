@@ -1,81 +1,80 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import "../../../../../../assets/variable/variable.scss";
 
 .invoice-payment-status-section {
-    .filter-section {
-        display: flex;
-        margin-bottom: 10px;
-        // align-items: center;
+  .filter-section {
+    display: flex;
+    margin-bottom: 10px;
+    // align-items: center;
 
-        .editor-tag {
-            cursor: text;
-            font-size: 16px;
-            padding: 0 10px;
-            border-radius: 5px;
-            background: $white;
-            border: 1px $lightgrey solid;
+    .editor-tag {
+      cursor: text;
+      font-size: 16px;
+      padding: 0 10px;
+      border-radius: 5px;
+      background: $white;
+      border: 1px $lightgrey solid;
 
-            & .tag-item {
-                line-height: 18px;
-                border-radius: 10px;
-                height: 21px;
-                font-size: 14px;
-                display: inline-block;
-                background: #2121c31a;
-                border: 1px $border solid;
-                padding-left: 5px;
+      & .tag-item {
+        line-height: 18px;
+        border-radius: 10px;
+        height: 21px;
+        font-size: 14px;
+        display: inline-block;
+        background: #2121c31a;
+        border: 1px $border solid;
+        padding-left: 5px;
 
-                .remove-tag {
-                    padding-right: 5px;
-                    cursor: pointer;
-                }
-            }
-
-            & .tag-item:not(:first-child) {
-                margin-left: 5px;
-            }
-
-            & input {
-                margin: 0;
-                padding-left: 5px;
-                border: none;
-                outline: none;
-                border-radius: 5px;
-                width: 35%;
-            }
-
+        .remove-tag {
+          padding-right: 5px;
+          cursor: pointer;
         }
+      }
 
-        form {
-            width: 30%;
-            padding: 0 2px;
+      & .tag-item:not(:first-child) {
+        margin-left: 5px;
+      }
 
-            ::ng-deep .ant-input-prefix {
-                font-size: x-large;
-                margin-right: 10px;
-            }
-
-            ::ng-deep .ant-input {
-                border-radius: 5px !important;
-            }
-
-
-            ::ng-deep .ant-form-item {
-                margin-bottom: 0px;
-            }
-
-            nz-input-group {
-                border-radius: 5px;
-
-                input {
-                    height: 40px;
-                    font-size: 16px;
-                    width: 100%;
-                }
-            }
-        }
-
-        ::ng-deep .ant-btn-round {
-            height: 40px;
-        }
+      & input {
+        margin: 0;
+        padding-left: 5px;
+        border: none;
+        outline: none;
+        border-radius: 5px;
+        height: 34px !important;
+        font-size: 14px !important;
+      }
     }
+
+    form {
+      width: 30%;
+      padding: 0 2px;
+
+      ::ng-deep .ant-input-prefix {
+        font-size: x-large;
+        margin-right: 10px;
+      }
+
+      ::ng-deep .ant-input {
+        border-radius: 5px !important;
+      }
+
+      ::ng-deep .ant-form-item {
+        margin-bottom: 0px;
+      }
+
+      nz-input-group {
+        border-radius: 5px;
+
+        input {
+          height: 40px;
+          font-size: 16px;
+          width: 100%;
+        }
+      }
+    }
+
+    ::ng-deep .ant-btn-round {
+      height: 40px;
+    }
+  }
 }

@@ -15,49 +15,69 @@ export class InvoicePaymentStatusComponent implements OnInit {
   pageIndex = 1;
   pageSizeOptions = [5, 10, 15, 20];
 
+  isExportVisible: boolean = false;
+  badgeTotal: number = 0;
+
   invoicePaymentStatusList = [
     {
       id: 1,
-      invoiceNo: 'UAL-REM-45',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4561',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
+      invoice_no: 'UAL-REM-45',
+      po_no: 'PO-4561',
+      type: 'Standard',
+      invoice_date: '4/21/23',
+      due_date: '4/23/23',
+      invoice_amount: '450.00',
+      adjustment_amount: '0.00',
+      paid_amount: '0.00',
+      due_amount: '450.00',
+      remittance_no: 'REM-123',
+      remittance_date: '4/22/23',
       remarks: 'Will be paid on due date',
     },
     {
       id: 2,
-      invoiceNo: 'UAL-REM-44',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4560',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
+      invoice_no: 'UAL-REM-44',
+      po_no: 'PO-4560',
+      type: 'Standard',
+      invoice_date: '4/21/23',
+      due_date: '4/23/23',
+      invoice_amount: '450.00',
+      adjustment_amount: '0.00',
+      paid_amount: '0.00',
+      due_amount: '450.00',
+      remittance_no: '',
+      remittance_date: '',
       remarks: 'Will be paid on due date',
     },
     {
       id: 3,
-      invoiceNo: 'UAL-REM-43',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4559',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
+      invoice_no: 'UAL-REM-43',
+      po_no: 'PO-4559',
+      type: 'Standard',
+      invoice_date: '4/21/23',
+      due_date: '4/23/23',
+      invoice_amount: '450.00',
+      adjustment_amount: '0.00',
+      paid_amount: '0.00',
+      due_amount: '450.00',
+      remittance_no: '',
+      remittance_date: '',
       remarks: 'Will be paid on due date',
     },
   ];
   tagInputRef!: ElementRef;
   tags: string[] = [];
+  sidenavSection: any;
 
   constructor() {}
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       filter: new FormControl(''),
     });
+  }
+
+  openNav() {
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   focusTagInput(): void {

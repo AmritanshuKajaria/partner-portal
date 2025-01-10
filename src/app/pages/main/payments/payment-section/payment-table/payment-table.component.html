@@ -15,12 +15,16 @@
     <thead>
       <tr>
         <th>Invoice #</th>
-        <th>Invoice Date</th>
-        <th>Invoice Amount</th>
         <th>PO #</th>
-        <th>Payment Due Date</th>
-        <th>Chargeback Amount</th>
-        <th>To Be Paid Amount</th>
+        <th>Type</th>
+        <th>Invoice Date</th>
+        <th>Due Date</th>
+        <th>Invoice Amount</th>
+        <th>Adjustment Amount</th>
+        <th>Paid Amount</th>
+        <th>Due Amount</th>
+        <th>Remittance #</th>
+        <th>Remittance Date</th>
         <th>Remarks</th>
       </tr>
     </thead>
@@ -28,8 +32,6 @@
       <ng-template ngFor let-data [ngForOf]="listOfData">
         <tr>
           <td>{{ data?.invoiceNo }}</td>
-          <td>{{ data?.invoiceDate }}</td>
-          <td>{{ data?.invoiceAmount | currency }}</td>
           <td>
             <a
               style="color: #1221c3"
@@ -39,6 +41,8 @@
               ></a
             >
           </td>
+          <td>{{ data?.invoiceDate }}</td>
+          <td>{{ data?.invoiceAmount | currency }}</td>
           <td>{{ data?.paymentDueDate }}</td>
           <td>{{ data?.chargebackAmount | currency }}</td>
           <td>{{ data?.toBePaidAmount | currency }}</td>

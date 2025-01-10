@@ -21,19 +21,27 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <span style="font-weight: 500"
-        >Note : Press enter/ backspace to add multiple values</span
-      >
+      <span style="font-weight: 500">
+        Note : Press enter/ backspace to add multiple values
+      </span>
     </form>
+
     <button
       nz-button
       nzType="primary"
-      style="margin-top: 4px"
+      style="margin-top: 0px"
       class="action-button"
     >
       Submit
     </button>
   </div>
+
+  <app-date-range
+    (export)="isExportVisible = false"
+    [showFilter]="false"
+    [badgeTotal]="badgeTotal"
+    (filterChange)="openNav()"
+  ></app-date-range>
 
   <app-payment-table
     [listOfData]="invoicePaymentStatusList"
