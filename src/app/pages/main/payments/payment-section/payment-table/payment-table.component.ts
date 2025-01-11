@@ -15,15 +15,20 @@ export class PaymentTableComponent implements OnInit {
   @Input() tabName: string = '';
 
   @Output() changeModel = new EventEmitter();
+  @Output() pageIndexChange = new EventEmitter<number>();
 
   statusEnum: typeof StatusEnum = StatusEnum;
 
-  pageSizeOptions = [50, 100, 250, 500];
+  pageSizeOptions = [100];
 
   constructor() {}
   ngOnInit(): void {}
 
   selectAction(data: string) {
     this.changeModel.emit(data);
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndexChange.emit(page);
   }
 }

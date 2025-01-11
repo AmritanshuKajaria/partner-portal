@@ -1,6 +1,13 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
+import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
   selector: 'app-invoice-payment-status',
@@ -8,76 +15,61 @@ import { find, get, pull } from 'lodash';
   styleUrls: ['./invoice-payment-status.component.scss'],
 })
 export class InvoicePaymentStatusComponent implements OnInit {
+  @Output() totalData = new EventEmitter();
+
   filterForm!: FormGroup;
   isLoading: boolean = false;
   total = 1;
-  pageSize = 10;
+  pageSize = 100;
   pageIndex = 1;
-  pageSizeOptions = [5, 10, 15, 20];
 
   isExportVisible: boolean = false;
   badgeTotal: number = 0;
+  search_term: string = '';
+  submitButtonLoading: boolean = false;
 
-  invoicePaymentStatusList = [
-    {
-      id: 1,
-      invoice_no: 'UAL-REM-45',
-      po_no: 'PO-4561',
-      type: 'Standard',
-      invoice_date: '4/21/23',
-      due_date: '4/23/23',
-      invoice_amount: '450.00',
-      adjustment_amount: '0.00',
-      paid_amount: '0.00',
-      due_amount: '450.00',
-      remittance_no: 'REM-123',
-      remittance_date: '4/22/23',
-      remarks: 'Will be paid on due date',
-    },
-    {
-      id: 2,
-      invoice_no: 'UAL-REM-44',
-      po_no: 'PO-4560',
-      type: 'Standard',
-      invoice_date: '4/21/23',
-      due_date: '4/23/23',
-      invoice_amount: '450.00',
-      adjustment_amount: '0.00',
-      paid_amount: '0.00',
-      due_amount: '450.00',
-      remittance_no: '',
-      remittance_date: '',
-      remarks: 'Will be paid on due date',
-    },
-    {
-      id: 3,
-      invoice_no: 'UAL-REM-43',
-      po_no: 'PO-4559',
-      type: 'Standard',
-      invoice_date: '4/21/23',
-      due_date: '4/23/23',
-      invoice_amount: '450.00',
-      adjustment_amount: '0.00',
-      paid_amount: '0.00',
-      due_amount: '450.00',
-      remittance_no: '',
-      remittance_date: '',
-      remarks: 'Will be paid on due date',
-    },
-  ];
+  transactionViewDataList: any = [];
   tagInputRef!: ElementRef;
   tags: string[] = [];
   sidenavSection: any;
 
-  constructor() {}
+  constructor(private paymentService: PaymentService) {}
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       filter: new FormControl(''),
     });
   }
 
-  openNav() {
-    this.sidenavSection.nativeElement.style.width = '300px';
+  getPaymentList(page: number, search_term?: string) {
+    this.isLoading = true;
+    this.paymentService
+      .getAllPayments({
+        page: page,
+        payment_type: '1',
+        search_term: search_term,
+      })
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.total = response?.pagination?.total_rows ?? 0;
+            this.totalData.emit(+this.total);
+            this.transactionViewDataList = response?.payments ?? [];
+          }
+          this.isLoading = false;
+        },
+        error: (err) => (this.isLoading = false),
+      });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getPaymentList(this.pageIndex, this.search_term);
+  }
+
+  searchDataChanges(event: string) {
+    this.search_term = event;
+    this.pageIndex = 1;
+    this.getPaymentList(this.pageIndex, this.search_term);
   }
 
   focusTagInput(): void {
@@ -113,6 +105,24 @@ export class InvoicePaymentStatusComponent implements OnInit {
       pull(this.tags, tag);
     } else {
       this.tags.splice(-1);
+      this.transactionViewDataList = [];
     }
+  }
+
+  onSubmit() {
+    this.submitButtonLoading = true;
+    this.pageIndex = 1;
+    this.search_term = '';
+    this.paymentService.getPyments().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.total = response?.pagination?.total_rows ?? 0;
+          this.totalData.emit(+this.total);
+          this.transactionViewDataList = response?.payments ?? [];
+        }
+        this.submitButtonLoading = false;
+      },
+      error: (err) => (this.submitButtonLoading = false),
+    });
   }
 }

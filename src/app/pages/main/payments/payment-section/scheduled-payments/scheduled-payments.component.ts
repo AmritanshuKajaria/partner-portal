@@ -1,6 +1,13 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
+import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
   selector: 'app-scheduled-payments',
@@ -8,6 +15,8 @@ import { find, get, pull } from 'lodash';
   styleUrls: ['./scheduled-payments.component.scss'],
 })
 export class ScheduledPaymentsComponent implements OnInit {
+  @Output() totalData = new EventEmitter();
+
   filterForm!: FormGroup;
   exportType: boolean = false;
 
@@ -15,53 +24,54 @@ export class ScheduledPaymentsComponent implements OnInit {
   total = 1;
   pageSize = 10;
   pageIndex = 1;
-  pageSizeOptions = [5, 10, 15, 20];
 
-  scheduledPaymentsList = [
-    {
-      id: 1,
-      invoiceNo: 'UAL-REM-45',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4561',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
-      remarks: 'Will be paid on due date',
-    },
-    {
-      id: 2,
-      invoiceNo: 'UAL-REM-44',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4560',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
-      remarks: 'Will be paid on due date',
-    },
-    {
-      id: 3,
-      invoiceNo: 'UAL-REM-43',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4559',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
-      remarks: 'Will be paid on due date',
-    },
-  ];
+  isExportVisible: boolean = false;
+  badgeTotal: number = 0;
+  search_term: string = '';
+  openBalancesDataList: any = [];
 
   tagInputRef!: ElementRef;
   tags: string[] = [];
   isUploadVisible: boolean = false;
 
-  constructor() {}
+  constructor(private paymentService: PaymentService) {}
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       filter: new FormControl(''),
     });
+    this.getPaymentList(1, '');
+  }
+
+  getPaymentList(page: number, search_term?: string) {
+    this.isLoading = true;
+    this.paymentService
+      .getAllPayments({
+        page: page,
+        payment_type: '2',
+        search_term: search_term,
+      })
+      .subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.total = response?.pagination?.total_rows ?? 0;
+            this.totalData.emit(+this.total);
+            this.openBalancesDataList = response?.payments ?? [];
+          }
+          this.isLoading = false;
+        },
+        error: (err) => (this.isLoading = false),
+      });
+  }
+
+  onPageIndexChange(page: number): void {
+    this.pageIndex = page;
+    this.getPaymentList(this.pageIndex, this.search_term);
+  }
+
+  searchDataChanges(event: string) {
+    this.search_term = event;
+    this.pageIndex = 1;
+    this.getPaymentList(this.pageIndex, this.search_term);
   }
 
   focusTagInput(): void {
@@ -98,13 +108,5 @@ export class ScheduledPaymentsComponent implements OnInit {
     } else {
       this.tags.splice(-1);
     }
-  }
-
-  openModal() {
-    this.isUploadVisible = true;
-  }
-
-  handleCancel() {
-    this.isUploadVisible = false;
   }
 }

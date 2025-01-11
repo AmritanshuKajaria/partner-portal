@@ -29,26 +29,59 @@
     <button
       nz-button
       nzType="primary"
-      style="margin-top: 0px"
+      style="margin-top: 0px; margin-left: 4px"
       class="action-button"
+      [disabled]="!tags.length"
+      (click)="onSubmit()"
     >
+      <span
+        *ngIf="submitButtonLoading"
+        style="color: white; font-size: 16px"
+        nz-icon
+        nzType="loading"
+      ></span>
       Submit
     </button>
   </div>
 
-  <app-date-range
-    (export)="isExportVisible = false"
-    [showFilter]="false"
-    [badgeTotal]="badgeTotal"
-    (filterChange)="openNav()"
-  ></app-date-range>
+  <div
+    *ngIf="
+      transactionViewDataList.length && tags.length && !submitButtonLoading
+    "
+  >
+    <app-date-range
+      (export)="isExportVisible = true"
+      [showFilter]="false"
+      [badgeTotal]="badgeTotal"
+      (searchChange)="searchDataChanges($event)"
+    ></app-date-range>
 
-  <app-payment-table
-    [listOfData]="invoicePaymentStatusList"
-    [total]="total"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
-    [isLoading]="isLoading"
-    [tabName]="'Invoice Payment Status'"
-  ></app-payment-table>
+    <app-payment-table
+      [listOfData]="transactionViewDataList"
+      [total]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [isLoading]="isLoading"
+      [tabName]="'Transaction View'"
+      (pageIndexChange)="onPageIndexChange($event)"
+    ></app-payment-table>
+  </div>
+
+  <nz-modal
+    [(nzVisible)]="isExportVisible"
+    nzTitle="Which paymets would you like to export?"
+    (nzOnCancel)="isExportVisible = false"
+  >
+    <ng-container *nzModalContent>
+      <app-export-model
+        [exportType]="false"
+        [sectionName]="'payments'"
+        [description]="
+          'Your paymets will be exported as a CSV file and sent to your email.'
+        "
+        [noOfFilter]="total"
+        (close)="isExportVisible = false"
+      ></app-export-model>
+    </ng-container>
+  </nz-modal>
 </div>

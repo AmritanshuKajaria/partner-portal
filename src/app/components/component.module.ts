@@ -29,6 +29,7 @@ import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.compo
 import { SharedModule } from '../shared/shared.module';
 import { DateTimeComponent } from './date-time/date-time.component';
 import { EditPriceComponent } from './edit-price/edit-price.component';
+import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail-page.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { EditPriceComponent } from './edit-price/edit-price.component';
     ConfirmShippedComponent,
     DateTimeComponent,
     EditPriceComponent,
+    InvoiceDetailPageComponent,
   ],
   exports: [
     StatusBadgeComponent,
@@ -77,6 +79,7 @@ import { EditPriceComponent } from './edit-price/edit-price.component';
     ConfirmShippedComponent,
     DateTimeComponent,
     EditPriceComponent,
+    InvoiceDetailPageComponent,
   ],
   imports: [
     CommonModule,

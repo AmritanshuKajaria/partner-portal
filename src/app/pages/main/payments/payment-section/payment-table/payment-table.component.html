@@ -7,10 +7,12 @@
     [nzPageSizeOptions]="pageSizeOptions"
     [nzFrontPagination]="false"
     [nzTotal]="total"
+    [nzShowTotal]="totalTemplate"
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
     [nzScroll]="{ x: '100%' }"
+    (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
       <tr>
@@ -31,24 +33,73 @@
     <tbody>
       <ng-template ngFor let-data [ngForOf]="listOfData">
         <tr>
-          <td>{{ data?.invoiceNo }}</td>
-          <td>
+          <td style="white-space: nowrap">
             <a
               style="color: #1221c3"
-              [routerLink]="'po-details/' + data?.poNumber"
-              ><u
-                ><b>{{ data.poNumber }}</b></u
+              [routerLink]="'invoice-details/' + data?.invoice_no"
+            >
+              <u
+                ><b>{{ data?.invoice_no }}</b></u
               ></a
             >
           </td>
-          <td>{{ data?.invoiceDate }}</td>
-          <td>{{ data?.invoiceAmount | currency }}</td>
-          <td>{{ data?.paymentDueDate }}</td>
-          <td>{{ data?.chargebackAmount | currency }}</td>
-          <td>{{ data?.toBePaidAmount | currency }}</td>
+          <td style="white-space: nowrap">
+            <a
+              style="color: #1221c3"
+              [routerLink]="'po-details/' + data?.po_no"
+            >
+              <u
+                ><b>{{ data.po_no }}</b></u
+              ></a
+            >
+          </td>
+          <td style="white-space: nowrap">{{ data?.type }}</td>
+          <td>
+            <span style="white-space: nowrap">
+              {{ data?.invoice_date ? (data?.invoice_date | customDate) : "" }}
+            </span>
+          </td>
+
+          <td>
+            <span style="white-space: nowrap">
+              {{ data?.due_date ? (data?.due_date | customDate) : "" }}
+            </span>
+          </td>
+
+          <td style="white-space: nowrap">
+            {{ data?.invoice_amount | currency }}
+          </td>
+          <td style="white-space: nowrap">
+            {{ data?.adjustment_amount | currency }}
+          </td>
+          <td style="white-space: nowrap">
+            {{ data?.paid_amount | currency }}
+          </td>
+          <td style="white-space: nowrap">{{ data?.due_amount | currency }}</td>
+          <td style="white-space: nowrap">
+            <a style="color: #1221c3">
+              <u
+                ><b>{{ data?.remittance_no }}</b></u
+              ></a
+            >
+          </td>
+
+          <td>
+            <span style="white-space: nowrap">
+              {{
+                data?.remittance_date
+                  ? (data?.remittance_date | customDate)
+                  : ""
+              }}
+            </span>
+          </td>
+
           <td>{{ data?.remarks }}</td>
         </tr>
       </ng-template>
     </tbody>
   </nz-table>
+  <ng-template #totalTemplate let-total
+    >Total <b>{{ total }}</b> items</ng-template
+  >
 </div>
