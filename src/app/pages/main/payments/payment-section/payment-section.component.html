@@ -1,17 +1,37 @@
 <div class="payment-section">
-  <app-section-header [header]="'Payment Section'"></app-section-header>
+  <app-section-header [header]="'Payments'"></app-section-header>
 
   <div class="body-section">
     <nz-tabset nzType="card">
-      <nz-tab nzTitle="Remittance">
+      <nz-tab nzTitle="Transaction View">
+        <ul style="padding-left: 14px">
+          <li>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur,
+            adipisci laboriosam impedit velit distinctio laborum accusamus
+            deserunt, recusandae itaque explicabo labore eligendi inventore modi
+            est.
+          </li>
+        </ul>
+        <app-invoice-payment-status></app-invoice-payment-status
+      ></nz-tab>
+      <nz-tab nzTitle="Open Balances">
+        <ul style="padding-left: 14px">
+          <li>
+            This is a different text for the Open Balances tab. It provides
+            information about the current open balances and their details.
+          </li>
+        </ul>
+        <app-scheduled-payments></app-scheduled-payments
+      ></nz-tab>
+      <nz-tab nzTitle="Past Remittances">
+        <ul style="padding-left: 14px">
+          <li>
+            This is a different text for the Past Remittances tab. It provides
+            information about the past remittances and their details.
+          </li>
+        </ul>
         <app-remittance></app-remittance>
       </nz-tab>
-      <nz-tab nzTitle="Scheduled Payments"
-        ><app-scheduled-payments></app-scheduled-payments
-      ></nz-tab>
-      <nz-tab nzTitle="Invoice Payment Status"
-        ><app-invoice-payment-status></app-invoice-payment-status
-      ></nz-tab>
     </nz-tabset>
   </div>
 </div>

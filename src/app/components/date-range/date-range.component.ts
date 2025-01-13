@@ -14,6 +14,7 @@ export class DateRangeComponent implements OnInit {
   @Output() searchChange = new EventEmitter();
   @Output() export = new EventEmitter();
   @Input() badgeTotal: number = 0;
+  @Input() showFilter: boolean = true;
   ranges = {
     Today: [new Date(), new Date()],
     YesterDay: [

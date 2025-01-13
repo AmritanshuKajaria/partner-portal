@@ -18,6 +18,7 @@ import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 import { formatDate } from '@angular/common';
+import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
   selector: 'app-export-model',
@@ -44,6 +45,7 @@ export class ExportModelComponent implements OnInit {
     private promotionsService: PromotionsService,
     private dashboardService: DashboardService,
     private ordersService: OrdersService,
+    private paymentService: PaymentService,
     @Inject(LOCALE_ID) public locale: string
   ) {}
   ngOnInit(): void {}
@@ -253,6 +255,21 @@ export class ExportModelComponent implements OnInit {
         },
         error: (err: any) => (this.isLoading = false),
       });
+    } else if (this.sectionName === 'paymets') {
+      this.paymentService.exportPaymets().subscribe(
+        (response: any) => {
+          console.log(response);
+          if (response.success) {
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          }
+          this.handleCancel();
+          this.isLoading = false;
+        },
+        (err: any) => (this.isLoading = false)
+      );
     } else if (!this.showFilterOptions) {
       const data: ExportDash = {
         code: this.code,

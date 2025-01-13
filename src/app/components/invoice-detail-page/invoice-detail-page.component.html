@@ -1,0 +1,40 @@
+<div class="invoice-detail-page">
+  <nz-spin [nzSpinning]="isLoading">
+    <div class="user-content">
+      <div class="tab-header">
+        <span>Invoice Details # {{ invoiceNo }}</span>
+        <a routerLink="/main/payments/payment-section"
+          ><span nz-icon nzType="close" nzTheme="outline"></span
+        ></a>
+      </div>
+    </div>
+    <div
+      *ngIf="!invoiceNotExist"
+      style="display: flex; justify-content: center; padding: 15px 0"
+    >
+      <nz-alert
+        style="width: 50%"
+        nzType="error"
+        nzMessage="No such INVOICE exist"
+      ></nz-alert>
+    </div>
+    <div *ngIf="invoiceNotExist">
+      <div
+        style="margin-top: 0; padding-top: 0"
+        class="section"
+        nz-row
+        [nzGutter]="16"
+      >
+        <div nz-col [nzXl]="12" [nzSm]="24">
+          <div class="card">
+            <div class="user-content">
+              <div class="tab-header">
+                <span>Details UI is pending</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nz-spin>
+</div>

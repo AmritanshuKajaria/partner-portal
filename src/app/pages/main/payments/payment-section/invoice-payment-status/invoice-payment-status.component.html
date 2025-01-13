@@ -21,26 +21,43 @@
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
-      <span style="font-weight: 500"
-        >Note : Press enter/ backspace to add multiple values</span
-      >
+      <span style="font-weight: 500">
+        Note : Press enter/ backspace to add multiple values
+      </span>
     </form>
+
     <button
       nz-button
       nzType="primary"
-      style="margin-top: 4px"
+      style="margin-top: 0px; margin-left: 4px"
       class="action-button"
+      [disabled]="!tags.length"
+      (click)="onSubmit()"
     >
+      <span
+        *ngIf="submitButtonLoading"
+        style="color: white; font-size: 16px"
+        nz-icon
+        nzType="loading"
+      ></span>
       Submit
     </button>
   </div>
 
-  <app-payment-table
-    [listOfData]="invoicePaymentStatusList"
-    [total]="total"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
-    [isLoading]="isLoading"
-    [tabName]="'Invoice Payment Status'"
-  ></app-payment-table>
+  <div
+    *ngIf="
+      transactionViewDataList.length && tags.length && !submitButtonLoading
+    "
+  >
+    <app-payment-table
+      [listOfData]="transactionViewDataList"
+      [total]="total"
+      [pageSize]="pageSize"
+      [pageIndex]="pageIndex"
+      [isLoading]="isLoading"
+      [tabName]="'transactionView'"
+      (pageChange)="pageIndexChange($event)"
+      (searchChange)="searchDataChanges($event)"
+    ></app-payment-table>
+  </div>
 </div>

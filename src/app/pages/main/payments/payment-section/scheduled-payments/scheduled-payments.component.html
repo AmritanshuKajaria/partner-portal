@@ -1,38 +1,18 @@
-<div class="scheduled-payment-section">
-  <div style="display: flex; justify-content: end; margin-bottom: 10px">
-    <button
-      style="margin: 0 10px"
-      nz-button
-      nzType="primary"
-      nzShape="round"
-      (click)="openModal()"
-    >
-      <div style="display: flex; align-items: center">
-        <span nz-icon nzType="upload" nzTheme="outline"></span>
-        <span style="margin-left: 5px; margin-top: -3px">Export</span>
-      </div>
-    </button>
+<div class="open-balance-section">
+  <div>
+    Total Outstanding Balance: <strong>{{ 20012.12 | currency }}</strong>
   </div>
 
+  <!-- Table componets -->
   <app-payment-table
-    [listOfData]="scheduledPaymentsList"
+    [listOfData]="openBalancesDataList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
-    [tabName]="'Scheduled Payments'"
+    [tabName]="'openBalances'"
+    (pageChange)="pageIndexChange($event)"
+    (searchChange)="searchDataChanges($event)"
+    (filterChange)="filterDataChanges($event)"
   ></app-payment-table>
 </div>
-
-<nz-modal
-  [(nzVisible)]="isUploadVisible"
-  nzTitle="Which Products would you like to export?"
-  (nzOnCancel)="handleCancel()"
->
-  <ng-container *nzModalContent>
-    <app-export-model
-      [exportType]="exportType"
-      (close)="handleCancel()"
-    ></app-export-model>
-  </ng-container>
-</nz-modal>

@@ -1,6 +1,14 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
+import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
+import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
   selector: 'app-invoice-payment-status',
@@ -8,56 +16,60 @@ import { find, get, pull } from 'lodash';
   styleUrls: ['./invoice-payment-status.component.scss'],
 })
 export class InvoicePaymentStatusComponent implements OnInit {
+  @Output() totalData = new EventEmitter();
+
   filterForm!: FormGroup;
   isLoading: boolean = false;
   total = 1;
-  pageSize = 10;
+  pageSize = 100;
   pageIndex = 1;
-  pageSizeOptions = [5, 10, 15, 20];
 
-  invoicePaymentStatusList = [
-    {
-      id: 1,
-      invoiceNo: 'UAL-REM-45',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4561',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
-      remarks: 'Will be paid on due date',
-    },
-    {
-      id: 2,
-      invoiceNo: 'UAL-REM-44',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4560',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
-      remarks: 'Will be paid on due date',
-    },
-    {
-      id: 3,
-      invoiceNo: 'UAL-REM-43',
-      invoiceDate: '4/21/23',
-      invoiceAmount: '450.00',
-      poNumber: 'PO-4559',
-      paymentDueDate: '4/23/23',
-      chargebackAmount: '20.00',
-      toBePaidAmount: '430.00',
-      remarks: 'Will be paid on due date',
-    },
-  ];
+  isExportVisible: boolean = false;
+  badgeTotal: number = 0;
+  search_term: string = '';
+  submitButtonLoading: boolean = false;
+
+  transactionViewDataList: SinglePayment[] = [];
   tagInputRef!: ElementRef;
   tags: string[] = [];
+  sidenavSection: any;
 
-  constructor() {}
+  constructor(private paymentService: PaymentService) {}
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       filter: new FormControl(''),
     });
+  }
+
+  getPaymentList(page: number, search_term?: string) {
+    this.isLoading = true;
+    const data: Payments = {
+      page: page,
+      payment_type: '1',
+      search_term: search_term,
+    };
+    this.paymentService.getAllPayments(data).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.total = response?.pagination?.total_rows ?? 0;
+          this.totalData.emit(+this.total);
+          this.transactionViewDataList = response?.payments ?? [];
+        }
+        this.isLoading = false;
+      },
+      error: (err) => (this.isLoading = false),
+    });
+  }
+
+  pageIndexChange(page: any): void {
+    this.pageIndex = page;
+    this.getPaymentList(this.pageIndex, this.search_term);
+  }
+
+  searchDataChanges(event: string) {
+    this.search_term = event;
+    this.pageIndex = 1;
+    this.getPaymentList(this.pageIndex, this.search_term);
   }
 
   focusTagInput(): void {
@@ -93,6 +105,24 @@ export class InvoicePaymentStatusComponent implements OnInit {
       pull(this.tags, tag);
     } else {
       this.tags.splice(-1);
+      this.transactionViewDataList = [];
     }
+  }
+
+  onSubmit() {
+    this.submitButtonLoading = true;
+    this.pageIndex = 1;
+    this.search_term = '';
+    this.paymentService.getPyments().subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.total = response?.pagination?.total_rows ?? 0;
+          this.totalData.emit(+this.total);
+          this.transactionViewDataList = response?.payments ?? [];
+        }
+        this.submitButtonLoading = false;
+      },
+      error: (err) => (this.submitButtonLoading = false),
+    });
   }
 }

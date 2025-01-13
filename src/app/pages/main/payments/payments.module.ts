@@ -12,6 +12,7 @@ import { ScheduledPaymentsComponent } from './payment-section/scheduled-payments
 import { InvoicePaymentStatusComponent } from './payment-section/invoice-payment-status/invoice-payment-status.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { PaymentTableComponent } from './payment-section/payment-table/payment-table.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PaymentTableComponent } from './payment-section/payment-table/payment-t
     ReactiveFormsModule,
     FormsModule,
     ComponentModule,
+    SharedModule,
   ],
 })
 export class PaymentsModule {}

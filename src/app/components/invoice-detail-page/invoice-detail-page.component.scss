@@ -1,0 +1,29 @@
+@import "../../../assets/variable/variable.scss";
+
+.invoice-detail-page {
+  border: 0 solid rgba(0, 0, 0, 0.125);
+  background-color: $white;
+  background-clip: border-box;
+  border-radius: 5px;
+
+  .user-content {
+    .tab-header {
+      border-bottom: 1px solid $border;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+
+      a {
+        color: $black;
+      }
+    }
+  }
+
+  .section {
+    padding: 0.5rem 1rem;
+    margin-top: 10px;
+  }
+}
