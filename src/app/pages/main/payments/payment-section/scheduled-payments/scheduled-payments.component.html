@@ -1,37 +1,18 @@
-<div class="scheduled-payment-section">
-  <div>Total Outstanding Balance: $XX,XXX.XX</div>
+<div class="open-balance-section">
+  <div>
+    Total Outstanding Balance: <strong>{{ 20012.12 | currency }}</strong>
+  </div>
 
-  <app-date-range
-    (export)="isExportVisible = true"
-    [showFilter]="true"
-    [badgeTotal]="badgeTotal"
-    (searchChange)="searchDataChanges($event)"
-  ></app-date-range>
-
+  <!-- Table componets -->
   <app-payment-table
     [listOfData]="openBalancesDataList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
-    [tabName]="'Open Balances'"
+    [tabName]="'openBalances'"
+    (pageChange)="pageIndexChange($event)"
+    (searchChange)="searchDataChanges($event)"
+    (filterChange)="filterDataChanges($event)"
   ></app-payment-table>
-
-  <nz-modal
-    [(nzVisible)]="isExportVisible"
-    nzTitle="Which paymets would you like to export?"
-    (nzOnCancel)="isExportVisible = false"
-  >
-    <ng-container *nzModalContent>
-      <app-export-model
-        [exportType]="false"
-        [sectionName]="'payments'"
-        [description]="
-          'Your paymets will be exported as a CSV file and sent to your email.'
-        "
-        [noOfFilter]="total"
-        (close)="isExportVisible = false"
-      ></app-export-model>
-    </ng-container>
-  </nz-modal>
 </div>

@@ -3,6 +3,8 @@ import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { Payments } from '../model/payments.modal';
+import { formatDate } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -42,6 +44,8 @@ export class PaymentService {
           remittance_no: 'UAL-REM-45',
           remittance_date: '4/22/23',
           remarks: 'Will be paid on due date',
+          no_of_items: 5,
+          remittance_amount: '450.00',
         },
         {
           id: 2,
@@ -57,6 +61,8 @@ export class PaymentService {
           remittance_no: 'UAL-REM-46',
           remittance_date: '4/23/23',
           remarks: 'Will be paid on due date',
+          no_of_items: 5,
+          remittance_amount: '450.00',
         },
       ],
     }).pipe(delay(1000));
@@ -66,8 +72,56 @@ export class PaymentService {
     return this.http.post(this.url + '/export-paymets', {});
   }
 
-  getAllPayments(payload: any) {
-    console.log(payload);
+  getAllPayments(action: Payments) {
+    let params = new HttpParams()
+      .set('page', action.page)
+      .set('payment_type', action.payment_type);
+    if (action.filter_remittance_start_date) {
+      params = params.append(
+        'filter_remittance_start_date',
+        formatDate(
+          action?.filter_remittance_start_date,
+          'yyyy-MM-dd',
+          this.locale
+        )
+      );
+    }
+
+    if (action.filter_remittance_end_date) {
+      params = params.append(
+        'filter_remittance_end_date',
+        formatDate(
+          action?.filter_remittance_end_date,
+          'yyyy-MM-dd',
+          this.locale
+        )
+      );
+    }
+
+    if (action.filter_invoice_start_date) {
+      params = params.append(
+        'filter_invoice_start_date',
+        formatDate(action?.filter_invoice_start_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
+
+    if (action.filter_invoice_end_date) {
+      params = params.append(
+        'filter_invoice_end_date',
+        formatDate(action?.filter_invoice_end_date, 'yyyy-MM-dd', this.locale)
+      );
+    }
+
+    if (action.search_term) {
+      params = params.append('search_term', action?.search_term);
+    }
+
+    // return this.http.get(this.url + '/payments', {
+    //   params: params,
+    // });
+
+    console.log(this.url + params);
+
     return of({
       success: true,
       processed_at: '2023-06-13T07:46:52.000Z',
@@ -95,6 +149,8 @@ export class PaymentService {
           remittance_no: 'UAL-REM-45',
           remittance_date: '4/22/23',
           remarks: 'Will be paid on due date',
+          no_of_items: 5,
+          remittance_amount: '450.00',
         },
         {
           id: 2,
@@ -110,6 +166,8 @@ export class PaymentService {
           remittance_no: 'UAL-REM-46',
           remittance_date: '4/23/23',
           remarks: 'Will be paid on due date',
+          no_of_items: 5,
+          remittance_amount: '450.00',
         },
       ],
     }).pipe(delay(1000));

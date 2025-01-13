@@ -1,59 +1,18 @@
 <div class="remittance-section">
-  <nz-table
-    #nzTable
-    nzOuterBordered
-    [nzData]="remittanceList"
-    
-    nzShowSizeChanger
-    [nzPageSizeOptions]="pageSizeOptions"
-    [nzFrontPagination]="false"
-    [nzTotal]="total"
-    [nzPageSize]="pageSize"
-    [nzPageIndex]="pageIndex"
-    [nzLoading]="isLoading"
-    [nzScroll]="{ x: '100%' }"
-  >
-    <thead>
-      <tr>
-        <th>Remittance Code</th>
-        <th>Date</th>
-        <th>Total No. Of Invoice(s) Paid</th>
-        <th>Invoice(s) Amount</th>
-        <th>Credit Amount</th>
-        <th>Remittance Amount</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <ng-template ngFor let-data [ngForOf]="remittanceList">
-        <tr>
-          <td>{{ data?.remittanceCode }}</td>
-          <td>{{ data?.date }}</td>
-          <td>{{ data?.totalNo }}</td>
-          <td>{{ data?.invoiceAmount | currency }}</td>
-          <td>{{ data?.creditAmount | currency }}</td>
-          <td>{{ data?.remittanceAmount | currency }}</td>
-          <td>
-            <button
-              nz-dropdown
-              nzTrigger="click"
-              [nzDropdownMenu]="menu"
-              style="height: 35px"
-              nz-button
-              class="action-button"
-              [nzType]="'primary'"
-            >
-              Download
-            </button>
-            <nz-dropdown-menu #menu="nzDropdownMenu">
-              <ul nz-menu>
-                <li nz-menu-item>Excel</li>
-                <li nz-menu-item>PDF</li>
-              </ul>
-            </nz-dropdown-menu>
-          </td>
-        </tr>
-      </ng-template>
-    </tbody>
-  </nz-table>
+  <div>
+    Total Remittance (Last 30 Days): <strong>{{ 12012.12 | currency }}</strong>
+  </div>
+
+  <!-- Table componets -->
+  <app-payment-table
+    [listOfData]="pastRemittancesDataList"
+    [total]="total"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [isLoading]="isLoading"
+    [tabName]="'pastRemittances'"
+    (pageChange)="pageIndexChange($event)"
+    (searchChange)="searchDataChanges($event)"
+    (filterChange)="filterDataChanges($event)"
+  ></app-payment-table>
 </div>

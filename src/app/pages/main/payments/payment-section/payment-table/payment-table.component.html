@@ -1,4 +1,78 @@
 <div class="payment-table">
+  <div class="action">
+    <div style="display: flex">
+      <nz-badge
+        style="margin-right: 10px"
+        [nzShowZero]="false"
+        [nzCount]="badgeTotal"
+        *ngIf="tabName !== 'transactionView'"
+      >
+        <button (click)="openNav()" nz-button nzType="primary" nzShape="round">
+          <span nz-icon nzType="filter" nzTheme="outline"></span>
+          Filter
+        </button>
+      </nz-badge>
+      <button
+        style="margin-right: 10px"
+        nz-button
+        nzType="primary"
+        nzShape="round"
+        (click)="isExportVisible = true"
+      >
+        <span nz-icon nzType="upload" nzTheme="outline"></span> Export
+      </button>
+      <form nz-form [formGroup]="searchForm">
+        <nz-form-item style="margin-bottom: 0 !important">
+          <nz-form-control nzErrorTip="Please input your valid code!">
+            <nz-input-group nzPrefixIcon="search" class="search">
+              <input
+                (keyup)="accountSearch.next($event)"
+                formControlName="search"
+                nz-input
+                placeholder="Search..."
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+
+  <!-- chip -->
+  <div *ngIf="clear_btn && badgeTotal !== 0" class="tag-section">
+    <nz-tag
+      *ngIf="selectInvoiceDate"
+      nzMode="closeable"
+      (nzOnClose)="close('invoiceDate')"
+      >{{ selectInvoiceDate[0] | customDate }} To
+      {{ selectInvoiceDate[1] | customDate }}</nz-tag
+    >
+    <nz-tag
+      *ngIf="selectRemittanceDate"
+      nzMode="closeable"
+      (nzOnClose)="close('remittanceDate')"
+      >{{ selectRemittanceDate[0] | customDate }} To
+      {{ selectRemittanceDate[1] | customDate }}</nz-tag
+    >
+
+    <button
+      *ngIf="badgeTotal >= 1"
+      nz-button
+      nzType="default"
+      (click)="tagFunction()"
+      style="
+        float: none;
+        background-color: white;
+        color: #1221c3;
+        border: 1px solid #1221c3;
+      "
+      class="action-button clear-btn"
+    >
+      clear
+    </button>
+  </div>
+
+  <!-- Table -->
   <nz-table
     #nzTable
     nzOuterBordered
@@ -16,90 +90,222 @@
   >
     <thead>
       <tr>
-        <th>Invoice #</th>
-        <th>PO #</th>
-        <th>Type</th>
-        <th>Invoice Date</th>
-        <th>Due Date</th>
-        <th>Invoice Amount</th>
-        <th>Adjustment Amount</th>
-        <th>Paid Amount</th>
-        <th>Due Amount</th>
-        <th>Remittance #</th>
-        <th>Remittance Date</th>
-        <th>Remarks</th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Invoice #
+        </th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          PO #
+        </th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Type
+        </th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Invoice Date
+        </th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Due Date
+        </th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Invoice Amount
+        </th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Adjustment Amount
+        </th>
+        <th *ngIf="tabName === 'transactionView'">Paid Amount</th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Due Amount
+        </th>
+        <th
+          *ngIf="tabName === 'transactionView' || tabName === 'pastRemittances'"
+          style="white-space: nowrap"
+        >
+          Remittance #
+        </th>
+        <th
+          *ngIf="tabName === 'transactionView' || tabName === 'pastRemittances'"
+        >
+          Remittance Date
+        </th>
+        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+          Remarks
+        </th>
+        <th *ngIf="tabName === 'pastRemittances'">No. Of Item(s)</th>
+        <th *ngIf="tabName === 'pastRemittances'">Remittance Amount</th>
+        <th nzRight class="action-column" *ngIf="tabName === 'pastRemittances'">
+          <div>Actions</div>
+        </th>
       </tr>
     </thead>
+
     <tbody>
       <ng-template ngFor let-data [ngForOf]="listOfData">
         <tr>
-          <td style="white-space: nowrap">
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+            style="white-space: nowrap"
+          >
             <a
               style="color: #1221c3"
               [routerLink]="'invoice-details/' + data?.invoice_no"
             >
               <u
                 ><b>{{ data?.invoice_no }}</b></u
-              ></a
-            >
+              >
+            </a>
           </td>
-          <td style="white-space: nowrap">
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+            style="white-space: nowrap"
+          >
             <a
               style="color: #1221c3"
               [routerLink]="'po-details/' + data?.po_no"
             >
               <u
                 ><b>{{ data.po_no }}</b></u
-              ></a
-            >
+              >
+            </a>
           </td>
-          <td style="white-space: nowrap">{{ data?.type }}</td>
-          <td>
-            <span style="white-space: nowrap">
-              {{ data?.invoice_date ? (data?.invoice_date | customDate) : "" }}
-            </span>
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+            style="white-space: nowrap"
+          >
+            {{ data?.type }}
           </td>
-
-          <td>
-            <span style="white-space: nowrap">
-              {{ data?.due_date ? (data?.due_date | customDate) : "" }}
-            </span>
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+          >
+            <span style="white-space: nowrap">{{
+              data?.invoice_date ? (data?.invoice_date | customDate) : ""
+            }}</span>
           </td>
-
-          <td style="white-space: nowrap">
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+          >
+            <span style="white-space: nowrap">{{
+              data?.due_date ? (data?.due_date | customDate) : ""
+            }}</span>
+          </td>
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+            style="white-space: nowrap"
+          >
             {{ data?.invoice_amount | currency }}
           </td>
-          <td style="white-space: nowrap">
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+            style="white-space: nowrap"
+          >
             {{ data?.adjustment_amount | currency }}
           </td>
-          <td style="white-space: nowrap">
+          <td *ngIf="tabName === 'transactionView'" style="white-space: nowrap">
             {{ data?.paid_amount | currency }}
           </td>
-          <td style="white-space: nowrap">{{ data?.due_amount | currency }}</td>
-          <td style="white-space: nowrap">
-            <a style="color: #1221c3">
-              <u
-                ><b>{{ data?.remittance_no }}</b></u
-              ></a
-            >
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+            style="white-space: nowrap"
+          >
+            {{ data?.due_amount | currency }}
           </td>
-
-          <td>
-            <span style="white-space: nowrap">
-              {{
-                data?.remittance_date
-                  ? (data?.remittance_date | customDate)
-                  : ""
-              }}
-            </span>
+          <td
+            *ngIf="
+              tabName === 'transactionView' || tabName === 'pastRemittances'
+            "
+            style="white-space: nowrap"
+          >
+            {{ data?.remittance_no }}
           </td>
+          <td
+            *ngIf="
+              tabName === 'transactionView' || tabName === 'pastRemittances'
+            "
+          >
+            <span style="white-space: nowrap">{{
+              data?.remittance_date ? (data?.remittance_date | customDate) : ""
+            }}</span>
+          </td>
+          <td
+            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+          >
+            {{ data?.remarks }}
+          </td>
+          <!-- For last tab -->
+          <td *ngIf="tabName === 'pastRemittances'">{{ data?.no_of_items }}</td>
 
-          <td>{{ data?.remarks }}</td>
+          <td *ngIf="tabName === 'pastRemittances'">
+            {{ data?.remittance_amount | currency }}
+          </td>
+          <td nzRight *ngIf="tabName === 'pastRemittances'">
+            <div style="text-align: center">
+              <span
+                nz-icon
+                nzType="download"
+                nzTheme="outline"
+                style="cursor: pointer; font-size: 18px; color: #2121c3"
+              ></span>
+            </div>
+          </td>
         </tr>
       </ng-template>
     </tbody>
   </nz-table>
+
   <ng-template #totalTemplate let-total
     >Total <b>{{ total }}</b> items</ng-template
   >
+
+  <!-- side bar filter -->
+  <div #mySidenav class="filter-section">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()"
+      >&times;</a
+    >
+    <form nz-form [formGroup]="filter" style="padding-bottom: 10px">
+      <div class="filter-content">
+        <div *ngIf="tabName === 'openBalances'">
+          <nz-divider nzText="Invoice Date" nzOrientation="left"></nz-divider>
+          <nz-range-picker
+            formControlName="invoiceDate"
+            (ngModelChange)="
+              change(filter.value.invoiceDate ? $event : '', 'invoiceDate')
+            "
+          ></nz-range-picker>
+        </div>
+
+        <div *ngIf="tabName === 'pastRemittances'">
+          <nz-divider
+            nzText="Remittance Date"
+            nzOrientation="left"
+          ></nz-divider>
+          <nz-range-picker
+            formControlName="remittanceDate"
+            (ngModelChange)="
+              change(
+                filter.value.remittanceDate ? $event : '',
+                'remittanceDate'
+              )
+            "
+          ></nz-range-picker>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
+
+<nz-modal
+  [(nzVisible)]="isExportVisible"
+  nzTitle="Which paymets would you like to export?"
+  (nzOnCancel)="isExportVisible = false"
+>
+  <ng-container *nzModalContent>
+    <app-export-model
+      [exportType]="false"
+      [sectionName]="'payments'"
+      [description]="
+        'Your paymets will be exported as a CSV file and sent to your email.'
+      "
+      [listOfFilter]="listOfFilter"
+      [noOfFilter]="total"
+      (close)="isExportVisible = false"
+    ></app-export-model>
+  </ng-container>
+</nz-modal>

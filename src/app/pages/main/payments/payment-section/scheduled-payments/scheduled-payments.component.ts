@@ -4,9 +4,12 @@ import {
   EventEmitter,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
+import { AppliedFilters } from 'src/app/shared/model/orders.model';
+import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
@@ -22,91 +25,85 @@ export class ScheduledPaymentsComponent implements OnInit {
 
   isLoading: boolean = false;
   total = 1;
-  pageSize = 10;
+  pageSize = 100;
   pageIndex = 1;
 
   isExportVisible: boolean = false;
   badgeTotal: number = 0;
   search_term: string = '';
-  openBalancesDataList: any = [];
+  openBalancesDataList: SinglePayment[] = [];
 
-  tagInputRef!: ElementRef;
-  tags: string[] = [];
-  isUploadVisible: boolean = false;
+  invoice_start_date: string = '';
+  invoice_end_date: string = '';
 
-  constructor(private paymentService: PaymentService) {}
-  ngOnInit(): void {
-    this.filterForm = new FormGroup({
-      filter: new FormControl(''),
-    });
-    this.getPaymentList(1, '');
+  constructor(private paymentService: PaymentService) {
+    this.getPaymentList(
+      this.pageIndex,
+      this.invoice_start_date,
+      this.invoice_end_date,
+      this.search_term
+    );
   }
 
-  getPaymentList(page: number, search_term?: string) {
+  ngOnInit(): void {}
+
+  getPaymentList(
+    page: number,
+    invoice_start_date?: string,
+    invoice_end_date?: string,
+    search_term?: string
+  ) {
     this.isLoading = true;
-    this.paymentService
-      .getAllPayments({
-        page: page,
-        payment_type: '2',
-        search_term: search_term,
-      })
-      .subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(+this.total);
-            this.openBalancesDataList = response?.payments ?? [];
-          }
-          this.isLoading = false;
-        },
-        error: (err) => (this.isLoading = false),
-      });
-  }
-
-  onPageIndexChange(page: number): void {
-    this.pageIndex = page;
-    this.getPaymentList(this.pageIndex, this.search_term);
+    const data: Payments = {
+      page: page,
+      payment_type: '2',
+      filter_invoice_start_date: invoice_start_date,
+      filter_invoice_end_date: invoice_end_date,
+      search_term: search_term,
+    };
+    this.paymentService.getAllPayments(data).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.total = response?.pagination?.total_rows ?? 0;
+          this.totalData.emit(+this.total);
+          this.openBalancesDataList = response?.payments ?? [];
+        }
+        this.isLoading = false;
+      },
+      error: (err) => (this.isLoading = false),
+    });
   }
 
   searchDataChanges(event: string) {
     this.search_term = event;
     this.pageIndex = 1;
-    this.getPaymentList(this.pageIndex, this.search_term);
+    this.getPaymentList(
+      this.pageIndex,
+      this.invoice_start_date,
+      this.invoice_end_date,
+      this.search_term
+    );
   }
 
-  focusTagInput(): void {
-    // this.tagInputRef.nativeElement.focus();
+  pageIndexChange(page: number) {
+    this.pageIndex = page;
+    this.getPaymentList(
+      this.pageIndex,
+      this.invoice_start_date,
+      this.invoice_end_date,
+      this.search_term
+    );
   }
 
-  onKeyUp(event: KeyboardEvent): void {
-    const inputValue: string = this.filterForm.controls['filter'].value;
-    if (event.code === 'Backspace' && !inputValue) {
-      this.removeTag();
-      return;
-    } else {
-      if (
-        event.code === 'Comma' ||
-        event.code === 'Space' ||
-        event.code === 'Enter'
-      ) {
-        this.addTag(inputValue);
-        this.filterForm.controls['filter'].setValue('');
-      }
-    }
-  }
-  addTag(tag: string): void {
-    if (tag[tag.length - 1] === ',' || tag[tag.length - 1] === ' ') {
-      tag = tag.slice(0, -1);
-    }
-    if (tag.length > 0 && !find(this.tags, tag)) {
-      this.tags.push(tag);
-    }
-  }
-  removeTag(tag?: string): void {
-    if (!!tag) {
-      pull(this.tags, tag);
-    } else {
-      this.tags.splice(-1);
-    }
+  filterDataChanges(filters: any) {
+    this.invoice_start_date = filters?.invoice_start_date ?? '';
+    this.invoice_end_date = filters?.invoice_end_date ?? '';
+    this.pageIndex = 1;
+    this.getPaymentList(
+      this.pageIndex,
+      this.invoice_start_date,
+      this.invoice_end_date,
+      this.search_term
+    );
   }
 }

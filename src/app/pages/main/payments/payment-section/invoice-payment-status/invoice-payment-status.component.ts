@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
+import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
@@ -28,7 +29,7 @@ export class InvoicePaymentStatusComponent implements OnInit {
   search_term: string = '';
   submitButtonLoading: boolean = false;
 
-  transactionViewDataList: any = [];
+  transactionViewDataList: SinglePayment[] = [];
   tagInputRef!: ElementRef;
   tags: string[] = [];
   sidenavSection: any;
@@ -42,26 +43,25 @@ export class InvoicePaymentStatusComponent implements OnInit {
 
   getPaymentList(page: number, search_term?: string) {
     this.isLoading = true;
-    this.paymentService
-      .getAllPayments({
-        page: page,
-        payment_type: '1',
-        search_term: search_term,
-      })
-      .subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.total = response?.pagination?.total_rows ?? 0;
-            this.totalData.emit(+this.total);
-            this.transactionViewDataList = response?.payments ?? [];
-          }
-          this.isLoading = false;
-        },
-        error: (err) => (this.isLoading = false),
-      });
+    const data: Payments = {
+      page: page,
+      payment_type: '1',
+      search_term: search_term,
+    };
+    this.paymentService.getAllPayments(data).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.total = response?.pagination?.total_rows ?? 0;
+          this.totalData.emit(+this.total);
+          this.transactionViewDataList = response?.payments ?? [];
+        }
+        this.isLoading = false;
+      },
+      error: (err) => (this.isLoading = false),
+    });
   }
 
-  onPageIndexChange(page: number): void {
+  pageIndexChange(page: any): void {
     this.pageIndex = page;
     this.getPaymentList(this.pageIndex, this.search_term);
   }

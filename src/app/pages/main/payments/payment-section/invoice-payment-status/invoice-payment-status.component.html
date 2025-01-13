@@ -49,39 +49,15 @@
       transactionViewDataList.length && tags.length && !submitButtonLoading
     "
   >
-    <app-date-range
-      (export)="isExportVisible = true"
-      [showFilter]="false"
-      [badgeTotal]="badgeTotal"
-      (searchChange)="searchDataChanges($event)"
-    ></app-date-range>
-
     <app-payment-table
       [listOfData]="transactionViewDataList"
       [total]="total"
       [pageSize]="pageSize"
       [pageIndex]="pageIndex"
       [isLoading]="isLoading"
-      [tabName]="'Transaction View'"
-      (pageIndexChange)="onPageIndexChange($event)"
+      [tabName]="'transactionView'"
+      (pageChange)="pageIndexChange($event)"
+      (searchChange)="searchDataChanges($event)"
     ></app-payment-table>
   </div>
-
-  <nz-modal
-    [(nzVisible)]="isExportVisible"
-    nzTitle="Which paymets would you like to export?"
-    (nzOnCancel)="isExportVisible = false"
-  >
-    <ng-container *nzModalContent>
-      <app-export-model
-        [exportType]="false"
-        [sectionName]="'payments'"
-        [description]="
-          'Your paymets will be exported as a CSV file and sent to your email.'
-        "
-        [noOfFilter]="total"
-        (close)="isExportVisible = false"
-      ></app-export-model>
-    </ng-container>
-  </nz-modal>
 </div>
