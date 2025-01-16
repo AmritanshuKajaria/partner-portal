@@ -16,58 +16,6 @@ export class PaymentService {
     @Inject(LOCALE_ID) public locale: string
   ) {}
 
-  getPyments() {
-    return of({
-      success: true,
-      processed_at: '2023-06-13T07:46:52.000Z',
-      requested_partner_id: '03b0b0e6-2118-42fc-8495-a091365bee1d',
-      requested_user_id: 'ab1a0fbb-bd96-4e70-85e6-e1bc76111036',
-      pagination: {
-        total_rows: 500,
-        current_page: 1,
-        total_pages: 50,
-      },
-      searched: false,
-      applied_search_term: '',
-      payments: [
-        {
-          id: 1,
-          invoice_no: 'SD_SD_DF',
-          po_no: 'PO-4561',
-          type: 'Standard',
-          invoice_date: '4/21/23',
-          due_date: '4/23/23',
-          invoice_amount: '450.00',
-          adjustment_amount: '0.00',
-          paid_amount: '0.00',
-          due_amount: '450.00',
-          remittance_no: 'UAL-REM-45',
-          remittance_date: '4/22/23',
-          remarks: 'Will be paid on due date',
-          no_of_items: 5,
-          remittance_amount: '450.00',
-        },
-        {
-          id: 2,
-          invoice_no: 'SD_SD_DG',
-          po_no: 'PO-4562',
-          type: 'Standard',
-          invoice_date: '4/22/23',
-          due_date: '4/24/23',
-          invoice_amount: '500.00',
-          adjustment_amount: '0.00',
-          paid_amount: '0.00',
-          due_amount: '500.00',
-          remittance_no: 'UAL-REM-46',
-          remittance_date: '4/23/23',
-          remarks: 'Will be paid on due date',
-          no_of_items: 5,
-          remittance_amount: '450.00',
-        },
-      ],
-    }).pipe(delay(1000));
-  }
-
   exportPaymets(data: any) {
     return this.http.post(this.url + '/export-paymets', data);
   }
@@ -116,11 +64,18 @@ export class PaymentService {
       params = params.append('search_term', action?.search_term);
     }
 
+    if (action.invoice_po_number_search) {
+      params = params.append(
+        'invoice_po_number_search',
+        action?.invoice_po_number_search
+      );
+    }
+
     // return this.http.get(this.url + '/payments', {
     //   params: params,
     // });
 
-    console.log(this.url + params);
+    console.log(this.url + '?' + params);
 
     return of({
       success: true,

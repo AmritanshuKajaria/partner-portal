@@ -6,6 +6,7 @@ export interface Payments {
   filter_remittance_start_date?: string;
   filter_remittance_end_date?: string;
   search_term?: string;
+  invoice_po_number_search?: string;
 }
 
 export interface SinglePayment {
