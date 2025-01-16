@@ -68,8 +68,8 @@ export class PaymentService {
     }).pipe(delay(1000));
   }
 
-  exportPaymets() {
-    return this.http.post(this.url + '/export-paymets', {});
+  exportPaymets(data: any) {
+    return this.http.post(this.url + '/export-paymets', data);
   }
 
   getAllPayments(action: Payments) {
