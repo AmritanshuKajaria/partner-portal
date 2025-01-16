@@ -11,11 +11,11 @@ import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
-  selector: 'app-invoice-payment-status',
-  templateUrl: './invoice-payment-status.component.html',
-  styleUrls: ['./invoice-payment-status.component.scss'],
+  selector: 'app-transaction-view',
+  templateUrl: './transaction-view.component.html',
+  styleUrls: ['./transaction-view.component.scss'],
 })
-export class InvoicePaymentStatusComponent implements OnInit {
+export class TransactionViewComponent implements OnInit {
   @Output() totalData = new EventEmitter();
 
   filterForm!: FormGroup;
