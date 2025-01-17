@@ -4,11 +4,11 @@ import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
-  selector: 'app-remittance',
-  templateUrl: './remittance.component.html',
-  styleUrls: ['./remittance.component.scss'],
+  selector: 'app-past-remittances',
+  templateUrl: './past-remittances.component.html',
+  styleUrls: ['./past-remittances.component.scss'],
 })
-export class RemittanceComponent implements OnInit {
+export class PastRemittancesComponent implements OnInit {
   @Output() totalData = new EventEmitter();
 
   isLoading: boolean = false;
@@ -48,8 +48,8 @@ export class RemittanceComponent implements OnInit {
     const data: Payments = {
       page: page,
       payment_type: '3',
-      filter_remittance_start_date: remittance_start_date,
-      filter_remittance_end_date: remittance_end_date,
+      filter_from_remittance_date: remittance_start_date,
+      filter_to_remittance_date: remittance_end_date,
       search_term: search_term,
     };
     this.paymentService.getAllPayments(data).subscribe({

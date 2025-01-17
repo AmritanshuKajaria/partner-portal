@@ -13,11 +13,11 @@ import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
-  selector: 'app-scheduled-payments',
-  templateUrl: './scheduled-payments.component.html',
-  styleUrls: ['./scheduled-payments.component.scss'],
+  selector: 'app-open-balances',
+  templateUrl: './open-balances.component.html',
+  styleUrls: ['./open-balances.component.scss'],
 })
-export class ScheduledPaymentsComponent implements OnInit {
+export class OpenBalancesComponent implements OnInit {
   @Output() totalData = new EventEmitter();
 
   filterForm!: FormGroup;
@@ -57,8 +57,8 @@ export class ScheduledPaymentsComponent implements OnInit {
     const data: Payments = {
       page: page,
       payment_type: '2',
-      filter_invoice_start_date: invoice_start_date,
-      filter_invoice_end_date: invoice_end_date,
+      filter_from_invoice_date: invoice_start_date,
+      filter_to_invoice_date: invoice_end_date,
       search_term: search_term,
     };
     this.paymentService.getAllPayments(data).subscribe({

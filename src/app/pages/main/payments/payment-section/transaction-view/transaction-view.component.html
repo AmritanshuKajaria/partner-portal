@@ -31,7 +31,7 @@
       nzType="primary"
       style="margin-top: 0px; margin-left: 4px"
       class="action-button"
-      [disabled]="!tags.length"
+      [disabled]="!filterForm.controls['filter'].value && tags.length === 0"
       (click)="onSubmit()"
     >
       <span

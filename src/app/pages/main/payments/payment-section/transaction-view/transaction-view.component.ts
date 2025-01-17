@@ -11,11 +11,11 @@ import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
-  selector: 'app-invoice-payment-status',
-  templateUrl: './invoice-payment-status.component.html',
-  styleUrls: ['./invoice-payment-status.component.scss'],
+  selector: 'app-transaction-view',
+  templateUrl: './transaction-view.component.html',
+  styleUrls: ['./transaction-view.component.scss'],
 })
-export class InvoicePaymentStatusComponent implements OnInit {
+export class TransactionViewComponent implements OnInit {
   @Output() totalData = new EventEmitter();
 
   filterForm!: FormGroup;
@@ -47,6 +47,7 @@ export class InvoicePaymentStatusComponent implements OnInit {
       page: page,
       payment_type: '1',
       search_term: search_term,
+      invoice_po_number_search: this.tags?.join(','),
     };
     this.paymentService.getAllPayments(data).subscribe({
       next: (response) => {
@@ -56,8 +57,12 @@ export class InvoicePaymentStatusComponent implements OnInit {
           this.transactionViewDataList = response?.payments ?? [];
         }
         this.isLoading = false;
+        this.submitButtonLoading = false;
       },
-      error: (err) => (this.isLoading = false),
+      error: (err) => {
+        this.isLoading = false;
+        this.submitButtonLoading = false;
+      },
     });
   }
 
@@ -110,19 +115,15 @@ export class InvoicePaymentStatusComponent implements OnInit {
   }
 
   onSubmit() {
+    // update tages while on submit
+    const inputValue: string = this.filterForm.controls['filter'].value;
+    this.addTag(inputValue);
+    this.filterForm.controls['filter'].setValue('');
+
     this.submitButtonLoading = true;
     this.pageIndex = 1;
     this.search_term = '';
-    this.paymentService.getPyments().subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.totalData.emit(+this.total);
-          this.transactionViewDataList = response?.payments ?? [];
-        }
-        this.submitButtonLoading = false;
-      },
-      error: (err) => (this.submitButtonLoading = false),
-    });
+
+    this.getPaymentList(this.pageIndex, this.search_term);
   }
 }

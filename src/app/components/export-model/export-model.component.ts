@@ -255,8 +255,50 @@ export class ExportModelComponent implements OnInit {
         },
         error: (err: any) => (this.isLoading = false),
       });
-    } else if (this.sectionName === 'paymets') {
-      this.paymentService.exportPaymets().subscribe(
+    } else if (this.sectionName === 'payments') {
+      let filters: any = {};
+
+      if (this.listOfFilter?.remittance_start_date) {
+        filters['filter_from_remittance_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.remittance_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.remittance_end_date) {
+        filters['filter_to_remittance_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.remittance_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.invoice_start_date) {
+        filters['filter_from_invoice_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.invoice_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.invoice_end_date) {
+        filters['filter_to_invoice_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.invoice_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      this.paymentService.exportPaymets(filters).subscribe(
         (response: any) => {
           console.log(response);
           if (response.success) {
