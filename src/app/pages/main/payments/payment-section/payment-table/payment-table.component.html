@@ -54,12 +54,9 @@
       >{{ selectRemittanceDate[0] | customDate }} To
       {{ selectRemittanceDate[1] | customDate }}</nz-tag
     >
-    <nz-tag
-      *ngIf="selectType"
-      nzMode="closeable"
-      (nzOnClose)="close('status')"
-      >{{ selectType }}</nz-tag
-    >
+    <nz-tag *ngIf="selectType" nzMode="closeable" (nzOnClose)="close('type')">{{
+      selectType
+    }}</nz-tag>
     <nz-tag *ngIf="dueDate" nzMode="closeable" (nzOnClose)="close('dueDate')">{{
       dueDate | customDate
     }}</nz-tag>
@@ -274,6 +271,7 @@
           <nz-divider nzText="Invoice Date" nzOrientation="left"></nz-divider>
           <nz-range-picker
             formControlName="invoiceDate"
+            [nzFormat]="appDateFormate"
             (ngModelChange)="
               change(filter.value.invoiceDate ? $event : '', 'invoiceDate')
             "
@@ -290,7 +288,7 @@
             (ngModelChange)="change(filter.value.type ? $event : '', 'type')"
             formControlName="type"
           >
-            <nz-option nzLabel="Credit Note" nzValue="CreditNote"></nz-option>
+            <nz-option nzLabel="Credit Note" nzValue="Credit Note"></nz-option>
             <nz-option nzLabel="Invoice" nzValue="Invoice"></nz-option>
           </nz-select>
 
@@ -301,6 +299,7 @@
           ></nz-divider>
           <nz-date-picker
             formControlName="dueDate"
+            [nzFormat]="appDateFormate"
             (ngModelChange)="
               change(filter.value.dueDate ? $event : '', 'dueDate')
             "
