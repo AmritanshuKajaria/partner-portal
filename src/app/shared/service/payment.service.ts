@@ -60,10 +60,21 @@ export class PaymentService {
       params = params.append('search_term', action?.search_term);
     }
 
-    if (action.invoice_po_number_search) {
+    if (action.filter_invoice_po_number) {
       params = params.append(
-        'invoice_po_number_search',
-        action?.invoice_po_number_search
+        'filter_invoice_po_number',
+        action?.filter_invoice_po_number
+      );
+    }
+
+    if (action.filter_type) {
+      params = params.append('filter_type', action?.filter_type);
+    }
+
+    if (action.filter_due_date) {
+      params = params.append(
+        'filter_due_date',
+        formatDate(action?.filter_due_date, 'yyyy-MM-dd', this.locale)
       );
     }
 

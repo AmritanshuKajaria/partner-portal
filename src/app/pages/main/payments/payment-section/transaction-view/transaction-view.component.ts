@@ -28,6 +28,7 @@ export class TransactionViewComponent implements OnInit {
   badgeTotal: number = 0;
   search_term: string = '';
   submitButtonLoading: boolean = false;
+  defaultFilters: any = {};
 
   transactionViewDataList: SinglePayment[] = [];
   tagInputRef!: ElementRef;
@@ -47,8 +48,12 @@ export class TransactionViewComponent implements OnInit {
       page: page,
       payment_type: '1',
       search_term: search_term,
-      invoice_po_number_search: this.tags?.join(','),
+      filter_invoice_po_number: this.tags?.join(','),
     };
+    this.defaultFilters = {
+      filter_invoice_po_number: data?.filter_invoice_po_number,
+    };
+
     this.paymentService.getAllPayments(data).subscribe({
       next: (response) => {
         if (response.success) {

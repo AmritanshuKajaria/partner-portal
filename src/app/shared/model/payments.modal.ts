@@ -6,7 +6,9 @@ export interface Payments {
   filter_from_remittance_date?: string;
   filter_to_remittance_date?: string;
   search_term?: string;
-  invoice_po_number_search?: string;
+  filter_invoice_po_number?: string;
+  filter_type?: string;
+  filter_due_date?: string;
 }
 
 export interface SinglePayment {

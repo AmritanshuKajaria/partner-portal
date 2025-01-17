@@ -25,6 +25,7 @@ export class PaymentTableComponent implements OnInit {
   @Input() isLoading: boolean = false;
   @Input() listOfData: SinglePayment[] = [];
   @Input() tabName: string = '';
+  @Input() defaultFilters: any = {};
 
   @Output() changeModel = new EventEmitter();
   @Output() action = new EventEmitter();
@@ -42,6 +43,8 @@ export class PaymentTableComponent implements OnInit {
   filter!: FormGroup;
   selectInvoiceDate: string = '';
   selectRemittanceDate: string = '';
+  selectType: string = '';
+  dueDate: string = '';
   dateCount: number = 0;
 
   statusEnum: typeof StatusEnum = StatusEnum;
@@ -59,10 +62,13 @@ export class PaymentTableComponent implements OnInit {
     this.filter = new FormGroup({
       invoiceDate: new FormControl(null),
       remittanceDate: new FormControl(null),
+      type: new FormControl(null),
+      dueDate: new FormControl(null),
     });
     this.searchForm = new FormGroup({
       search: new FormControl(''),
     });
+    this.listOfFilter = { ...this.defaultFilters };
   }
 
   openNav() {
@@ -114,6 +120,32 @@ export class PaymentTableComponent implements OnInit {
             remittance_end_date: this.selectRemittanceDate[1],
           };
           break;
+        case 'type':
+          if (value.length !== 0) {
+            this.clear_btn = true;
+            this.selectType = value;
+            if (!this.listOfFilter['type']) {
+              this.badgeTotal++;
+            }
+            this.listOfFilter = {
+              ...this.listOfFilter,
+              type: value,
+            };
+          }
+          break;
+        case 'dueDate':
+          if (value.length !== 0) {
+            this.clear_btn = true;
+            this.dueDate = value;
+            if (!this.listOfFilter['due_date']) {
+              this.badgeTotal++;
+            }
+            this.listOfFilter = {
+              ...this.listOfFilter,
+              due_date: value,
+            };
+          }
+          break;
       }
       this.filterChange.emit(this.listOfFilter);
     } else {
@@ -144,6 +176,22 @@ export class PaymentTableComponent implements OnInit {
               remittance_end_date: null,
             };
             break;
+          case 'type':
+            this.selectType = '';
+            this.listOfFilter = {
+              ...this.listOfFilter,
+              type: null,
+            };
+            this.badgeTotal--;
+            break;
+          case 'dueDate':
+            this.dueDate = '';
+            this.listOfFilter = {
+              ...this.listOfFilter,
+              due_date: null,
+            };
+            this.badgeTotal--;
+            break;
         }
       }
       this.filterChange.emit(this.listOfFilter);
@@ -172,6 +220,8 @@ export class PaymentTableComponent implements OnInit {
         invoice_end_date: this.selectInvoiceDate[1] ?? '',
         remittance_start_date: this.selectRemittanceDate[0] ?? '',
         remittance_end_date: this.selectRemittanceDate[1] ?? '',
+        due_date: this.dueDate ?? '',
+        type: this.selectType ?? '',
       };
       this.filterChange.emit(this.listOfFilter);
     }
@@ -191,6 +241,8 @@ export class PaymentTableComponent implements OnInit {
       invoice_end_date: this.selectInvoiceDate[1] ?? '',
       remittance_start_date: this.selectRemittanceDate[0] ?? '',
       remittance_end_date: this.selectRemittanceDate[1] ?? '',
+      due_date: this.dueDate ?? '',
+      type: this.selectType ?? '',
     };
     this.filterChange.emit(this.listOfFilter);
   }
