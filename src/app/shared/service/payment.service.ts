@@ -24,39 +24,35 @@ export class PaymentService {
     let params = new HttpParams()
       .set('page', action.page)
       .set('payment_type', action.payment_type);
-    if (action.filter_remittance_start_date) {
+    if (action.filter_from_remittance_date) {
       params = params.append(
-        'filter_remittance_start_date',
+        'filter_from_remittance_date',
         formatDate(
-          action?.filter_remittance_start_date,
+          action?.filter_from_remittance_date,
           'yyyy-MM-dd',
           this.locale
         )
       );
     }
 
-    if (action.filter_remittance_end_date) {
+    if (action.filter_to_remittance_date) {
       params = params.append(
-        'filter_remittance_end_date',
-        formatDate(
-          action?.filter_remittance_end_date,
-          'yyyy-MM-dd',
-          this.locale
-        )
+        'filter_to_remittance_date',
+        formatDate(action?.filter_to_remittance_date, 'yyyy-MM-dd', this.locale)
       );
     }
 
-    if (action.filter_invoice_start_date) {
+    if (action.filter_from_invoice_date) {
       params = params.append(
-        'filter_invoice_start_date',
-        formatDate(action?.filter_invoice_start_date, 'yyyy-MM-dd', this.locale)
+        'filter_from_invoice_date',
+        formatDate(action?.filter_from_invoice_date, 'yyyy-MM-dd', this.locale)
       );
     }
 
-    if (action.filter_invoice_end_date) {
+    if (action.filter_to_invoice_date) {
       params = params.append(
-        'filter_invoice_end_date',
-        formatDate(action?.filter_invoice_end_date, 'yyyy-MM-dd', this.locale)
+        'filter_to_invoice_date',
+        formatDate(action?.filter_to_invoice_date, 'yyyy-MM-dd', this.locale)
       );
     }
 
@@ -95,14 +91,14 @@ export class PaymentService {
           invoice_no: 'SD_SD_DF',
           po_no: 'PO-4561',
           type: 'Standard',
-          invoice_date: '4/21/23',
-          due_date: '4/23/23',
+          invoice_date: '2023-02-10',
+          due_date: '2023-02-10',
           invoice_amount: '450.00',
           adjustment_amount: '0.00',
           paid_amount: '0.00',
           due_amount: '450.00',
           remittance_no: 'UAL-REM-45',
-          remittance_date: '4/22/23',
+          remittance_date: '2023-02-10',
           remarks: 'Will be paid on due date',
           no_of_items: 5,
           remittance_amount: '450.00',
@@ -112,14 +108,14 @@ export class PaymentService {
           invoice_no: 'SD_SD_DG',
           po_no: 'PO-4562',
           type: 'Standard',
-          invoice_date: '4/22/23',
-          due_date: '4/24/23',
+          invoice_date: '2023-02-10',
+          due_date: '2023-02-10',
           invoice_amount: '500.00',
           adjustment_amount: '0.00',
           paid_amount: '0.00',
           due_amount: '500.00',
           remittance_no: 'UAL-REM-46',
-          remittance_date: '4/23/23',
+          remittance_date: '2023-02-10',
           remarks: 'Will be paid on due date',
           no_of_items: 5,
           remittance_amount: '450.00',

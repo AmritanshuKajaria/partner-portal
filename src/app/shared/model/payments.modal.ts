@@ -1,10 +1,10 @@
 export interface Payments {
   page: number;
   payment_type: number | string;
-  filter_invoice_start_date?: string;
-  filter_invoice_end_date?: string;
-  filter_remittance_start_date?: string;
-  filter_remittance_end_date?: string;
+  filter_from_invoice_date?: string;
+  filter_to_invoice_date?: string;
+  filter_from_remittance_date?: string;
+  filter_to_remittance_date?: string;
   search_term?: string;
   invoice_po_number_search?: string;
 }

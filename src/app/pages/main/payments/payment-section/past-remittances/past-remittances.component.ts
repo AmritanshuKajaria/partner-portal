@@ -48,8 +48,8 @@ export class PastRemittancesComponent implements OnInit {
     const data: Payments = {
       page: page,
       payment_type: '3',
-      filter_remittance_start_date: remittance_start_date,
-      filter_remittance_end_date: remittance_end_date,
+      filter_from_remittance_date: remittance_start_date,
+      filter_to_remittance_date: remittance_end_date,
       search_term: search_term,
     };
     this.paymentService.getAllPayments(data).subscribe({

@@ -57,8 +57,8 @@ export class OpenBalancesComponent implements OnInit {
     const data: Payments = {
       page: page,
       payment_type: '2',
-      filter_invoice_start_date: invoice_start_date,
-      filter_invoice_end_date: invoice_end_date,
+      filter_from_invoice_date: invoice_start_date,
+      filter_to_invoice_date: invoice_end_date,
       search_term: search_term,
     };
     this.paymentService.getAllPayments(data).subscribe({
