@@ -1,5 +1,5 @@
 <div class="invoice-detail-page">
-  <nz-spin [nzSpinning]="isLoading">
+  <nz-spin [nzSpinning]="false">
     <div class="user-content">
       <div class="tab-header">
         <span>Invoice Details # {{ invoiceNo }}</span>
@@ -8,17 +8,18 @@
         ></a>
       </div>
     </div>
+
     <div
-      *ngIf="!invoiceNotExist"
+      *ngIf="false"
       style="display: flex; justify-content: center; padding: 15px 0"
     >
       <nz-alert
         style="width: 50%"
         nzType="error"
-        nzMessage="No such INVOICE exist"
+        nzMessage="No such PO exist"
       ></nz-alert>
     </div>
-    <div *ngIf="invoiceNotExist">
+    <div *ngIf="true">
       <div
         style="margin-top: 0; padding-top: 0"
         class="section"
@@ -29,10 +30,237 @@
           <div class="card">
             <div class="user-content">
               <div class="tab-header">
-                <span>Details UI is pending</span>
+                <span>Invoice Summary</span>
+              </div>
+            </div>
+            <div class="sub-section">
+              <div class="sub-section-one">
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Invoice#"
+                    ><b>{{ invoiceDetailData?.invoice_summary?.invoice_no }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="PO#"
+                    ><b>{{ invoiceDetailData?.invoice_summary?.po_no }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Invoice Date"
+                    ><b>{{
+                      invoiceDetailData?.invoice_summary?.invoice_date
+                        | customDate
+                    }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Payment Terms"
+                    ><b>{{
+                      invoiceDetailData?.invoice_summary?.payment_terms
+                    }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
               </div>
             </div>
           </div>
+        </div>
+        <div nz-col [nzXl]="12" [nzSm]="24">
+          <div class="card">
+            <div class="user-content">
+              <div class="tab-header">
+                <span>Invoice Status</span>
+              </div>
+            </div>
+            <div class="sub-section">
+              <div class="sub-section-one">
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Status"
+                    ><b>{{ invoiceStatusLabelMapping[selectedOption] }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Due Date"
+                    ><b>{{
+                      invoiceDetailData?.invoice_status?.due_date | customDate
+                    }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Address section -->
+      <div class="section section-two" nz-row [nzGutter]="16">
+        <div nz-col [nzXl]="12" [nzSm]="24">
+          <div class="card">
+            <div class="user-content">
+              <div class="tab-header">
+                <span>Sold To</span>
+              </div>
+            </div>
+            <div class="sub-section">
+              <div class="sub-section-one">
+                <div>
+                  <b>
+                    {{ invoiceDetailData?.sold_to?.address_line1 }},
+                    {{ invoiceDetailData?.sold_to?.city }},
+                    {{ invoiceDetailData?.sold_to?.state_code }}
+                    {{ invoiceDetailData?.sold_to?.postal_code }},
+                    {{ invoiceDetailData?.sold_to?.country_code }}
+                  </b>
+                </div>
+                <div>
+                  <b
+                    >Location Code :
+                    {{ invoiceDetailData?.sold_to?.location_code }}</b
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div nz-col [nzXl]="12" [nzSm]="24">
+          <div class="card">
+            <div class="user-content">
+              <div class="tab-header">
+                <span>Ship To</span>
+              </div>
+            </div>
+            <div class="sub-section">
+              <div class="sub-section-one">
+                <div>
+                  <b>{{ invoiceDetailData?.ship_to?.name }}</b>
+                </div>
+                <div>
+                  <b
+                    >{{ invoiceDetailData?.ship_to?.address_line1 }},
+                    {{ invoiceDetailData?.ship_to?.city }},
+                    {{ invoiceDetailData?.ship_to?.state_code }}
+                    {{ invoiceDetailData?.ship_to?.postal_code }},
+                    {{ invoiceDetailData?.ship_to?.country_code }}</b
+                  >
+                </div>
+                <div>
+                  <b>Phone : {{ invoiceDetailData?.ship_to?.phone }}</b>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- First Table -->
+      <div class="user-content">
+        <div class="tab-header">
+          <span>Invoice Contents</span>
+        </div>
+      </div>
+      <div class="section" style="margin-top: 0; padding-top: 0">
+        <nz-table
+          #nzTable
+          nzShowSizeChanger
+          nzBordered
+          [nzFrontPagination]="false"
+          [nzData]="[invoiceDetailData?.invoice_detail]"
+        >
+          <thead>
+            <tr>
+              <th id="mpn">MPN</th>
+              <th id="description">Description</th>
+              <th id="qty">Qty</th>
+              <th id="price">Unit Price</th>
+              <th id="total">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-template
+              ngFor
+              let-data
+              [ngForOf]="[invoiceDetailData?.invoice_detail]"
+            >
+              <tr>
+                <td>{{ data.mpn }}</td>
+                <td>{{ data.description }}</td>
+                <td>{{ data.qty }}</td>
+                <td>
+                  {{ data.unit_price | currency }}
+                </td>
+                <td>{{ data.total | currency }}</td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </nz-table>
+      </div>
+
+      <!-- Second Table -->
+      <div *ngIf="selectedOption !== '1' && selectedOption !== '2'">
+        <div class="user-content">
+          <div class="tab-header">
+            <span>
+              {{ getProcessedStatusLabel(selectedOption) }}
+            </span>
+          </div>
+        </div>
+        <div class="section" style="margin-top: 0; padding-top: 0">
+          <nz-table
+            #nzTable
+            nzShowSizeChanger
+            nzBordered
+            [nzFrontPagination]="false"
+            [nzData]="[{}]"
+          >
+            <thead>
+              <tr>
+                <th></th>
+                <th>MPN</th>
+                <th *ngIf="selectedOption === '3'">Net Product Cost</th>
+                <th *ngIf="selectedOption === '3'">Shipping Charge</th>
+                <th *ngIf="selectedOption === '4'">Qty</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight: 500">PO</td>
+                <td>{{ invoiceDetailData?.po_detail?.mpn }}</td>
+                <td *ngIf="selectedOption === '3'">
+                  {{
+                    invoiceDetailData?.po_detail?.net_product_cost | currency
+                  }}
+                </td>
+                <td *ngIf="selectedOption === '3'">
+                  {{ invoiceDetailData?.po_detail?.shipping_cost | currency }}
+                </td>
+                <td *ngIf="selectedOption === '4'">
+                  {{ invoiceDetailData?.po_detail?.qty }}
+                </td>
+                <td>{{ invoiceDetailData?.po_detail?.total | currency }}</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 500">Invoice</td>
+                <td>{{ invoiceDetailData?.invoice_detail?.mpn }}</td>
+                <td *ngIf="selectedOption === '3'">
+                  {{
+                    invoiceDetailData?.invoice_detail?.net_product_cost
+                      | currency
+                  }}
+                </td>
+                <td *ngIf="selectedOption === '3'">
+                  {{
+                    invoiceDetailData?.invoice_detail?.shipping_cost | currency
+                  }}
+                </td>
+                <td *ngIf="selectedOption === '4'">
+                  {{ invoiceDetailData?.invoice_detail?.qty }}
+                </td>
+                <td>
+                  {{ invoiceDetailData?.invoice_detail?.total | currency }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
         </div>
       </div>
     </div>

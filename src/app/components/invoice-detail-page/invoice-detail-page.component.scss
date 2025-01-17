@@ -7,6 +7,10 @@
   border-radius: 5px;
 
   .user-content {
+    .table-layout {
+      padding: 15px;
+    }
+
     .tab-header {
       border-bottom: 1px solid $border;
       font-size: 16px;
@@ -25,5 +29,46 @@
   .section {
     padding: 0.5rem 1rem;
     margin-top: 10px;
+
+    .card {
+      border: 1px solid $border;
+      border-radius: 5px;
+      height: 100%;
+
+      .sub-section {
+        padding: 15px;
+        padding-top: 0;
+        display: flex;
+      }
+    }
+  }
+
+  .section-two {
+    .card {
+      border: 1px solid $border;
+      border-radius: 5px;
+      height: 100%;
+
+      .user-content {
+        background-color: $lightgrey;
+        margin-top: 0;
+        margin-bottom: 10px;
+        border-radius: 5px 5px 0 0;
+
+        .tab-header {
+          border-bottom: 1px solid $border;
+        }
+      }
+
+      .sub-section {
+        &-one {
+          width: 100%;
+
+          div {
+            margin: 3px 0;
+          }
+        }
+      }
+    }
   }
 }
