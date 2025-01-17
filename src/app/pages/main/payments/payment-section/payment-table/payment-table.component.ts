@@ -11,6 +11,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { SinglePayment } from 'src/app/shared/model/payments.modal';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-payment-table',
@@ -38,6 +39,7 @@ export class PaymentTableComponent implements OnInit {
   searchForm!: FormGroup;
   accountSearch = new Subject<any>();
   clear_btn: boolean = false;
+  appDateFormate = AppDateFormate;
 
   listOfFilter: any = {};
   filter!: FormGroup;
@@ -193,8 +195,8 @@ export class PaymentTableComponent implements OnInit {
             this.badgeTotal--;
             break;
         }
+        this.filterChange.emit(this.listOfFilter);
       }
-      this.filterChange.emit(this.listOfFilter);
     }
   }
 
@@ -211,6 +213,16 @@ export class PaymentTableComponent implements OnInit {
           this.filter.controls['remittanceDate'].reset();
           this.selectRemittanceDate = '';
           this.dateCount--;
+          this.badgeTotal--;
+          break;
+        case 'dueDate':
+          this.filter.controls['dueDate'].reset();
+          this.dueDate = '';
+          this.badgeTotal--;
+          break;
+        case 'type':
+          this.filter.controls['type'].reset();
+          this.selectType = '';
           this.badgeTotal--;
           break;
       }
@@ -230,6 +242,8 @@ export class PaymentTableComponent implements OnInit {
   tagFunction() {
     this.selectInvoiceDate = '';
     this.selectRemittanceDate = '';
+    this.dueDate = '';
+    this.selectType = '';
 
     this.dateCount = 0;
 
