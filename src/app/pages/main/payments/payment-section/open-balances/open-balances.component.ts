@@ -35,6 +35,8 @@ export class OpenBalancesComponent implements OnInit {
 
   invoice_start_date: string = '';
   invoice_end_date: string = '';
+  filter_type?: string = '';
+  filter_due_date?: string = '';
 
   constructor(private paymentService: PaymentService) {
     this.getPaymentList(
@@ -51,7 +53,9 @@ export class OpenBalancesComponent implements OnInit {
     page: number,
     invoice_start_date?: string,
     invoice_end_date?: string,
-    search_term?: string
+    search_term?: string,
+    filter_type?: string,
+    filter_due_date?: string
   ) {
     this.isLoading = true;
     const data: Payments = {
@@ -60,6 +64,8 @@ export class OpenBalancesComponent implements OnInit {
       filter_from_invoice_date: invoice_start_date,
       filter_to_invoice_date: invoice_end_date,
       search_term: search_term,
+      filter_type: filter_type,
+      filter_due_date: filter_due_date,
     };
     this.paymentService.getAllPayments(data).subscribe({
       next: (response) => {
@@ -81,7 +87,9 @@ export class OpenBalancesComponent implements OnInit {
       this.pageIndex,
       this.invoice_start_date,
       this.invoice_end_date,
-      this.search_term
+      this.search_term,
+      this.filter_type,
+      this.filter_due_date
     );
   }
 
@@ -91,19 +99,25 @@ export class OpenBalancesComponent implements OnInit {
       this.pageIndex,
       this.invoice_start_date,
       this.invoice_end_date,
-      this.search_term
+      this.search_term,
+      this.filter_type,
+      this.filter_due_date
     );
   }
 
   filterDataChanges(filters: any) {
     this.invoice_start_date = filters?.invoice_start_date ?? '';
     this.invoice_end_date = filters?.invoice_end_date ?? '';
+    this.filter_type = filters?.type ?? '';
+    this.filter_due_date = filters?.due_date ?? '';
     this.pageIndex = 1;
     this.getPaymentList(
       this.pageIndex,
       this.invoice_start_date,
       this.invoice_end_date,
-      this.search_term
+      this.search_term,
+      this.filter_type,
+      this.filter_due_date
     );
   }
 }

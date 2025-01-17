@@ -298,6 +298,22 @@ export class ExportModelComponent implements OnInit {
           : '';
       }
 
+      if (this.listOfFilter?.filter_invoice_po_number) {
+        filters['filter_invoice_po_number'] = this.exportType
+          ? this.listOfFilter?.filter_invoice_po_number
+          : '';
+      }
+
+      if (this.listOfFilter?.type) {
+        filters['filter_type'] = this.exportType ? this.listOfFilter?.type : '';
+      }
+
+      if (this.listOfFilter?.due_date) {
+        filters['filter_due_date'] = this.exportType
+          ? formatDate(this.listOfFilter?.due_date, 'yyyy-MM-dd', this.locale)
+          : '';
+      }
+
       this.paymentService.exportPaymets(filters).subscribe(
         (response: any) => {
           console.log(response);
