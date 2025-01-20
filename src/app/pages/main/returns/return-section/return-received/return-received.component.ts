@@ -7,13 +7,12 @@ import { endOfMonth } from 'date-fns';
   styleUrls: ['./return-received.component.scss'],
 })
 export class ReturnReceivedComponent implements OnInit {
-  approveCreditForm!: FormGroup;
   isLoading: boolean = false;
   total = 1;
   pageSize = 10;
   pageIndex = 1;
   pageSizeOptions = [5, 10, 15, 20];
-  modelVisible: boolean = false;
+
   badgeTotal: number = 0;
   ranges = {
     Today: [new Date(), new Date()],
@@ -69,15 +68,7 @@ export class ReturnReceivedComponent implements OnInit {
   ];
 
   constructor() {}
-  ngOnInit(): void {
-    this.approveCreditForm = new FormGroup({
-      creditValue: new FormControl('00.00'),
-      cn: new FormControl('', [Validators.required]),
-      uploadCreditNote: new FormControl(''),
-    });
-  }
-
-  submitForm() {}
+  ngOnInit(): void {}
 
   onChange(result: Date[]): void {
     console.log('From: ', result[0], ', to: ', result[1]);

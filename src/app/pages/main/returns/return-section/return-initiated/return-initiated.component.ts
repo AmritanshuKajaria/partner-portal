@@ -8,13 +8,11 @@ import { endOfMonth } from 'date-fns';
   styleUrls: ['./return-initiated.component.scss'],
 })
 export class ReturnInitiatedComponent implements OnInit {
-  addRaForm!: FormGroup;
   isLoading: boolean = false;
   total = 1;
   pageSize = 10;
   pageIndex = 1;
   pageSizeOptions = [5, 10, 15, 20];
-  addRaVisible: boolean = false;
   badgeTotal: number = 0;
 
   returnInitiatedList = [
@@ -31,15 +29,5 @@ export class ReturnInitiatedComponent implements OnInit {
   ];
 
   constructor() {}
-  ngOnInit(): void {
-    this.addRaForm = new FormGroup({
-      raInput: new FormControl(''),
-    });
-  }
-
-  submitForm() {}
-
-  onChange(result: Date[]): void {
-    console.log('From: ', result[0], ', to: ', result[1]);
-  }
+  ngOnInit(): void {}
 }

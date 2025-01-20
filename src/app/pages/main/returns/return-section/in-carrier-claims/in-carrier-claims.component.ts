@@ -7,7 +7,6 @@ import { endOfMonth } from 'date-fns';
   styleUrls: ['./in-carrier-claims.component.scss'],
 })
 export class InCarrierClaimsComponent implements OnInit {
-  approveCreditForm!: FormGroup;
   isLoading: boolean = false;
   total = 1;
   pageSize = 10;
@@ -69,15 +68,7 @@ export class InCarrierClaimsComponent implements OnInit {
   ];
 
   constructor() {}
-  ngOnInit(): void {
-    this.approveCreditForm = new FormGroup({
-      creditValue: new FormControl('00.00'),
-      cn: new FormControl('', [Validators.required]),
-      uploadCreditNote: new FormControl(''),
-    });
-  }
-
-  submitForm() {}
+  ngOnInit(): void {}
 
   onChange(result: Date[]): void {
     console.log('From: ', result[0], ', to: ', result[1]);

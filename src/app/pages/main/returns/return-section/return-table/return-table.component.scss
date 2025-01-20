@@ -1,12 +1,114 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import "../../../../../../assets/variable/variable.scss";
 
 .return-table {
-    .action {
-        display: flex;
-        align-items: center;
+  .action {
+    display: flex;
+    justify-content: end;
+    border: 1px solid $border;
+    padding: 10px;
+    margin-top: 10px;
+  }
 
-        button {
-            margin: 5px;
-        }
+  form {
+    .search {
+      // width: 12%;
+      border-radius: 17px;
+      float: right;
     }
+
+    ::ng-deep .ant-form-item {
+      display: inline-block;
+      float: right;
+      margin-left: 4px;
+    }
+  }
+
+  .action-td {
+    display: flex;
+    align-items: center;
+
+    button {
+      margin: 5px;
+    }
+  }
+}
+
+// for addra model
+.model-section {
+  padding: 24px;
+
+  form {
+    width: 100%;
+    padding: 0 2px;
+
+    .subHeader {
+      font-size: 19px;
+      font-weight: 600;
+    }
+
+    nz-form-label {
+      font-size: 18px !important;
+      font-weight: 700 !important;
+      padding-bottom: 2px;
+    }
+
+    label {
+      font-size: 14px !important;
+      font-weight: 600 !important;
+    }
+
+    ::ng-deep .ant-input-prefix {
+      font-size: x-large;
+      margin-right: 10px;
+    }
+
+    ::ng-deep .ant-input {
+      border-radius: 5px !important;
+    }
+
+    ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
+    .ant-picker {
+      border-radius: 5px !important;
+      height: 35px !important;
+      font-size: 16px;
+    }
+
+    ::ng-deep .ant-form-item {
+      margin-bottom: 0px;
+      padding: 5px;
+    }
+
+    nz-input-group {
+      border-radius: 5px;
+
+      input {
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+
+    nz-time-picker {
+      width: 90%;
+    }
+
+    .submit-section {
+      margin-top: 2%;
+
+      div {
+        margin: 10px;
+      }
+    }
+
+    nz-divider {
+      margin-bottom: 10px;
+    }
+
+    ::ng-deep .ant-divider-horizontal.ant-divider-with-text-left::before {
+      width: 0% !important;
+    }
+
+    ::ng-deep .ant-divider-inner-text {
+      padding-left: 0px !important;
+    }
+  }
 }

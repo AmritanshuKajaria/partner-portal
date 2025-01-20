@@ -1,4 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 
 @Component({
@@ -7,27 +17,73 @@ import { StatusEnum } from 'src/app/components/status-badge/status-badge.compone
   styleUrls: ['./return-table.component.scss'],
 })
 export class ReturnTableComponent implements OnInit {
+  // @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Input() total: number = 1;
   @Input() pageSize: number = 50;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
   @Input() listOfData: any[] = [];
   @Input() tabName: string = '';
+  @Input() badgeTotal: number = 0;
 
-  @Output() action = new EventEmitter();
+  @Output() pageChange = new EventEmitter();
+  @Output() filterChange = new EventEmitter();
+  @Output() searchChange = new EventEmitter();
+
+  accountSearch = new Subject<any>();
 
   statusEnum: typeof StatusEnum = StatusEnum;
+  addRaForm!: FormGroup;
+  searchForm!: FormGroup;
+  addRaVisible: boolean = false;
+  isExportVisible: boolean = false;
+  approveCreditModelVisible: boolean = false;
+  listOfFilter: any = '';
 
   pageSizeOptions = [50, 100, 250, 500];
 
-  constructor() {}
-  ngOnInit(): void {}
+  constructor() {
+    this.accountSearch
+      .pipe(debounceTime(400), distinctUntilChanged())
+      .subscribe((value: any) => {
+        this.searchChange.emit(value.target.value);
+      });
+
+    this.searchForm = new FormGroup({
+      search: new FormControl(''),
+    });
+  }
+
+  ngOnInit(): void {
+    // initialize addra form
+    this.addRaForm = new FormGroup({
+      raInput: new FormControl(''),
+    });
+  }
 
   selectAction(data: string) {
     if (data === 'Return Received') {
-      this.action.emit(data);
+      this.approveCreditModelVisible = true;
     } else if (data === 'Return Initiated') {
-      this.action.emit();
+      this.addRaVisible = true;
     }
+  }
+
+  openNav() {
+    // this.sidenavSection.nativeElement.style.width = '300px';
+  }
+
+  closeNav() {
+    // this.sidenavSection.nativeElement.style.width = '0';
+  }
+
+  // for addRa
+  submitAddRaForm() {}
+
+  // for approve credit form submit
+  approveCreditSubmitForm() {}
+
+  handleCancel() {
+    this.isExportVisible = false;
   }
 }
