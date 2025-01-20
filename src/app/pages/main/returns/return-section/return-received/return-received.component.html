@@ -1,10 +1,4 @@
 <div class="return-in-transit-section">
-  <app-date-range
-    (modelChange)="onChange($event)"
-    [badgeTotal]="badgeTotal"
-  ></app-date-range>
-  <!-- (filterChange)="openNav()" -->
-
   <app-return-table
     [listOfData]="returnReceivedList"
     [total]="total"
@@ -12,19 +6,5 @@
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
     [tabName]="'Return Received'"
-    (action)="modelVisible = true"
   ></app-return-table>
-
-  <nz-modal
-    [(nzVisible)]="modelVisible"
-    nzTitle="Approve Return"
-    (nzOnCancel)="modelVisible = false"
-  >
-    <ng-container *nzModalContent>
-      <app-return-approve
-        (closeModal)="modelVisible = false"
-        (submitModal)="submitForm()"
-      ></app-return-approve>
-    </ng-container>
-  </nz-modal>
 </div>

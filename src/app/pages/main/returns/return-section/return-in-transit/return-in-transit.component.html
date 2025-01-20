@@ -1,10 +1,4 @@
 <div class="return-in-transit-section">
-  <app-date-range
-    (modelChange)="onChange($event)"
-    [badgeTotal]="badgeTotal"
-  ></app-date-range>
-  <!-- (filterChange)="openNav()" -->
-
   <app-return-table
     [listOfData]="returnInitiatedList"
     [total]="total"

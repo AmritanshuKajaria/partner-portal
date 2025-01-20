@@ -1,4 +1,43 @@
 <div class="return-table">
+  <!-- filter/export/search -->
+  <div class="action">
+    <div style="display: flex">
+      <nz-badge
+        style="margin-right: 10px"
+        [nzShowZero]="false"
+        [nzCount]="badgeTotal"
+      >
+        <button (click)="openNav()" nz-button nzType="primary" nzShape="round">
+          <span nz-icon nzType="filter" nzTheme="outline"></span>
+          Filter
+        </button>
+      </nz-badge>
+      <button
+        style="margin-right: 10px"
+        nz-button
+        nzType="primary"
+        nzShape="round"
+        (click)="isExportVisible = true"
+      >
+        <span nz-icon nzType="upload" nzTheme="outline"></span> Export
+      </button>
+      <form nz-form [formGroup]="searchForm">
+        <nz-form-item style="margin-bottom: 0 !important">
+          <nz-form-control nzErrorTip="Please input your valid code!">
+            <nz-input-group nzPrefixIcon="search" class="search">
+              <input
+                (keyup)="accountSearch.next($event)"
+                formControlName="search"
+                nz-input
+                placeholder="Search..."
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+  </div>
+
   <nz-table
     #nzTable
     nzOuterBordered
@@ -149,7 +188,7 @@
               Mark as Received
             </button>
             <div
-              class="action"
+              class="action-td"
               *ngIf="
                 tabName === 'Return Received' || tabName === 'In Carrier Claims'
               "
@@ -196,3 +235,97 @@
     </tbody>
   </nz-table>
 </div>
+
+<!-- Add Ra Modal -->
+<nz-modal
+  [(nzVisible)]="addRaVisible"
+  nzTitle="Add RA #"
+  (nzOnCancel)="addRaVisible = false"
+>
+  <ng-container *nzModalContent>
+    <div class="model-section">
+      <form nz-form [formGroup]="addRaForm">
+        <nz-form-item>
+          <nz-form-label [nzXs]="3" nzRequired>RA</nz-form-label>
+          <nz-form-control nzErrorTip="RA is required!">
+            <nz-input-group>
+              <input
+                formControlName="raInput"
+                type="text"
+                nz-input
+                placeholder="Enter An Ra"
+              />
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    <div class="model-footer">
+      <div class="model-action">
+        <button
+          nz-button
+          nzType="default"
+          style="color: black; margin-right: 5px"
+          (click)="addRaVisible = false"
+        >
+          Cancel
+        </button>
+        <button
+          nz-button
+          class="action-button"
+          (click)="submitAddRaForm()"
+          [nzType]="'primary'"
+          style="height: 35px; margin-top: 0px; margin-right: 10px"
+        >
+          <span
+            *ngIf="isLoading"
+            style="color: white; font-size: 16px"
+            nz-icon
+            nzType="loading"
+          ></span>
+          <span
+            *ngIf="!isLoading"
+            nz-icon
+            nzType="file-text"
+            nzTheme="outline"
+          ></span>
+          Save
+        </button>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<!-- Approve credit Modal -->
+<nz-modal
+  [(nzVisible)]="approveCreditModelVisible"
+  nzTitle="Approve Return"
+  (nzOnCancel)="approveCreditModelVisible = false"
+>
+  <ng-container *nzModalContent>
+    <app-return-approve
+      (closeModal)="approveCreditModelVisible = false"
+      (submitModal)="approveCreditSubmitForm()"
+    ></app-return-approve>
+  </ng-container>
+</nz-modal>
+
+<!-- Export modal -->
+<nz-modal
+  [(nzVisible)]="isExportVisible"
+  nzTitle="Which Returns Details would you like to export?"
+  (nzOnCancel)="handleCancel()"
+>
+  <ng-container *nzModalContent>
+    <app-export-model
+      [exportType]="false"
+      [sectionName]="'promotion'"
+      [description]="
+        'Your Returns Details will be exported as a CSV file and sent to your email.'
+      "
+      [listOfFilter]="listOfFilter"
+      [noOfFilter]="total"
+      (close)="handleCancel()"
+    ></app-export-model>
+  </ng-container>
+</nz-modal>
