@@ -46,20 +46,19 @@ export class TransactionViewComponent implements OnInit {
     this.isLoading = true;
     const data: Payments = {
       page: page,
-      payment_type: '1',
       search_term: search_term,
-      filter_invoice_po_number: this.tags?.join(','),
+      search_transactions: this.tags?.join(','),
     };
     this.defaultFilters = {
-      filter_invoice_po_number: data?.filter_invoice_po_number,
+      search_transactions: data?.search_transactions,
     };
 
-    this.paymentService.getAllPayments(data).subscribe({
+    this.paymentService.getAllTransactions(data).subscribe({
       next: (response) => {
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
-          this.transactionViewDataList = response?.payments ?? [];
+          this.transactionViewDataList = response?.transactions ?? [];
         }
         this.isLoading = false;
         this.submitButtonLoading = false;

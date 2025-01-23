@@ -255,7 +255,77 @@ export class ExportModelComponent implements OnInit {
         },
         error: (err: any) => (this.isLoading = false),
       });
-    } else if (this.sectionName === 'payments') {
+    } else if (this.sectionName === 'transactionView') {
+      let filters: any = {};
+
+      if (this.listOfFilter?.search_transactions) {
+        filters['search_transactions'] = this.exportType
+          ? this.listOfFilter?.search_transactions
+          : '';
+      }
+
+      this.paymentService.exportTransactions(filters).subscribe(
+        (response: any) => {
+          console.log(response);
+          if (response.success) {
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          }
+          this.handleCancel();
+          this.isLoading = false;
+        },
+        (err: any) => (this.isLoading = false)
+      );
+    } else if (this.sectionName === 'openBalances') {
+      let filters: any = {};
+
+      if (this.listOfFilter?.invoice_start_date) {
+        filters['filter_from_invoice_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.invoice_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.invoice_end_date) {
+        filters['filter_to_invoice_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.invoice_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.type) {
+        filters['filter_type'] = this.exportType ? this.listOfFilter?.type : '';
+      }
+
+      if (this.listOfFilter?.due_date) {
+        filters['filter_due_date'] = this.exportType
+          ? formatDate(this.listOfFilter?.due_date, 'yyyy-MM-dd', this.locale)
+          : '';
+      }
+
+      this.paymentService.exportOpenBalances(filters).subscribe(
+        (response: any) => {
+          console.log(response);
+          if (response.success) {
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          }
+          this.handleCancel();
+          this.isLoading = false;
+        },
+        (err: any) => (this.isLoading = false)
+      );
+    } else if (this.sectionName === 'pastRemittances') {
       let filters: any = {};
 
       if (this.listOfFilter?.remittance_start_date) {
@@ -278,43 +348,7 @@ export class ExportModelComponent implements OnInit {
           : '';
       }
 
-      if (this.listOfFilter?.invoice_start_date) {
-        filters['filter_from_invoice_date'] = this.exportType
-          ? formatDate(
-              this.listOfFilter?.invoice_start_date,
-              'yyyy-MM-dd',
-              this.locale
-            )
-          : '';
-      }
-
-      if (this.listOfFilter?.invoice_end_date) {
-        filters['filter_to_invoice_date'] = this.exportType
-          ? formatDate(
-              this.listOfFilter?.invoice_end_date,
-              'yyyy-MM-dd',
-              this.locale
-            )
-          : '';
-      }
-
-      if (this.listOfFilter?.filter_invoice_po_number) {
-        filters['filter_invoice_po_number'] = this.exportType
-          ? this.listOfFilter?.filter_invoice_po_number
-          : '';
-      }
-
-      if (this.listOfFilter?.type) {
-        filters['filter_type'] = this.exportType ? this.listOfFilter?.type : '';
-      }
-
-      if (this.listOfFilter?.due_date) {
-        filters['filter_due_date'] = this.exportType
-          ? formatDate(this.listOfFilter?.due_date, 'yyyy-MM-dd', this.locale)
-          : '';
-      }
-
-      this.paymentService.exportPaymets(filters).subscribe(
+      this.paymentService.exportPastRemittances(filters).subscribe(
         (response: any) => {
           console.log(response);
           if (response.success) {

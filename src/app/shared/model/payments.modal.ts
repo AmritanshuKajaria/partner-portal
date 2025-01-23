@@ -1,18 +1,16 @@
 export interface Payments {
   page: number;
-  payment_type: number | string;
   filter_from_invoice_date?: string;
   filter_to_invoice_date?: string;
   filter_from_remittance_date?: string;
   filter_to_remittance_date?: string;
   search_term?: string;
-  filter_invoice_po_number?: string;
+  search_transactions?: string;
   filter_type?: string;
   filter_due_date?: string;
 }
 
 export interface SinglePayment {
-  id: number;
   invoice_no?: string;
   po_no?: string;
   type?: string;

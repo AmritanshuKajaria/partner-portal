@@ -60,19 +60,18 @@ export class OpenBalancesComponent implements OnInit {
     this.isLoading = true;
     const data: Payments = {
       page: page,
-      payment_type: '2',
       filter_from_invoice_date: invoice_start_date,
       filter_to_invoice_date: invoice_end_date,
       search_term: search_term,
       filter_type: filter_type,
       filter_due_date: filter_due_date,
     };
-    this.paymentService.getAllPayments(data).subscribe({
+    this.paymentService.getAllOpenBalances(data).subscribe({
       next: (response) => {
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
-          this.openBalancesDataList = response?.payments ?? [];
+          this.openBalancesDataList = response?.open_balances ?? [];
         }
         this.isLoading = false;
       },
