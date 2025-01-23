@@ -96,4 +96,17 @@ export class PastRemittancesComponent implements OnInit {
       this.search_term
     );
   }
+
+  // For Download
+  handleAction(event: { format: string; remittanceNo: number }) {
+    const data = {
+      file_type: event.format,
+      remittance_no: event.remittanceNo,
+    };
+    this.paymentService.downloadRemittance(data).subscribe((res: any) => {
+      if (res.success) {
+        window.open(res?.remittance_url);
+      }
+    });
+  }
 }

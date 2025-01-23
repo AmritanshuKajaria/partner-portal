@@ -234,10 +234,9 @@ export class PaymentService {
       success: true,
       processedAt: '2024-09-23T12:56:21.000Z',
       remittance_url:
-        'https://s3.amazonaws.com/123storesExposed_production/Email_Param/catalog_mail/2024_09_23/AWN-PROMOTION-001PromotionDetails1727096180_2024-09-23-12-56-20-92683500.pdf',
-    }).pipe(delay(500));
-
-    return this.http.get(this.url + '/download-remittance', data);
+        'https://s3.amazonaws.com/123storesExposed_production/Email_Param/catalog_mail/2024_09_23/AWN-PROMOTION-001PromotionDetails1727096180_2024-09-23-12-56-20-92683500.xlsx',
+    });
+    return this.http.get(this.url + '/download-remittance', { params: params });
   }
 
   getSinglePayment(invoice_no: string) {

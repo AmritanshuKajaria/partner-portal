@@ -268,4 +268,8 @@ export class PaymentTableComponent implements OnInit {
   onPageIndexChange(page: number): void {
     this.pageChange.emit(page);
   }
+
+  onDownload(format: string, remittanceNo: string | undefined) {
+    this.action.emit({ format, remittanceNo });
+  }
 }
