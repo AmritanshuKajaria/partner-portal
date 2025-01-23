@@ -98,7 +98,6 @@ export class MasterSignInComponent implements OnInit {
         },
         (err) => {
           this.isLoading = false;
-          this.message.success('User Login Fail');
         }
       );
     }

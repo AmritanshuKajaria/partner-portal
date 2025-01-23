@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 const TOKEN_HEADER_KEY = 'x-access-token';
 
@@ -21,7 +22,10 @@ export class AuthInterceptor implements HttpInterceptor {
     null
   );
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private message: NzMessageService
+  ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): any {
     let authReq = req;
@@ -43,9 +47,30 @@ export class AuthInterceptor implements HttpInterceptor {
         ) {
           return this.handle401Error(authReq, next, error);
         }
-        return throwError(error);
+        return this.handleOtherErrors(error);
       })
     );
+  }
+
+  private handleOtherErrors(error: any) {
+    let errorMessage = '';
+
+    // If client has internet connectivity
+    if (!navigator.onLine) {
+      errorMessage = 'No internet. Please check your connection.';
+    } else if (error.status === 0) {
+      errorMessage = 'Request blocked. Contact support.';
+    } else if (error.status > 500) {
+      errorMessage = 'Request timed out. Try again later.';
+    } else if (error.status === 404) {
+      errorMessage = 'Not a valid request';
+    }
+
+    if (errorMessage) {
+      this.message.error(errorMessage);
+      return throwError(() => new Error(errorMessage));
+    }
+    return throwError(() => error);
   }
 
   private handle401Error(
