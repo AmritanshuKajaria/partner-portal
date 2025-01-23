@@ -1,5 +1,5 @@
 <div class="invoice-detail-page">
-  <nz-spin [nzSpinning]="false">
+  <nz-spin [nzSpinning]="isLoading">
     <div class="user-content">
       <div class="tab-header">
         <span>Invoice Details # {{ invoiceNo }}</span>
@@ -10,16 +10,16 @@
     </div>
 
     <div
-      *ngIf="false"
+      *ngIf="!invoiceNotExist"
       style="display: flex; justify-content: center; padding: 15px 0"
     >
       <nz-alert
         style="width: 50%"
         nzType="error"
-        nzMessage="No such PO exist"
+        nzMessage="No such Invoice exist"
       ></nz-alert>
     </div>
-    <div *ngIf="true">
+    <div *ngIf="invoiceNotExist">
       <div
         style="margin-top: 0; padding-top: 0"
         class="section"
@@ -181,13 +181,13 @@
               [ngForOf]="[invoiceDetailData?.invoice_detail]"
             >
               <tr>
-                <td>{{ data.mpn }}</td>
-                <td>{{ data.description }}</td>
-                <td>{{ data.qty }}</td>
+                <td>{{ data?.mpn }}</td>
+                <td>{{ data?.description }}</td>
+                <td>{{ data?.qty }}</td>
                 <td>
-                  {{ data.unit_price | currency }}
+                  {{ data?.unit_price | currency }}
                 </td>
-                <td>{{ data.total | currency }}</td>
+                <td>{{ data?.total | currency }}</td>
               </tr>
             </ng-template>
           </tbody>

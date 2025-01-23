@@ -243,11 +243,31 @@
           </td>
           <td nzRight *ngIf="tabName === 'pastRemittances'">
             <div style="text-align: center">
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li
+                    nz-menu-item
+                    (click)="onDownload('Excel', data?.remittance_no)"
+                  >
+                    Excel
+                  </li>
+                  <li
+                    nz-menu-item
+                    (click)="onDownload('PDF', data?.remittance_no)"
+                  >
+                    PDF
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
               <span
                 nz-icon
                 nzType="download"
                 nzTheme="outline"
                 style="cursor: pointer; font-size: 18px; color: #2121c3"
+                nz-dropdown
+                nzTrigger="click"
+                [nzDropdownMenu]="menu"
+                nzPlacement="bottomCenter"
               ></span>
             </div>
           </td>
