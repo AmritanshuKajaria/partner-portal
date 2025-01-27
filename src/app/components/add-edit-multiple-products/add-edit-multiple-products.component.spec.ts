@@ -8,9 +8,8 @@ describe('AddEditMultipleProductsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEditMultipleProductsComponent ]
-    })
-    .compileComponents();
+      declarations: [AddEditMultipleProductsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddEditMultipleProductsComponent);
     component = fixture.componentInstance;

@@ -20,6 +20,9 @@ export class RecommendationIssueTableComponent implements OnInit {
 
   @Output() dataSavedSuccessful = new EventEmitter();
 
+  referenceCode = '';
+  isReferenceCodeVisible = false;
+
   pageSizeOptions = [100];
   editData: { mpn: string; current: number; sku: string } = {
     mpn: 'string',
@@ -60,5 +63,14 @@ export class RecommendationIssueTableComponent implements OnInit {
 
   selectAction(data: string) {
     this.changeModel.emit(data);
+  }
+
+  onEditModelClose(data: any) {
+    this.isVisible = false;
+    if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
+      this.dataSavedSuccessful.emit(data);
+    }
   }
 }

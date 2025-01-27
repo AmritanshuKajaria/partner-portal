@@ -60,6 +60,8 @@ export class DiscontinuedUpdateComponent implements OnInit {
   editLabel: string[] = [];
   code: any = '';
   product_search: string = '';
+  referenceCode = '';
+  isReferenceCodeVisible = false;
 
   constructor(
     private router: Router,
@@ -108,8 +110,11 @@ export class DiscontinuedUpdateComponent implements OnInit {
     }
   }
 
-  onDataSave(data: any) {
+  onEditModelClose(data: any) {
+    this.isVisible = false;
     if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
       this.getData();
     }
   }

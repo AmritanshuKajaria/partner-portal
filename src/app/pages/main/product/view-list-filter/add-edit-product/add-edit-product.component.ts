@@ -397,15 +397,19 @@ export class AddEditProductComponent implements OnInit {
         data['sku'] = this.sku;
         this.productService.editProduct(data).subscribe(
           (res: any) => {
-            console.log(res);
             if (res.success) {
               this.resReferenceCode = res?.reference_code;
               this.message.create('success', 'Edit product successfully!');
               this.backButton();
+            } else {
+              this.message.error(res?.error_message ?? 'Edit product fail!');
             }
             this.isLoading = false;
           },
-          (err) => (this.isLoading = false)
+          (err) => {
+            this.message.error('Edit product fail!');
+            this.isLoading = false;
+          }
         );
       } else {
         this.productService.createProduct(data).subscribe(
@@ -415,10 +419,15 @@ export class AddEditProductComponent implements OnInit {
               this.resReferenceCode = res?.reference_code;
               this.message.create('success', 'Add product successfully!');
               this.backButton();
+            } else {
+              this.message.error(res?.error_message ?? 'Add product fail!');
             }
             this.isLoading = false;
           },
-          (err) => (this.isLoading = false)
+          (err) => {
+            this.message.error('Add product fail!');
+            this.isLoading = false;
+          }
         );
       }
     } else {

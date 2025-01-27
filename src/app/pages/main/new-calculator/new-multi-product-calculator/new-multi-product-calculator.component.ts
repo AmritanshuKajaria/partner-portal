@@ -41,6 +41,8 @@ export class NewMultiProductCalculatorComponent {
   extraData: {} = {};
 
   retailPriceErrorTimer: any;
+  referenceCode = '';
+  isReferenceCodeVisible = false;
 
   constructor(
     private newCalculatorService: NewCalculatorService,
@@ -208,8 +210,11 @@ export class NewMultiProductCalculatorComponent {
     }
   }
 
-  onDataSave(data: any) {
+  onClose(data: any) {
+    this.isEditVisible = false;
     if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
       this.getAllProductCalculatorList();
     }
   }

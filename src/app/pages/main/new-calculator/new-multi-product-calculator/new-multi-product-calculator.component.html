@@ -258,8 +258,14 @@
     [editData]="editData"
     [editLabel]="editLabel"
     [section]="'Unit Price'"
-    (close)="isEditVisible = false"
-    (dataSavedSuccessful)="onDataSave($event)"
+    (close)="onClose($event)"
     [extraData]="extraData"
   ></app-edit-price>
 </div>
+
+<app-show-reference-code
+(close)="isReferenceCodeVisible = false"
+[isVisible]="isReferenceCodeVisible"
+[referenceCode]="referenceCode"
+[subTitle]="'Edit product successfully initiated'"
+></app-show-reference-code>

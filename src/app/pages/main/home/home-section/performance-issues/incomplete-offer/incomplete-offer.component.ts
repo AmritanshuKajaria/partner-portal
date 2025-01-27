@@ -60,6 +60,8 @@ export class IncompleteOfferComponent implements OnInit {
   editLabel: string[] = [];
   code: any = '';
   product_search: string = '';
+  referenceCode = '';
+  isReferenceCodeVisible = false;
 
   constructor(
     private router: Router,
@@ -99,8 +101,11 @@ export class IncompleteOfferComponent implements OnInit {
     }
   }
 
-  onDataSave(data: any) {
+  onEditModelClose(data: any) {
+    this.isVisible = false;
     if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
       this.getData();
     }
   }
@@ -120,7 +125,7 @@ export class IncompleteOfferComponent implements OnInit {
       mpn: mpn,
       current: asin,
       extraData: recommendations,
-      sku: '',
+      sku: sku,
     };
     this.editLabel = ['MPN', 'Current Amazon ASIN', 'New Amazon ASIN'];
     this.isVisible = true;
