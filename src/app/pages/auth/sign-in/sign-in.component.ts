@@ -56,8 +56,8 @@ export class SignInComponent implements OnInit {
         email: this.loginForm.controls['email'].value,
         password: this.loginForm.controls['password'].value,
       };
-      this.authService.login(dataReq).subscribe(
-        (result: any) => {
+      this.authService.login(dataReq).subscribe({
+        next: (result: any) => {
           if (result.success) {
             this.message.success('User Login Successful');
             this.authService.setAccessToken(result.access_token);
@@ -66,8 +66,8 @@ export class SignInComponent implements OnInit {
             if (
               this.paramsObject?.return_to?.includes('support.123stores.com')
             ) {
-              this.zendeskService.zendeskHelp().subscribe(
-                (res: any) => {
+              this.zendeskService.zendeskHelp().subscribe({
+                next: (res: any) => {
                   if (res.url) {
                     // window.open(res?.url);
                     var a = document.createElement('a');
@@ -76,21 +76,24 @@ export class SignInComponent implements OnInit {
                   }
                   this.isLoading = false;
                 },
-                (err) => (this.isLoading = false)
-              );
+                error: (err) => (this.isLoading = false),
+              });
             } else {
               this.router.navigate(['/main/dashboard']);
               this.isLoading = false;
             }
           } else {
-            this.message.error(result?.error_message);
+            this.message.error(result?.error_message ?? 'User login failed!');
             this.isLoading = false;
           }
         },
-        (err) => {
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('User login failed!');
+          }
           this.isLoading = false;
-        }
-      );
+        },
+      });
     }
   }
 }

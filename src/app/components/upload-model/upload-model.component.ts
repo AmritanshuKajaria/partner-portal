@@ -49,20 +49,26 @@ export class UploadModelComponent implements OnInit {
       this.isLoading = true;
       let formData = new FormData();
       formData.append('uploaded_file', this.selectFile);
-      this.inventoryService.inventoryFeedUpload(formData).subscribe(
-        (res: any) => {
+      this.inventoryService.inventoryFeedUpload(formData).subscribe({
+        next: (res: any) => {
           console.log(res);
           if (res.success) {
             this.message.create('success', 'Inventory upload successfully!');
+            this.handleCancel(res?.feed_code);
+          } else {
+            this.message.error(
+              res?.error_message ?? 'Inventory upload failed!'
+            );
           }
-          this.handleCancel(res?.feed_code);
           this.isLoading = false;
         },
-        (err) => {
-          this.handleCancel('');
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Inventory upload failed!');
+          }
           this.isLoading = false;
-        }
-      );
+        },
+      });
     } else {
       this.message.create('warning', 'Please upload your file.');
     }

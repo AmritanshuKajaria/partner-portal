@@ -47,21 +47,23 @@ export class PoClarificationComponent implements OnInit {
       user_phone: this.poClarificationForm.value.phone,
     };
 
-    this.ordersService.clarificationOrders(data).subscribe(
-      (res: any) => {
+    this.ordersService.clarificationOrders(data).subscribe({
+      next: (res: any) => {
         this.isLoading = false;
         if (res.success) {
           this.message.success('PO clarification successfully!');
           this.close.emit();
         } else {
+          this.message.error(res?.error_message ?? 'Failed to clarify PO.');
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        if (!error?.error_shown) {
           this.message.error('Failed to clarify PO.');
         }
       },
-      (error: any) => {
-        this.isLoading = false;
-        this.message.error('An error occurred while clarifying PO.');
-      }
-    );
+    });
   }
 
   handleCancel() {
