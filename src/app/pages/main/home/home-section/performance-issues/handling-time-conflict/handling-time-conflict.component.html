@@ -133,15 +133,21 @@
       ></app-home-filter-section>
     </div> -->
   </div>
-
-  <div *ngIf="isVisible">
-    <app-edit-time
-      [isVisible]="isVisible"
-      [editData]="editData"
-      [editLabel]="editLabel"
-      [section]="'Handling Time'"
-      (close)="isVisible = false"
-      (dataSavedSuccessful)="onDataSave($event)"
-    ></app-edit-time>
-  </div>
 </div>
+<div *ngIf="isVisible">
+<app-edit-time
+[isVisible]="isVisible"
+[editData]="editData"
+[editLabel]="editLabel"
+[section]="'Handling Time'"
+(close)="onEditModelClose($event)"
+></app-edit-time>
+</div>
+
+
+  <app-show-reference-code
+    (close)="isReferenceCodeVisible = false"
+    [isVisible]="isReferenceCodeVisible"
+    [referenceCode]="referenceCode"
+    [subTitle]="'Edit product successfully initiated'"
+></app-show-reference-code>

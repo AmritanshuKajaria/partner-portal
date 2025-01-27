@@ -105,10 +105,15 @@ export class EditPriceComponent implements OnInit {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
                 this.dataSavedSuccessful.emit(true);
+              } else {
+                this.message.error(res?.error_message ?? 'Edit product fail!');
               }
               this.isLoading = false;
             },
-            (err) => (this.isLoading = false)
+            (err) => {
+              this.message.error('Edit product fail!');
+              this.isLoading = false;
+            }
           );
           break;
         case 'Unit Price':
@@ -121,10 +126,15 @@ export class EditPriceComponent implements OnInit {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
                 this.dataSavedSuccessful.emit(true);
+              } else {
+                this.message.error(res?.error_message ?? 'Edit product fail!');
               }
               this.isLoading = false;
             },
-            (err) => (this.isLoading = false)
+            (err) => {
+              this.message.error('Edit product fail!');
+              this.isLoading = false;
+            }
           );
           break;
       }

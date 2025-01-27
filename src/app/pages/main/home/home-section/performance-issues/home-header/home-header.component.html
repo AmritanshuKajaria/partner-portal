@@ -35,6 +35,8 @@
 >
   <ng-container *nzModalContent>
     <app-add-edit-multiple-products
+      [actionType]="'Edit'"
+      [canChangeAddEditType]="templateType ? false : true"
       [templateType]="templateType"
       (closeModel)="closeMultiProduct($event)"
     ></app-add-edit-multiple-products>

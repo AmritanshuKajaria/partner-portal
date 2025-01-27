@@ -22,10 +22,11 @@ export class EditTimeComponent implements OnInit {
   @Input() section: string = '';
   @Input() extraData: any;
   @Output() close = new EventEmitter();
-  @Output() dataSavedSuccessful = new EventEmitter();
   editTimeForm!: FormGroup;
   isLoading: boolean = false;
   submitError: boolean = false;
+
+  referenceCode = '';
 
   constructor(
     private productService: ProductService,
@@ -72,18 +73,17 @@ export class EditTimeComponent implements OnInit {
       }
       this.productService.editProduct(data).subscribe(
         (res: any) => {
-          console.log(res);
           if (res.success) {
-            this.message.create('success', 'Edit Product Successful');
+            this.referenceCode = res?.reference_code;
+            this.handleCancel();
+          } else {
+            this.message.error(res?.error_message ?? 'Edit product fail!');
           }
           this.isLoading = false;
-          this.handleCancel();
-          this.dataSavedSuccessful.next(true);
         },
         (err) => {
-          this.message.error('Edit Product Fail');
+          this.message.error('Edit product fail!');
           this.isLoading = false;
-          this.dataSavedSuccessful.next(false);
         }
       );
     }
@@ -91,7 +91,7 @@ export class EditTimeComponent implements OnInit {
 
   handleCancel() {
     this.isVisible = false;
-    this.close.emit();
+    this.close.emit(this.referenceCode);
   }
 
   navigateAsin(asin: string) {

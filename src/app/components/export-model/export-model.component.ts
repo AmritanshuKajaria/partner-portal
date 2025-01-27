@@ -81,12 +81,13 @@ export class ExportModelComponent implements OnInit {
 
       this.productService.exportProducts(filters).subscribe(
         (response: any) => {
-          console.log(response);
           if (response.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(response?.error_message ?? 'Export fail!');
           }
           this.handleCancel();
           this.isLoading = false;

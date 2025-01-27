@@ -59,6 +59,8 @@ export class MapConflictComponent implements OnInit {
   isVisible: boolean = false;
   code: any = '';
   product_search: string = '';
+  referenceCode = '';
+  isReferenceCodeVisible = false;
 
   constructor(
     private router: Router,
@@ -100,12 +102,14 @@ export class MapConflictComponent implements OnInit {
     }
   }
 
-  onDataSave(data: any) {
+  onEditModelClose(data: any) {
+    this.isVisible = false;
     if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
       this.getData();
     }
   }
-
   searchValue(event: string) {
     this.product_search = event;
     this.pageIndex = 1;
