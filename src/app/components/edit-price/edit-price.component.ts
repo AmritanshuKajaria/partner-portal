@@ -28,11 +28,11 @@ export class EditPriceComponent implements OnInit {
   @Input() section: string = '';
   @Input() extraData: any;
   @Output() close = new EventEmitter();
+  @Output() dataSavedSuccessful = new EventEmitter<any>();
   @Input() customValidator!: ValidatorFn;
   editPriceForm!: FormGroup;
   isLoading: boolean = false;
   submitError: boolean = false;
-  referenceCode = '';
 
   constructor(
     private productService: ProductService,
@@ -102,8 +102,9 @@ export class EditPriceComponent implements OnInit {
           this.productService.editProductRetailPrice(data).subscribe(
             (res: any) => {
               if (res.success) {
-                this.referenceCode = res?.reference_code;
+                this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
+                this.dataSavedSuccessful.emit(true);
               } else {
                 this.message.error(res?.error_message ?? 'Edit product fail!');
               }
@@ -122,8 +123,9 @@ export class EditPriceComponent implements OnInit {
           this.productService.editProduct(data).subscribe(
             (res: any) => {
               if (res.success) {
-                this.referenceCode = res?.reference_code;
+                this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
+                this.dataSavedSuccessful.emit(true);
               } else {
                 this.message.error(res?.error_message ?? 'Edit product fail!');
               }
@@ -141,6 +143,6 @@ export class EditPriceComponent implements OnInit {
 
   handleCancel() {
     this.isVisible = false;
-    this.close.emit(this.referenceCode);
+    this.close.emit();
   }
 }
