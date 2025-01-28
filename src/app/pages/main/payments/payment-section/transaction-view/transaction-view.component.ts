@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
@@ -35,7 +36,10 @@ export class TransactionViewComponent implements OnInit {
   tags: string[] = [];
   sidenavSection: any;
 
-  constructor(private paymentService: PaymentService) {}
+  constructor(
+    private paymentService: PaymentService,
+    private message: NzMessageService
+  ) {}
   ngOnInit(): void {
     this.filterForm = new FormGroup({
       filter: new FormControl(''),
@@ -54,16 +58,23 @@ export class TransactionViewComponent implements OnInit {
     };
 
     this.paymentService.getAllTransactions(data).subscribe({
-      next: (response) => {
+      next: (response: any) => {
+        this.isLoading = false;
+        this.submitButtonLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
           this.transactionViewDataList = response?.transactions ?? [];
+        } else {
+          this.message.error(
+            response?.error_message ?? 'Get Transaction View Details Failed!'
+          );
         }
-        this.isLoading = false;
-        this.submitButtonLoading = false;
       },
       error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get Transaction View Details Failed!');
+        }
         this.isLoading = false;
         this.submitButtonLoading = false;
       },
