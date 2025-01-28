@@ -130,7 +130,6 @@ export class ExportModelComponent implements OnInit {
         : '';
       this.inventoryService.inventoryFeedHistory(filters).subscribe({
         next: (response: any) => {
-          console.log(response);
           if (response.success) {
             this.message.create(
               'success',
