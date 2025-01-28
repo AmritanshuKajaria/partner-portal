@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import {
   AppliedFilters,
@@ -48,7 +49,10 @@ export class AllOrdersComponent implements OnInit {
   listOfFilter: AppliedFilters = {};
   statusEnum: typeof StatusEnum = StatusEnum;
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
       this.selectLocation,
@@ -90,12 +94,22 @@ export class AllOrdersComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.allOrdersData = response?.orders ?? [];
-          this.totalData.emit(+this.total);
+          if (response.success) {
+            this.total = response?.pagination?.total_rows ?? 0;
+            this.allOrdersData = response?.orders ?? [];
+            this.totalData.emit(+this.total);
+          } else {
+            this.message.error('Get All Orders Failed!');
+          }
+
           this.isLoading = false;
         },
-        error: (err) => (this.isLoading = false),
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get All Orders Failed!');
+          }
+          this.isLoading = false;
+        },
       });
   }
 

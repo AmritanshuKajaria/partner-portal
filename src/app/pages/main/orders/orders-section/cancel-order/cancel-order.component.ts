@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { CancelOrders } from 'src/app/shared/model/orders.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -15,7 +16,10 @@ export class CancelOrderComponent implements OnInit {
   cancelOrderForm!: FormGroup;
   isLoading: boolean = false;
 
-  constructor(private ordersService: OrdersService) {}
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit(): void {
     this.cancelOrderForm = new FormGroup({
@@ -47,9 +51,19 @@ export class CancelOrderComponent implements OnInit {
     this.ordersService.cancelOrder(data).subscribe({
       next: (res: any) => {
         this.isLoading = false;
-        this.handleCancel();
+        if (res?.success) {
+          this.message.success('Order Cancelled Successfully!');
+          this.handleCancel();
+        } else {
+          this.message.error(res?.error_message ?? 'Order Cancelled Failed!');
+        }
       },
-      error: (err) => (this.isLoading = false),
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Order Cancelled Failed!');
+        }
+        this.isLoading = false;
+      },
     });
   }
 

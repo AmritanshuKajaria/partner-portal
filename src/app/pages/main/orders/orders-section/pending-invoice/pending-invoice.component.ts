@@ -99,13 +99,22 @@ export class PendingInvoiceComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.pendingInvoiceData = response?.orders ?? [];
+          if (response?.success) {
+            this.total = response?.pagination?.total_rows ?? 0;
+            this.pendingInvoiceData = response?.orders ?? [];
 
-          this.totalData.emit(+this.total);
+            this.totalData.emit(+this.total);
+          } else {
+            this.message.error('Get Pending Invoice Failed!');
+          }
           this.isLoading = false;
         },
-        error: (err) => (this.isLoading = false),
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Pending Invoice Failed!');
+          }
+          this.isLoading = false;
+        },
       });
   }
 

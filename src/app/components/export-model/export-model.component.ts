@@ -79,8 +79,8 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_sales_tier
         : '';
 
-      this.productService.exportProducts(filters).subscribe(
-        (response: any) => {
+      this.productService.exportProducts(filters).subscribe({
+        next: (response: any) => {
           if (response.success) {
             this.message.create(
               'success',
@@ -92,8 +92,13 @@ export class ExportModelComponent implements OnInit {
           this.handleCancel();
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+            this.isLoading = false;
+          }
+        },
+      });
     } else if (this.sectionName === 'inventory') {
       let filters: any = {};
 
@@ -123,20 +128,26 @@ export class ExportModelComponent implements OnInit {
       filters['filter_feed_result'] = this.exportType
         ? this.listOfFilter?.filter_inventory_result
         : '';
-      this.inventoryService.inventoryFeedHistory(filters).subscribe(
-        (response: any) => {
-          console.log(response);
+      this.inventoryService.inventoryFeedHistory(filters).subscribe({
+        next: (response: any) => {
           if (response.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(response?.error_message ?? 'Export fail!');
           }
-          this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'promotion') {
       let filters: any = {};
 
@@ -156,20 +167,26 @@ export class ExportModelComponent implements OnInit {
           : '';
       }
 
-      this.promotionsService.exportPromo(filters).subscribe(
-        (response: any) => {
-          console.log(response);
+      this.promotionsService.exportPromo(filters).subscribe({
+        next: (response: any) => {
           if (response.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(response?.error_message ?? 'Export fail!');
           }
-          this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'order') {
       let filters: any = {};
 
@@ -260,51 +277,71 @@ export class ExportModelComponent implements OnInit {
         : '';
       this.ordersService.exportOrders(filters).subscribe({
         next: (response: any) => {
-          this.handleCancel();
-          console.log(response);
           if (response.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(response?.error_message ?? 'Export fail!');
           }
           this.isLoading = false;
         },
-        error: (err: any) => (this.isLoading = false),
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
       });
     } else if (this.sectionName === 'retailPricing') {
       this.newCalculatorService.exportMultiProductCalculator().subscribe({
         next: (response: any) => {
-          this.handleCancel();
-          console.log(response);
           if (response.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(response?.error_message ?? 'Export fail!');
           }
           this.isLoading = false;
         },
-        error: (err: any) => (this.isLoading = false),
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
       });
     } else if (!this.showFilterOptions) {
       const data: ExportDash = {
         code: this.code,
       };
-      this.dashboardService.exportData(data).subscribe(
-        (res: any) => {
+      this.dashboardService.exportData(data).subscribe({
+        next: (res: any) => {
           console.log(res);
           if (res.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(res?.error_message ?? 'Export fail!');
           }
-          this.handleCancel();
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 

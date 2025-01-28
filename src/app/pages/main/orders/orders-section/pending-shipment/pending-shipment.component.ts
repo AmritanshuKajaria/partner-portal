@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -48,7 +49,10 @@ export class PendingShipmentComponent implements OnInit {
   selectRangeDate: string = '';
   search_term: string = '';
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -94,12 +98,21 @@ export class PendingShipmentComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.pendingShipmentData = response?.orders ?? [];
-          this.totalData.emit(+this.total);
+          if (response?.success) {
+            this.total = response?.pagination?.total_rows ?? 0;
+            this.pendingShipmentData = response?.orders ?? [];
+            this.totalData.emit(+this.total);
+          } else {
+            this.message.error('Get Shipment Pending Failed!');
+          }
           this.isLoading = false;
         },
-        error: (err) => (this.isLoading = false),
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Shipment Pending Failed!');
+          }
+          this.isLoading = false;
+        },
       });
   }
 

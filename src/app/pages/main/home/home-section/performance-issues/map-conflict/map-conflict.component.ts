@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Description } from 'src/app/shared/model/description.model';
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
@@ -66,7 +67,8 @@ export class MapConflictComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private modal: NzModalService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private message: NzMessageService
   ) {
     this.isLoading = true;
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
@@ -87,18 +89,25 @@ export class MapConflictComponent implements OnInit {
         code: this.code,
         product_search: this.product_search ? this.product_search : '',
       };
-      this.dashboardService.getAgendasDataByCode(data).subscribe(
-        (res: any) => {
-          console.log(res);
-
+      this.dashboardService.getAgendasDataByCode(data).subscribe({
+        next: (res: any) => {
           this.isLoading = false;
           if (res.success) {
             this.total = +(res.pagination?.total_rows ?? 0);
             this.mapConflictList = res.data;
+          } else {
+            this.message.error(
+              res?.error_message ?? 'Get agendas details failed!'
+            );
           }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get agendas details failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 

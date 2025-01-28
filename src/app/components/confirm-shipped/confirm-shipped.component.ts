@@ -81,18 +81,23 @@ export class ConfirmShippedComponent implements OnInit {
         (tracking: any) => tracking.tracking
       ),
     };
-    this.ordersService.markOrderShipped(data).subscribe(
-      (res: any) => {
+    this.ordersService.markOrderShipped(data).subscribe({
+      next: (res: any) => {
         if (res.success) {
           this.message.success('Mark shipped successfully!');
+          this.handleCancel();
+        } else {
+          this.message.error(res?.error_message ?? 'Mark shipped failed!');
         }
         this.isLoading = false;
-        this.handleCancel();
       },
-      (error: any) => {
+      error: (error: any) => {
+        if (!error?.error_shown) {
+          this.message.error('Mark shipped failed!');
+        }
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   handleCancel() {

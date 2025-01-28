@@ -98,15 +98,26 @@ export class PromotionTableComponent implements OnInit {
               promo_code: promo_code,
             };
 
-            this.promotionsService
-              .cancelPromotions(data)
-              .subscribe((res: any) => {
-                console.log(res);
-                this.message.create(
-                  'success',
-                  `Cancel this promotion : ${promo_code}`
-                );
-              });
+            this.promotionsService.cancelPromotions(data).subscribe({
+              next: (res: any) => {
+                if (res?.success) {
+                  this.message.create(
+                    'success',
+                    `Cancel this promotion : ${promo_code}`
+                  );
+                } else {
+                  this.message.error(
+                    res?.error_message ??
+                      `Cancel this promotion failed : ${promo_code}`
+                  );
+                }
+              },
+              error: (err) => {
+                if (!err?.error_shown) {
+                  this.message.error('Cancel promotion failed');
+                }
+              },
+            });
           },
         });
         break;
@@ -119,15 +130,26 @@ export class PromotionTableComponent implements OnInit {
               promo_code: promo_code,
             };
 
-            this.promotionsService
-              .stopPromotions(dataNow)
-              .subscribe((res: any) => {
-                console.log(res);
-                this.message.create(
-                  'success',
-                  `Stop this promotion : ${promo_code}`
-                );
-              });
+            this.promotionsService.stopPromotions(dataNow).subscribe({
+              next: (res: any) => {
+                if (res?.success) {
+                  this.message.create(
+                    'success',
+                    `Stop this promotion : ${promo_code}`
+                  );
+                } else {
+                  this.message.error(
+                    res?.error_message ??
+                      `Stop this promotion failed : ${promo_code}`
+                  );
+                }
+              },
+              error: (err) => {
+                if (!err?.error_shown) {
+                  this.message.error('Stop promotion failed');
+                }
+              },
+            });
           },
         });
         break;

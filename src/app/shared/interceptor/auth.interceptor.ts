@@ -68,7 +68,8 @@ export class AuthInterceptor implements HttpInterceptor {
 
     if (errorMessage) {
       this.message.error(errorMessage);
-      return throwError(() => new Error(errorMessage));
+      // To show only one error message added this
+      return throwError(() => ({ error_shown: true }));
     }
     return throwError(() => error);
   }

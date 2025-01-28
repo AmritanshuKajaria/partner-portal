@@ -715,20 +715,11 @@
       </ng-container>
     </nz-modal>
 
-    <nz-modal [(nzVisible)]="isVisible">
-      <ng-container *nzModalContent>
-        <nz-result
-          nzStatus="success"
-          [nzTitle]="'Reference Code : ' + referenceCode"
-          [nzSubTitle]="'Add multiple product successfully'"
-        >
-          <div nz-result-extra>
-            <button nz-button nzType="primary" (click)="isVisible = false">
-              OK
-            </button>
-          </div>
-        </nz-result>
-      </ng-container>
-    </nz-modal>
+    <app-show-reference-code
+      (close)="isVisible = false"
+      [isVisible]="isVisible"
+      [referenceCode]="referenceCode"
+      [subTitle]="'Add multiple product successfully'"
+    ></app-show-reference-code>
   </div>
 </nz-spin>

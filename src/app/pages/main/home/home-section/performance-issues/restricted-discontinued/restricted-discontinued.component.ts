@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
 
@@ -58,20 +59,30 @@ export class RestrictedDiscontinuedComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private modal: NzModalService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private message: NzMessageService
   ) {
     this.isLoading = true;
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
     if (this.code) {
-      dashboardService.getAgendasDataByCode(this.code).subscribe(
-        (res: any) => {
+      dashboardService.getAgendasDataByCode(this.code).subscribe({
+        next: (res: any) => {
           this.isLoading = false;
           if (res.success) {
             this.restrictedDiscontinuedList = res.data;
+          } else {
+            this.message.error(
+              res?.error_message ?? 'Get agendas details failed!'
+            );
           }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get agendas details failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
     // dashboardService.discontinuedViaOrderCancellation().subscribe(
     //   (res: any) => {

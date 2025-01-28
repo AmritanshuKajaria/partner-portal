@@ -56,16 +56,25 @@ export class ChangePasswordComponent implements OnInit {
         old_password: this.changePasswordForm.controls['oldPassword'].value,
         new_password: this.changePasswordForm.controls['newPassword'].value,
       };
-      this.authService.changePassword(req).subscribe(
-        (res: any) => {
+      this.authService.changePassword(req).subscribe({
+        next: (res: any) => {
           this.isLoading = false;
           if (res.success) {
             this.message.success('User password changed!!');
             this.router.navigate(['/main/dashboard']);
+          } else {
+            this.message.error(
+              res?.error_message ?? 'User password change failed!'
+            );
           }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('User password change failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 }

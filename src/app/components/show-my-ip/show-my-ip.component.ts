@@ -8,21 +8,24 @@ import { NzMessageService } from 'ng-zorro-antd/message';
   styleUrls: ['./show-my-ip.component.scss'],
 })
 export class ShowMyIpComponent {
-  myIpAddress: string = "";
+  myIpAddress: string = '';
   isLoading: boolean = true;
-  constructor(private httpClient: HttpClient, private message: NzMessageService) {
+  constructor(
+    private httpClient: HttpClient,
+    private message: NzMessageService
+  ) {
     this.httpClient.get('https://api.ipify.org?format=json').subscribe({
-      next: (res:any) => {
+      next: (res: any) => {
         console.log('IP Address :', res);
         this.myIpAddress = res?.ip;
         this.isLoading = false;
       },
       error: (er) => {
         console.log('IP Address Error :', er);
-        this.message.create(
-          'error',
-          'something went wrong!'
-        );
+        if (!er?.error_shown) {
+          this.message.create('error', 'something went wrong!');
+        }
+
         this.isLoading = false;
       },
     });

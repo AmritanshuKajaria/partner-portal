@@ -61,8 +61,8 @@ export class ResetPasswordComponent implements OnInit {
           verification_token: this.token,
           new_password: this.resetForm.controls['newPassword'].value,
         };
-        this.authService.resetPassword(req).subscribe(
-          (result: any) => {
+        this.authService.resetPassword(req).subscribe({
+          next: (result: any) => {
             this.isLoading = false;
             if (result.success) {
               this.message.success('Reset Password Successful');
@@ -76,10 +76,19 @@ export class ResetPasswordComponent implements OnInit {
               // } else {
               this.router.navigate(['/auth/login']);
               // }
+            } else {
+              this.message.error(
+                result.error_message ?? 'Reset Password Failed'
+              );
             }
           },
-          (err) => (this.isLoading = false)
-        );
+          error: (err) => {
+            if (!err?.error_shown) {
+              this.message.error('Reset Password Failed');
+            }
+            this.isLoading = false;
+          },
+        });
         // } else {
         //   const req: ChangePasswordToken = {
         //     token: this.token,

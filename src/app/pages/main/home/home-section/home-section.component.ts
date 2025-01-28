@@ -112,28 +112,30 @@ export class HomeSectionComponent implements OnInit {
   ) {
     this.isLoading = true;
     this.loadAPIs();
-    this.dashboardService.agendasList.subscribe((res: any) => {
-      if (res) {
-        this.isLoading = false;
-        if (res.success) {
-          this.performanceIssuesList = [];
-          res.performance.map((result: any, index: number) => {
-            if (this.urlsMap.get(result?.code)) {
-              result['url'] = this.urlsMap.get(result?.code);
-              this.performanceIssuesList.push(result);
-            }
-          });
-          this.recommendationIssuesList = [];
-          res.recommendation.map((response: any, index: number) => {
-            if (this.urlsMap.get(response?.code)) {
-              response['url'] = this.urlsMap.get(response?.code);
-              this.recommendationIssuesList.push(response);
-            }
-          });
-        } else {
+    this.dashboardService.agendasList.subscribe({
+      next: (res: any) => {
+        if (res) {
           this.isLoading = false;
+          if (res.success) {
+            this.performanceIssuesList = [];
+            res.performance.map((result: any, index: number) => {
+              if (this.urlsMap.get(result?.code)) {
+                result['url'] = this.urlsMap.get(result?.code);
+                this.performanceIssuesList.push(result);
+              }
+            });
+            this.recommendationIssuesList = [];
+            res.recommendation.map((response: any, index: number) => {
+              if (this.urlsMap.get(response?.code)) {
+                response['url'] = this.urlsMap.get(response?.code);
+                this.recommendationIssuesList.push(response);
+              }
+            });
+          } else {
+            this.isLoading = false;
+          }
         }
-      }
+      },
     });
   }
 

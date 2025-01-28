@@ -71,8 +71,8 @@ export class EditTimeComponent implements OnInit {
           data.product['product_status'] = this.editTimeForm.value.new;
           break;
       }
-      this.productService.editProduct(data).subscribe(
-        (res: any) => {
+      this.productService.editProduct(data).subscribe({
+        next: (res: any) => {
           if (res.success) {
             this.referenceCode = res?.reference_code;
             this.handleCancel();
@@ -81,11 +81,13 @@ export class EditTimeComponent implements OnInit {
           }
           this.isLoading = false;
         },
-        (err) => {
-          this.message.error('Edit product fail!');
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Edit product fail!');
+          }
           this.isLoading = false;
-        }
-      );
+        },
+      });
     }
   }
 

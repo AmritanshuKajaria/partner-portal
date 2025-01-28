@@ -32,16 +32,23 @@ export class PromotionDetailsComponent implements OnInit {
     const data: StopPromotions = {
       promo_code: this.promoCode,
     };
-    this.promotionsService.getPromotion(data).subscribe(
-      (res: any) => {
+    this.promotionsService.getPromotion(data).subscribe({
+      next: (res: any) => {
         this.isLoading = false;
         if (res.success) {
           this.viewData = res;
           this.promotionList = res.promo_deatils;
+        } else {
+          this.message.error(res?.error_message ?? 'Get promotions failed!');
         }
       },
-      (err) => (this.isLoading = false)
-    );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get promotions failed!');
+        }
+        this.isLoading = false;
+      },
+    });
   }
   ngOnInit(): void {}
 
@@ -49,10 +56,8 @@ export class PromotionDetailsComponent implements OnInit {
     const data: StopPromotions = {
       promo_code: promo_code,
     };
-    this.promotionsService
-      .downloadPromotionDetails(data)
-      .subscribe((res: any) => {
-        console.log(res);
+    this.promotionsService.downloadPromotionDetails(data).subscribe({
+      next: (res: any) => {
         if (res.success) {
           this.message.create(
             'success',
@@ -63,7 +68,17 @@ export class PromotionDetailsComponent implements OnInit {
           a.download = 'document';
           a.href = objectUrl;
           a.click();
+        } else {
+          this.message.error(
+            res?.error_message ?? 'Download promotion details failed!'
+          );
         }
-      });
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Download promotion details failed!');
+        }
+      },
+    });
   }
 }

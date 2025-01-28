@@ -79,8 +79,9 @@ export class PlansComponent implements OnInit, OnDestroy {
         error: (e) => {
           this.dialogVisible = false;
           this.isLoading = false;
-          this.message.error('Plan Update Fail');
-          console.log('Unable to upgrade');
+          if (!e?.error_shown) {
+            this.message.error('Plan Update Fail');
+          }
         },
       });
   }

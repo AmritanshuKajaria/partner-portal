@@ -76,14 +76,26 @@ export class ScheduledPromotionsComponent implements OnInit {
       search_term: search_term,
       open: true,
     };
-    this.promotionsService.getAllPromotions(data).subscribe(
-      (res: any) => {
-        this.total = res.pagination?.total_rows ?? 0;
-        this.scheduledPromotionsList = res.promos ?? [];
+    this.promotionsService.getAllPromotions(data).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.total = res.pagination?.total_rows ?? 0;
+          this.scheduledPromotionsList = res.promos ?? [];
+        } else {
+          this.message.error(
+            res.error_message ?? 'Get Running/Scheduled Promotions Failed!'
+          );
+        }
+
         this.isLoading = false;
       },
-      (err) => (this.isLoading = false)
-    );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get Running/Scheduled Promotions Failed!');
+        }
+        this.isLoading = false;
+      },
+    });
   }
 
   pageIndexChange(page: number) {
@@ -113,14 +125,14 @@ export class ScheduledPromotionsComponent implements OnInit {
     (this.filter_start_date = filters?.start_date),
       (this.filter_end_date = filters?.end_date),
       (this.filter_status = filters?.promo_status),
-      this.pageIndex = 1;
-      this.getAllScheduledPromotions(
-        this.pageIndex,
-        this.filter_start_date,
-        this.filter_end_date,
-        this.filter_status,
-        this.search_term
-      );
+      (this.pageIndex = 1);
+    this.getAllScheduledPromotions(
+      this.pageIndex,
+      this.filter_start_date,
+      this.filter_end_date,
+      this.filter_status,
+      this.search_term
+    );
   }
 
   editEndDate(event: { code: string; date: string }) {
@@ -170,15 +182,23 @@ export class ScheduledPromotionsComponent implements OnInit {
           )
         : '';
     }
-    this.promotionsService.editEndDatePromo(data).subscribe(
-      (res: any) => {
+    this.promotionsService.editEndDatePromo(data).subscribe({
+      next: (res: any) => {
         if (res.success) {
           this.message.create('success', 'End date edit successfully!');
+          this.addEndDateVisible = false;
+        } else {
+          this.message.error(res?.error_message ?? 'End date edit failed!');
         }
-        this.addEndDateVisible = false;
+
         this.isLoading = false;
       },
-      (err) => (this.isLoading = false)
-    );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('End date edit failed!');
+        }
+        this.isLoading = false;
+      },
+    });
   }
 }

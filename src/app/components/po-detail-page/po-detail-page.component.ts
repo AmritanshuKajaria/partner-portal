@@ -55,7 +55,12 @@ export class PoDetailPageComponent implements OnInit {
         }
         this.isLoading = false;
       },
-      error: (err) => (this.isLoading = false),
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get order details failed!');
+        }
+        this.isLoading = false;
+      },
     });
 
     this.userPermissionService.userPermission.subscribe((permission: any) => {
@@ -69,19 +74,37 @@ export class PoDetailPageComponent implements OnInit {
   downloadAction(type: string) {
     switch (type) {
       case 'Download PO':
-        this.ordersService.downloadPo(this.poNo).subscribe((res: any) => {
-          if (res.success) {
-            this.message.success('Download po successfully!');
-            window.open(res?.po_copy_url);
-          }
+        this.ordersService.downloadPo(this.poNo).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.message.success('Download po successfully!');
+              window.open(res?.po_copy_url);
+            } else {
+              this.message.error(res.error_message ?? 'Download po failed!');
+            }
+          },
+          error: (e) => {
+            if (!e?.error_shown) {
+              this.message.error('Download po failed!');
+            }
+          },
         });
         break;
       case 'Download Shipping Labels':
-        this.ordersService.downloadLabel(this.poNo).subscribe((res: any) => {
-          if (res.success) {
-            this.message.success('Download label successfully!');
-            window.open(`https://${res?.label_url}`);
-          }
+        this.ordersService.downloadLabel(this.poNo).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.message.success('Download label successfully!');
+              window.open(`https://${res?.label_url}`);
+            } else {
+              this.message.error(res.error_message ?? 'Download label failed!');
+            }
+          },
+          error: (e) => {
+            if (!e?.error_shown) {
+              this.message.error('Download label failed!');
+            }
+          },
         });
         break;
       case 'PO Clarification':
