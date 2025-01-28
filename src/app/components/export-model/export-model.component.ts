@@ -264,20 +264,30 @@ export class ExportModelComponent implements OnInit {
           : '';
       }
 
-      this.paymentService.exportTransactions(filters).subscribe(
-        (response: any) => {
+      this.paymentService.exportTransactions(filters).subscribe({
+        next: (response: any) => {
           console.log(response);
+          this.isLoading = false;
           if (response.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              response?.error_message ??
+                'Export Transaction View Details Failed!'
+            );
           }
-          this.handleCancel();
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Transaction View Details Failed!');
+          }
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+      });
     } else if (this.sectionName === 'openBalances') {
       let filters: any = {};
 
@@ -311,20 +321,29 @@ export class ExportModelComponent implements OnInit {
           : '';
       }
 
-      this.paymentService.exportOpenBalances(filters).subscribe(
-        (response: any) => {
+      this.paymentService.exportOpenBalances(filters).subscribe({
+        next: (response: any) => {
           console.log(response);
+          this.isLoading = false;
           if (response.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              response?.error_message ?? 'Export Open Balances Failed!'
+            );
           }
-          this.handleCancel();
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Open Balances Failed!');
+          }
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+      });
     } else if (this.sectionName === 'pastRemittances') {
       let filters: any = {};
 
@@ -348,20 +367,29 @@ export class ExportModelComponent implements OnInit {
           : '';
       }
 
-      this.paymentService.exportPastRemittances(filters).subscribe(
-        (response: any) => {
+      this.paymentService.exportPastRemittances(filters).subscribe({
+        next: (response: any) => {
           console.log(response);
+          this.isLoading = false;
           if (response.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              response?.error_message ?? 'Export Past Remittances Failed!'
+            );
           }
-          this.handleCancel();
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Past Remittances Failed!');
+          }
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+      });
     } else if (!this.showFilterOptions) {
       const data: ExportDash = {
         code: this.code,

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
@@ -27,7 +28,10 @@ export class PastRemittancesComponent implements OnInit {
   remittance_start_date: string = '';
   remittance_end_date: string = '';
 
-  constructor(private paymentService: PaymentService) {
+  constructor(
+    private paymentService: PaymentService,
+    private message: NzMessageService
+  ) {
     this.getPaymentList(
       this.pageIndex,
       this.remittance_start_date,
@@ -52,15 +56,24 @@ export class PastRemittancesComponent implements OnInit {
       search_term: search_term,
     };
     this.paymentService.getAllPastRemittances(data).subscribe({
-      next: (response) => {
+      next: (response: any) => {
+        this.isLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
           this.pastRemittancesDataList = response?.past_remittances ?? [];
+        } else {
+          this.message.error(
+            response?.error_message ?? 'Get Past Remittances Failed!'
+          );
+        }
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get Past Remittances Failed!');
         }
         this.isLoading = false;
       },
-      error: (err) => (this.isLoading = false),
     });
   }
 

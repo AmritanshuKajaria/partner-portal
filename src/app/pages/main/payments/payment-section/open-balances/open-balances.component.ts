@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { AppliedFilters } from 'src/app/shared/model/orders.model';
 import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
 import { PaymentService } from 'src/app/shared/service/payment.service';
@@ -38,7 +39,10 @@ export class OpenBalancesComponent implements OnInit {
   filter_type?: string = '';
   filter_due_date?: string = '';
 
-  constructor(private paymentService: PaymentService) {
+  constructor(
+    private paymentService: PaymentService,
+    private message: NzMessageService
+  ) {
     this.getPaymentList(
       this.pageIndex,
       this.invoice_start_date,
@@ -67,15 +71,24 @@ export class OpenBalancesComponent implements OnInit {
       filter_due_date: filter_due_date,
     };
     this.paymentService.getAllOpenBalances(data).subscribe({
-      next: (response) => {
+      next: (response: any) => {
+        this.isLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
           this.openBalancesDataList = response?.open_balances ?? [];
+        } else {
+          this.message.error(
+            response?.error_message ?? 'Get Open Balances Failed!'
+          );
+        }
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get Open Balances Failed!');
         }
         this.isLoading = false;
       },
-      error: (err) => (this.isLoading = false),
     });
   }
 
