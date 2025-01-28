@@ -1,4 +1,5 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recommendation-issue-table',
@@ -17,6 +18,11 @@ export class RecommendationIssueTableComponent implements OnInit {
 
   @Output() changePages = new EventEmitter();
 
+  @Output() dataSavedSuccessful = new EventEmitter();
+
+  referenceCode = '';
+  isReferenceCodeVisible = false;
+
   pageSizeOptions = [100];
   editData: { mpn: string; current: number; sku: string } = {
     mpn: 'string',
@@ -26,8 +32,13 @@ export class RecommendationIssueTableComponent implements OnInit {
   editLabel: string[] = [];
   isVisible: boolean = false;
 
-  constructor() {}
+  constructor(private router: Router) {}
   ngOnInit(): void {}
+
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
 
   navigateAsin(asin: string) {
     window.open(`https://www.amazon.com/dp/${asin}`);
@@ -52,5 +63,14 @@ export class RecommendationIssueTableComponent implements OnInit {
 
   selectAction(data: string) {
     this.changeModel.emit(data);
+  }
+
+  onEditModelClose(data: any) {
+    this.isVisible = false;
+    if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
+      this.dataSavedSuccessful.emit(data);
+    }
   }
 }

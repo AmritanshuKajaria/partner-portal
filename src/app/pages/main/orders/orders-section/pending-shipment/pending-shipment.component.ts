@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -21,7 +22,7 @@ export class PendingShipmentComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Output() totalData = new EventEmitter();
 
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
   isLoading: boolean = false;
@@ -48,7 +49,10 @@ export class PendingShipmentComponent implements OnInit {
   selectRangeDate: string = '';
   search_term: string = '';
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -94,19 +98,27 @@ export class PendingShipmentComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          if (response.success) {
+          if (response?.success) {
             this.total = response?.pagination?.total_rows ?? 0;
+            this.pendingShipmentData = response?.orders ?? [];
             this.totalData.emit(+this.total);
-            this.pendingShipmentData = response.orders ?? [];
+          } else {
+            this.message.error('Get Shipment Pending Failed!');
           }
           this.isLoading = false;
         },
-        error: (err) => (this.isLoading = false),
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Shipment Pending Failed!');
+          }
+          this.isLoading = false;
+        },
       });
   }
 
   searchDataChanges(event: string) {
     this.search_term = event;
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -202,6 +214,7 @@ export class PendingShipmentComponent implements OnInit {
           }
           break;
       }
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,
@@ -259,6 +272,7 @@ export class PendingShipmentComponent implements OnInit {
             this.badgeTotal--;
             break;
         }
+        this.pageIndex = 1;
         this.getOrderList(
           this.pageIndex,
           this.selectMPN,
@@ -303,6 +317,8 @@ export class PendingShipmentComponent implements OnInit {
 
     this.badgeTotal = 0;
     this.clear_btn = false;
+
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -352,6 +368,8 @@ export class PendingShipmentComponent implements OnInit {
           this.badgeTotal--;
           break;
       }
+
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,

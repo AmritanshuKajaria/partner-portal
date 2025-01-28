@@ -1,247 +1,98 @@
 <div class="single-product-calculator">
-  <div class="search-section" nz-row [nzGutter]="16">
-    <div class="search" nz-col [nzLg]="20" [nzXs]="24">
-      <nz-form-item>
-        <nz-form-control>
-          <nz-input-group>
-            <input type="text" nz-input placeholder="Search ASIN / MPN / UPC" />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <button nz-button class="action-button" [nzType]="'primary'">
-        <span nz-icon nzType="search" nzTheme="outline"></span>
-        Search
-      </button>
-    </div>
+  <div class="search-section">
+    <nz-form-item>
+      <nz-form-control>
+        <nz-input-group>
+          <input type="text" nz-input placeholder="Search ASIN, SKU" />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <button nz-button class="action-button" [nzType]="'primary'">
+      <span nz-icon nzType="search" nzTheme="outline"></span>
+      Search
+    </button>
   </div>
-  <div class="section" nz-row [nzGutter]="16">
-    <div nz-col [nzLg]="20" [nzXs]="24">
+  <div nz-row [nzGutter]="16">
+    <div nz-col [nzXl]="12" [nzXs]="24">
       <div class="product-section">
-        <div class="section-header">Product Detail</div>
-        <div class="content" nz-row [nzGutter]="16">
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>MPN :</b> {{ productDetails.mpn }}
+        <h2>Product Detail</h2>
+        <div class="content">
+          <div>
+            <nz-avatar
+              [nzSize]="64"
+              nzSrc="https://m.media-amazon.com/images/I/511IXc34QHL._SL120_.jpg"
+            ></nz-avatar>
           </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>Current BB Price :</b> ${{ productDetails.currentBBPrice }}
-          </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>Current BB Holder :</b> {{ productDetails.currentBBHolder }}
-          </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>UPC :</b> {{ productDetails.upc }}
-          </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>Last 7 Days Lowest BB Price :</b> ${{
-              productDetails.last7DaysLowest
-            }}
-          </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>Max BB Holder (7 Days) :</b>{{ productDetails.maxBBHolder7Days }}
-          </div>
-          <div nz-col [nzXl]="8" [nzMd]="12" [nzXs]="24" class="content-text">
-            <b>Product Name :</b> {{ productDetails.productName }}
-            i
-          </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>Last 30 Days Lowest BB Price :</b> ${{
-              productDetails.last30DaysLowestBBPrice
-            }}
-          </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>Max BB Holder (30 Days) :</b>
-            {{ productDetails.maxBBHolder30Days }}
-          </div>
-          <div
-            nz-col
-            [nzXl]="8"
-            [nzMd]="12"
-            [nzXs]="24"
-            class="content-text nowrap"
-          >
-            <b>ASIN :</b> {{ productDetails.asin }}
+          <div class="content-section">
+            <a class="link"
+              >Tachikara Institutional Quality Composite Leather Volleyball,
+              Royal-White
+            </a>
+            <div><b>ASIN </b> B004QL3W9Y</div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="section" nz-row [nzGutter]="16">
-    <div nz-col [nzLg]="20" [nzSm]="24">
-      <div class="section-header">Price</div>
-      <nz-table
-        #nzTable
-        nzOuterBordered
-        [nzData]="calculatorList"
-        [nzFrontPagination]="false"
-        [nzShowPagination]="false"
-        [nzBordered]="true"
-      >
-        <tbody>
-          <tr *ngFor="let data of calculatorList">
-            <td>
-              <b
-                *ngIf="
-                  data?.name === 'Unit Price' || data?.name === 'Retailer Price'
-                "
-                >{{ data?.name }}</b
-              >
-              <span
-                *ngIf="
-                  data?.name !== 'Unit Price' && data?.name !== 'Retailer Price'
-                "
-                >{{ data?.name }}</span
-              >
-            </td>
-            <td style="width: 150px">
-              <span
-                *ngIf="
-                  data?.name !== 'Amazon Commission' &&
-                  data?.name !== 'Order Processing Fee'
-                "
-                >$</span
-              >{{ data?.getPrice
-              }}<span
-                *ngIf="
-                  data?.name === 'Amazon Commission' ||
-                  data?.name === 'Order Processing Fee'
-                "
-                >%</span
-              >
-            </td>
-            <td style="width: 150px">
-              <nz-form-item
-                style="margin-bottom: 0px"
-                *ngIf="
-                  data?.name === 'Unit Price' || data?.name === 'Retailer Price'
-                "
-              >
-                <nz-form-control>
-                  <nz-input-group nzPrefix="$">
-                    <input
-                      [value]="data?.price"
-                      [(ngModel)]="data.price"
-                      (input)="changePrice($event, data)"
-                      nz-input
-                      type="number"
-                      placeholder="Unit"
-                    />
-                  </nz-input-group>
-                </nz-form-control>
-              </nz-form-item>
-              <span
-                *ngIf="
-                  data?.name === 'Shipping Cost' ||
-                  data?.name === 'Return Processing Fee'
-                "
-                >{{ data?.price }}</span
-              >
-              <span
-                *ngIf="
-                  data?.name === 'Amazon Commission' ||
-                  data?.name === 'Order Processing Fee'
-                "
-                >{{ data?.price | number : "1.2-2" }}</span
-              >
-            </td>
-            <td style="width: 150px">
-              <div
-                *ngIf="
-                  data.name === 'Unit Price' || data?.name === 'Retailer Price'
-                "
-              >
-                <span
-                  *ngIf="data.getPrice < data.price"
-                  nz-icon
-                  nzType="arrow-up"
-                  style="color: red"
-                  nzTheme="outline"
-                ></span>
-                <span
-                  *ngIf="data.getPrice > data.price"
-                  nz-icon
-                  nzType="arrow-down"
-                  style="color: rgb(125, 246, 129)"
-                  nzTheme="outline"
-                ></span>
-                <span
-                  >{{
-                    getDifferent(data.getPrice, data.price) | number : "1.2-2"
-                  }}%</span
-                >
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <td colspan="4" style="text-align: end">
-              <button
-                nz-button
-                nzType="default"
-                style="color: black"
-                (click)="resetData()"
-              >
-                <span nz-icon nzType="reload" nzTheme="outline"></span>
-                Reset
-              </button>
-              <button nz-button class="action-button" [nzType]="'primary'">
-                <span
-                  style="color: white; font-size: 16px"
-                  nz-icon
-                  nzType="save"
-                ></span>
-                Save
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </nz-table>
+    <div nz-col [nzXl]="12" [nzXs]="24">
+      <h2>Product Calculation</h2>
+      <div class="card">
+        <div class="unit-price card-content">
+          <b>Unit Price : </b>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <input
+                  [(ngModel)]="unitPrice"
+                  type="number"
+                  nz-input
+                  placeholder="Unit Price"
+                  (input)="changePrice($event, 'unit')"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+        <div class="other-section">
+          <div class="card-content">
+            <span>Shipping Cost : </span>
+            <span>{{ shippingCost }}</span>
+          </div>
+          <div class="card-content">
+            <span>Amazon Commission : </span>
+            <span>{{ amazonCommission }}%</span>
+          </div>
+          <div class="card-content">
+            <span>Order Processing Fee : </span>
+            <span>{{ orderProcessingFee }}%</span>
+          </div>
+          <div class="card-content">
+            <span>Return Processing Fee : </span>
+            <span>${{ returnProcessingFee }}</span>
+          </div>
+        </div>
+        <div class="retailer-price card-content">
+          <b>Retailer Price : </b>
+          <nz-form-item>
+            <nz-form-control>
+              <nz-input-group>
+                <input
+                  [(ngModel)]="retailPrice"
+                  type="number"
+                  nz-input
+                  placeholder="Unit Price"
+                  (input)="changePrice($event, 'retailer')"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+      <div class="button">
+        <button nz-button class="action-button" [nzType]="'primary'">
+          <span nz-icon nzType="file-text" nzTheme="outline"></span>
+          Save
+        </button>
+      </div>
     </div>
   </div>
 </div>

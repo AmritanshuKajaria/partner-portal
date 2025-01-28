@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   ProcessedInventory,
   RejectInventory,
@@ -25,7 +26,8 @@ export class ViewInventoryComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private inventoryService: InventoryService
+    private inventoryService: InventoryService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit(): void {
@@ -36,57 +38,74 @@ export class ViewInventoryComponent implements OnInit {
       feed_code: this.feedCode,
     };
     if (this.feedResult.toLocaleLowerCase() === 'processed') {
-      this.inventoryService.inventoryFeed(data).subscribe(
-        (res: ProcessedInventory) => {
+      this.inventoryService.inventoryFeed(data).subscribe({
+        next: (res: ProcessedInventory) => {
           this.isLoading = false;
-          this.editData = res;
-          this.total =
-            (this.editData?.active_in_stock
-              ? this.editData?.active_in_stock
-              : 0) +
-            (this.editData?.active_out_of_stock
-              ? this.editData?.active_out_of_stock
-              : 0) +
-            (this.editData?.suppressed_in_stock
-              ? this.editData?.suppressed_in_stock
-              : 0) +
-            (this.editData?.suppressed_out_of_stock
-              ? this.editData?.suppressed_out_of_stock
-              : 0) +
-            (this.editData?.discontinued_in_stock
-              ? this.editData?.discontinued_in_stock
-              : 0) +
-            (this.editData?.discontinued_out_of_stock
-              ? this.editData?.discontinued_out_of_stock
-              : 0) +
-            (this.editData?.restricted_in_stock
-              ? this.editData?.restricted_in_stock
-              : 0) +
-            (this.editData?.restricted_out_of_stock
-              ? this.editData?.restricted_out_of_stock
-              : 0) +
-            (this.editData?.ltl_in_stock ? this.editData?.ltl_in_stock : 0) +
-            (this.editData?.ltl_out_of_stock
-              ? this.editData?.ltl_out_of_stock
-              : 0) +
-            (this.editData?.stranded_in_feed_in_stock
-              ? this.editData?.stranded_in_feed_in_stock
-              : 0) +
-            (this.editData?.stranded_in_feed_out_of_stock
-              ? this.editData?.stranded_in_feed_out_of_stock
-              : 0);
+          if (res.success) {
+            this.editData = res;
+            this.total =
+              (this.editData?.active_in_stock
+                ? this.editData?.active_in_stock
+                : 0) +
+              (this.editData?.active_out_of_stock
+                ? this.editData?.active_out_of_stock
+                : 0) +
+              (this.editData?.suppressed_in_stock
+                ? this.editData?.suppressed_in_stock
+                : 0) +
+              (this.editData?.suppressed_out_of_stock
+                ? this.editData?.suppressed_out_of_stock
+                : 0) +
+              (this.editData?.discontinued_in_stock
+                ? this.editData?.discontinued_in_stock
+                : 0) +
+              (this.editData?.discontinued_out_of_stock
+                ? this.editData?.discontinued_out_of_stock
+                : 0) +
+              (this.editData?.partner_restricted_in_stock
+                ? this.editData?.partner_restricted_in_stock
+                : 0) +
+              (this.editData?.partner_restricted_out_of_stock
+                ? this.editData?.partner_restricted_out_of_stock
+                : 0) +
+              (this.editData?.ltl_in_stock ? this.editData?.ltl_in_stock : 0) +
+              (this.editData?.ltl_out_of_stock
+                ? this.editData?.ltl_out_of_stock
+                : 0) +
+              (this.editData?.stranded_in_feed_in_stock
+                ? this.editData?.stranded_in_feed_in_stock
+                : 0) +
+              (this.editData?.stranded_in_feed_out_of_stock
+                ? this.editData?.stranded_in_feed_out_of_stock
+                : 0);
+          } else {
+            this.message.error('Inventory Process Failed');
+          }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Inventory Process Failed');
+          }
+          this.isLoading = false;
+        },
+      });
     } else {
-      this.inventoryService.inventoryFeedReject(data).subscribe(
-        (res: RejectInventory) => {
-          console.log(res);
+      this.inventoryService.inventoryFeedReject(data).subscribe({
+        next: (res: RejectInventory) => {
           this.isLoading = false;
-          this.editData = res;
+          if (res.success) {
+            this.editData = res;
+          } else {
+            this.message.error('Reject Inventory Feed Failed!');
+          }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Reject Inventory Feed Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 

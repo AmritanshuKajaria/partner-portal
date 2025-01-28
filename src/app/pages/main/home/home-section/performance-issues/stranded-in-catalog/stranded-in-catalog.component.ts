@@ -59,6 +59,8 @@ export class StrandedInCatalogComponent implements OnInit {
   // clear_btn: boolean = false;
   isMultipleProductsVisible: boolean = false;
   product_search: string = '';
+  referenceCode = '';
+  isReferenceCodeVisible = false;
 
   constructor(
     private router: Router,
@@ -68,7 +70,7 @@ export class StrandedInCatalogComponent implements OnInit {
   ) {
     this.isLoading = true;
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.getData();
     // dashboardService.restrictedViaOrderCancellation().subscribe(
     //   (res: any) => {
     //     this.isLoading = false;
@@ -81,19 +83,24 @@ export class StrandedInCatalogComponent implements OnInit {
   }
   ngOnInit(): void {}
 
-  getData(pageIndex: number, code: string, search: string) {
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
+
+  getData() {
     this.isLoading = true;
     if (this.code) {
       const data = {
-        page: pageIndex,
-        code: code,
-        product_search: search ? search : '',
+        page: this.pageIndex,
+        code: this.code,
+        product_search: this.product_search ? this.product_search : '',
       };
       this.dashboardService.getAgendasDataByCode(data).subscribe(
         (res: any) => {
           this.isLoading = false;
           if (res.success) {
-            this.total = +res.pagination?.total_rows ?? 0;
+            this.total = +(res.pagination?.total_rows ?? 0);
             this.strandedInCatalogList = res.data;
           }
         },
@@ -102,14 +109,23 @@ export class StrandedInCatalogComponent implements OnInit {
     }
   }
 
+  onEditModelClose(data: any) {
+    this.isVisible = false;
+    if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
+      this.getData();
+    }
+  }
   searchValue(event: string) {
     this.product_search = event;
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.pageIndex = 1;
+    this.getData();
   }
 
   pageIndexChange(page: number) {
     this.pageIndex = page;
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.getData();
   }
 
   navigateAsin(asin: string) {

@@ -99,19 +99,28 @@ export class PendingInvoiceComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          if (response.success) {
+          if (response?.success) {
             this.total = response?.pagination?.total_rows ?? 0;
+            this.pendingInvoiceData = response?.orders ?? [];
+
             this.totalData.emit(+this.total);
-            this.pendingInvoiceData = response.orders ?? [];
+          } else {
+            this.message.error('Get Pending Invoice Failed!');
           }
           this.isLoading = false;
         },
-        error: (err) => (this.isLoading = false),
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Pending Invoice Failed!');
+          }
+          this.isLoading = false;
+        },
       });
   }
 
   searchDataChanges(event: string) {
     this.search_term = event;
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -203,7 +212,7 @@ export class PendingInvoiceComponent implements OnInit {
           }
           break;
       }
-
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,
@@ -263,6 +272,7 @@ export class PendingInvoiceComponent implements OnInit {
 
             break;
         }
+        this.pageIndex = 1;
         this.getOrderList(
           this.pageIndex,
           this.selectMPN,
@@ -307,6 +317,8 @@ export class PendingInvoiceComponent implements OnInit {
 
     this.badgeTotal = 0;
     this.clear_btn = false;
+
+    this.pageIndex = 1;
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -361,6 +373,7 @@ export class PendingInvoiceComponent implements OnInit {
           this.badgeTotal--;
           break;
       }
+      this.pageIndex = 1;
       this.getOrderList(
         this.pageIndex,
         this.selectMPN,

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import {
   AppliedFilters,
@@ -48,7 +49,10 @@ export class InTransitComponent implements OnInit {
   listOfFilter: AppliedFilters = {};
   statusEnum: typeof StatusEnum = StatusEnum;
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
       this.selectMPN,
@@ -80,19 +84,25 @@ export class InTransitComponent implements OnInit {
         to_po_date: to_po_date,
         search_term: search_term,
       })
-      .subscribe(
-        (response: GetAllOrders) => {
+      .subscribe({
+        next: (response: GetAllOrders) => {
           if (response.success) {
             this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
             this.totalData.emit(this.total);
             this.inTransitData = response.orders ?? [];
           } else {
+            this.message.error('Get Orders In Transite Failed!');
             this.isLoading = false;
           }
         },
-        (err) => (this.isLoading = true)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Orders In Transite Failed!');
+          }
+          this.isLoading = true;
+        },
+      });
   }
 
   searchDataChanges(event: string) {

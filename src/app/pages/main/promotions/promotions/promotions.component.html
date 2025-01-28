@@ -29,6 +29,13 @@
   (nzOnCancel)="handleCancel()"
 >
   <ng-container *nzModalContent>
-    <app-add-promotions (close)="handleCancel()"></app-add-promotions>
+    <app-add-promotions (close)="handleAddPromotionsClose($event)"></app-add-promotions>
   </ng-container>
 </nz-modal>
+
+<app-show-reference-code
+  (close)="showRefCodeModal = false"
+  [isVisible]="showRefCodeModal"
+  [referenceCode]="referenceCode"
+  [subTitle]="'Add promotion successfully initiated'"
+></app-show-reference-code>

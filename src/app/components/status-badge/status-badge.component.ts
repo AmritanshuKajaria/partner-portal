@@ -4,6 +4,7 @@ export enum StatusEnum {
   Success,
   Pending,
   Hold,
+  Stopped,
   Failure,
 }
 
@@ -29,6 +30,9 @@ export class StatusBadgeComponent implements OnInit {
         break;
       case 2:
         this.bgColor = '#ec7211';
+        break;
+      case 3:
+        this.bgColor = 'orange';
         break;
       default:
         this.bgColor = 'red';

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root',
 })
 export class PartnerService {
-  url = environment.adminUrl;
+  url = environment.apiUrl;
   constructor(private http: HttpClient) {}
 
   getPartner() {
@@ -18,9 +18,7 @@ export class PartnerService {
     return this.http.post(this.url + '/update-partner', payload);
   }
 
-
   getPartnerPdf(fileId: string) {
-    
     let params = new HttpParams().set('fileId', fileId);
     return this.http.get(this.url + '/getfile', {
       params: params,

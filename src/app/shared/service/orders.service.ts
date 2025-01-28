@@ -136,11 +136,22 @@ export class OrdersService {
 
   acceptCancellation(po_no: string) {
     return this.http.post(this.url + '/accept-cancellation', {
-      po_number: po_no,
+      po_no: po_no,
     });
   }
 
   clarificationOrders(data: ClarificationOrders) {
     return this.http.post(this.url + '/clarification-orders', data);
+  }
+
+  uploadInvoice(payload: any) {
+    return this.http.post(this.url + '/upload-invoice', payload);
+  }
+
+  downloadInvoice(po_no: string) {
+    let params = new HttpParams().set('po_no', po_no);
+    return this.http.get(this.url + '/download-invoice', {
+      params: params,
+    });
   }
 }

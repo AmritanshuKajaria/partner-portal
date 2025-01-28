@@ -17,9 +17,9 @@ import { AllOrdersComponent } from './orders-section/all-orders/all-orders.compo
 import { CancelOrderComponent } from './orders-section/cancel-order/cancel-order.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { OrderTableComponent } from './orders-section/order-table/order-table.component';
-import { PendingInvoiceComponent } from './orders-section/pending-invoice/pending-invoice.component';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { UploadComponent } from './orders-section/pending-invoice/upload/upload.component';
+import { PendingInvoiceComponent } from './orders-section/pending-invoice/pending-invoice.component';
 
 @NgModule({
   declarations: [

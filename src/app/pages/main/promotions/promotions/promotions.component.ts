@@ -14,6 +14,9 @@ export class PromotionsComponent implements OnInit {
   allSku: boolean = false;
   isLoading: boolean = false;
 
+  showRefCodeModal = false;
+  referenceCode = '';
+
   constructor() {}
   ngOnInit(): void {}
 
@@ -45,5 +48,13 @@ export class PromotionsComponent implements OnInit {
       this.specificSku = true;
       this.allSku = false;
     }
+  }
+
+  handleAddPromotionsClose(referenceCode: any) {
+    if (referenceCode) {
+      this.referenceCode = referenceCode;
+      this.showRefCodeModal = true;
+    }
+    this.isVisible = false;
   }
 }

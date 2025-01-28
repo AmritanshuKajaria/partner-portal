@@ -13,9 +13,6 @@
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
         [selectLocation]="selectLocation"
-        [selectMPN]="selectMPN"
-        [selectCarrier]="selectCarrier"
-        [selectDate]="selectDate"
         [selectRangeDate]="selectRangeDate"
       ></app-filter-tag>
     </div>
@@ -35,9 +32,6 @@
       (closeNav)="closeNav()"
       (changeData)="change($event)"
       [shipOutLocation]="selectLocation"
-      [mpn]="selectMPN"
-      [carrier]="selectCarrier"
-      [committedShipDate]="selectDate"
       [rangeDate]="selectRangeDate"
       [tabName]="'new'"
     ></app-filter-section>

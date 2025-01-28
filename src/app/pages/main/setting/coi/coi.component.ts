@@ -73,7 +73,6 @@ export class COIComponent implements OnInit {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.coiData = res.payload.coiConfiguration;
         this.patchFormValue(this.coiData);
         this.isLoading = false;

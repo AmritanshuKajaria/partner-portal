@@ -17,7 +17,9 @@
           <span
             ><b>Date (EST) : </b
             >{{
-              editData.feed_process_time | utcDateToLocalConverter : false
+              editData.feed_process_time
+                | utcDateToLocalConverter : false
+                | customDate
             }}</span
           >
           <span><b>Feed Method : </b>{{ editData.feed_method }}</span>
@@ -173,15 +175,15 @@
             <tr>
               <td>Partner Restricted</td>
               <td class="text-end">
-                {{ editData?.restricted_in_stock ?? 0 }}
+                {{ editData?.partner_restricted_in_stock ?? 0 }}
               </td>
               <td class="text-end">
-                {{ editData?.restricted_out_of_stock ?? 0 }}
+                {{ editData?.partner_restricted_out_of_stock ?? 0 }}
               </td>
               <td class="text-end">
                 {{
-                  (editData?.restricted_in_stock ?? 0) +
-                    (editData?.restricted_out_of_stock ?? 0)
+                  (editData?.partner_restricted_in_stock ?? 0) +
+                    (editData?.partner_restricted_out_of_stock ?? 0)
                 }}
               </td>
             </tr>
@@ -212,8 +214,8 @@
                     (editData?.discontinued_in_stock
                       ? editData?.discontinued_in_stock
                       : 0) +
-                    (editData?.restricted_in_stock
-                      ? editData?.restricted_in_stock
+                    (editData?.partner_restricted_in_stock
+                      ? editData?.partner_restricted_in_stock
                       : 0) +
                     (editData?.ltl_in_stock ? editData?.ltl_in_stock : 0) +
                     (editData?.stranded_in_feed_in_stock
@@ -232,8 +234,8 @@
                     (editData?.discontinued_out_of_stock
                       ? editData?.discontinued_out_of_stock
                       : 0) +
-                    (editData?.restricted_out_of_stock
-                      ? editData?.restricted_out_of_stock
+                    (editData?.partner_restricted_out_of_stock
+                      ? editData?.partner_restricted_out_of_stock
                       : 0) +
                     (editData?.ltl_out_of_stock
                       ? editData?.ltl_out_of_stock
@@ -261,11 +263,11 @@
                     (editData?.discontinued_out_of_stock
                       ? editData?.discontinued_out_of_stock
                       : 0) +
-                    (editData?.restricted_in_stock
-                      ? editData?.restricted_in_stock
+                    (editData?.partner_restricted_in_stock
+                      ? editData?.partner_restricted_in_stock
                       : 0) +
-                    (editData?.restricted_out_of_stock
-                      ? editData?.restricted_out_of_stock
+                    (editData?.partner_restricted_out_of_stock
+                      ? editData?.partner_restricted_out_of_stock
                       : 0) +
                     (editData?.ltl_in_stock ? editData?.ltl_in_stock : 0) +
                     (editData?.ltl_out_of_stock

@@ -12,8 +12,6 @@
         (closeTag)="close($event)"
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
-        [selectMPN]="selectMPN"
-        [selectCarrier]="selectCarrier"
         [selectStatus]="selectStatus"
         [selectRangeDate]="selectRangeDate"
       ></app-filter-tag>
@@ -38,7 +36,6 @@
       [rangeDate]="selectRangeDate"
       [tabName]="'inTransit'"
     ></app-filter-section>
-    <!-- [status]="selectStatus" -->
   </div>
 
   <nz-modal

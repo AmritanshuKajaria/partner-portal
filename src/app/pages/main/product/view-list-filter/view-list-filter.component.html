@@ -10,7 +10,7 @@
         style="display: block"
         (click)="showUploadModal('import')"
       >
-        <span nz-icon nzType="plus" nzTheme="outline"></span>
+        <span nz-icon nzType="edit" nzTheme="outline"></span>
         Edit Products
       </button>
       <button
@@ -154,7 +154,7 @@
             <th>UPC</th>
             <th style="width: 150px">Amazon ASIN</th>
             <th>Product Name</th>
-            <th>Brand</th>
+            <th>Brand Name</th>
             <th style="width: 150px">Unit Price</th>
             <th *ngIf="userPermissions.partner_map" style="width: 150px">
               MAP
@@ -188,7 +188,7 @@
                 *ngIf="
                   data.product_status === 'Discontinued' ||
                   data.product_status === 'LTL' ||
-                  data.product_status === 'Restricted'
+                  data.product_status === 'Partner Restricted'
                 "
                 [type]="statusEnum.Hold"
                 [text]="data.product_status"
@@ -205,7 +205,7 @@
                 ><span nz-icon nzType="edit" nzTheme="outline"></span
               ></a> -->
               <a
-                (click)="navigatePage('products/details/' + data.sku)"
+                (click)="navigatePage('products/details', { sku: data.sku })"
                 style="margin: 0 5px; color: #2121c3; font-size: large"
                 ><span nz-icon nzType="edit" nzTheme="outline"></span
               ></a>
@@ -228,7 +228,7 @@
         <nz-divider nzText="Product Status" nzOrientation="left"></nz-divider>
         <nz-select
           nzAllowClear
-          nzPlaceHolder="Select A Product Status"
+          nzPlaceHolder="Select Product Status"
           (ngModelChange)="
             change(filter.value.productStatus ? $event : '', 'status')
           "
@@ -239,9 +239,9 @@
           <nz-option nzLabel="LTL" nzValue="LTL"></nz-option>
           <nz-option
             nzLabel="Partner Restricted"
-            nzValue="Restricted"
+            nzValue="Partner Restricted"
           ></nz-option>
-          <nz-option nzLabel="Supressed" nzValue="Supressed"></nz-option>
+          <nz-option nzLabel="Suppressed" nzValue="Suppressed"></nz-option>
         </nz-select>
 
         <nz-divider
@@ -251,7 +251,7 @@
         ></nz-divider>
         <nz-select
           nzAllowClear
-          nzPlaceHolder="Select A Product Status"
+          nzPlaceHolder="Select Product Status"
           (ngModelChange)="
             change(filter.value.inventory ? $event : '', 'inventory')
           "
@@ -263,7 +263,7 @@
 
         <nz-divider
           style="margin-top: 20px"
-          nzText="Brand"
+          nzText="Brand Name"
           nzOrientation="left"
         ></nz-divider>
         <nz-select
@@ -271,7 +271,7 @@
           nzAllowClear
           (ngModelChange)="change(filter.value.brand ? $event : '', 'brand')"
           formControlName="brand"
-          nzPlaceHolder="Select a Brand"
+          nzPlaceHolder="Select Brand Name"
         >
           <nz-option
             *ngFor="let item of listOfBrand"
@@ -288,7 +288,7 @@
         <nz-select
           nzShowSearch
           nzAllowClear
-          nzPlaceHolder="Select a Collection"
+          nzPlaceHolder="Select Collection"
           (ngModelChange)="
             change(filter.value.collection ? $event : '', 'collection')
           "
@@ -309,7 +309,7 @@
         <nz-select
           nzShowSearch
           nzAllowClear
-          nzPlaceHolder="Select a Product Category"
+          nzPlaceHolder="Select Product Category"
           (ngModelChange)="
             change(filter.value.category ? $event : '', 'category')
           "
@@ -330,7 +330,7 @@
         <nz-select
           nzShowSearch
           nzAllowClear
-          nzPlaceHolder="Select a Sales Tier"
+          nzPlaceHolder="Select Sales Tier"
           (ngModelChange)="
             change(filter.value.salesTire ? $event : '', 'salesTire')
           "
@@ -370,7 +370,6 @@
   >
     <ng-container *nzModalContent>
       <app-upload-model
-        [sectionType]="'view-list-filter'"
         (closeModel)="handleCancel('upload')"
       ></app-upload-model>
     </ng-container>
@@ -382,10 +381,10 @@
     (nzOnCancel)="handleCancel('import')"
   >
     <ng-container *nzModalContent>
-      <app-edit-multiple-products
+      <app-add-edit-multiple-products
         [actionType]="'Edit'"
         (closeModel)="closeMultiProduct($event)"
-      ></app-edit-multiple-products>
+      ></app-add-edit-multiple-products>
     </ng-container>
   </nz-modal>
 
@@ -393,5 +392,6 @@
     (close)="isVisible = false"
     [isVisible]="isVisible"
     [referenceCode]="referenceCode"
+    [subTitle]="'Edit product successfully initiated'"
   ></app-show-reference-code>
 </div>

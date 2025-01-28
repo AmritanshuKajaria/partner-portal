@@ -15,6 +15,7 @@ import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StopPromotions } from 'src/app/shared/model/promotion.model';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 @Component({
   selector: 'app-promotion-table',
   templateUrl: './promotion-table.component.html',
@@ -33,6 +34,8 @@ export class PromotionTableComponent implements OnInit {
   @Output() pageChange = new EventEmitter();
   @Output() filterChange = new EventEmitter();
   @Output() searchChange = new EventEmitter();
+
+  AppDateFormate = AppDateFormate;
 
   pageSizeOptions = [100];
   filter!: FormGroup;
@@ -88,43 +91,65 @@ export class PromotionTableComponent implements OnInit {
         break;
       case 'cancel':
         this.modal.confirm({
-          nzTitle: 'Are you sure cancel this promotion?',
+          nzTitle: 'Are you sure you want to Cancel this Promotion?',
           nzContent: `Promo Code : <b>${promo_code}</b> `,
           nzOnOk: () => {
             const data: StopPromotions = {
               promo_code: promo_code,
             };
 
-            this.promotionsService
-              .cancelPromotions(data)
-              .subscribe((res: any) => {
-                console.log(res);
-                this.message.create(
-                  'success',
-                  `Cancel this promotion : ${promo_code}`
-                );
-              });
+            this.promotionsService.cancelPromotions(data).subscribe({
+              next: (res: any) => {
+                if (res?.success) {
+                  this.message.create(
+                    'success',
+                    `Cancel this promotion : ${promo_code}`
+                  );
+                } else {
+                  this.message.error(
+                    res?.error_message ??
+                      `Cancel this promotion failed : ${promo_code}`
+                  );
+                }
+              },
+              error: (err) => {
+                if (!err?.error_shown) {
+                  this.message.error('Cancel promotion failed');
+                }
+              },
+            });
           },
         });
         break;
       case 'Now':
         this.modal.confirm({
-          nzTitle: 'Are you sure stop this promotion?',
+          nzTitle: 'Are you sure you want to Stop this Promotion?',
           nzContent: `Promo Code : <b>${promo_code}</b> `,
           nzOnOk: () => {
             const dataNow: StopPromotions = {
               promo_code: promo_code,
             };
 
-            this.promotionsService
-              .stopPromotions(dataNow)
-              .subscribe((res: any) => {
-                console.log(res);
-                this.message.create(
-                  'success',
-                  `Stop this promotion : ${promo_code}`
-                );
-              });
+            this.promotionsService.stopPromotions(dataNow).subscribe({
+              next: (res: any) => {
+                if (res?.success) {
+                  this.message.create(
+                    'success',
+                    `Stop this promotion : ${promo_code}`
+                  );
+                } else {
+                  this.message.error(
+                    res?.error_message ??
+                      `Stop this promotion failed : ${promo_code}`
+                  );
+                }
+              },
+              error: (err) => {
+                if (!err?.error_shown) {
+                  this.message.error('Stop promotion failed');
+                }
+              },
+            });
           },
         });
         break;
@@ -135,7 +160,7 @@ export class PromotionTableComponent implements OnInit {
   }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {

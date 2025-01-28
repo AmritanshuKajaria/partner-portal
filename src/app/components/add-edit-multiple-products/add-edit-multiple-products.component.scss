@@ -1,173 +1,171 @@
-@import '../../../assets/variable/variable.scss';
+@import "../../../assets/variable/variable.scss";
 
 .add-edit-multiple-products-model {
-    .body-section {
-        padding: 15px;
-        max-height: 70vh;
-        overflow-y: auto;
+  .body-section {
+    padding: 15px;
+    max-height: 70vh;
+    overflow-y: auto;
 
-        .download {
-            display: flex;
+    .download {
+      display: flex;
 
-            div {
-                padding: 5px;
-            }
+      div {
+        padding: 5px;
+      }
 
-            .icon {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 25%;
+      .icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 25%;
 
-                span {
-                    font-size: xx-large;
-                }
-            }
-
-            .contact {
-                display: block;
-                width: 75%;
-            }
-
-            button,
-            button:hover {
-                margin-top: 10px;
-                border: 1px solid $darkBlue;
-                color: $darkBlue;
-            }
+        span {
+          font-size: xx-large;
         }
+      }
 
-        .Neon {
-            font-family: sans-serif;
-            font-size: 14px;
-            color: #494949;
-            position: relative;
-        }
+      .contact {
+        display: block;
+        width: 75%;
+      }
 
-        .Neon * {
-            -webkit-box-sizing: border-box;
-            -moz-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-
-        .Neon-input-dragDrop {
-            display: block;
-            width: 343px;
-            margin: 0 auto 25px auto;
-            padding: 25px;
-            color: #8d9499;
-            color: #97a1a8;
-            background: #fff;
-            border: 2px dashed #c8cbce;
-            text-align: center;
-            -webkit-transition: box-shadow 0.3s, border-color 0.3s;
-            -moz-transition: box-shadow 0.3s, border-color 0.3s;
-            transition: box-shadow 0.3s, border-color 0.3s;
-        }
-
-        .Neon-input-dragDrop .Neon-input-icon {
-            font-size: 48px;
-            margin-top: -10px;
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
-
-        .Neon-input-text h3 {
-            margin: 0;
-            font-size: 18px;
-        }
-
-        .Neon-input-text span {
-            font-size: 12px;
-        }
-
-        .Neon-input-choose-btn.blue {
-            color: #008bff;
-            border: 1px solid #008bff;
-        }
-
-        .Neon-input-choose-btn {
-            display: inline-block;
-            padding: 8px 14px;
-            outline: none;
-            cursor: pointer;
-            text-decoration: none;
-            text-align: center;
-            white-space: nowrap;
-            font-size: 12px;
-            font-weight: bold;
-            color: #8d9496;
-            border-radius: 3px;
-            border: 1px solid #c6c6c6;
-            vertical-align: middle;
-            background-color: #fff;
-            box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.05);
-            -webkit-transition: all 0.2s;
-            -moz-transition: all 0.2s;
-            transition: all 0.2s;
-        }
-
-
-        nz-form-label {
-            font-size: 18px !important;
-            font-weight: 700 !important;
-            padding-bottom: 2px;
-        }
-
-        ::ng-deep .ant-input-prefix {
-            font-size: 18px;
-            margin-left: -11px;
-            margin-right: 10px;
-            padding: 0 10px;
-            background: $darkBlue;
-            border-radius: 4px 0 0 4px;
-            color: $white;
-        }
-
-        ::ng-deep .ant-input {
-            border-radius: 5px !important;
-        }
-
-        ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
-        .ant-picker {
-            border-radius: 5px !important;
-            height: 35px !important;
-            font-size: 16px;
-        }
-
-        ::ng-deep .ant-form-item {
-            margin-bottom: 0px;
-            padding: 5px;
-        }
-
-        ::ng-deep .ant-input-affix-wrapper {
-            padding: 0px 11px !important;
-        }
-
-        nz-input-group {
-            border-radius: 5px;
-
-            input {
-                height: 35px;
-                font-size: 16px;
-            }
-        }
-
-        .upload-cancel-sec {
-            button {
-                border-radius: 5px;
-                margin: 0px 5px;
-            }
-        }
-
-        .upload-btn {
-            background-color: $header-of-tab;
-        }
-
-        .upload-cancel-sec {
-            display: flex;
-            justify-content: end;
-        }
+      button,
+      button:hover {
+        margin-top: 10px;
+        border: 1px solid $darkBlue;
+        color: $darkBlue;
+      }
     }
+
+    .Neon {
+      font-family: sans-serif;
+      font-size: 14px;
+      color: #494949;
+      position: relative;
+    }
+
+    .Neon * {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    .Neon-input-dragDrop {
+      display: block;
+      width: 343px;
+      padding: 25px;
+      color: #8d9499;
+      color: #97a1a8;
+      background: #fff;
+      border: 2px dashed #c8cbce;
+      text-align: center;
+      -webkit-transition: box-shadow 0.3s, border-color 0.3s;
+      -moz-transition: box-shadow 0.3s, border-color 0.3s;
+      transition: box-shadow 0.3s, border-color 0.3s;
+    }
+
+    .Neon-input-dragDrop .Neon-input-icon {
+      font-size: 48px;
+      margin-top: -10px;
+      -webkit-transition: all 0.3s ease;
+      -moz-transition: all 0.3s ease;
+      transition: all 0.3s ease;
+    }
+
+    .Neon-input-text h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .Neon-input-text span {
+      font-size: 12px;
+    }
+
+    .Neon-input-choose-btn.blue {
+      color: #008bff;
+      border: 1px solid #008bff;
+    }
+
+    .Neon-input-choose-btn {
+      display: inline-block;
+      padding: 8px 14px;
+      outline: none;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      white-space: nowrap;
+      font-size: 12px;
+      font-weight: bold;
+      color: #8d9496;
+      border-radius: 3px;
+      border: 1px solid #c6c6c6;
+      vertical-align: middle;
+      background-color: #fff;
+      box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.05);
+      -webkit-transition: all 0.2s;
+      -moz-transition: all 0.2s;
+      transition: all 0.2s;
+    }
+
+    nz-form-label {
+      font-size: 18px !important;
+      font-weight: 600 !important;
+      padding-bottom: 2px;
+    }
+
+    ::ng-deep .ant-input-prefix {
+      font-size: 18px;
+      margin-left: -11px;
+      margin-right: 10px;
+      padding: 0 10px;
+      background: $darkBlue;
+      border-radius: 4px 0 0 4px;
+      color: $white;
+    }
+
+    ::ng-deep .ant-input {
+      border-radius: 5px !important;
+    }
+
+    ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
+    .ant-picker {
+      border-radius: 5px !important;
+      height: 35px !important;
+      font-size: 16px;
+    }
+
+    ::ng-deep .ant-form-item {
+      margin-bottom: 0px;
+      padding: 5px;
+    }
+
+    ::ng-deep .ant-input-affix-wrapper {
+      padding: 0px 11px !important;
+    }
+
+    nz-input-group {
+      border-radius: 5px;
+
+      input {
+        height: 35px;
+        font-size: 16px;
+      }
+    }
+
+    .upload-cancel-sec {
+      button {
+        border-radius: 5px;
+        margin: 0px 5px;
+      }
+    }
+
+    .upload-btn {
+      background-color: $header-of-tab;
+    }
+
+    .upload-cancel-sec {
+      display: flex;
+      justify-content: end;
+    }
+  }
 }

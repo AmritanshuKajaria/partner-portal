@@ -1,12 +1,14 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import {
   GetAllInventory,
   SingleInventory,
 } from 'src/app/shared/model/inventory.model';
 import { PermissionList } from 'src/app/shared/model/permission.model';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { InventoryService } from 'src/app/shared/service/inventory.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
@@ -51,11 +53,13 @@ export class InventoryListComponent implements OnInit {
   statusDropdown = ['Processed', 'Rejected'];
   isVisible: boolean = false;
   referenceCode: string = '';
+  AppDateFormate = AppDateFormate;
 
   constructor(
     private router: Router,
     private inventoryService: InventoryService,
-    private userPermissionService: UserPermissionService
+    private userPermissionService: UserPermissionService,
+    private message: NzMessageService
   ) {
     userPermissionService.userPermission.subscribe(
       (permission: PermissionList | any) => {
@@ -66,6 +70,7 @@ export class InventoryListComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
         this.inventory_search = value.target.value;
+        this.pageIndex = 1;
         this.getInventoryList(
           this.pageIndex,
           this.inventory_search,
@@ -114,14 +119,24 @@ export class InventoryListComponent implements OnInit {
         filter_feed_result: filter_feed_result,
         search_term: search_term,
       })
-      .subscribe(
-        (res: GetAllInventory | any) => {
-          this.total = res.pagination?.total_rows ?? 0;
-          this.inventoryList = res.inventory_feeds;
+      .subscribe({
+        next: (res: GetAllInventory | any) => {
+          if (res.success) {
+            this.total = res.pagination?.total_rows ?? 0;
+            this.inventoryList = res.inventory_feeds;
+          } else {
+            this.message.error('Get All Inventory Failed!');
+          }
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get All Inventory Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
   }
 
   pageIndexChange(page: number) {
@@ -149,7 +164,7 @@ export class InventoryListComponent implements OnInit {
   }
 
   openNav() {
-    this.sidenavSection.nativeElement.style.width = '280px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {
@@ -168,6 +183,8 @@ export class InventoryListComponent implements OnInit {
     this.badgeTotal = 0;
     this.clear_btn = false;
     this.filter.reset();
+
+    this.pageIndex = 1;
     this.getInventoryList(
       this.pageIndex,
       this.inventory_search,
@@ -208,6 +225,8 @@ export class InventoryListComponent implements OnInit {
         default:
           break;
       }
+
+      this.pageIndex = 1;
       this.getInventoryList(
         this.pageIndex,
         this.inventory_search,
@@ -260,6 +279,8 @@ export class InventoryListComponent implements OnInit {
           }
           break;
       }
+
+      this.pageIndex = 1;
       this.getInventoryList(
         this.pageIndex,
         this.inventory_search,
@@ -294,6 +315,8 @@ export class InventoryListComponent implements OnInit {
             break;
         }
       }
+
+      this.pageIndex = 1;
       this.getInventoryList(
         this.pageIndex,
         this.inventory_search,

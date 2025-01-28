@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PromoTemplate } from 'src/app/shared/model/promotion.model';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 
 @Component({
@@ -22,6 +23,12 @@ export class AddPromotionsComponent implements OnInit {
   add_promotion!: FormGroup;
   isLoading: boolean = false;
   selectFile: any = '';
+
+  AppDateFormate = AppDateFormate;
+  referenceCode = '';
+
+  showFileSizeError = false;
+  maxUploadFileSize = 10;
 
   constructor(
     private promotionsService: PromotionsService,
@@ -42,6 +49,12 @@ export class AddPromotionsComponent implements OnInit {
   }
 
   selectFiles(event: any) {
+    if (event?.target?.files[0].size / 1e6 > this.maxUploadFileSize) {
+      this.showFileSizeError = true;
+      this.add_promotion.get('uploadFile')?.reset();
+      return;
+    }
+    this.showFileSizeError = false;
     this.selectFile = event?.target?.files[0];
   }
 
@@ -49,15 +62,26 @@ export class AddPromotionsComponent implements OnInit {
     const data: PromoTemplate = {
       include_data: event,
     };
-    this.promotionsService.promoTemplate(data).subscribe((res: any) => {
-      if (res.success) {
-        this.message.create('success', 'Template Downloaded Successfully!');
-        var objectUrl = res.template_url;
-        var a = document.createElement('a');
-        a.download = 'document';
-        a.href = objectUrl;
-        a.click();
-      }
+    this.promotionsService.promoTemplate(data).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.message.create('success', 'Template Downloaded Successfully!');
+          var objectUrl = res.template_url;
+          var a = document.createElement('a');
+          a.download = 'document';
+          a.href = objectUrl;
+          a.click();
+        } else {
+          this.message.error(
+            res?.error_message ?? 'Template Downloaded Failed!'
+          );
+        }
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Template Downloaded Failed!');
+        }
+      },
     });
   }
 
@@ -87,20 +111,27 @@ export class AddPromotionsComponent implements OnInit {
       );
       formData.append('uploaded_file', this.selectFile);
 
-      this.promotionsService.createPromotion(formData).subscribe(
-        (res: any) => {
+      this.promotionsService.createPromotion(formData).subscribe({
+        next: (res: any) => {
           this.isLoading = false;
           if (res.success) {
-            this.message.create('success', 'Add promotion successfully!');
-            this.handleCancel();
+            // this.message.create('success', 'Add Promotion Successful');
+            this.handleCancel(res.reference_code);
+          } else {
+            this.message.error('Add Promotion Failed!');
           }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Add Promotion Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 
-  handleCancel() {
-    this.close.emit();
+  handleCancel(referenceCode = '') {
+    this.close.emit(referenceCode);
   }
 }

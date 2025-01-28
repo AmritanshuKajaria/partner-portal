@@ -15,8 +15,11 @@ import { UserPermissionService } from 'src/app/shared/service/user-permission.se
 export class AddEditMultipleProductsComponent implements OnInit {
   @Output() closeModel = new EventEmitter();
   @Input() templateType: string = '';
-  selectType: string = '';
+  @Input() actionType: string = '';
+  @Input() canChangeAddEditType = true;
   isUploadVisible: boolean = false;
+
+  userPermissions: any = '';
   chooseType = [
     {
       label: 'Edit Unit Price',
@@ -56,13 +59,13 @@ export class AddEditMultipleProductsComponent implements OnInit {
     },
     // 'ADD_PRODUCT',
   ];
-  name = new FormControl('');
-  userPermissions: any = '';
-  actionType: string = '';
   multiProduct!: FormGroup;
-  selectFile: any = '';
   isLoading: boolean = false;
-  referenceCode: any = '';
+  selectFile: any;
+  referenceCode: string = '';
+
+  showFileSizeError = false;
+  maxUploadFileSize = 10;
 
   constructor(
     private userPermissionService: UserPermissionService,
@@ -91,9 +94,6 @@ export class AddEditMultipleProductsComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    if (this.templateType) {
-      this.selectType = this.templateType;
-    }
     this.multiProduct = new FormGroup({
       selectType: new FormControl(this.templateType),
       downloadTemplate: new FormControl(''),
@@ -106,12 +106,13 @@ export class AddEditMultipleProductsComponent implements OnInit {
     }
   }
 
-  setFileName(path: string) {
-    const fileName = path.replace(/\//g, ' ').substring(1).split('\\')[2];
-    return fileName;
-  }
-
   selectFiles(event: any) {
+    if (event?.target?.files[0].size / 1e6 > this.maxUploadFileSize) {
+      this.showFileSizeError = true;
+      this.multiProduct.get('uploadFile')?.reset();
+      return;
+    }
+    this.showFileSizeError = false;
     this.selectFile = event?.target?.files[0];
   }
 
@@ -121,15 +122,26 @@ export class AddEditMultipleProductsComponent implements OnInit {
         template_type: this.multiProduct.controls['selectType'].value,
         include_data: event,
       };
-      this.productService.downloadTemplates(data).subscribe((res: any) => {
-        if (res.success) {
-          this.message.create('success', 'Template Downloaded Successfully!');
-          var objectUrl = res.template_url;
-          var a = document.createElement('a');
-          a.download = 'document';
-          a.href = objectUrl;
-          a.click();
-        }
+      this.productService.downloadTemplates(data).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.message.create('success', 'Template Downloaded Successfully!');
+            var objectUrl = res.template_url;
+            var a = document.createElement('a');
+            a.download = 'document';
+            a.href = objectUrl;
+            a.click();
+          } else {
+            this.message.error(
+              res?.error_message ?? 'Template Download Failed!'
+            );
+          }
+        },
+        error: (e) => {
+          if (!e?.error_shown) {
+            this.message.error('Template Download Failed!');
+          }
+        },
       });
     } else {
       if (this.multiProduct.controls['downloadTemplate'].value) {
@@ -138,6 +150,44 @@ export class AddEditMultipleProductsComponent implements OnInit {
           this.multiProduct.controls['downloadTemplate'].setValue('');
         }, 100);
       }
+    }
+  }
+
+  downloadTemplate() {
+    const data: DownloadTemplates = {
+      template_type: 'ADD_PRODUCT',
+      include_data: false,
+    };
+    this.productService.downloadTemplates(data).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.message.create('success', 'Template Downloaded Successfully!');
+          var objectUrl = res.template_url;
+          var a = document.createElement('a');
+          a.download = 'document';
+          a.href = objectUrl;
+          a.click();
+        } else {
+          this.message.error(res?.error_message ?? 'Template Download Failed!');
+        }
+      },
+      error: (e) => {
+        if (!e?.error_shown) {
+          this.message.error('Template Download Failed!');
+        }
+      },
+    });
+  }
+
+  setFileName(path: string) {
+    const fileName = path.replace(/\//g, ' ').substring(1).split('\\')[2];
+    return fileName;
+  }
+
+  actionFile(type: string) {
+    if (type === 'upload') {
+      this.isUploadVisible = true;
+    } else {
     }
   }
 
@@ -150,22 +200,24 @@ export class AddEditMultipleProductsComponent implements OnInit {
         ? this.multiProduct.controls['selectType'].value
         : 'ADD_PRODUCT'
     );
-    data.append('uploaded_file_url', this.selectFile);
+    data.append('uploaded_file', this.selectFile);
 
     this.productService.productAddEditUpload(data).subscribe(
       (result: any) => {
         this.isLoading = false;
         if (result.success) {
           this.referenceCode = result?.reference_code;
-
-          // this.message.create(
-          //   'success',
-          //   `${this.actionType} multiple product successfully!`
-          // );
           this.handleCancel();
+        } else {
+          this.message.error(result?.error_message ?? 'Edit products fail!');
         }
       },
-      (err) => (this.isLoading = false)
+      (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Edit products fail!');
+        }
+        this.isLoading = false;
+      }
     );
   }
 

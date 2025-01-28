@@ -66,7 +66,7 @@ export class HomeSectionComponent implements OnInit {
     'Active',
     'Discontinued',
     'LTL',
-    'Restricted',
+    'Partner Restricted',
     'Suppressed',
   ];
   chartOneColor: string[] = ['green', 'red', '#DFCFBE', '#9B2335', '#5B5EA6'];
@@ -112,28 +112,30 @@ export class HomeSectionComponent implements OnInit {
   ) {
     this.isLoading = true;
     this.loadAPIs();
-    this.dashboardService.agendasList.subscribe((res: any) => {
-      if (res) {
-        this.isLoading = false;
-        if (res.success) {
-          this.performanceIssuesList = [];
-          res.performance.map((result: any, index: number) => {
-            if (this.urlsMap.get(result?.code)) {
-              result['url'] = this.urlsMap.get(result?.code);
-              this.performanceIssuesList.push(result);
-            }
-          });
-          this.recommendationIssuesList = [];
-          res.recommendation.map((response: any, index: number) => {
-            if (this.urlsMap.get(response?.code)) {
-              response['url'] = this.urlsMap.get(response?.code);
-              this.recommendationIssuesList.push(response);
-            }
-          });
-        } else {
+    this.dashboardService.agendasList.subscribe({
+      next: (res: any) => {
+        if (res) {
           this.isLoading = false;
+          if (res.success) {
+            this.performanceIssuesList = [];
+            res.performance.map((result: any, index: number) => {
+              if (this.urlsMap.get(result?.code)) {
+                result['url'] = this.urlsMap.get(result?.code);
+                this.performanceIssuesList.push(result);
+              }
+            });
+            this.recommendationIssuesList = [];
+            res.recommendation.map((response: any, index: number) => {
+              if (this.urlsMap.get(response?.code)) {
+                response['url'] = this.urlsMap.get(response?.code);
+                this.recommendationIssuesList.push(response);
+              }
+            });
+          } else {
+            this.isLoading = false;
+          }
         }
-      }
+      },
     });
   }
 
@@ -150,7 +152,7 @@ export class HomeSectionComponent implements OnInit {
           result?.catalog_overview?.Active,
           result?.catalog_overview?.Discontinued,
           result?.catalog_overview?.LTL,
-          result?.catalog_overview?.Restricted,
+          result?.catalog_overview['Partner Restricted'],
           result?.catalog_overview?.Suppressed,
         ];
         await this.chartOneLabel.map((res: string, index) => {
@@ -275,7 +277,7 @@ export class HomeSectionComponent implements OnInit {
             label: 'Chart One',
             data: data,
             backgroundColor: color,
-            hoverOffset: 4,
+            // hoverOffset: 4,
           },
         ],
       },

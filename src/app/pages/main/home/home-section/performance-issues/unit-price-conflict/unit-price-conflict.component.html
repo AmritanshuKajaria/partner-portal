@@ -72,7 +72,7 @@
           <td>
             <a
               class="link"
-              [routerLink]="'/main/products/details/' + data?.sku"
+              (click)="navigatePage('products/details', { sku: data?.sku })"
               >{{ data?.mpn }}</a
             >
           </td>
@@ -133,14 +133,19 @@
       ></app-home-filter-section>
     </div> -->
   </div>
-
-  <div *ngIf="isVisible">
-    <app-edit-time
-      [isVisible]="isVisible"
-      [editData]="editData"
-      [editLabel]="editLabel"
-      [section]="'Unit Price'"
-      (close)="isVisible = false"
-    ></app-edit-time>
-  </div>
 </div>
+<div *ngIf="isVisible">
+<app-edit-time
+[isVisible]="isVisible"
+[editData]="editData"
+[editLabel]="editLabel"
+[section]="'Unit Price'"
+(close)="onEditModelClose($event)"
+></app-edit-time>
+</div>
+<app-show-reference-code
+(close)="isReferenceCodeVisible = false"
+[isVisible]="isReferenceCodeVisible"
+[referenceCode]="referenceCode"
+[subTitle]="'Edit product successfully initiated'"
+></app-show-reference-code>

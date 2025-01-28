@@ -1,130 +1,101 @@
-@import "../../../../../assets/variable/variable.scss";
+ @import'../../../../../assets/variable/variable.scss';
 
-.single-product-calculator {
-  .search-section {
-    margin-bottom: 20px;
+ .single-product-calculator {
+     .search-section {
+         display: flex;
+         align-items: center;
+         margin-bottom: 20px;
+         //  justify-content: center;
 
-    .search {
-      display: flex;
-      align-items: center;
-      margin: auto;
+         ::ng-deep .ant-input {
+             border-radius: 5px !important;
+         }
 
-      ::ng-deep .ant-input {
-        border-radius: 5px !important;
-      }
+         ::ng-deep .ant-form-item {
+             margin-bottom: 0px;
+         }
 
-      ::ng-deep .ant-form-item {
-        margin-bottom: 0px;
-      }
+         nz-input-group {
+             border-radius: 5px;
+             width: 350px;
 
-      nz-input-group {
-        border-radius: 5px;
-        width: 350px;
+             input {
+                 height: 35px;
+                 font-size: 16px;
+                 width: 100%;
+             }
+         }
 
-        input {
-          height: 35px;
-          font-size: 16px;
-          width: 100%;
-        }
-      }
+         button {
+             margin-top: 0;
+             margin-left: 5px;
+         }
+     }
 
-      button {
-        margin-top: 0;
-        margin-left: 5px;
-      }
-    }
-  }
+     .product-section {
+         .content {
+             display: flex;
+             align-items: center;
 
-  .section {
-    display: flex;
-    justify-content: center;
-  }
+             &-section {
+                 margin: 0 10px;
 
-  .product-section {
-    margin-bottom: 30px;
-    border: 1px solid $border;
-    border-radius: 5px;
-    //  padding: 5px;
+                 a {
+                     margin-bottom: 10px;
+                 }
+             }
+         }
+     }
 
-    h2 {
-      border-bottom: 2px solid $border;
-      padding: 5px 10px;
-      margin-bottom: 0;
-    }
+     .card {
+         border-radius: 5px;
+         border: 1px solid $border;
 
-    .content {
-      padding: 5px 10px;
+         ::ng-deep .ant-input-prefix {
+             font-size: x-large;
+             margin-right: 10px;
+         }
 
-      &-text {
-        margin: 5px 0px;
-      }
+         ::ng-deep .ant-input {
+             border-radius: 5px !important;
+         }
 
-      .nowrap {
-        white-space: nowrap;
-      }
-    }
-  }
+         ::ng-deep .ant-form-item {
+             margin-bottom: 0px;
+         }
 
-  .section-header {
-    padding: 10px 16px;
-    border: none;
-    background: rgba(33, 33, 195, 0.08) !important;
-    border-top: 2px solid #2121c3;
-    border-radius: 5px 5px 0px 0px;
-    color: rgba(0, 0, 0, 0.85);
-    font-weight: 500;
-    font-size: 16px;
-  }
+         nz-input-group {
+             border-radius: 5px;
 
-  .user-content {
-    margin-top: 10px;
+             input {
+                 height: 30px;
+                 font-size: 16px;
+                 width: 100px;
+             }
+         }
 
-    .tab-header {
-      padding: 15px;
-      padding-left: 0;
-    }
-  }
+         .unit-price {
+             border-bottom: 1px solid $border;
+         }
 
-  td {
-    button {
-      margin: 0 10px;
-      height: 35px;
-      border-radius: 5px;
-    }
+         .other-section {
+             padding: 5px;
+             padding-left: 0;
+         }
 
-    ::ng-deep .ant-input-prefix {
-      font-size: 18px;
-      margin-left: -11px;
-      margin-right: 10px;
-      padding: 0 10px;
-      background: $darkBlue;
-      border-radius: 4px 0 0 4px;
-      color: $white;
-    }
+         .retailer-price {
+             border-top: 1px solid $border;
+         }
 
-    ::ng-deep .ant-input {
-      border-radius: 5px !important;
-    }
+         &-content {
+             display: flex;
+             justify-content: space-between;
+             align-items: center;
+             padding: 5px;
+         }
+     }
 
-    ::ng-deep .ant-form-item {
-      margin-bottom: 10px;
-    }
-
-    ::ng-deep .ant-input-affix-wrapper {
-      padding: 0px 11px !important;
-    }
-
-    nz-input-group {
-      border-radius: 5px;
-
-      input {
-        height: 35px;
-        font-size: 16px;
-      }
-    }
-  }
-
-  .button {
-    text-align: end;
-  }
-}
+     .button {
+         text-align: end;
+     }
+ }

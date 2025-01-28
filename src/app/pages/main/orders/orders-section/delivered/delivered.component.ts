@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import {
   AppliedFilters,
@@ -38,19 +39,18 @@ export class DeliveredComponent implements OnInit {
   carrierCount: number = 0;
   rangeDateCount: number = 0;
 
-  selectMPN: string = '';
-  selectCarrier: string = '';
   search_term: string = '';
   selectRangeDate: string = '';
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
   statusEnum: typeof StatusEnum = StatusEnum;
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.search_term
@@ -66,8 +66,6 @@ export class DeliveredComponent implements OnInit {
 
   getOrderList(
     page: number,
-    sku?: string,
-    carrier?: string,
     from_po_date?: string,
     to_po_date?: string,
     search_term?: string
@@ -77,33 +75,35 @@ export class DeliveredComponent implements OnInit {
       .getAllOrder({
         page: page,
         order_type: 5,
-        sku: sku,
-        carrier: carrier,
         from_po_date: from_po_date,
         to_po_date: to_po_date,
         search_term: search_term,
       })
-      .subscribe(
-        (response: GetAllOrders) => {
+      .subscribe({
+        next: (response: GetAllOrders) => {
           if (response.success) {
             this.isLoading = false;
             this.total = response?.pagination?.total_rows ?? 0;
             this.totalData.emit(this.total);
             this.deliveredData = response.orders ?? [];
           } else {
+            this.message.error('Get Orders Delivered Failed!');
             this.isLoading = false;
           }
         },
-        (err) => (this.isLoading = true)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Orders Delivered Failed!');
+          }
+          this.isLoading = true;
+        },
+      });
   }
 
   searchDataChanges(event: string) {
     this.search_term = event;
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.search_term
@@ -127,7 +127,6 @@ export class DeliveredComponent implements OnInit {
       switch (data.type) {
         case 'sku':
           this.clear_btn = true;
-          this.selectMPN = data.value;
           if (this.mpnCount === 0) {
             this.mpnCount++;
             this.badgeTotal++;
@@ -140,7 +139,6 @@ export class DeliveredComponent implements OnInit {
             data.value === 'carrier3'
           ) {
             this.clear_btn = true;
-            this.selectCarrier = data.value;
             if (this.carrierCount === 0) {
               this.carrierCount++;
               this.badgeTotal++;
@@ -158,17 +156,13 @@ export class DeliveredComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectMPN,
-        this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
         this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'Delivered',
-        filter_sku: this.selectMPN,
         filter_ship_out_location: '',
-        filter_carrier: this.selectCarrier,
         filter_committed_ship_date: '',
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
@@ -176,16 +170,6 @@ export class DeliveredComponent implements OnInit {
     } else {
       if (this.badgeTotal > 0 && data.value !== null) {
         switch (data.type) {
-          case 'sku':
-            this.selectMPN = '';
-            this.mpnCount = 0;
-            this.badgeTotal--;
-            break;
-          case 'carrier':
-            this.selectCarrier = '';
-            this.carrierCount = 0;
-            this.badgeTotal--;
-            break;
           case 'rangeDate':
             this.selectRangeDate = '';
             this.rangeDateCount = 0;
@@ -194,17 +178,13 @@ export class DeliveredComponent implements OnInit {
         }
         this.getOrderList(
           this.pageIndex,
-          this.selectMPN,
-          this.selectCarrier,
           this.selectRangeDate[0],
           this.selectRangeDate[1],
           this.search_term
         );
         this.listOfFilter = {
           filter_po_list_type: 'Delivered',
-          filter_sku: this.selectMPN,
           filter_ship_out_location: '',
-          filter_carrier: this.selectCarrier,
           filter_committed_ship_date: '',
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
@@ -214,8 +194,6 @@ export class DeliveredComponent implements OnInit {
   }
 
   tagRemove() {
-    this.selectMPN = '';
-    this.selectCarrier = '';
     this.selectRangeDate = '';
 
     this.mpnCount = 0;
@@ -227,17 +205,13 @@ export class DeliveredComponent implements OnInit {
     this.clear_btn = false;
     this.getOrderList(
       this.pageIndex,
-      this.selectMPN,
-      this.selectCarrier,
       this.selectRangeDate[0],
       this.selectRangeDate[1],
       this.search_term
     );
     this.listOfFilter = {
       filter_po_list_type: 'Delivered',
-      filter_sku: this.selectMPN,
       filter_ship_out_location: '',
-      filter_carrier: this.selectCarrier,
       filter_committed_ship_date: '',
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
@@ -247,18 +221,6 @@ export class DeliveredComponent implements OnInit {
   close(type: string) {
     if (type) {
       switch (type) {
-        case 'sku':
-          this.selectMPN = '';
-          this.mpnCount = 0;
-          this.badgeTotal--;
-          this.filter.controls['sku'].reset();
-          break;
-        case 'carrier':
-          this.selectCarrier = '';
-          this.carrierCount = 0;
-          this.badgeTotal--;
-          this.filter.controls['carrier'].reset();
-          break;
         case 'rangeDate':
           this.selectRangeDate = '';
           this.rangeDateCount = 0;
@@ -267,17 +229,13 @@ export class DeliveredComponent implements OnInit {
       }
       this.getOrderList(
         this.pageIndex,
-        this.selectMPN,
-        this.selectCarrier,
         this.selectRangeDate[0],
         this.selectRangeDate[1],
         this.search_term
       );
       this.listOfFilter = {
         filter_po_list_type: 'Delivered',
-        filter_sku: this.selectMPN,
         filter_ship_out_location: '',
-        filter_carrier: this.selectCarrier,
         filter_committed_ship_date: '',
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],

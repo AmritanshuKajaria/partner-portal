@@ -1,6 +1,10 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import "../../../../../../assets/variable/variable.scss";
 
 .order-table {
+    ::ng-deep .ant-table table {
+        table-layout: fixed !important;
+    }
+
     td {
         button {
             height: 35px;
@@ -35,24 +39,25 @@
                 margin-top: -10px;
             }
         }
-
     }
 
     .date {
         white-space: nowrap !important;
     }
 
+    // for table scrollbar
+    ::ng-deep .nz-table-hide-scrollbar {
+        scrollbar-color: auto !important;
+    }
+
     .action-column {
         padding: 0;
         background-color: rgba(239, 239, 250) !important;
-        position: sticky;
-        right: 0px;
 
         div {
             padding: 16px;
         }
     }
-
 }
 
 .tracking-id {

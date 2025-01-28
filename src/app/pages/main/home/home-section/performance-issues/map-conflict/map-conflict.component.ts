@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { Description } from 'src/app/shared/model/description.model';
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
@@ -59,50 +60,74 @@ export class MapConflictComponent implements OnInit {
   isVisible: boolean = false;
   code: any = '';
   product_search: string = '';
+  referenceCode = '';
+  isReferenceCodeVisible = false;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private modal: NzModalService,
-    private dashboardService: DashboardService
+    private dashboardService: DashboardService,
+    private message: NzMessageService
   ) {
     this.isLoading = true;
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.getData();
   }
   ngOnInit(): void {}
 
-  getData(pageIndex: number, code: string, search: string) {
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
+
+  getData() {
     this.isLoading = true;
     if (this.code) {
       const data = {
-        page: pageIndex,
-        code: code,
-        product_search: search ? search : '',
+        page: this.pageIndex,
+        code: this.code,
+        product_search: this.product_search ? this.product_search : '',
       };
-      this.dashboardService.getAgendasDataByCode(data).subscribe(
-        (res: any) => {
-          console.log(res);
-
+      this.dashboardService.getAgendasDataByCode(data).subscribe({
+        next: (res: any) => {
           this.isLoading = false;
           if (res.success) {
-            this.total = +res.pagination?.total_rows ?? 0;
+            this.total = +(res.pagination?.total_rows ?? 0);
             this.mapConflictList = res.data;
+          } else {
+            this.message.error(
+              res?.error_message ?? 'Get agendas details failed!'
+            );
           }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get agendas details failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 
+  onEditModelClose(data: any) {
+    this.isVisible = false;
+    if (data) {
+      this.referenceCode = data;
+      this.isReferenceCodeVisible = true;
+      this.getData();
+    }
+  }
   searchValue(event: string) {
     this.product_search = event;
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.pageIndex = 1;
+    this.getData();
   }
 
   pageIndexChange(page: number) {
     this.pageIndex = page;
-    this.getData(this.pageIndex, this.code, this.product_search);
+    this.getData();
   }
 
   navigateAsin(asin: string) {

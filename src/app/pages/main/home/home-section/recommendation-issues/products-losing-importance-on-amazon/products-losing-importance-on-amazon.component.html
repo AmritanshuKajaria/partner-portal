@@ -45,6 +45,7 @@
       [isLoading]="isLoading"
       [tabName]="'Products Losing Importance On Amazon'"
       (changePages)="pageIndexChange($event)"
+      (dataSavedSuccessful)="onDataSave($event)"
     ></app-recommendation-issue-table>
 
     <!-- <div #mySidenav class="filter-section">

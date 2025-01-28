@@ -108,6 +108,7 @@ export class ViewListFilterComponent implements OnInit {
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
         this.product_search = value.target.value;
+        this.pageIndex = 1;
         this.getProductList(
           this.pageIndex,
           this.selectStatus,
@@ -160,20 +161,6 @@ export class ViewListFilterComponent implements OnInit {
     );
   }
 
-  searchProduct(event: any) {
-    this.product_search = event?.target.value;
-    this.getProductList(
-      this.pageIndex,
-      this.selectStatus,
-      this.inventory,
-      this.selectBrand,
-      this.selectCollection,
-      this.selectCategory,
-      this.selectSales,
-      this.product_search
-    );
-  }
-
   getProductList(
     page: number,
     filter_product_status: string,
@@ -196,14 +183,24 @@ export class ViewListFilterComponent implements OnInit {
         filter_sales_tier: filter_sales_tier,
         search_term: search_term,
       })
-      .subscribe(
-        (res: GetAllProducts): void => {
-          this.total = res.pagination?.total_rows ?? 0;
-          this.productList = res.products ?? [];
+      .subscribe({
+        next: (res: GetAllProducts): void => {
+          if (res?.success) {
+            this.total = res.pagination?.total_rows ?? 0;
+            this.productList = res.products ?? [];
+          } else {
+            this.message.error('Get Products Failed!');
+          }
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Products Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
   }
 
   pageIndexChange(page: number) {
@@ -220,8 +217,9 @@ export class ViewListFilterComponent implements OnInit {
     );
   }
 
-  navigatePage(path: string) {
-    this.router.navigate([`/main/${path}`]);
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
   }
 
   openNav() {
@@ -287,6 +285,8 @@ export class ViewListFilterComponent implements OnInit {
     this.badgeTotal = 0;
     this.clear_btn = false;
     this.filter.reset();
+
+    this.pageIndex = 1;
     this.getProductList(
       this.pageIndex,
       this.selectStatus,
@@ -351,6 +351,8 @@ export class ViewListFilterComponent implements OnInit {
         default:
           break;
       }
+
+      this.pageIndex = 1;
       this.getProductList(
         this.pageIndex,
         this.selectStatus,
@@ -418,7 +420,7 @@ export class ViewListFilterComponent implements OnInit {
             value == 'Discontinued' ||
             value == 'LTL' ||
             value == 'Partner Restricted' ||
-            value == 'Supressed'
+            value == 'Suppressed'
           ) {
             this.clear_btn = true;
             this.selectStatus = value;
@@ -462,6 +464,7 @@ export class ViewListFilterComponent implements OnInit {
           }
           break;
       }
+      this.pageIndex = 1;
       this.getProductList(
         this.pageIndex,
         this.selectStatus,
@@ -515,6 +518,7 @@ export class ViewListFilterComponent implements OnInit {
             this.badgeTotal--;
             break;
         }
+        this.pageIndex = 1;
         this.getProductList(
           this.pageIndex,
           this.selectStatus,

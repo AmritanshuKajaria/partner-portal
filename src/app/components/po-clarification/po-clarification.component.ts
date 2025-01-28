@@ -26,7 +26,6 @@ export class PoClarificationComponent implements OnInit {
       detail: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
-      phone: new FormControl('', [Validators.required]),
     });
   }
 
@@ -41,28 +40,30 @@ export class PoClarificationComponent implements OnInit {
 
     this.isLoading = true;
     const data = {
-      po_number: this.poNo,
+      po_no: this.poNo,
       clarification_message: this.poClarificationForm.value.detail,
       user_name: this.poClarificationForm.value.name,
       user_email: this.poClarificationForm.value.email,
       user_phone: this.poClarificationForm.value.phone,
     };
 
-    this.ordersService.clarificationOrders(data).subscribe(
-      (res: any) => {
+    this.ordersService.clarificationOrders(data).subscribe({
+      next: (res: any) => {
         this.isLoading = false;
         if (res.success) {
           this.message.success('PO clarification successfully!');
           this.close.emit();
         } else {
+          this.message.error(res?.error_message ?? 'Failed to clarify PO.');
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        if (!error?.error_shown) {
           this.message.error('Failed to clarify PO.');
         }
       },
-      (error: any) => {
-        this.isLoading = false;
-        this.message.error('An error occurred while clarifying PO.');
-      }
-    );
+    });
   }
 
   handleCancel() {

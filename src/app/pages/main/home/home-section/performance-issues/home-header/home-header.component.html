@@ -23,7 +23,7 @@
       style="margin-top: 0"
       (click)="isMultipleProductsVisible = true"
     >
-      <span nz-icon nzType="plus"></span> Edit Products
+      <span nz-icon nzType="edit"></span> Edit Products
     </button>
   </div>
 </div>
@@ -35,6 +35,8 @@
 >
   <ng-container *nzModalContent>
     <app-add-edit-multiple-products
+      [actionType]="'Edit'"
+      [canChangeAddEditType]="templateType ? false : true"
       [templateType]="templateType"
       (closeModel)="closeMultiProduct($event)"
     ></app-add-edit-multiple-products>
@@ -45,5 +47,6 @@
   <app-show-reference-code
     [isVisible]="isVisible"
     [referenceCode]="referenceCode"
+    [subTitle]="'Edit multiple product successfully initiated'"
   ></app-show-reference-code>
 </div>

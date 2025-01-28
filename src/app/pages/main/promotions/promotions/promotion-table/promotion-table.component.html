@@ -39,8 +39,8 @@
 
   <div *ngIf="clear_btn && badgeTotal !== 0" class="tag-section">
     <nz-tag *ngIf="selectDate" nzMode="closeable" (nzOnClose)="close('date')"
-      >{{ selectDate[0] | date : "dd/MM/yyyy" }} To
-      {{ selectDate[1] | date : "dd/MM/yyyy" }}</nz-tag
+      >{{ selectDate[0] | customDate }} To
+      {{ selectDate[1] | customDate }}</nz-tag
     >
     <nz-tag
       *ngIf="selectStatus"
@@ -85,7 +85,7 @@
         <th>Created Date</th>
         <th>Start Date</th>
         <th>End Date</th>
-        <th>Number of SKUs</th>
+        <th>Number of MPNs</th>
         <th>Status</th>
         <th nzRight class="action-column"><div>Action</div></th>
       </tr>
@@ -94,9 +94,11 @@
       <ng-template ngFor let-data [ngForOf]="listOfData">
         <tr>
           <td>{{ data?.promo_code }}</td>
-          <td>{{ data?.added_on | utcDateToLocalConverter : false }}</td>
-          <td>{{ data?.start_date | date : "MM-dd-yyyy" }}</td>
-          <td>{{ data?.end_date | date : "MM-dd-yyyy" }}</td>
+          <td>
+            {{ data?.added_on | utcDateToLocalConverter : false | customDate }}
+          </td>
+          <td>{{ data?.start_date | customDate }}</td>
+          <td>{{ data?.end_date | customDate }}</td>
           <td>{{ data?.total_mpn }}</td>
           <td>
             <app-status-badge
@@ -112,6 +114,16 @@
             <app-status-badge
               *ngIf="data.promo_status === 'Canceled'"
               [type]="statusEnum.Failure"
+              [text]="data.promo_status"
+            ></app-status-badge>
+            <app-status-badge
+              *ngIf="data.promo_status === 'Completed'"
+              [type]="statusEnum.Success"
+              [text]="data.promo_status"
+            ></app-status-badge>
+            <app-status-badge
+              *ngIf="data.promo_status === 'Stopped'"
+              [type]="statusEnum.Stopped"
               [text]="data.promo_status"
             ></app-status-badge>
           </td>
@@ -190,8 +202,13 @@
     >
     <form nz-form [formGroup]="filter" style="padding-bottom: 10px">
       <div class="filter-content">
-        <nz-divider nzText="Date" nzOrientation="left"></nz-divider>
+        <nz-divider
+          nzText="Promotion Start Date"
+          nzOrientation="left"
+        ></nz-divider>
         <nz-range-picker
+          [nzPlaceHolder]="['From Date', 'To Date']"
+          [nzFormat]="AppDateFormate"
           formControlName="date"
           (ngModelChange)="change(filter.value.date ? $event : '', 'date')"
         ></nz-range-picker>
@@ -240,7 +257,7 @@
 
 <nz-modal
   [(nzVisible)]="isExportVisible"
-  nzTitle="Which Promotion would you like to export?"
+  nzTitle="Which Promotion Details would you like to export?"
   (nzOnCancel)="handleCancel()"
 >
   <ng-container *nzModalContent>
@@ -248,7 +265,7 @@
       [exportType]="false"
       [sectionName]="'promotion'"
       [description]="
-        'Your Promotion will be exported as a CSV file and sent to your email.'
+        'Your Promotion Details will be exported as a CSV file and sent to your email.'
       "
       [listOfFilter]="listOfFilter"
       [noOfFilter]="total"
