@@ -202,8 +202,8 @@ export class AddEditMultipleProductsComponent implements OnInit {
     );
     data.append('uploaded_file', this.selectFile);
 
-    this.productService.productAddEditUpload(data).subscribe(
-      (result: any) => {
+    this.productService.productAddEditUpload(data).subscribe({
+      next: (result: any) => {
         this.isLoading = false;
         if (result.success) {
           this.referenceCode = result?.reference_code;
@@ -212,13 +212,13 @@ export class AddEditMultipleProductsComponent implements OnInit {
           this.message.error(result?.error_message ?? 'Edit products fail!');
         }
       },
-      (err) => {
+      error: (err) => {
         if (!err?.error_shown) {
           this.message.error('Edit products fail!');
         }
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   handleCancel() {
