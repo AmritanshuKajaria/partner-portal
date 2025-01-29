@@ -50,6 +50,7 @@
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
     [nzScroll]="{ x: '100%' }"
+    (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
       <tr>
@@ -96,12 +97,14 @@
       <ng-template ngFor let-data [ngForOf]="listOfData">
         <tr>
           <td>
-            <a [routerLink]="'po-details/' + data?.po" class="link no-wrap">{{
-              data?.po
-            }}</a>
+            <a
+              [routerLink]="'po-details/' + data?.po_no"
+              class="link no-wrap"
+              >{{ data?.po_no }}</a
+            >
           </td>
-          <td class="no-wrap">{{ data?.invoice }}</td>
-          <td nzBreakWord>{{ data?.customerName }}</td>
+          <td class="no-wrap">{{ data?.invoice_no }}</td>
+          <td nzBreakWord>{{ data?.customer_name }}</td>
           <td
             *ngIf="
               tabName === 'Return In-Transit' ||
@@ -111,30 +114,30 @@
             "
             class="no-wrap"
           >
-            {{ data?.returnClassification }}
+            {{ data?.return_classification }}
           </td>
           <td>
             <div>
-              <b class="no-wrap">{{ data?.mpn }}</b>
+              <b class="no-wrap">{{ data?.porduct_mpn }}</b>
             </div>
             <ul class="sub-section">
               <li class="no-wrap">
                 <div class="sub-val">
                   <span class="title">Order Qty&nbsp;&nbsp;-&nbsp;</span
-                  >{{ data?.orderQty }}
+                  >{{ data?.porduct_qty }}
                 </div>
               </li>
               <li class="no-wrap">
                 <div class="sub-val">
                   <span class="title"
-                    >Return Qty&nbsp;-&nbsp;{{ data?.returnQty }}</span
+                    >Return Qty&nbsp;-&nbsp;{{ data?.return_qty }}</span
                   >
                 </div>
               </li>
             </ul>
           </td>
           <td class="no-wrap" *ngIf="tabName === 'Return Initiated'">
-            {{ data?.returnClassification }}
+            {{ data?.return_classification }}
           </td>
           <td
             *ngIf="
@@ -144,7 +147,7 @@
               tabName === 'All'
             "
           >
-            <span *ngFor="let ra of data?.raNumber">
+            <span *ngFor="let ra of data?.ra_number">
               <div>
                 <b class="no-wrap">{{ ra?.name }}</b>
               </div>
@@ -166,13 +169,13 @@
             "
           >
             <div>
-              <b class="no-wrap">{{ data?.trackingNo?.name }}</b>
+              <b class="no-wrap">{{ data?.tracking?.name }}</b>
             </div>
             <ul class="sub-section">
               <li>
                 <div class="sub-val no-wrap">
                   <span class="title">AWB:&nbsp;</span
-                  >{{ data?.trackingNo?.number }}
+                  >{{ data?.tracking?.number }}
                 </div>
               </li>
             </ul>
@@ -216,7 +219,7 @@
             <app-status-badge
               *ngIf="tabName === 'All'"
               [type]="statusEnum.Success"
-              [text]="data?.status"
+              [text]="data?.refund_status"
             ></app-status-badge>
 
             <button
