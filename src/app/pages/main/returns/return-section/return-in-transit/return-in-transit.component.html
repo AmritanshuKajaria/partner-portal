@@ -1,10 +1,12 @@
 <div class="return-in-transit-section">
   <app-return-table
-    [listOfData]="returnInitiatedList"
+    [listOfData]="returnInTrasitList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
     [tabName]="'Return In-Transit'"
+    (pageChange)="pageIndexChange($event)"
+    (searchChange)="searchDataChanges($event)"
   ></app-return-table>
 </div>

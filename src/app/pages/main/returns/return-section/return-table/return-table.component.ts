@@ -19,7 +19,7 @@ import { StatusEnum } from 'src/app/components/status-badge/status-badge.compone
 export class ReturnTableComponent implements OnInit {
   // @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Input() total: number = 1;
-  @Input() pageSize: number = 50;
+  @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
   @Input() listOfData: any[] = [];
@@ -40,7 +40,7 @@ export class ReturnTableComponent implements OnInit {
   approveCreditModelVisible: boolean = false;
   listOfFilter: any = '';
 
-  pageSizeOptions = [50, 100, 250, 500];
+  pageSizeOptions = [100];
 
   constructor() {
     this.accountSearch
@@ -82,6 +82,10 @@ export class ReturnTableComponent implements OnInit {
 
   // for approve credit form submit
   approveCreditSubmitForm() {}
+
+  onPageIndexChange(page: number): void {
+    this.pageChange.emit(page);
+  }
 
   handleCancel() {
     this.isExportVisible = false;
