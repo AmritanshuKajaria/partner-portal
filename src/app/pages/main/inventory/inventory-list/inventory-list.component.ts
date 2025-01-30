@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import {
   GetAllInventory,
@@ -57,7 +58,8 @@ export class InventoryListComponent implements OnInit {
   constructor(
     private router: Router,
     private inventoryService: InventoryService,
-    private userPermissionService: UserPermissionService
+    private userPermissionService: UserPermissionService,
+    private message: NzMessageService
   ) {
     userPermissionService.userPermission.subscribe(
       (permission: PermissionList | any) => {
@@ -117,14 +119,24 @@ export class InventoryListComponent implements OnInit {
         filter_feed_result: filter_feed_result,
         search_term: search_term,
       })
-      .subscribe(
-        (res: GetAllInventory | any) => {
-          this.total = res.pagination?.total_rows ?? 0;
-          this.inventoryList = res.inventory_feeds;
+      .subscribe({
+        next: (res: GetAllInventory | any) => {
+          if (res.success) {
+            this.total = res.pagination?.total_rows ?? 0;
+            this.inventoryList = res.inventory_feeds;
+          } else {
+            this.message.error('Get All Inventory Failed!');
+          }
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get All Inventory Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
   }
 
   pageIndexChange(page: number) {

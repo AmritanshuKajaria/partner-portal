@@ -62,15 +62,26 @@ export class AddPromotionsComponent implements OnInit {
     const data: PromoTemplate = {
       include_data: event,
     };
-    this.promotionsService.promoTemplate(data).subscribe((res: any) => {
-      if (res.success) {
-        this.message.create('success', 'Template Downloaded Successfully!');
-        var objectUrl = res.template_url;
-        var a = document.createElement('a');
-        a.download = 'document';
-        a.href = objectUrl;
-        a.click();
-      }
+    this.promotionsService.promoTemplate(data).subscribe({
+      next: (res: any) => {
+        if (res.success) {
+          this.message.create('success', 'Template Downloaded Successfully!');
+          var objectUrl = res.template_url;
+          var a = document.createElement('a');
+          a.download = 'document';
+          a.href = objectUrl;
+          a.click();
+        } else {
+          this.message.error(
+            res?.error_message ?? 'Template Downloaded Failed!'
+          );
+        }
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Template Downloaded Failed!');
+        }
+      },
     });
   }
 
@@ -100,16 +111,23 @@ export class AddPromotionsComponent implements OnInit {
       );
       formData.append('uploaded_file', this.selectFile);
 
-      this.promotionsService.createPromotion(formData).subscribe(
-        (res: any) => {
+      this.promotionsService.createPromotion(formData).subscribe({
+        next: (res: any) => {
           this.isLoading = false;
           if (res.success) {
             // this.message.create('success', 'Add Promotion Successful');
             this.handleCancel(res.reference_code);
+          } else {
+            this.message.error('Add Promotion Failed!');
           }
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Add Promotion Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 

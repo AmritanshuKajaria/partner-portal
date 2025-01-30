@@ -6,6 +6,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -44,7 +45,10 @@ export class CancellationRequestedComponent implements OnInit {
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
 
-  constructor(private ordersService: OrdersService) {
+  constructor(
+    private ordersService: OrdersService,
+    private message: NzMessageService
+  ) {
     this.getOrderList(
       this.pageIndex,
       this.selectLocation,
@@ -78,13 +82,22 @@ export class CancellationRequestedComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.cancellationRequestedData = response?.orders ?? [];
+          if (response.success) {
+            this.total = response?.pagination?.total_rows ?? 0;
+            this.cancellationRequestedData = response?.orders ?? [];
 
-          this.totalData.emit(+this.total);
+            this.totalData.emit(+this.total);
+          } else {
+            this.message.error('Get Buyer Cancellation Requested Failed!');
+          }
           this.isLoading = false;
         },
-        error: (err) => (this.isLoading = false),
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Buyer Cancellation Requested Failed!');
+          }
+          this.isLoading = false;
+        },
       });
   }
 

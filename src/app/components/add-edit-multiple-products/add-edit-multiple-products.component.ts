@@ -138,7 +138,9 @@ export class AddEditMultipleProductsComponent implements OnInit {
           }
         },
         error: (e) => {
-          this.message.error('Template Download Failed!');
+          if (!e?.error_shown) {
+            this.message.error('Template Download Failed!');
+          }
         },
       });
     } else {
@@ -169,8 +171,10 @@ export class AddEditMultipleProductsComponent implements OnInit {
           this.message.error(res?.error_message ?? 'Template Download Failed!');
         }
       },
-      error: () => {
-        this.message.error('Template Download Failed!');
+      error: (e) => {
+        if (!e?.error_shown) {
+          this.message.error('Template Download Failed!');
+        }
       },
     });
   }
@@ -198,8 +202,8 @@ export class AddEditMultipleProductsComponent implements OnInit {
     );
     data.append('uploaded_file', this.selectFile);
 
-    this.productService.productAddEditUpload(data).subscribe(
-      (result: any) => {
+    this.productService.productAddEditUpload(data).subscribe({
+      next: (result: any) => {
         this.isLoading = false;
         if (result.success) {
           this.referenceCode = result?.reference_code;
@@ -208,11 +212,13 @@ export class AddEditMultipleProductsComponent implements OnInit {
           this.message.error(result?.error_message ?? 'Edit products fail!');
         }
       },
-      (err) => {
-        this.message.error('Edit products fail!');
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Edit products fail!');
+        }
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   handleCancel() {

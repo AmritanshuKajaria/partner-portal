@@ -183,14 +183,24 @@ export class ViewListFilterComponent implements OnInit {
         filter_sales_tier: filter_sales_tier,
         search_term: search_term,
       })
-      .subscribe(
-        (res: GetAllProducts): void => {
-          this.total = res.pagination?.total_rows ?? 0;
-          this.productList = res.products ?? [];
+      .subscribe({
+        next: (res: GetAllProducts): void => {
+          if (res?.success) {
+            this.total = res.pagination?.total_rows ?? 0;
+            this.productList = res.products ?? [];
+          } else {
+            this.message.error('Get Products Failed!');
+          }
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get Products Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
   }
 
   pageIndexChange(page: number) {

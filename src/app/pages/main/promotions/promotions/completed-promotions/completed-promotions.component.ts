@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { Promotions } from 'src/app/shared/model/promotion.model';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 
@@ -23,7 +24,10 @@ export class CompletedPromotionsComponent implements OnInit {
   completedPromotionsList = [];
   searchForm!: FormGroup;
 
-  constructor(private promotionsService: PromotionsService) {
+  constructor(
+    private promotionsService: PromotionsService,
+    private message: NzMessageService
+  ) {
     this.getAllCompletedPromotions(
       this.pageIndex,
       this.filter_start_date,
@@ -55,14 +59,26 @@ export class CompletedPromotionsComponent implements OnInit {
       search_term: search_term,
       open: false,
     };
-    this.promotionsService.getAllPromotions(data).subscribe(
-      (res: any) => {
-        this.total = res.pagination?.total_rows ?? 0;
-        this.completedPromotionsList = res.promos ?? [];
+    this.promotionsService.getAllPromotions(data).subscribe({
+      next: (res: any) => {
+        if (res?.success) {
+          this.total = res.pagination?.total_rows ?? 0;
+          this.completedPromotionsList = res.promos ?? [];
+        } else {
+          this.message.error(
+            res?.error_message ?? 'Get Completed Promtions Failed!'
+          );
+        }
+
         this.isLoading = false;
       },
-      (err) => (this.isLoading = false)
-    );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get Completed Promtions Failed!');
+        }
+        this.isLoading = false;
+      },
+    });
   }
 
   pageIndexChange(page: number) {
@@ -92,13 +108,13 @@ export class CompletedPromotionsComponent implements OnInit {
     (this.filter_start_date = filters?.start_date),
       (this.filter_end_date = filters?.end_date),
       (this.filter_status = filters?.promo_status),
-      this.pageIndex = 1;
-      this.getAllCompletedPromotions(
-        this.pageIndex,
-        this.filter_start_date,
-        this.filter_end_date,
-        this.filter_status,
-        this.search_term
-      );
+      (this.pageIndex = 1);
+    this.getAllCompletedPromotions(
+      this.pageIndex,
+      this.filter_start_date,
+      this.filter_end_date,
+      this.filter_status,
+      this.search_term
+    );
   }
 }

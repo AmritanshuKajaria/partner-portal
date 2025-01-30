@@ -155,8 +155,8 @@ export class AddEditProductComponent implements OnInit {
       if (this.sku) {
         this.isMainLoading = true;
         this.editSku = this.sku;
-        this.productService.getProduct(this.sku).subscribe(
-          (res: any) => {
+        this.productService.getProduct(this.sku).subscribe({
+          next: (res: any) => {
             if (res.success) {
               this.isMainLoading = false;
               this.editData = res.products;
@@ -241,10 +241,12 @@ export class AddEditProductComponent implements OnInit {
               this.addShippingDimensionsOfBoxes();
             }
           },
-          (err) => {
-            console.log('error', err);
-          }
-        );
+          error: (err) => {
+            if (!err?.error_shown) {
+              this.message.error('Get Product Failed!');
+            }
+          },
+        });
       }
     } else {
       this.addShippingDimensionsOfBoxes();
@@ -395,8 +397,8 @@ export class AddEditProductComponent implements OnInit {
 
       if (this.editSection) {
         data['sku'] = this.sku;
-        this.productService.editProduct(data).subscribe(
-          (res: any) => {
+        this.productService.editProduct(data).subscribe({
+          next: (res: any) => {
             if (res.success) {
               this.resReferenceCode = res?.reference_code;
               this.message.create('success', 'Edit product successfully!');
@@ -406,14 +408,16 @@ export class AddEditProductComponent implements OnInit {
             }
             this.isLoading = false;
           },
-          (err) => {
-            this.message.error('Edit product fail!');
+          error: (err) => {
+            if (!err?.error_shown) {
+              this.message.error('Edit product fail!');
+            }
             this.isLoading = false;
-          }
-        );
+          },
+        });
       } else {
-        this.productService.createProduct(data).subscribe(
-          (res: any) => {
+        this.productService.createProduct(data).subscribe({
+          next: (res: any) => {
             console.log(res);
             if (res.success) {
               this.resReferenceCode = res?.reference_code;
@@ -424,11 +428,13 @@ export class AddEditProductComponent implements OnInit {
             }
             this.isLoading = false;
           },
-          (err) => {
-            this.message.error('Add product fail!');
+          error: (err) => {
+            if (!err?.error_shown) {
+              this.message.error('Add product fail!');
+            }
             this.isLoading = false;
-          }
-        );
+          },
+        });
       }
     } else {
       Object.values(this.addEditProductForm.controls).forEach((control) => {

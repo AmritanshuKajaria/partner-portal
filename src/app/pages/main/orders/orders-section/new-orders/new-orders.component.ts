@@ -79,13 +79,23 @@ export class NewOrdersComponent implements OnInit {
       })
       .subscribe({
         next: (response: GetAllOrders) => {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.newOrdersData = response?.orders ?? [];
+          if (response?.success) {
+            this.total = response?.pagination?.total_rows ?? 0;
+            this.newOrdersData = response?.orders ?? [];
 
-          this.totalData.emit(+this.total);
+            this.totalData.emit(+this.total);
+          } else {
+            this.message.error('Get New Orders Failed!');
+          }
+
           this.isLoading = false;
         },
-        error: (err) => (this.isLoading = false),
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Get New Orders Failed!');
+          }
+          this.isLoading = false;
+        },
       });
   }
 

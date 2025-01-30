@@ -159,7 +159,6 @@ export class ShippingClosuresComponent implements OnInit {
             },
           });
         }).catch((error) => {
-          console.log(error);
           this.message.create(
             'error',
             error?.error_message?.[0] || 'Date Update Failed!'
