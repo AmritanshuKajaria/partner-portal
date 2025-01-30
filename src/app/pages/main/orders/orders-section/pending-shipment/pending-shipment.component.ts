@@ -31,7 +31,9 @@ export class PendingShipmentComponent implements OnInit {
   pendingShipmentData: any = [];
   clear_btn: boolean = false;
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '2',
+  };
 
   badgeTotal: number = 0;
   mpnCount: number = 0;

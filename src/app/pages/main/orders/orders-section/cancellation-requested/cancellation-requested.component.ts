@@ -43,7 +43,9 @@ export class CancellationRequestedComponent implements OnInit {
   remarkStatus: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '3',
+  };
 
   constructor(
     private ordersService: OrdersService,

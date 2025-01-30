@@ -190,9 +190,7 @@ export class ExportModelComponent implements OnInit {
     } else if (this.sectionName === 'order') {
       let filters: any = {};
 
-      filters['filter_po_list_type'] = this.exportType
-        ? this.listOfFilter?.filter_po_list_type
-        : '';
+      filters['filter_po_list_type'] = this.listOfFilter?.filter_po_list_type;
       filters['filter_sku'] = this.exportType
         ? this.listOfFilter?.filter_sku
         : '';
