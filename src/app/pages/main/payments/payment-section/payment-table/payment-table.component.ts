@@ -10,7 +10,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { SinglePayment } from 'src/app/shared/model/payments.modal';
+import { TableData } from 'src/app/shared/model/payments.model';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 
 @Component({
@@ -24,7 +24,7 @@ export class PaymentTableComponent implements OnInit {
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
-  @Input() listOfData: SinglePayment[] = [];
+  @Input() listOfData: TableData[] = [];
   @Input() tabName: string = '';
   @Input() defaultFilters: any = {};
 

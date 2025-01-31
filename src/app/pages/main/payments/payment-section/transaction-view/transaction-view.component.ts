@@ -8,7 +8,11 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
+import {
+  GetAllTransactions,
+  GetAllTransactionsPayload,
+  Transaction,
+} from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
@@ -31,7 +35,7 @@ export class TransactionViewComponent implements OnInit {
   submitButtonLoading: boolean = false;
   defaultFilters: any = {};
 
-  transactionViewDataList: SinglePayment[] = [];
+  transactionViewDataList: Transaction[] = [];
   tagInputRef!: ElementRef;
   tags: string[] = [];
   sidenavSection: any;
@@ -48,7 +52,7 @@ export class TransactionViewComponent implements OnInit {
 
   getPaymentList(page: number, search_term?: string) {
     this.isLoading = true;
-    const data: Payments = {
+    const data: GetAllTransactionsPayload = {
       page: page,
       search_term: search_term,
       search_transactions: this.tags?.join(','),
@@ -58,7 +62,7 @@ export class TransactionViewComponent implements OnInit {
     };
 
     this.paymentService.getAllTransactions(data).subscribe({
-      next: (response: any) => {
+      next: (response: GetAllTransactions) => {
         this.isLoading = false;
         this.submitButtonLoading = false;
         if (response.success) {
