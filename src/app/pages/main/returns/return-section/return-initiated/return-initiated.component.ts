@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Returns, SingleReturn } from 'src/app/shared/model/returns.model';
+import {
+  GetAllReturn,
+  Returns,
+  SingleReturn,
+} from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 
 @Component({
@@ -37,14 +41,14 @@ export class ReturnInitiatedComponent implements OnInit {
       search_term: search_term,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (response: any) => {
+      next: (res: GetAllReturn) => {
         this.isLoading = false;
-        if (response.success) {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.returnInitiatedList = response?.returns ?? [];
+        if (res.success) {
+          this.total = res?.pagination?.total_rows ?? 0;
+          this.returnInitiatedList = res?.returns ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get Return Initiated Failed!'
+            res?.error_message ?? 'Get Return Initiated Failed!'
           );
         }
       },
