@@ -46,7 +46,9 @@ export class AllOrdersComponent implements OnInit {
   remarkStatus: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '5',
+  };
   statusEnum: typeof StatusEnum = StatusEnum;
 
   constructor(

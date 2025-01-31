@@ -43,7 +43,9 @@ export class NewOrdersComponent implements OnInit {
   search_term: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '1',
+  };
 
   constructor(
     private ordersService: OrdersService,

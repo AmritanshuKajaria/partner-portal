@@ -48,7 +48,9 @@ export class PendingInvoiceComponent implements OnInit {
   selectCarrier: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '4',
+  };
 
   constructor(
     private ordersService: OrdersService,
