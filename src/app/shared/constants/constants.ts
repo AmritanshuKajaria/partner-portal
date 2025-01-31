@@ -386,3 +386,14 @@ export const TimeZone = [
     value: 'MST',
   },
 ];
+
+export const restrictedReasonList = [
+  'Component / Part',
+  'Exclusive with another retailer',
+  'Not to be sold on Amazon',
+  'Not Available for DropShip',
+  'Custom Product',
+  'Partner is not the Brand Owner',
+  'Fragile - Cannot Ship Small Parcel',
+  'Other Reason',
+];

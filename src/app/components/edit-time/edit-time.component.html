@@ -134,6 +134,38 @@
               </nz-form-control>
             </nz-form-item>
           </div>
+          <nz-form-item
+            *ngIf="editTimeForm.controls['new'].value === 'Partner Restricted'"
+          >
+            <nz-form-label [nzSm]="10" [nzXs]="24"
+              >Restricted Reason</nz-form-label
+            >
+            <nz-form-control
+              [nzSm]="14"
+              [nzXs]="24"
+              [nzValidateStatus]="
+                submitError && !editTimeForm.controls['restricted_reason'].value
+                  ? 'error'
+                  : ''
+              "
+              nzErrorTip="Please input your restricted reason"
+            >
+              <nz-input-group>
+                <nz-select
+                  nzAllowClear
+                  formControlName="restricted_reason"
+                  nzPlaceHolder="Select Product Status"
+                  nzRequired
+                >
+                  <nz-option
+                    *ngFor="let item of restrictedReasonList"
+                    [nzLabel]="item"
+                    [nzValue]="item"
+                  ></nz-option>
+                </nz-select>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
           <div *ngIf="section === 'Amazon ASIN'">
             <nz-card
               *ngIf="editData?.extraData"

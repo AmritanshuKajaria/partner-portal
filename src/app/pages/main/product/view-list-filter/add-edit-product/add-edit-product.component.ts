@@ -10,6 +10,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { restrictedReasonList } from 'src/app/shared/constants/constants';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -49,16 +50,7 @@ export class AddEditProductComponent implements OnInit {
   isVisible: boolean = false;
   referenceCode: string = '';
   resReferenceCode: string = '';
-  restrictedReasonList: string[] = [
-    'Component / Part',
-    'Exclusive with another retailer',
-    'Not to be sold on Amazon',
-    'Not Available for DropShip',
-    'Custom Product',
-    'Partner is not the Brand Owner',
-    'Fragile - Cannot Ship Small Parcel',
-    'Other Reason',
-  ];
+  restrictedReasonList: string[] = restrictedReasonList;
 
   constructor(
     private router: Router,
