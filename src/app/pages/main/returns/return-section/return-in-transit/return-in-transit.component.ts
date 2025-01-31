@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Returns, SingleReturn } from 'src/app/shared/model/returns.model';
+import {
+  GetAllReturn,
+  Returns,
+  SingleReturn,
+} from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
   selector: 'app-return-in-transit',
@@ -40,7 +44,7 @@ export class ReturnInTransitComponent implements OnInit {
       search_term: search_term,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (response: any) => {
+      next: (response: GetAllReturn) => {
         this.isLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;

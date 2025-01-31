@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { SingleReturn } from 'src/app/shared/model/returns.model';
 
 @Component({
   selector: 'app-return-table',
@@ -22,7 +23,7 @@ export class ReturnTableComponent implements OnInit {
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
-  @Input() listOfData: any[] = [];
+  @Input() listOfData: SingleReturn[] = [];
   @Input() tabName: string = '';
   @Input() badgeTotal: number = 0;
 

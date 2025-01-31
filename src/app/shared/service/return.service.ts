@@ -34,7 +34,7 @@ export class ReturnService {
       success: true,
       processed_at: '2024-12-02T09:48:17.000Z',
       pagination: {
-        total_rows: '303',
+        total_rows: 303,
         current_page: 1,
         total_pages: 4,
       },

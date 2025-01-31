@@ -3,7 +3,11 @@ import { StatusEnum } from 'src/app/components/status-badge/status-badge.compone
 import { endOfMonth } from 'date-fns';
 import { ReturnService } from 'src/app/shared/service/return.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Returns, SingleReturn } from 'src/app/shared/model/returns.model';
+import {
+  GetAllReturn,
+  Returns,
+  SingleReturn,
+} from 'src/app/shared/model/returns.model';
 @Component({
   selector: 'app-all-return',
   templateUrl: './all-return.component.html',
@@ -37,7 +41,7 @@ export class AllReturnComponent implements OnInit {
       search_term: search_term,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (response: any) => {
+      next: (response: GetAllReturn) => {
         this.isLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;

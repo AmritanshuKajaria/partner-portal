@@ -2,7 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Returns } from 'src/app/shared/model/returns.model';
+import {
+  GetAllReturn,
+  Returns,
+  SingleReturn,
+} from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
   selector: 'app-in-carrier-claims',
@@ -46,32 +50,7 @@ export class InCarrierClaimsComponent implements OnInit {
     // Custom: [],
   };
 
-  carrierClaimsList = [
-    // {
-    //   id: 1,
-    //   po: 'NOU-183',
-    //   invoice: '2 - 8528363',
-    //   customerName: 'maynard j megginson jr',
-    //   returnClassification: 'Mis-Ship',
-    //   mpn: '99446823823',
-    //   orderQty: '1',
-    //   returnQty: '1',
-    //   raNumber: [
-    //     {
-    //       name: 'AMZ',
-    //       number: '82382',
-    //     },
-    //     {
-    //       name: 'Your',
-    //       number: '82384',
-    //     },
-    //   ],
-    //   trackingNo: {
-    //     name: 'Ekart Logistics',
-    //     number: 'SRTP5737737138',
-    //   },
-    // },
-  ];
+  carrierClaimsList: SingleReturn[] = [];
 
   constructor(
     private returnService: ReturnService,
@@ -89,7 +68,7 @@ export class InCarrierClaimsComponent implements OnInit {
       search_term: search_term,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (response: any) => {
+      next: (response: GetAllReturn) => {
         this.isLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
