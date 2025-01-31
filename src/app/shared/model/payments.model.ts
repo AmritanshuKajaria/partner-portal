@@ -69,13 +69,15 @@ export interface Invoice {
     net_product_cost?: string;
     shipping_cost?: string;
   };
-  po_detail?: {
-    mpn?: string;
-    net_product_cost?: string;
-    shipping_cost?: string;
-    total?: string;
-    qty?: string;
-  };
+  po_detail?: PoDetail;
+}
+
+export interface PoDetail {
+  mpn?: string;
+  net_product_cost?: string;
+  shipping_cost?: string;
+  total?: string;
+  qty?: string;
 }
 
 // Transaction
