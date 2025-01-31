@@ -3,7 +3,15 @@ import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { Payments } from '../model/payments.modal';
+import {
+  DownloadRemittance,
+  GetAllOpenBalancesPayload,
+  GetAllPastRemittancesPayload,
+  GetAllTransactionsPayload,
+  OpenBalancesFilters,
+  PastRemittancesFilters,
+  TransactionFilters,
+} from '../model/payments.model';
 import { formatDate } from '@angular/common';
 
 @Injectable({
@@ -16,7 +24,7 @@ export class PaymentService {
     @Inject(LOCALE_ID) public locale: string
   ) {}
 
-  getAllTransactions(action: Payments) {
+  getAllTransactions(action: GetAllTransactionsPayload) {
     let params = new HttpParams().set('page', action.page);
 
     if (action.search_term) {
@@ -65,7 +73,7 @@ export class PaymentService {
     }).pipe(delay(1000));
   }
 
-  getAllOpenBalances(action: Payments) {
+  getAllOpenBalances(action: GetAllOpenBalancesPayload) {
     let params = new HttpParams().set('page', action.page);
 
     if (action.filter_from_invoice_date) {
@@ -162,7 +170,7 @@ export class PaymentService {
     }).pipe(delay(1000));
   }
 
-  getAllPastRemittances(action: Payments) {
+  getAllPastRemittances(action: GetAllPastRemittancesPayload) {
     let params = new HttpParams().set('page', action.page);
 
     if (action.filter_from_remittance_date) {
@@ -214,19 +222,19 @@ export class PaymentService {
     }).pipe(delay(1000));
   }
 
-  exportTransactions(data: any) {
+  exportTransactions(data: TransactionFilters) {
     return this.http.post(this.url + '/export-transactions', data);
   }
 
-  exportOpenBalances(data: any) {
+  exportOpenBalances(data: OpenBalancesFilters) {
     return this.http.post(this.url + '/export-open-balances', data);
   }
 
-  exportPastRemittances(data: any) {
+  exportPastRemittances(data: PastRemittancesFilters) {
     return this.http.post(this.url + '/export-past-remittances', data);
   }
 
-  downloadRemittance(data: any) {
+  downloadRemittance(data: DownloadRemittance) {
     let params = new HttpParams()
       .set('remittance_no', data?.remittance_no)
       .set('file_type', data?.file_type);

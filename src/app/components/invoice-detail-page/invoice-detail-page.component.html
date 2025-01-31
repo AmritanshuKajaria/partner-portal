@@ -37,18 +37,18 @@
               <div class="sub-section-one">
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Invoice#"
-                    ><b>{{ invoiceDetailData?.invoice_summary?.invoice_no }}</b>
+                    ><b>{{ invoiceDetailData.invoice_summary?.invoice_no }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="PO#"
-                    ><b>{{ invoiceDetailData?.invoice_summary?.po_no }}</b>
+                    ><b>{{ invoiceDetailData.invoice_summary?.po_no }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Invoice Date"
                     ><b>{{
-                      invoiceDetailData?.invoice_summary?.invoice_date
+                      invoiceDetailData.invoice_summary?.invoice_date
                         | customDate
                     }}</b>
                   </nz-descriptions-item>
@@ -56,7 +56,7 @@
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Payment Terms"
                     ><b>{{
-                      invoiceDetailData?.invoice_summary?.payment_terms
+                      invoiceDetailData.invoice_summary?.payment_terms
                     }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
@@ -81,7 +81,7 @@
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Due Date"
                     ><b>{{
-                      invoiceDetailData?.invoice_status?.due_date | customDate
+                      invoiceDetailData.invoice_status?.due_date | customDate
                     }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
@@ -104,17 +104,17 @@
               <div class="sub-section-one">
                 <div>
                   <b>
-                    {{ invoiceDetailData?.sold_to?.address_line1 }},
-                    {{ invoiceDetailData?.sold_to?.city }},
-                    {{ invoiceDetailData?.sold_to?.state_code }}
-                    {{ invoiceDetailData?.sold_to?.postal_code }},
-                    {{ invoiceDetailData?.sold_to?.country_code }}
+                    {{ invoiceDetailData.sold_to?.address_line1 }},
+                    {{ invoiceDetailData.sold_to?.city }},
+                    {{ invoiceDetailData.sold_to?.state_code }}
+                    {{ invoiceDetailData.sold_to?.postal_code }},
+                    {{ invoiceDetailData.sold_to?.country_code }}
                   </b>
                 </div>
                 <div>
                   <b
                     >Location Code :
-                    {{ invoiceDetailData?.sold_to?.location_code }}</b
+                    {{ invoiceDetailData.sold_to?.location_code }}</b
                   >
                 </div>
               </div>
@@ -131,19 +131,19 @@
             <div class="sub-section">
               <div class="sub-section-one">
                 <div>
-                  <b>{{ invoiceDetailData?.ship_to?.name }}</b>
+                  <b>{{ invoiceDetailData.ship_to?.name }}</b>
                 </div>
                 <div>
                   <b
-                    >{{ invoiceDetailData?.ship_to?.address_line1 }},
-                    {{ invoiceDetailData?.ship_to?.city }},
-                    {{ invoiceDetailData?.ship_to?.state_code }}
-                    {{ invoiceDetailData?.ship_to?.postal_code }},
-                    {{ invoiceDetailData?.ship_to?.country_code }}</b
+                    >{{ invoiceDetailData.ship_to?.address_line1 }},
+                    {{ invoiceDetailData.ship_to?.city }},
+                    {{ invoiceDetailData.ship_to?.state_code }}
+                    {{ invoiceDetailData.ship_to?.postal_code }},
+                    {{ invoiceDetailData.ship_to?.country_code }}</b
                   >
                 </div>
                 <div>
-                  <b>Phone : {{ invoiceDetailData?.ship_to?.phone }}</b>
+                  <b>Phone : {{ invoiceDetailData.ship_to?.phone }}</b>
                 </div>
               </div>
             </div>
@@ -163,7 +163,7 @@
           nzShowSizeChanger
           nzBordered
           [nzFrontPagination]="false"
-          [nzData]="[invoiceDetailData?.invoice_detail]"
+          [nzData]="[invoiceDetailData.invoice_detail]"
         >
           <thead>
             <tr>
@@ -178,7 +178,7 @@
             <ng-template
               ngFor
               let-data
-              [ngForOf]="[invoiceDetailData?.invoice_detail]"
+              [ngForOf]="[invoiceDetailData.invoice_detail]"
             >
               <tr>
                 <td>{{ data?.mpn }}</td>
@@ -224,39 +224,37 @@
             <tbody>
               <tr>
                 <td style="font-weight: 500">PO</td>
-                <td>{{ invoiceDetailData?.po_detail?.mpn }}</td>
+                <td>{{ invoiceDetailData.po_detail?.mpn }}</td>
                 <td *ngIf="selectedOption === '3'">
-                  {{
-                    invoiceDetailData?.po_detail?.net_product_cost | currency
-                  }}
+                  {{ invoiceDetailData.po_detail?.net_product_cost | currency }}
                 </td>
                 <td *ngIf="selectedOption === '3'">
-                  {{ invoiceDetailData?.po_detail?.shipping_cost | currency }}
+                  {{ invoiceDetailData.po_detail?.shipping_cost | currency }}
                 </td>
                 <td *ngIf="selectedOption === '4'">
-                  {{ invoiceDetailData?.po_detail?.qty }}
+                  {{ invoiceDetailData.po_detail?.qty }}
                 </td>
-                <td>{{ invoiceDetailData?.po_detail?.total | currency }}</td>
+                <td>{{ invoiceDetailData.po_detail?.total | currency }}</td>
               </tr>
               <tr>
                 <td style="font-weight: 500">Invoice</td>
-                <td>{{ invoiceDetailData?.invoice_detail?.mpn }}</td>
+                <td>{{ invoiceDetailData.invoice_detail?.mpn }}</td>
                 <td *ngIf="selectedOption === '3'">
                   {{
-                    invoiceDetailData?.invoice_detail?.net_product_cost
+                    invoiceDetailData.invoice_detail?.net_product_cost
                       | currency
                   }}
                 </td>
                 <td *ngIf="selectedOption === '3'">
                   {{
-                    invoiceDetailData?.invoice_detail?.shipping_cost | currency
+                    invoiceDetailData.invoice_detail?.shipping_cost | currency
                   }}
                 </td>
                 <td *ngIf="selectedOption === '4'">
-                  {{ invoiceDetailData?.invoice_detail?.qty }}
+                  {{ invoiceDetailData.invoice_detail?.qty }}
                 </td>
                 <td>
-                  {{ invoiceDetailData?.invoice_detail?.total | currency }}
+                  {{ invoiceDetailData.invoice_detail?.total | currency }}
                 </td>
               </tr>
             </tbody>

@@ -9,8 +9,11 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { AppliedFilters } from 'src/app/shared/model/orders.model';
-import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
+import {
+  GetAllOpenBalances,
+  GetAllOpenBalancesPayload,
+  OpenBalance,
+} from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
@@ -32,7 +35,7 @@ export class OpenBalancesComponent implements OnInit {
   isExportVisible: boolean = false;
   badgeTotal: number = 0;
   search_term: string = '';
-  openBalancesDataList: SinglePayment[] = [];
+  openBalancesDataList: OpenBalance[] = [];
 
   invoice_start_date: string = '';
   invoice_end_date: string = '';
@@ -62,7 +65,7 @@ export class OpenBalancesComponent implements OnInit {
     filter_due_date?: string
   ) {
     this.isLoading = true;
-    const data: Payments = {
+    const data: GetAllOpenBalancesPayload = {
       page: page,
       filter_from_invoice_date: invoice_start_date,
       filter_to_invoice_date: invoice_end_date,
@@ -71,7 +74,7 @@ export class OpenBalancesComponent implements OnInit {
       filter_due_date: filter_due_date,
     };
     this.paymentService.getAllOpenBalances(data).subscribe({
-      next: (response: any) => {
+      next: (response: GetAllOpenBalances) => {
         this.isLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;

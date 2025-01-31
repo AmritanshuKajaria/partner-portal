@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { Invoice, InvoiceDetails } from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
@@ -9,7 +10,7 @@ import { PaymentService } from 'src/app/shared/service/payment.service';
   styleUrls: ['./invoice-detail-page.component.scss'],
 })
 export class InvoiceDetailPageComponent implements OnInit {
-  invoiceDetailData: any = {};
+  invoiceDetailData: Invoice = {};
 
   invoiceStatusLabelMapping: any = {
     '1': 'Paid',
@@ -35,15 +36,21 @@ export class InvoiceDetailPageComponent implements OnInit {
     this.isLoading = true;
 
     this.paymentService.getSinglePayment(this.invoiceNo).subscribe({
-      next: (res: any) => {
+      next: (res: InvoiceDetails) => {
+        this.isLoading = false;
         if (res.success) {
           this.invoiceDetailData = res?.invoice ?? {};
         } else {
-          this.invoiceNotExist = res.success;
+          this.message.error(
+            res?.error_message ?? 'Get Invoice Details Failed!'
+          );
+          this.invoiceNotExist = res?.success ?? false;
         }
+      },
+      error: (err) => {
+        this.message.error('Get Invoice Details Failed!');
         this.isLoading = false;
       },
-      error: (err) => (this.isLoading = false),
     });
   }
 

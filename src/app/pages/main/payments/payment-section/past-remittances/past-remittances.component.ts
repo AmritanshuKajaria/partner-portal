@@ -1,7 +1,14 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Payments, SinglePayment } from 'src/app/shared/model/payments.modal';
+import {
+  DownloadRemittance,
+  GetAllPastRemittances,
+  GetAllPastRemittancesPayload,
+  GetDownloadRemittance,
+  PastRemittance,
+  PastRemittancesFilters,
+} from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
@@ -23,7 +30,7 @@ export class PastRemittancesComponent implements OnInit {
   isExportVisible: boolean = false;
   badgeTotal: number = 0;
   search_term: string = '';
-  pastRemittancesDataList: SinglePayment[] = [];
+  pastRemittancesDataList: PastRemittance[] = [];
 
   remittance_start_date: string = '';
   remittance_end_date: string = '';
@@ -49,14 +56,14 @@ export class PastRemittancesComponent implements OnInit {
     search_term?: string
   ) {
     this.isLoading = true;
-    const data: Payments = {
+    const data: GetAllPastRemittancesPayload = {
       page: page,
       filter_from_remittance_date: remittance_start_date,
       filter_to_remittance_date: remittance_end_date,
       search_term: search_term,
     };
     this.paymentService.getAllPastRemittances(data).subscribe({
-      next: (response: any) => {
+      next: (response: GetAllPastRemittances) => {
         this.isLoading = false;
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
@@ -111,15 +118,17 @@ export class PastRemittancesComponent implements OnInit {
   }
 
   // For Download
-  handleAction(event: { format: string; remittanceNo: number }) {
-    const data = {
+  handleAction(event: { format: string; remittanceNo: string }) {
+    const data: DownloadRemittance = {
       file_type: event.format,
       remittance_no: event.remittanceNo,
     };
-    this.paymentService.downloadRemittance(data).subscribe((res: any) => {
-      if (res.success) {
-        window.open(res?.remittance_url);
-      }
-    });
+    this.paymentService
+      .downloadRemittance(data)
+      .subscribe((res: GetDownloadRemittance) => {
+        if (res.success) {
+          window.open(res?.remittance_url);
+        }
+      });
   }
 }

@@ -19,6 +19,11 @@ import { ProductService } from 'src/app/shared/service/product.service';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 import { formatDate } from '@angular/common';
 import { PaymentService } from 'src/app/shared/service/payment.service';
+import {
+  OpenBalancesFilters,
+  PastRemittancesFilters,
+  TransactionFilters,
+} from 'src/app/shared/model/payments.model';
 
 @Component({
   selector: 'app-export-model',
@@ -256,7 +261,7 @@ export class ExportModelComponent implements OnInit {
         error: (err: any) => (this.isLoading = false),
       });
     } else if (this.sectionName === 'transactionView') {
-      let filters: any = {};
+      let filters: TransactionFilters = {};
 
       if (this.listOfFilter?.search_transactions) {
         filters['search_transactions'] = this.exportType
@@ -289,7 +294,7 @@ export class ExportModelComponent implements OnInit {
         },
       });
     } else if (this.sectionName === 'openBalances') {
-      let filters: any = {};
+      let filters: OpenBalancesFilters = {};
 
       if (this.listOfFilter?.invoice_start_date) {
         filters['filter_from_invoice_date'] = this.exportType
@@ -345,7 +350,7 @@ export class ExportModelComponent implements OnInit {
         },
       });
     } else if (this.sectionName === 'pastRemittances') {
-      let filters: any = {};
+      let filters: PastRemittancesFilters = {};
 
       if (this.listOfFilter?.remittance_start_date) {
         filters['filter_from_remittance_date'] = this.exportType
