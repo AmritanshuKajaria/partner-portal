@@ -36,7 +36,7 @@ export class MainLayoutComponent implements OnInit {
     //this.changePermission('NPS');
 
     this.getPartnerDetails();
-    this.dashboardService.getAllIssues();
+    // this.dashboardService.getAllIssues();
   }
 
   help() {

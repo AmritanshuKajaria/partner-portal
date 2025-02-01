@@ -21,6 +21,7 @@ import { ProductModule } from '../../../product/product.module';
 import { RestrictedViaOrderComponent } from './restricted-via-order/restricted-via-order.component';
 import { RestrictedProductPriceErrorComponent } from './restricted-product-price-error/restricted-product-price-error.component';
 import { HomeHeaderComponent } from './home-header/home-header.component';
+import { PerformanceIssuesComponent } from './performance-issues.component';
 // import { CanActivateRoute } from 'src/app/shared/guard/canActivateRoute.guard';
 
 @NgModule({
@@ -38,6 +39,7 @@ import { HomeHeaderComponent } from './home-header/home-header.component';
     RestrictedViaOrderComponent,
     RestrictedProductPriceErrorComponent,
     HomeHeaderComponent,
+    PerformanceIssuesComponent,
   ],
   imports: [
     CommonModule,

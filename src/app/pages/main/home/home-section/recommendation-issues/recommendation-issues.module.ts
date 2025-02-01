@@ -14,6 +14,7 @@ import { ProductsLosingImportanceOnAmazonComponent } from './products-losing-imp
 import { ShippingLabelComponent } from './shipping-label/shipping-label.component';
 import { RecommendationIssueTableComponent } from './recommendation-issue-table/recommendation-issue-table.component';
 import { PerformanceIssuesModule } from '../performance-issues/performance-issues.module';
+import { RecommendationIssuesComponent } from './recommendation-issues.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { PerformanceIssuesModule } from '../performance-issues/performance-issue
     ProductsLosingImportanceOnAmazonComponent,
     ShippingLabelComponent,
     RecommendationIssueTableComponent,
+    RecommendationIssuesComponent,
   ],
   imports: [
     CommonModule,
