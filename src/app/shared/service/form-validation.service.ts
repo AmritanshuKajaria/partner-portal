@@ -10,26 +10,34 @@ export class FormValidationService {
   checkFormValidity(form: any, formObject: any) {
     let formValid = true;
 
-    Object.entries(formObject).forEach(([key, value]) => {
+    Object.entries(formObject).forEach(([key, isOnUI]) => {
       const control = form.get(key);
 
-      if (control.invalid) {
+      if (isOnUI) {
         if (control instanceof FormControl) {
-          control.markAsDirty();
-          control.updateValueAndValidity({ onlySelf: true });
-        }
+          if (control.invalid) {
+            control.markAsDirty();
+            control.updateValueAndValidity({ onlySelf: true });
 
+            if (formValid) {
+              formValid = false; // Set to false if any control is invalid
+            }
+          }
+        }
         if (control instanceof FormArray) {
           control.controls.forEach((formGroup: any) => {
             Object.values(formGroup.controls).forEach((arrayControl: any) => {
               if (arrayControl.invalid) {
                 arrayControl.markAsDirty();
                 arrayControl.updateValueAndValidity({ onlySelf: true });
+
+                if (formValid) {
+                  formValid = false; // Set to false if any control is invalid
+                }
               }
             });
           });
         }
-        formValid = false; // Set to false if any control is invalid
       }
     });
 

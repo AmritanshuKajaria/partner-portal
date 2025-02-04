@@ -138,18 +138,18 @@ export class OrderProcessingReturnComponent implements OnInit {
   }
 
   // Create new authorized feed sender
-  newAuthorizedFeedSender() {
+  newAuthorizedFeedSender(value?: string | undefined) {
     return this.fb.group({
       email: [
-        '',
+        value ?? '',
         [Validators.required, Validators.email, Validators.maxLength(255)],
       ],
     });
   }
 
   // Add authorized feed sender
-  addAuthorizedFeedSender() {
-    this.authorizedInvoiceSenders.push(this.newAuthorizedFeedSender());
+  addAuthorizedFeedSender(value?: string | undefined) {
+    this.authorizedInvoiceSenders.push(this.newAuthorizedFeedSender(value));
   }
 
   // Remove authorized feed sender
@@ -188,10 +188,7 @@ export class OrderProcessingReturnComponent implements OnInit {
 
     this.authorizedInvoiceSenders.clear();
     data.authorizedInvoiceSenders.forEach((email: any) => {
-      const emailFormGroup = new FormGroup({
-        email: new FormControl(email), // Create a FormControl for email
-      });
-      this.authorizedInvoiceSenders.push(emailFormGroup); // Push FormGroup into FormArray
+      this.addAuthorizedFeedSender(email);
     });
   }
 
@@ -246,30 +243,6 @@ export class OrderProcessingReturnComponent implements OnInit {
           this.isSaving = false; // Ensure saving state is updated on error
         },
       });
-    } else {
-      Object.values(this.orderProcessingReturnForm.controls).forEach(
-        (control) => {
-          if (control.invalid) {
-            if (control instanceof FormControl) {
-              control.markAsDirty();
-              control.updateValueAndValidity({ onlySelf: true });
-            }
-
-            if (control instanceof FormArray) {
-              control.controls.forEach((formGroup: any) => {
-                Object.values(formGroup.controls).forEach(
-                  (arrayControl: any) => {
-                    if (arrayControl.invalid) {
-                      arrayControl.markAsDirty();
-                      arrayControl.updateValueAndValidity({ onlySelf: true });
-                    }
-                  }
-                );
-              });
-            }
-          }
-        }
-      );
     }
   }
 

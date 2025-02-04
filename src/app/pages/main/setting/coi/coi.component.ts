@@ -206,27 +206,6 @@ export class COIComponent implements OnInit {
       this.formFieldOnUI['coiFileID'] ? this.fileList : ''
     );
 
-    console.log({
-      insurerName: this.formFieldOnUI['insurerName']
-        ? this.formControl['insurerName']?.value
-        : '',
-      insuredName: this.formFieldOnUI['insuredName']
-        ? this.formControl['insuredName']?.value
-        : '',
-      policyNumber: this.formFieldOnUI['policyNumber']
-        ? this.formControl['policyNumber']?.value
-        : '',
-      policyStartDate: this.formFieldOnUI['policyStartDate']
-        ? moment(this.formControl['policyStartDate']?.value).format(
-            'YYYY-MM-DD'
-          )
-        : '',
-      policyEndDate: this.formFieldOnUI['policyEndDate']
-        ? moment(this.formControl['policyEndDate']?.value).format('YYYY-MM-DD')
-        : '',
-      coiFileID: this.formFieldOnUI['coiFileID'] ? this.fileList : '',
-    });
-
     this.isLoading = false;
   }
 
