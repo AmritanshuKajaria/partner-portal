@@ -127,7 +127,10 @@ export class AddEditProductComponent implements OnInit {
         Validators.min(1),
         Validators.max(10),
       ]),
-      product_status: new FormControl('active'),
+      product_status: new FormControl(
+        'Active',
+        this.editSection ? [Validators.required] : []
+      ),
       restricted_reason: new FormControl(''),
       shipping_dimensions_of_box: this.formBuilder.array([]),
     });
