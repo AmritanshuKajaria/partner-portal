@@ -228,7 +228,7 @@ export class PendingInvoiceComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'pending-invoice',
+        filter_po_list_type: '4',
         filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
@@ -288,7 +288,7 @@ export class PendingInvoiceComponent implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'pending-invoice',
+          filter_po_list_type: '4',
           filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
           filter_carrier: this.selectCarrier,
@@ -334,7 +334,7 @@ export class PendingInvoiceComponent implements OnInit {
       this.search_term
     );
     this.listOfFilter = {
-      filter_po_list_type: 'pending-invoice',
+      filter_po_list_type: '4',
       filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
       filter_carrier: this.selectCarrier,
@@ -389,7 +389,7 @@ export class PendingInvoiceComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'pending-invoice',
+        filter_po_list_type: '4',
         filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
