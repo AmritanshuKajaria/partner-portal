@@ -145,15 +145,15 @@ export class InventoryFeedComponent implements OnInit {
   }
 
   // Create new authorized feed sender
-  newAuthorizedFeedSender() {
+  newAuthorizedFeedSender(value?: string | undefined) {
     return this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      email: [value ?? '', [Validators.required, Validators.email]],
     });
   }
 
   // Add authorized feed sender
-  addAuthorizedFeedSender() {
-    this.authorizedFeedSenders.push(this.newAuthorizedFeedSender());
+  addAuthorizedFeedSender(value?: string | undefined) {
+    this.authorizedFeedSenders.push(this.newAuthorizedFeedSender(value));
   }
 
   // Remove authorized feed sender
@@ -192,10 +192,7 @@ export class InventoryFeedComponent implements OnInit {
 
     this.authorizedFeedSenders.clear();
     data.authorizedFeedSenders.forEach((email: any) => {
-      const emailFormGroup = new FormGroup({
-        email: new FormControl(email), // Create a FormControl for email
-      });
-      this.authorizedFeedSenders.push(emailFormGroup); // Push FormGroup into FormArray
+      this.addAuthorizedFeedSender(email);
     });
   }
 
@@ -249,26 +246,6 @@ export class InventoryFeedComponent implements OnInit {
           );
           this.isSaving = false; // Ensure saving state is updated on error
         },
-      });
-    } else {
-      Object.values(this.inventoryFeedForm.controls).forEach((control) => {
-        if (control.invalid) {
-          if (control instanceof FormControl) {
-            control.markAsDirty();
-            control.updateValueAndValidity({ onlySelf: true });
-          }
-
-          if (control instanceof FormArray) {
-            control.controls.forEach((formGroup: any) => {
-              Object.values(formGroup.controls).forEach((arrayControl: any) => {
-                if (arrayControl.invalid) {
-                  arrayControl.markAsDirty();
-                  arrayControl.updateValueAndValidity({ onlySelf: true });
-                }
-              });
-            });
-          }
-        }
       });
     }
   }

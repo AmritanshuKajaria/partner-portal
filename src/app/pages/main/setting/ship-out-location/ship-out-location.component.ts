@@ -340,15 +340,6 @@ export class ShipOutLocationComponent implements OnInit {
           this.isSaving = false; // Ensure saving state is updated on error
         },
       });
-    } else {
-      Object.values(this.shipOutLocationForm.controls).forEach((control) => {
-        if (control.invalid) {
-          if (control instanceof FormControl) {
-            control.markAsDirty();
-            control.updateValueAndValidity({ onlySelf: true });
-          }
-        }
-      });
     }
   }
 
