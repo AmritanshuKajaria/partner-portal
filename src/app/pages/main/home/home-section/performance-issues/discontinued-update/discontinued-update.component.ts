@@ -27,9 +27,9 @@ export class DiscontinuedUpdateComponent implements OnInit {
 
   discontinuedUpdateList: any = [];
 
-  editData: { mpn: string; current: number; sku: string } = {
-    mpn: 'string',
-    current: 0,
+  editData: { mpn: string; current: string; sku: string } = {
+    mpn: '',
+    current: '',
     sku: '',
   };
   modelHeader: string = 'Add';
@@ -145,10 +145,10 @@ export class DiscontinuedUpdateComponent implements OnInit {
     window.open(`https://www.amazon.com/dp/${asin}`);
   }
 
-  matchValue(mpn: string, handling_time: number, sku: string) {
+  matchValue(mpn: string, catalog_status: string, sku: string) {
     this.editData = {
       mpn: mpn,
-      current: handling_time,
+      current: catalog_status,
       sku: sku,
     };
     this.editLabel = ['MPN', 'Current Product Status', 'New Product Status'];

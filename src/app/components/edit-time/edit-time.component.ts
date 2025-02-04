@@ -14,7 +14,7 @@ export class EditTimeComponent implements OnInit {
   @Input()
   editData!: {
     mpn: string;
-    current: number;
+    current: number | string;
     new?: number;
     extraData?: any;
     sku?: string;
