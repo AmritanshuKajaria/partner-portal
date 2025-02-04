@@ -96,9 +96,10 @@
             "
           >
             <nz-form-item>
-              <nz-form-label [nzSm]="10" [nzXs]="24">{{
-                editLabel[2]
-              }}</nz-form-label>
+              <nz-form-label [nzSm]="10" [nzXs]="24"
+                >{{ editLabel[2] }}
+                <span style="color: red; font-weight: 500">*</span>
+              </nz-form-label>
               <nz-form-control
                 [nzSm]="14"
                 [nzXs]="24"
@@ -138,7 +139,9 @@
             *ngIf="editTimeForm.controls['new'].value === 'Partner Restricted'"
           >
             <nz-form-label [nzSm]="10" [nzXs]="24"
-              >Restricted Reason</nz-form-label
+              >Restricted Reason<span style="color: red; font-weight: 500"
+                >*</span
+              ></nz-form-label
             >
             <nz-form-control
               [nzSm]="14"
