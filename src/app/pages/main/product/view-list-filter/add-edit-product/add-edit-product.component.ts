@@ -248,6 +248,11 @@ export class AddEditProductComponent implements OnInit {
     }
 
     // this.addEditProductForm.controls['number_of_boxes'].disable();
+
+    // Subscribe to valueChanges observable
+    this.addEditProductForm.valueChanges.subscribe((value) => {
+      this.onFormChange(value);
+    });
   }
 
   editProduct() {
@@ -357,15 +362,21 @@ export class AddEditProductComponent implements OnInit {
     }
   }
 
+  onFormChange(value: any): void {
+    if (
+      value.product_status === 'Partner Restricted' &&
+      !value.restricted_reason
+    ) {
+      this.addEditProductForm.controls['restricted_reason'].setValidators([
+        Validators.required,
+      ]);
+    } else {
+      this.addEditProductForm.controls['restricted_reason'].clearValidators();
+    }
+  }
+
   submitForm(): void {
     if (this.addEditProductForm.valid) {
-      if (
-        this.addEditProductForm.controls['product_status'].value ===
-          'Partner Restricted' &&
-        !this.addEditProductForm.controls['restricted_reason'].value
-      ) {
-        return;
-      }
       this.isLoading = true;
       let data: any = {
         mpn: this.addEditProductForm.value.mpn,
