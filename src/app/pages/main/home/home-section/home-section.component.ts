@@ -260,6 +260,7 @@ export class HomeSectionComponent implements OnInit {
     //   },
     //   (err) => (this.isLoading = false)
     // );
+    this.dashboardService.getAllIssues();
   }
 
   createChart(

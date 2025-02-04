@@ -230,7 +230,7 @@ export class PendingShipmentComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'Pending Shipment',
+        filter_po_list_type: '2',
         filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
@@ -288,7 +288,7 @@ export class PendingShipmentComponent implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'Pending Shipment',
+          filter_po_list_type: '2',
           filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
           filter_carrier: this.selectCarrier,
@@ -334,7 +334,7 @@ export class PendingShipmentComponent implements OnInit {
       this.search_term
     );
     this.listOfFilter = {
-      filter_po_list_type: 'Pending Shipment',
+      filter_po_list_type: '2',
       filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
       filter_carrier: this.selectCarrier,
@@ -385,7 +385,7 @@ export class PendingShipmentComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'Pending Shipment',
+        filter_po_list_type: '2',
         filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,

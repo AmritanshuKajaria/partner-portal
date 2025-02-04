@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { restrictedReasonList } from 'src/app/shared/constants/constants';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -25,6 +26,7 @@ export class EditTimeComponent implements OnInit {
   editTimeForm!: FormGroup;
   isLoading: boolean = false;
   submitError: boolean = false;
+  restrictedReasonList: string[] = restrictedReasonList;
 
   referenceCode = '';
 
@@ -35,6 +37,7 @@ export class EditTimeComponent implements OnInit {
   ngOnInit(): void {
     this.editTimeForm = new FormGroup({
       new: new FormControl('', [Validators.required]),
+      restricted_reason: new FormControl(''),
     });
     if (this.editData?.new) {
       this.editTimeForm.patchValue({ new: this.editData?.new });
@@ -44,6 +47,12 @@ export class EditTimeComponent implements OnInit {
   submit() {
     this.submitError = true;
     if (this.editTimeForm.valid) {
+      if (
+        this.editTimeForm.controls['new'].value === 'Partner Restricted' &&
+        !this.editTimeForm.controls['restricted_reason'].value
+      ) {
+        return;
+      }
       this.isLoading = true;
       let data: any = {
         product: {
@@ -70,6 +79,10 @@ export class EditTimeComponent implements OnInit {
         case 'Discontinued Update':
           data.product['product_status'] = this.editTimeForm.value.new;
           break;
+      }
+      if (this.editTimeForm.value.restricted_reason) {
+        data.product['restricted_reason'] =
+          this.editTimeForm.value.restricted_reason;
       }
       this.productService.editProduct(data).subscribe({
         next: (res: any) => {

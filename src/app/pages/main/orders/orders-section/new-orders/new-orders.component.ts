@@ -165,7 +165,7 @@ export class NewOrdersComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'New',
+        filter_po_list_type: '1',
         filter_ship_out_location: this.selectLocation,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
@@ -197,7 +197,7 @@ export class NewOrdersComponent implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'New',
+          filter_po_list_type: '1',
           filter_ship_out_location: this.selectLocation,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
@@ -227,7 +227,7 @@ export class NewOrdersComponent implements OnInit {
       this.selectRangeDate[1]
     );
     this.listOfFilter = {
-      filter_po_list_type: 'New',
+      filter_po_list_type: '1',
       filter_ship_out_location: this.selectLocation,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
@@ -262,7 +262,7 @@ export class NewOrdersComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'New',
+        filter_po_list_type: '1',
         filter_ship_out_location: this.selectLocation,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
