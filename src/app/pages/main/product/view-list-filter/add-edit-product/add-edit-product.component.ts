@@ -127,7 +127,10 @@ export class AddEditProductComponent implements OnInit {
         Validators.min(1),
         Validators.max(10),
       ]),
-      product_status: new FormControl('active'),
+      product_status: new FormControl(
+        'Active',
+        this.editSection ? [Validators.required] : []
+      ),
       restricted_reason: new FormControl(''),
       shipping_dimensions_of_box: this.formBuilder.array([]),
     });
@@ -356,6 +359,13 @@ export class AddEditProductComponent implements OnInit {
 
   submitForm(): void {
     if (this.addEditProductForm.valid) {
+      if (
+        this.addEditProductForm.controls['product_status'].value ===
+          'Partner Restricted' &&
+        !this.addEditProductForm.controls['restricted_reason'].value
+      ) {
+        return;
+      }
       this.isLoading = true;
       let data: any = {
         mpn: this.addEditProductForm.value.mpn,
@@ -373,7 +383,11 @@ export class AddEditProductComponent implements OnInit {
         shipping_method: this.addEditProductForm.value.shipping_Method,
         product_status: this.addEditProductForm.value.product_status,
         number_of_boxes: this.addEditProductForm.value.number_of_boxes ?? 1,
-        restricted_reason: this.addEditProductForm.value.restricted_reason,
+        restricted_reason:
+          this.addEditProductForm.controls['product_status'].value ===
+          'Partner Restricted'
+            ? this.addEditProductForm.controls['restricted_reason'].value
+            : '',
       };
       let dimensions: any[] = [];
       this.shippingDimensionsOfBoxes.value.map((res: any, index: number) => {
