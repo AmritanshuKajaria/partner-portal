@@ -151,6 +151,8 @@ export class ExportModelComponent implements OnInit {
     } else if (this.sectionName === 'promotion') {
       let filters: any = {};
 
+      filters['filter_open'] = this.listOfFilter?.filter_open;
+
       filters['filter_promo_status'] = this.exportType
         ? this.listOfFilter?.promo_status
         : '';
