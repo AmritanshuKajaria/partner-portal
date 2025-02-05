@@ -1,11 +1,11 @@
-<div class="return-in-transit-section">
+<div class="return-delivered">
   <app-return-table
     [listOfData]="returnReceivedList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
-    [tabName]="'Return Received'"
+    [tabName]="'returnDelivered'"
     (pageChange)="pageIndexChange($event)"
     (searchChange)="searchDataChanges($event)"
   ></app-return-table>

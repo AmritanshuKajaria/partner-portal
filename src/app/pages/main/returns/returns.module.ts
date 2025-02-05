@@ -8,9 +8,9 @@ import { ListNgZorroModule } from 'src/app/shared/list-ng-zorro/list-ng-zorro.mo
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReturnInitiatedComponent } from './return-section/return-initiated/return-initiated.component';
-import { ReturnInTransitComponent } from './return-section/return-in-transit/return-in-transit.component';
-import { ReturnReceivedComponent } from './return-section/return-received/return-received.component';
-import { InCarrierClaimsComponent } from './return-section/in-carrier-claims/in-carrier-claims.component';
+import { ReturnShipped } from './return-section/return-shipped/return-shipped.component';
+import { ReturnDelivered } from './return-section/return-delivered/return-delivered.component';
+import { CarrierClaims } from './return-section/carrier-claims/carrier-claims.component';
 import { AllReturnComponent } from './return-section/all-return/all-return.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { ReturnApproveComponent } from './return-section/return-approve/return-approve.component';
@@ -20,9 +20,9 @@ import { ReturnTableComponent } from './return-section/return-table/return-table
   declarations: [
     ReturnSectionComponent,
     ReturnInitiatedComponent,
-    ReturnInTransitComponent,
-    ReturnReceivedComponent,
-    InCarrierClaimsComponent,
+    ReturnShipped,
+    ReturnDelivered,
+    CarrierClaims,
     AllReturnComponent,
     ReturnApproveComponent,
     ReturnTableComponent,

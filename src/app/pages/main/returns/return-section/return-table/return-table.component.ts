@@ -63,9 +63,9 @@ export class ReturnTableComponent implements OnInit {
   }
 
   selectAction(data: string) {
-    if (data === 'Return Received') {
+    if (data === 'returnDelivered') {
       this.approveCreditModelVisible = true;
-    } else if (data === 'Return Initiated') {
+    } else if (data === 'returnInitiated') {
       this.addRaVisible = true;
     }
   }

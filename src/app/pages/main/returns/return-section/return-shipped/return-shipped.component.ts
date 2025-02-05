@@ -8,11 +8,11 @@ import {
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
-  selector: 'app-return-in-transit',
-  templateUrl: './return-in-transit.component.html',
-  styleUrls: ['./return-in-transit.component.scss'],
+  selector: 'app-return-shipped',
+  templateUrl: './return-shipped.component.html',
+  styleUrls: ['./return-shipped.component.scss'],
 })
-export class ReturnInTransitComponent implements OnInit {
+export class ReturnShipped implements OnInit {
   isLoading: boolean = false;
   total = 1;
   pageSize = 100;

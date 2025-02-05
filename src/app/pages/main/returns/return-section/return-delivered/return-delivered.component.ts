@@ -9,11 +9,11 @@ import {
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
-  selector: 'app-return-received',
-  templateUrl: './return-received.component.html',
-  styleUrls: ['./return-received.component.scss'],
+  selector: 'app-return-delivered',
+  templateUrl: './return-delivered.component.html',
+  styleUrls: ['./return-delivered.component.scss'],
 })
-export class ReturnReceivedComponent implements OnInit {
+export class ReturnDelivered implements OnInit {
   isLoading: boolean = false;
   total = 1;
   pageSize = 100;

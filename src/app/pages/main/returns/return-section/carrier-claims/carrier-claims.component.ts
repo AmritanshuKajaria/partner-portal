@@ -9,11 +9,11 @@ import {
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
-  selector: 'app-in-carrier-claims',
-  templateUrl: './in-carrier-claims.component.html',
-  styleUrls: ['./in-carrier-claims.component.scss'],
+  selector: 'app-carrier-claims',
+  templateUrl: './carrier-claims.component.html',
+  styleUrls: ['./carrier-claims.component.scss'],
 })
-export class InCarrierClaimsComponent implements OnInit {
+export class CarrierClaims implements OnInit {
   isLoading: boolean = false;
   total = 1;
   pageSize = 100;

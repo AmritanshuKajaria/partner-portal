@@ -59,38 +59,38 @@
         <th>Customer Name</th>
         <th
           *ngIf="
-            tabName === 'Return In-Transit' ||
-            tabName === 'Return Received' ||
-            tabName === 'In Carrier Claims' ||
-            tabName === 'All'
+            tabName === 'returnShipped' ||
+            tabName === 'returnDelivered' ||
+            tabName === 'carrierClaims' ||
+            tabName === 'all'
           "
         >
           Return Classification
         </th>
         <th>MPN</th>
-        <th *ngIf="tabName === 'Return Initiated'">Return Classification</th>
+        <th *ngIf="tabName === 'returnInitiated'">Return Classification</th>
         <th
           *ngIf="
-            tabName === 'Return In-Transit' ||
-            tabName === 'Return Received' ||
-            tabName === 'In Carrier Claims' ||
-            tabName === 'All'
+            tabName === 'returnShipped' ||
+            tabName === 'returnDelivered' ||
+            tabName === 'carrierClaims' ||
+            tabName === 'all'
           "
         >
           RA Number
         </th>
         <th
           *ngIf="
-            tabName === 'Return In-Transit' ||
-            tabName === 'Return Received' ||
-            tabName === 'In Carrier Claims' ||
-            tabName === 'All'
+            tabName === 'returnShipped' ||
+            tabName === 'returnDelivered' ||
+            tabName === 'carrierClaims' ||
+            tabName === 'all'
           "
         >
           Tracking No.
         </th>
-        <th *ngIf="tabName !== 'All'">Action</th>
-        <th *ngIf="tabName === 'All'">Status</th>
+        <th *ngIf="tabName !== 'all'">Action</th>
+        <th *ngIf="tabName === 'all'">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -107,10 +107,10 @@
           <td nzBreakWord>{{ data?.customer_name }}</td>
           <td
             *ngIf="
-              tabName === 'Return In-Transit' ||
-              tabName === 'Return Received' ||
-              tabName === 'In Carrier Claims' ||
-              tabName === 'All'
+              tabName === 'returnShipped' ||
+              tabName === 'returnDelivered' ||
+              tabName === 'carrierClaims' ||
+              tabName === 'all'
             "
             class="no-wrap"
           >
@@ -136,15 +136,15 @@
               </li>
             </ul>
           </td>
-          <td class="no-wrap" *ngIf="tabName === 'Return Initiated'">
+          <td class="no-wrap" *ngIf="tabName === 'returnInitiated'">
             {{ data?.return_classification }}
           </td>
           <td
             *ngIf="
-              tabName === 'Return In-Transit' ||
-              tabName === 'Return Received' ||
-              tabName === 'In Carrier Claims' ||
-              tabName === 'All'
+              tabName === 'returnShipped' ||
+              tabName === 'returnDelivered' ||
+              tabName === 'carrierClaims' ||
+              tabName === 'all'
             "
           >
             <span *ngFor="let ra of data?.ra_number">
@@ -162,10 +162,10 @@
           </td>
           <td
             *ngIf="
-              tabName === 'Return In-Transit' ||
-              tabName === 'Return Received' ||
-              tabName === 'In Carrier Claims' ||
-              tabName === 'All'
+              tabName === 'returnShipped' ||
+              tabName === 'returnDelivered' ||
+              tabName === 'carrierClaims' ||
+              tabName === 'all'
             "
           >
             <div>
@@ -182,7 +182,7 @@
           </td>
           <td>
             <button
-              *ngIf="tabName === 'Return In-Transit'"
+              *ngIf="tabName === 'returnShipped'"
               style="height: 35px"
               nz-button
               class="action-button"
@@ -193,7 +193,7 @@
             <div
               class="action-td"
               *ngIf="
-                tabName === 'Return Received' || tabName === 'In Carrier Claims'
+                tabName === 'returnDelivered' || tabName === 'carrierClaims'
               "
             >
               <button
@@ -201,14 +201,14 @@
                 nz-button
                 class="action-button"
                 [nzType]="'primary'"
-                (click)="selectAction('Return Received')"
+                (click)="selectAction('returnDelivered')"
               >
                 Approve Credit
               </button>
               <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
-                  <li (click)="selectAction('Return Received')" nz-menu-item>
+                  <li (click)="selectAction('returnDelivered')" nz-menu-item>
                     Reclassify Customer Reason to Buyers Remorse
                   </li>
                   <li nz-menu-item>Report ‘Carrier Damage’</li>
@@ -217,18 +217,18 @@
               </nz-dropdown-menu>
             </div>
             <app-status-badge
-              *ngIf="tabName === 'All'"
+              *ngIf="tabName === 'all'"
               [type]="statusEnum.Success"
               [text]="data?.refund_status"
             ></app-status-badge>
 
             <button
-              *ngIf="tabName === 'Return Initiated'"
+              *ngIf="tabName === 'returnInitiated'"
               style="height: 35px"
               nz-button
               class="action-button"
               [nzType]="'primary'"
-              (click)="selectAction('Return Initiated')"
+              (click)="selectAction('returnInitiated')"
             >
               Add RA#
             </button>
