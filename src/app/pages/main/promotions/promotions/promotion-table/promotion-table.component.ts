@@ -65,7 +65,7 @@ export class PromotionTableComponent implements OnInit {
   }
   ngOnInit(): void {
     this.listOfFilter = {
-      filter_open: this.tabName === 'Scheduled Promotions' ? 'True' : 'False',
+      filter_open: this.tabName === 'Scheduled Promotions' ? true : false,
     };
 
     this.filter = new FormGroup({
