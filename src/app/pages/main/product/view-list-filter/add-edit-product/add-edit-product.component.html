@@ -445,7 +445,14 @@
             [nzSm]="24"
             [nzXl]="12"
           >
-            <nz-form-control [nzErrorTip]="restricted_reason">
+            <nz-form-control
+              [nzValidateStatus]="
+                !addEditProductForm.controls['restricted_reason'].value
+                  ? 'error'
+                  : ''
+              "
+              nzErrorTip="Please input your restricted reason"
+            >
               <nz-form-label nzFor="restricted_reason"
                 >Restricted Reason
                 <span style="color: red; font-weight: 500">*</span>
@@ -461,11 +468,6 @@
                   [nzValue]="item"
                 ></nz-option>
               </nz-select>
-              <ng-template #restricted_reason let-control>
-                <ng-container *ngIf="control.hasError('required')"
-                  >Please input your restricted reason</ng-container
-                >
-              </ng-template>
             </nz-form-control>
           </nz-form-item>
           <nz-form-item nz-col class="gutter-row" [nzSm]="24" [nzXl]="12">
