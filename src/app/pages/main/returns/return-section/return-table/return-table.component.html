@@ -54,31 +54,39 @@
   >
     <thead>
       <tr>
-        <th>PO</th>
-        <th>Invoice</th>
+        <th>PO #</th>
+        <th>Invoice No.</th>
         <th>Customer Name</th>
+
+        <th
+          *ngIf="
+            tabName === 'returnDelivered' ||
+            tabName === 'carrierClaims' ||
+            tabName === 'all'
+          "
+        >
+          Return Delivery Date
+        </th>
+        <th
+          *ngIf="
+            tabName === 'returnDelivered' ||
+            tabName === 'carrierClaims' ||
+            tabName === 'all'
+          "
+        >
+          Credit Amount Due
+        </th>
+        <th>MPN</th>
         <th
           *ngIf="
             tabName === 'returnShipped' ||
             tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
-            tabName === 'all'
+            tabName === 'returnInitiated'
           "
         >
           Return Classification
         </th>
-        <th>MPN</th>
-        <th *ngIf="tabName === 'returnInitiated'">Return Classification</th>
-        <th
-          *ngIf="
-            tabName === 'returnShipped' ||
-            tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
-            tabName === 'all'
-          "
-        >
-          RA Number
-        </th>
+        <th *ngIf="tabName === 'returnShipped'">RA Number</th>
         <th
           *ngIf="
             tabName === 'returnShipped' ||
@@ -89,8 +97,16 @@
         >
           Tracking No.
         </th>
-        <th *ngIf="tabName !== 'all'">Action</th>
-        <th *ngIf="tabName === 'all'">Status</th>
+        <th
+          *ngIf="
+            tabName === 'returnShipped' ||
+            tabName === 'returnDelivered' ||
+            tabName === 'returnInitiated'
+          "
+        >
+          Action
+        </th>
+        <th *ngIf="tabName === 'carrierClaims' || tabName === 'all'">Status</th>
       </tr>
     </thead>
     <tbody>
@@ -105,20 +121,40 @@
           </td>
           <td class="no-wrap">{{ data?.invoice_no }}</td>
           <td nzBreakWord>{{ data?.customer_name }}</td>
+
           <td
             *ngIf="
-              tabName === 'returnShipped' ||
               tabName === 'returnDelivered' ||
               tabName === 'carrierClaims' ||
               tabName === 'all'
             "
-            class="no-wrap"
           >
-            {{ data?.return_classification }}
+            <span class="date">
+              {{
+                data.return_delivery_date
+                  ? (data.return_delivery_date | customDate)
+                  : ""
+              }}
+            </span>
+          </td>
+          <td
+            *ngIf="
+              tabName === 'returnDelivered' ||
+              tabName === 'carrierClaims' ||
+              tabName === 'all'
+            "
+          >
+            {{ data?.credit_amount_due | currency }}
           </td>
           <td>
             <div>
-              <b class="no-wrap">{{ data?.porduct_mpn }}</b>
+              <a
+                (click)="
+                  navigatePage('products/details', { sku: data?.porduct_mpn })
+                "
+                class="link no-wrap"
+                >{{ data?.porduct_mpn }}</a
+              >
             </div>
             <ul class="sub-section">
               <li class="no-wrap">
@@ -136,17 +172,17 @@
               </li>
             </ul>
           </td>
-          <td class="no-wrap" *ngIf="tabName === 'returnInitiated'">
-            {{ data?.return_classification }}
-          </td>
           <td
             *ngIf="
               tabName === 'returnShipped' ||
               tabName === 'returnDelivered' ||
-              tabName === 'carrierClaims' ||
-              tabName === 'all'
+              tabName === 'returnInitiated'
             "
+            class="no-wrap"
           >
+            {{ data?.return_classification }}
+          </td>
+          <td *ngIf="tabName === 'returnShipped'">
             <span *ngFor="let ra of data?.ra_number">
               <div>
                 <b class="no-wrap">{{ ra?.name }}</b>
@@ -181,60 +217,122 @@
             </ul>
           </td>
           <td>
-            <button
-              *ngIf="tabName === 'returnShipped'"
-              style="height: 35px"
-              nz-button
-              class="action-button"
-              [nzType]="'primary'"
-            >
-              Mark as Received
-            </button>
-            <div
-              class="action-td"
-              *ngIf="
-                tabName === 'returnDelivered' || tabName === 'carrierClaims'
-              "
-            >
-              <button
-                style="height: 35px"
-                nz-button
-                class="action-button"
-                [nzType]="'primary'"
-                (click)="selectAction('returnDelivered')"
-              >
-                Approve Credit
-              </button>
-              <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
-              <nz-dropdown-menu #menu="nzDropdownMenu">
-                <ul nz-menu>
-                  <li (click)="selectAction('returnDelivered')" nz-menu-item>
-                    Reclassify Customer Reason to Buyers Remorse
-                  </li>
-                  <li nz-menu-item>Report ‘Carrier Damage’</li>
-                  <li nz-menu-item>Return Not Received - Mark as Lost</li>
-                </ul>
-              </nz-dropdown-menu>
+            <div style="display: flex" *ngIf="tabName === 'returnShipped'">
+              <div class="action-btn">
+                <button
+                  style="
+                    border: 1px solid #28a745;
+                    color: #28a745;
+                    margin-bottom: 8px;
+                  "
+                  nz-button
+                  (click)="markAsReceived(data?.po_no)"
+                >
+                  Mark as Received
+                </button>
+                <button
+                  style="border: 1px solid #2121c3; color: #2121c3"
+                  nz-button
+                  (click)="selectAction('returnInitiated')"
+                >
+                  Add RA#
+                </button>
+              </div>
+              <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
+            <div style="display: flex" *ngIf="tabName === 'returnDelivered'">
+              <div class="action-btn">
+                <button
+                  style="
+                    border: 1px solid #28a745;
+                    color: #28a745;
+                    margin-bottom: 8px;
+                  "
+                  nz-button
+                  nz-dropdown
+                  [nzDropdownMenu]="returnMenu"
+                  nzTrigger="click"
+                >
+                  Approve Credit
+                </button>
+              </div>
+              <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
+            </div>
+
             <app-status-badge
-              *ngIf="tabName === 'all'"
+              *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
               [type]="statusEnum.Success"
               [text]="data?.refund_status"
             ></app-status-badge>
 
-            <button
+            <div
+              class="action-btn"
+              style="display: flex; align-items: center"
               *ngIf="tabName === 'returnInitiated'"
-              style="height: 35px"
-              nz-button
-              class="action-button"
-              [nzType]="'primary'"
-              (click)="selectAction('returnInitiated')"
             >
-              Add RA#
-            </button>
+              <button
+                (click)="selectAction('returnInitiated')"
+                style="border: 1px solid #28a745; color: #28a745"
+                nz-button
+              >
+                Add RA#
+              </button>
+              <ng-container [ngTemplateOutlet]="dots"></ng-container>
+            </div>
+
+            <ng-template #dots>
+              <app-three-dot-menu-btn
+                style="margin-left: 20px"
+                [menu]="menu"
+              ></app-three-dot-menu-btn>
+              <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                  <li
+                    (click)="selectAction('returnClarification')"
+                    nz-menu-item
+                  >
+                    Return Clarification
+                  </li>
+                </ul>
+              </nz-dropdown-menu>
+            </ng-template>
           </td>
         </tr>
       </ng-template>
+
+      <nz-dropdown-menu #returnMenu="nzDropdownMenu">
+        <ul nz-menu>
+          <li nz-menu-item (click)="selectAction('returnDelivered')">
+            Approve Credit
+          </li>
+          <li nz-menu-item (click)="selectAction('uploadCreditNote')">
+            Upload Credit Note
+          </li>
+        </ul>
+      </nz-dropdown-menu>
+
+      <nz-dropdown-menu #menu="nzDropdownMenu">
+        <ul nz-menu>
+          <li
+            nz-dropdown
+            [nzDropdownMenu]="returnMenu"
+            nzTrigger="click"
+            nz-menu-item
+          >
+            Reclassify Return to Buyer’s Remorse
+          </li>
+          <li nz-menu-item (click)="selectAction('appReportCarrierDamage')">
+            Report Carrier Damage
+          </li>
+          <li
+            nz-menu-item
+            (click)="markAsLost(data?.po_no)"
+            *ngFor="let data of listOfData"
+          >
+            Return not received – Mark as Lost
+          </li>
+        </ul>
+      </nz-dropdown-menu>
     </tbody>
   </nz-table>
 </div>
@@ -299,6 +397,20 @@
   </ng-container>
 </nz-modal>
 
+<!-- Return Clarification modal-->
+<nz-modal
+  [(nzVisible)]="ReturnClarification"
+  [nzTitle]="'Return Clarification (Return # ' + 123 + ')'"
+  (nzOnCancel)="ReturnClarification = false"
+>
+  <ng-container *nzModalContent>
+    <app-po-clarification
+      [poNo]="'123'"
+      (close)="ReturnClarification = false"
+    ></app-po-clarification>
+  </ng-container>
+</nz-modal>
+
 <!-- Approve credit Modal -->
 <nz-modal
   [(nzVisible)]="approveCreditModelVisible"
@@ -306,10 +418,35 @@
   (nzOnCancel)="approveCreditModelVisible = false"
 >
   <ng-container *nzModalContent>
-    <app-return-approve
+    <app-approve-credit
       (closeModal)="approveCreditModelVisible = false"
-      (submitModal)="approveCreditSubmitForm()"
-    ></app-return-approve>
+    ></app-approve-credit>
+  </ng-container>
+</nz-modal>
+
+<!-- Upload Credit Note Modal -->
+<nz-modal
+  [(nzVisible)]="uploadCreditNoteModalVisible"
+  nzTitle="Upload Credit Note"
+  (nzOnCancel)="uploadCreditNoteModalVisible = false"
+>
+  <ng-container *nzModalContent>
+    <app-upload-credit-note
+      (closeModal)="uploadCreditNoteModalVisible = false"
+    ></app-upload-credit-note>
+  </ng-container>
+</nz-modal>
+
+<!-- App Report Carrier Damage Modal -->
+<nz-modal
+  [(nzVisible)]="appReportCarrierDamageModalVisible"
+  nzTitle="PO# 123456"
+  (nzOnCancel)="appReportCarrierDamageModalVisible = false"
+>
+  <ng-container *nzModalContent>
+    <app-report-carrier-damage
+      (closeModal)="appReportCarrierDamageModalVisible = false"
+    ></app-report-carrier-damage>
   </ng-container>
 </nz-modal>
 

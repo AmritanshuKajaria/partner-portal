@@ -15,6 +15,10 @@ import { AllReturnComponent } from './return-section/all-return/all-return.compo
 import { ComponentModule } from 'src/app/components/component.module';
 import { ReturnApproveComponent } from './return-section/return-approve/return-approve.component';
 import { ReturnTableComponent } from './return-section/return-table/return-table.component';
+import { SharedModule } from '../../../shared/shared.module';
+import { ApproveCredit } from './return-section/forms/approve-credit/approve-credit.component';
+import { UploadCreditNote } from './return-section/forms/upload-credit-note/upload-credit-note.component';
+import { ReportCarrierDamage } from './return-section/forms/report-carrier-damage/report-carrier-damage.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,9 @@ import { ReturnTableComponent } from './return-section/return-table/return-table
     CarrierClaims,
     AllReturnComponent,
     ReturnApproveComponent,
+    ApproveCredit,
+    UploadCreditNote,
+    ReportCarrierDamage,
     ReturnTableComponent,
   ],
   imports: [
@@ -36,6 +43,7 @@ import { ReturnTableComponent } from './return-section/return-table/return-table
     ReactiveFormsModule,
     FormsModule,
     ComponentModule,
+    SharedModule,
   ],
 })
 export class ReturnsModule {}

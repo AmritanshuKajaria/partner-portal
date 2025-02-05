@@ -1,0 +1,98 @@
+<div class="return-approve">
+  <div class="model-section">
+    <form nz-form [formGroup]="uploadCreditNoteForm">
+      <nz-form-item>
+        <nz-form-label [nzXs]="6">Add Custom CN</nz-form-label>
+        <nz-form-control nzErrorTip="CN is required!">
+          <nz-input-group>
+            <input
+              formControlName="cn"
+              type="text"
+              nz-input
+              placeholder="Enter An CN"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+      <nz-form-item>
+        <nz-form-label [nzXs]="6" nzRequired>Upload File</nz-form-label>
+        <div class="Neon Neon-theme-dragdropbox">
+          <input
+            style="
+              z-index: 999;
+              opacity: 0;
+              width: 320px;
+              height: 160px;
+              position: absolute;
+              right: 0px;
+              left: 0px;
+              margin-right: auto;
+              margin-left: auto;
+            "
+            name="files[]"
+            id="filer_input2"
+            multiple="multiple"
+            type="file"
+            formControlName="uploadCreditNote"
+            (change)="selectFiles($event)"
+            #modelvel
+          />
+
+          <div class="Neon-input-dragDrop">
+            <div
+              *ngIf="modelvel.value == ''; else elseBlock"
+              class="Neon-input-inner"
+            >
+              <div class="Neon-input-icon">
+                <i class="fa fa-file-image-o"></i>
+              </div>
+              <div class="Neon-input-text">
+                <h3>Drag&amp;Drop files here</h3>
+                <span style="display: inline-block; margin: 15px 0">or</span>
+              </div>
+              <a class="Neon-input-choose-btn blue">Browse Files</a>
+            </div>
+            <ng-template #elseBlock
+              ><span nz-icon nzType="file" nzTheme="outline"></span>
+              {{ uploadCreditNoteForm.value.uploadCreditNote }}</ng-template
+            >
+          </div>
+        </div>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="model-footer">
+    <div class="model-action">
+      <button
+        nz-button
+        nzType="default"
+        style="color: black; margin-right: 5px"
+        (click)="close()"
+      >
+        Cancel
+      </button>
+      <button
+        nz-button
+        class="action-button"
+        (click)="submitForm()"
+        [nzType]="'primary'"
+        [disabled]="!uploadCreditNoteForm.get('uploadCreditNote')?.value"
+        style="height: 35px; margin-top: 0px; margin-right: 10px"
+      >
+        <span
+          *ngIf="isLoading"
+          style="color: white; font-size: 16px"
+          nz-icon
+          nzType="loading"
+        ></span>
+        <span
+          *ngIf="!isLoading"
+          nz-icon
+          nzType="file-text"
+          nzTheme="outline"
+        ></span>
+        Save
+      </button>
+    </div>
+  </div>
+</div>

@@ -23,13 +23,21 @@
     }
   }
 
-  .action-td {
-    display: flex;
-    align-items: center;
-
+  .action-btn {
+    padding: 6px;
     button {
-      margin: 5px;
+      border-radius: 5px;
+      font-size: 14px;
+      font-weight: 600;
+      height: 27px !important;
+      padding: 0 10px !important;
+      margin-right: 5px;
+      width: 140px;
     }
+  }
+
+  .date {
+    white-space: nowrap !important;
   }
 }
 

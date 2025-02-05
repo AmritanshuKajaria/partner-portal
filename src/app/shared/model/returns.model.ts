@@ -49,6 +49,8 @@ export interface SingleReturn {
   customer_name: string;
   porduct_mpn: string;
   porduct_qty: number;
+  return_delivery_date: string;
+  credit_amount_due: number;
   return_qty: number;
   return_classification: string;
   refund_status?: string;

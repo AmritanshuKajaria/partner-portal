@@ -45,10 +45,12 @@ export class ReturnService {
           po_no: 'RAZ-7591',
           invoice_no: '3707018-00',
           customer_name: 'Lavinia Macovschi ',
-          porduct_mpn: '13013208',
+          porduct_mpn: '123-TAC-1015',
           porduct_qty: 1,
           return_qty: 1,
           return_classification: 'mis-ship',
+          return_delivery_date: '2024-12-01',
+          credit_amount_due: 100.5,
           refund_status: 'Refund Completed',
           tracking: {
             name: 'Ekart Logistics',

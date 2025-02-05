@@ -1,0 +1,60 @@
+<div class="return-approve">
+  <div class="model-section">
+    <form nz-form [formGroup]="approveCreditForm">
+      <nz-upload
+        class="avatar-uploader"
+        nzAction=""
+        nzName="avatar"
+        nzListType="picture-card"
+        [nzShowUploadList]="false"
+        (nzChange)="selectFiles($event)"
+      >
+        <ng-container *ngIf="!avatarUrl; else uploadedImage">
+          <span
+            class="upload-icon"
+            nz-icon
+            [nzType]="loading ? 'loading' : 'plus'"
+          ></span>
+          <div class="ant-upload-text">Upload</div>
+        </ng-container>
+        <ng-template #uploadedImage>
+          <img [src]="avatarUrl" style="width: 100%" />
+        </ng-template>
+      </nz-upload>
+    </form>
+  </div>
+  <div class="model-footer">
+    <div class="model-action">
+      <button
+        nz-button
+        nzType="default"
+        style="color: black; margin-right: 5px"
+        (click)="close()"
+      >
+        Cancel
+      </button>
+      <button
+        nz-button
+        class="action-button"
+        (click)="submitForm()"
+        [nzType]="'primary'"
+        [disabled]="!approveCreditForm.get('uploadCreditNote')?.value"
+        style="height: 35px; margin-top: 0px; margin-right: 10px"
+      >
+        <span
+          *ngIf="isLoading"
+          style="color: white; font-size: 16px"
+          nz-icon
+          nzType="loading"
+        ></span>
+        <span
+          *ngIf="!isLoading"
+          nz-icon
+          nzType="file-text"
+          nzTheme="outline"
+        ></span>
+        Save
+      </button>
+    </div>
+  </div>
+</div>

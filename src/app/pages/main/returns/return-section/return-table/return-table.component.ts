@@ -8,6 +8,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { SingleReturn } from 'src/app/shared/model/returns.model';
@@ -40,10 +42,13 @@ export class ReturnTableComponent implements OnInit {
   isExportVisible: boolean = false;
   approveCreditModelVisible: boolean = false;
   listOfFilter: any = '';
+  ReturnClarification: boolean = false;
+  uploadCreditNoteModalVisible: boolean = false;
+  appReportCarrierDamageModalVisible: boolean = false;
 
   pageSizeOptions = [100];
 
-  constructor() {
+  constructor(private router: Router, private modal: NzModalService) {
     this.accountSearch
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
@@ -67,6 +72,12 @@ export class ReturnTableComponent implements OnInit {
       this.approveCreditModelVisible = true;
     } else if (data === 'returnInitiated') {
       this.addRaVisible = true;
+    } else if (data === 'returnClarification') {
+      this.ReturnClarification = true;
+    } else if (data === 'uploadCreditNote') {
+      this.uploadCreditNoteModalVisible = true;
+    } else if (data === 'appReportCarrierDamage') {
+      this.appReportCarrierDamageModalVisible = true;
     }
   }
 
@@ -90,5 +101,35 @@ export class ReturnTableComponent implements OnInit {
 
   handleCancel() {
     this.isExportVisible = false;
+  }
+
+  // for - if path include / ex sku: 10243/25
+  navigatePage(path: string, queryParams?: any) {
+    this.router.navigate([`/main/${path}`], { queryParams });
+  }
+
+  markAsReceived(po_no: any) {
+    this.modal.confirm({
+      nzTitle: 'Are you sure you want to mark this return as received?',
+      nzOnOk: () => {
+        console.log(po_no);
+      },
+      nzCancelText: 'Close',
+      nzOnCancel: () => console.log('Close'),
+      nzOkLoading: this.isLoading,
+    });
+  }
+
+  markAsLost(po_no: any) {
+    this.modal.confirm({
+      nzTitle:
+        'Are you sure you want to file a claim with the carrier for this return?',
+      nzOnOk: () => {
+        console.log(po_no);
+      },
+      nzCancelText: 'Close',
+      nzOnCancel: () => console.log('Close'),
+      nzOkLoading: this.isLoading,
+    });
   }
 }
