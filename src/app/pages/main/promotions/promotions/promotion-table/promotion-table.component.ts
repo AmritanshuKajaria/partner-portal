@@ -48,7 +48,7 @@ export class PromotionTableComponent implements OnInit {
   badgeTotal: number = 0;
   searchForm!: FormGroup;
   isExportVisible: boolean = false;
-  listOfFilter: any = '';
+  listOfFilter: any = {};
   statusEnum: typeof StatusEnum = StatusEnum;
 
   constructor(
@@ -64,6 +64,10 @@ export class PromotionTableComponent implements OnInit {
       });
   }
   ngOnInit(): void {
+    this.listOfFilter = {
+      filter_open: this.tabName === 'Scheduled Promotions' ? 'True' : 'False',
+    };
+
     this.filter = new FormGroup({
       date: new FormControl(''),
       status: new FormControl(''),
@@ -178,6 +182,7 @@ export class PromotionTableComponent implements OnInit {
     this.clear_btn = false;
     this.filter.reset();
     this.listOfFilter = {
+      ...this.listOfFilter,
       promo_status: this.selectStatus ?? '',
       start_date: this.selectDate[0] ?? '',
       end_date: this.selectDate[1] ?? '',
@@ -202,6 +207,7 @@ export class PromotionTableComponent implements OnInit {
           break;
       }
       this.listOfFilter = {
+        ...this.listOfFilter,
         promo_status: this.selectStatus ?? '',
         start_date: this.selectDate[0] ?? '',
         end_date: this.selectDate[1] ?? '',
@@ -231,6 +237,7 @@ export class PromotionTableComponent implements OnInit {
           break;
       }
       this.listOfFilter = {
+        ...this.listOfFilter,
         promo_status: this.selectStatus ?? '',
         start_date: this.selectDate[0] ?? '',
         end_date: this.selectDate[1] ?? '',
@@ -251,6 +258,7 @@ export class PromotionTableComponent implements OnInit {
             break;
         }
         this.listOfFilter = {
+          ...this.listOfFilter,
           promo_status: this.selectStatus ?? '',
           start_date: this.selectDate[0] ?? '',
           end_date: this.selectDate[1] ?? '',
