@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {
   GetAllReturn,
-  Returns,
+  GetAllReturnsPayload,
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
@@ -20,6 +19,10 @@ export class ReturnDelivered implements OnInit {
   pageIndex = 1;
 
   search_term: string = '';
+  filter_start_date: string = '';
+  filter_end_date: string = '';
+
+  filter_return_classification: string = '';
 
   badgeTotal: number = 0;
   ranges = {
@@ -54,16 +57,31 @@ export class ReturnDelivered implements OnInit {
     private returnService: ReturnService,
     private message: NzMessageService
   ) {
-    this.getReturnList(this.pageIndex, this.search_term);
+    this.getReturnList(
+      this.pageIndex,
+      this.search_term,
+      this.filter_start_date,
+      this.filter_end_date,
+      this.filter_return_classification
+    );
   }
   ngOnInit(): void {}
 
-  getReturnList(page: number, search_term?: string) {
+  getReturnList(
+    page: number,
+    search_term?: string,
+    start_date?: string,
+    end_date?: string,
+    return_classification?: string
+  ) {
     this.isLoading = true;
-    const data: Returns = {
+    const data: GetAllReturnsPayload = {
       page: page,
       return_type: '3',
       search_term: search_term,
+      filter_start_date: start_date,
+      filter_end_date: end_date,
+      filter_return_classification: return_classification,
     };
     this.returnService.getAllReturns(data).subscribe({
       next: (response: GetAllReturn) => {
@@ -89,12 +107,38 @@ export class ReturnDelivered implements OnInit {
   searchDataChanges(event: string) {
     this.search_term = event;
     this.pageIndex = 1;
-    this.getReturnList(this.pageIndex, this.search_term);
+    this.getReturnList(
+      this.pageIndex,
+      this.search_term,
+      this.filter_start_date,
+      this.filter_end_date,
+      this.filter_return_classification
+    );
   }
 
   pageIndexChange(page: number) {
     this.pageIndex = page;
-    this.getReturnList(this.pageIndex, this.search_term);
+    this.getReturnList(
+      this.pageIndex,
+      this.search_term,
+      this.filter_start_date,
+      this.filter_end_date,
+      this.filter_return_classification
+    );
+  }
+
+  filterDataChanges(filters: any) {
+    (this.filter_start_date = filters?.start_date),
+      (this.filter_end_date = filters?.end_date),
+      (this.filter_return_classification = filters?.return_classification),
+      (this.pageIndex = 1);
+    this.getReturnList(
+      this.pageIndex,
+      this.search_term,
+      this.filter_start_date,
+      this.filter_end_date,
+      this.filter_return_classification
+    );
   }
 
   onChange(result: Date[]): void {

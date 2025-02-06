@@ -13,6 +13,7 @@ import { NzModalService } from 'ng-zorro-antd/modal';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { SingleReturn } from 'src/app/shared/model/returns.model';
+import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 
 @Component({
   selector: 'app-return-table',
@@ -20,7 +21,7 @@ import { SingleReturn } from 'src/app/shared/model/returns.model';
   styleUrls: ['./return-table.component.scss'],
 })
 export class ReturnTableComponent implements OnInit {
-  // @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
+  @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
   @Input() total: number = 1;
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
@@ -34,9 +35,10 @@ export class ReturnTableComponent implements OnInit {
   @Output() searchChange = new EventEmitter();
 
   accountSearch = new Subject<any>();
+  AppDateFormate = AppDateFormate;
 
   statusEnum: typeof StatusEnum = StatusEnum;
-  addRaForm!: FormGroup;
+  filter!: FormGroup;
   searchForm!: FormGroup;
   addRaVisible: boolean = false;
   isExportVisible: boolean = false;
@@ -47,6 +49,25 @@ export class ReturnTableComponent implements OnInit {
   appReportCarrierDamageModalVisible: boolean = false;
 
   pageSizeOptions = [100];
+  selectDate: string = '';
+  clear_btn: boolean = false;
+  dateCount: number = 0;
+  selectReturnClassification: string = '';
+  selectStatus: string = '';
+  statusCount: number = 0;
+  returnClassificationCount: number = 0;
+
+  filterStatusOptions = [
+    'Pending Approval',
+    'Claim Approved',
+    'Claim Denied',
+    'Approve Credit',
+    'Upload Credit',
+    'Reclassify to Buyers Remorse',
+    'Report Carrier Damage',
+  ];
+
+  filterReturnClassificationOptions = ['A', 'B', 'C'];
 
   constructor(private router: Router, private modal: NzModalService) {
     this.accountSearch
@@ -61,9 +82,10 @@ export class ReturnTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // initialize addra form
-    this.addRaForm = new FormGroup({
-      raInput: new FormControl(''),
+    this.filter = new FormGroup({
+      date: new FormControl(''),
+      returnClassification: new FormControl(''),
+      status: new FormControl(''),
     });
   }
 
@@ -82,18 +104,130 @@ export class ReturnTableComponent implements OnInit {
   }
 
   openNav() {
-    // this.sidenavSection.nativeElement.style.width = '300px';
+    this.sidenavSection.nativeElement.style.width = '300px';
   }
 
   closeNav() {
-    // this.sidenavSection.nativeElement.style.width = '0';
+    this.sidenavSection.nativeElement.style.width = '0';
   }
 
-  // for addRa
-  submitAddRaForm() {}
+  tagFunction() {
+    this.selectDate = '';
+    this.selectStatus = '';
+    this.selectReturnClassification = '';
 
-  // for approve credit form submit
-  approveCreditSubmitForm() {}
+    this.dateCount = 0;
+    this.statusCount = 0;
+    this.returnClassificationCount = 0;
+
+    this.badgeTotal = 0;
+    this.clear_btn = false;
+    this.filter.reset();
+    this.listOfFilter = {
+      start_date: this.selectDate[0] ?? '',
+      end_date: this.selectDate[1] ?? '',
+      return_classification: this.selectReturnClassification ?? '',
+      status: this.selectStatus ?? '',
+    };
+    this.filterChange.emit(this.listOfFilter);
+  }
+
+  close(type: string) {
+    if (type) {
+      switch (type) {
+        case 'date':
+          this.filter.controls['date'].reset();
+          this.selectDate = '';
+          this.dateCount = 0;
+          this.badgeTotal--;
+          break;
+        case 'status':
+          this.filter.controls['status'].reset();
+          this.selectStatus = '';
+          this.statusCount = 0;
+          this.badgeTotal--;
+          break;
+        case 'returnClassification':
+          this.filter.controls['returnClassification'].reset();
+          this.selectReturnClassification = '';
+          this.returnClassificationCount = 0;
+          this.badgeTotal--;
+          break;
+      }
+      this.listOfFilter = {
+        start_date: this.selectDate[0] ?? '',
+        end_date: this.selectDate[1] ?? '',
+        return_classification: this.selectReturnClassification ?? '',
+        status: this.selectStatus ?? '',
+      };
+      this.filterChange.emit(this.listOfFilter);
+    }
+  }
+
+  change(value: string, type: string) {
+    if (value && value.length !== 0) {
+      switch (type) {
+        case 'date':
+          this.clear_btn = true;
+          this.selectDate = value;
+          if (this.dateCount == 0) {
+            this.dateCount++;
+            this.badgeTotal++;
+          }
+          break;
+        case 'status':
+          this.clear_btn = true;
+          this.selectStatus = value;
+          if (this.statusCount == 0) {
+            this.statusCount++;
+            this.badgeTotal++;
+          }
+          break;
+        case 'returnClassification':
+          this.clear_btn = true;
+          this.selectReturnClassification = value;
+          if (this.returnClassificationCount == 0) {
+            this.returnClassificationCount++;
+            this.badgeTotal++;
+          }
+          break;
+      }
+      this.listOfFilter = {
+        start_date: this.selectDate[0] ?? '',
+        end_date: this.selectDate[1] ?? '',
+        return_classification: this.selectReturnClassification ?? '',
+        status: this.selectStatus ?? '',
+      };
+      this.filterChange.emit(this.listOfFilter);
+    } else {
+      if (this.badgeTotal > 0 && value !== null) {
+        switch (type) {
+          case 'date':
+            this.selectDate = '';
+            this.dateCount--;
+            this.badgeTotal--;
+            break;
+          case 'status':
+            this.selectStatus = '';
+            this.statusCount--;
+            this.badgeTotal--;
+            break;
+          case 'returnClassification':
+            this.selectReturnClassification = '';
+            this.returnClassificationCount--;
+            this.badgeTotal--;
+            break;
+        }
+        this.listOfFilter = {
+          start_date: this.selectDate[0] ?? '',
+          end_date: this.selectDate[1] ?? '',
+          return_classification: this.selectReturnClassification ?? '',
+          status: this.selectStatus ?? '',
+        };
+        this.filterChange.emit(this.listOfFilter);
+      }
+    }
+  }
 
   onPageIndexChange(page: number): void {
     this.pageChange.emit(page);

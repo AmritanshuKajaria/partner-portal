@@ -24,6 +24,8 @@ import {
   PastRemittancesFilters,
   TransactionFilters,
 } from 'src/app/shared/model/payments.model';
+import { AppliedFilters } from 'src/app/shared/model/returns.model';
+import { ReturnService } from 'src/app/shared/service/return.service';
 
 @Component({
   selector: 'app-export-model',
@@ -51,6 +53,7 @@ export class ExportModelComponent implements OnInit {
     private dashboardService: DashboardService,
     private ordersService: OrdersService,
     private paymentService: PaymentService,
+    private returnService: ReturnService,
     @Inject(LOCALE_ID) public locale: string
   ) {}
   ngOnInit(): void {}
@@ -391,6 +394,56 @@ export class ExportModelComponent implements OnInit {
         error: (err: any) => {
           if (!err?.error_shown) {
             this.message.error('Export Past Remittances Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
+    } else if (this.sectionName === 'return') {
+      let filters: AppliedFilters = {};
+
+      if (this.listOfFilter?.start_date) {
+        filters['filter_start_date'] = this.exportType
+          ? formatDate(this.listOfFilter?.start_date, 'yyyy-MM-dd', this.locale)
+          : '';
+      }
+
+      if (this.listOfFilter?.end_date) {
+        filters['filter_end_date'] = this.exportType
+          ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
+          : '';
+      }
+
+      if (this.listOfFilter?.return_classification) {
+        filters['filter_return_classification'] = this.exportType
+          ? this.listOfFilter?.return_classification
+          : '';
+      }
+
+      if (this.listOfFilter?.status) {
+        filters['filter_status'] = this.exportType
+          ? this.listOfFilter?.status
+          : '';
+      }
+
+      this.returnService.exportReturns(filters).subscribe({
+        next: (response: any) => {
+          console.log(response);
+          this.isLoading = false;
+          if (response.success) {
+            this.handleCancel();
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          } else {
+            this.message.error(
+              response?.error_message ?? 'Export Retuns Failed!'
+            );
+          }
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Retuns Failed!');
           }
           this.isLoading = false;
         },

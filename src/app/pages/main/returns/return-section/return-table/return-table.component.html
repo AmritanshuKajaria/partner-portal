@@ -38,6 +38,41 @@
     </div>
   </div>
 
+  <!-- tag show sections -->
+  <div *ngIf="clear_btn && badgeTotal !== 0" class="tag-section">
+    <nz-tag *ngIf="selectDate" nzMode="closeable" (nzOnClose)="close('date')"
+      >{{ selectDate[0] | customDate }} To
+      {{ selectDate[1] | customDate }}</nz-tag
+    >
+    <nz-tag
+      *ngIf="selectStatus"
+      nzMode="closeable"
+      (nzOnClose)="close('status')"
+      >{{ selectStatus }}</nz-tag
+    >
+    <nz-tag
+      *ngIf="selectReturnClassification"
+      nzMode="closeable"
+      (nzOnClose)="close('returnClassification')"
+      >{{ selectReturnClassification }}</nz-tag
+    >
+    <button
+      *ngIf="badgeTotal >= 1"
+      nz-button
+      nzType="default"
+      (click)="tagFunction()"
+      style="
+        float: none;
+        background-color: white;
+        color: #1221c3;
+        border: 1px solid #1221c3;
+      "
+      class="action-button clear-btn"
+    >
+      clear
+    </button>
+  </div>
+
   <nz-table
     #nzTable
     nzOuterBordered
@@ -86,7 +121,7 @@
         >
           Return Classification
         </th>
-        <th *ngIf="tabName === 'returnShipped'">RA Number</th>
+        <th *ngIf="tabName === 'returnShipped'">RA #</th>
         <th
           *ngIf="
             tabName === 'returnShipped' ||
@@ -253,7 +288,7 @@
                   [nzDropdownMenu]="returnMenu"
                   nzTrigger="click"
                 >
-                  Approve Credit
+                  Approve Return
                 </button>
               </div>
               <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
@@ -282,7 +317,7 @@
 
             <ng-template #dots>
               <app-three-dot-menu-btn
-                style="margin-left: 20px"
+                style="margin-left: 5px"
                 [menu]="menu"
               ></app-three-dot-menu-btn>
               <nz-dropdown-menu #menu="nzDropdownMenu">
@@ -335,6 +370,69 @@
       </nz-dropdown-menu>
     </tbody>
   </nz-table>
+
+  <!-- sidebar -->
+  <div #mySidenav class="filter-section">
+    <a href="javascript:void(0)" class="closebtn" (click)="closeNav()"
+      >&times;</a
+    >
+    <form nz-form [formGroup]="filter" style="padding-bottom: 10px">
+      <div class="filter-content">
+        <nz-divider nzText="Date" nzOrientation="left"></nz-divider>
+        <nz-range-picker
+          [nzPlaceHolder]="['From Date', 'To Date']"
+          [nzFormat]="AppDateFormate"
+          formControlName="date"
+          (ngModelChange)="change(filter.value.date ? $event : '', 'date')"
+        ></nz-range-picker>
+
+        <nz-divider
+          style="margin-top: 20px"
+          nzText="Return Classification"
+          nzOrientation="left"
+        ></nz-divider>
+        <nz-select
+          nzAllowClear
+          nzPlaceHolder="Select Return Classification"
+          (ngModelChange)="
+            change(
+              filter.value.returnClassification ? $event : '',
+              'returnClassification'
+            )
+          "
+          formControlName="returnClassification"
+        >
+          <nz-option
+            *ngFor="let option of filterReturnClassificationOptions"
+            [nzLabel]="option"
+            [nzValue]="option"
+          ></nz-option>
+        </nz-select>
+
+        <div *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
+          <nz-divider
+            style="margin-top: 20px"
+            nzText="Status"
+            nzOrientation="left"
+          ></nz-divider>
+          <nz-select
+            nzAllowClear
+            nzPlaceHolder="Select A Status"
+            (ngModelChange)="
+              change(filter.value.status ? $event : '', 'status')
+            "
+            formControlName="status"
+          >
+            <nz-option
+              *ngFor="let status of filterStatusOptions"
+              [nzLabel]="status"
+              [nzValue]="status"
+            ></nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <!-- Add Ra Modal -->
@@ -344,57 +442,8 @@
   (nzOnCancel)="addRaVisible = false"
 >
   <ng-container *nzModalContent>
-    <div class="model-section">
-      <form nz-form [formGroup]="addRaForm">
-        <nz-form-item>
-          <nz-form-label [nzXs]="3" nzRequired>RA</nz-form-label>
-          <nz-form-control nzErrorTip="RA is required!">
-            <nz-input-group>
-              <input
-                formControlName="raInput"
-                type="text"
-                nz-input
-                placeholder="Enter An Ra"
-              />
-            </nz-input-group>
-          </nz-form-control>
-        </nz-form-item>
-      </form>
-    </div>
-    <div class="model-footer">
-      <div class="model-action">
-        <button
-          nz-button
-          nzType="default"
-          style="color: black; margin-right: 5px"
-          (click)="addRaVisible = false"
-        >
-          Cancel
-        </button>
-        <button
-          nz-button
-          class="action-button"
-          (click)="submitAddRaForm()"
-          [nzType]="'primary'"
-          style="height: 35px; margin-top: 0px; margin-right: 10px"
-        >
-          <span
-            *ngIf="isLoading"
-            style="color: white; font-size: 16px"
-            nz-icon
-            nzType="loading"
-          ></span>
-          <span
-            *ngIf="!isLoading"
-            nz-icon
-            nzType="file-text"
-            nzTheme="outline"
-          ></span>
-          Save
-        </button>
-      </div>
-    </div>
-  </ng-container>
+    <app-add-ra (close)="addRaVisible = false"></app-add-ra
+  ></ng-container>
 </nz-modal>
 
 <!-- Return Clarification modal-->
@@ -459,7 +508,7 @@
   <ng-container *nzModalContent>
     <app-export-model
       [exportType]="false"
-      [sectionName]="'promotion'"
+      [sectionName]="'return'"
       [description]="
         'Your Returns Details will be exported as a CSV file and sent to your email.'
       "

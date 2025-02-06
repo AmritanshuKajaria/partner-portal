@@ -1,4 +1,4 @@
-export interface Returns {
+export interface Pagination {
   page: number;
   search_term?: string;
   return_type: number | string;
@@ -30,18 +30,14 @@ export interface GetAllReturn {
   error_message?: string;
 }
 
-type AppliedFilters =
-  | ReturnInitiatedFilters
-  | ReturnInTransitFilters
-  | ReturnReceivedFilters
-  | InCarrierClaimsFilters
-  | AllFilters;
+export interface AppliedFilters {
+  filter_start_date?: string;
+  filter_end_date?: string;
+  filter_status?: string;
+  filter_return_classification?: string;
+}
 
-export interface ReturnInitiatedFilters {}
-export interface ReturnInTransitFilters {}
-export interface ReturnReceivedFilters {}
-export interface InCarrierClaimsFilters {}
-export interface AllFilters {}
+export interface GetAllReturnsPayload extends Pagination, AppliedFilters {}
 
 export interface SingleReturn {
   po_no: string;

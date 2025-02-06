@@ -19,6 +19,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { ApproveCredit } from './return-section/forms/approve-credit/approve-credit.component';
 import { UploadCreditNote } from './return-section/forms/upload-credit-note/upload-credit-note.component';
 import { ReportCarrierDamage } from './return-section/forms/report-carrier-damage/report-carrier-damage.component';
+import { AddRa } from './return-section/forms/add-ra/add-ra.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { ReportCarrierDamage } from './return-section/forms/report-carrier-damag
     ApproveCredit,
     UploadCreditNote,
     ReportCarrierDamage,
+    AddRa,
     ReturnTableComponent,
   ],
   imports: [
