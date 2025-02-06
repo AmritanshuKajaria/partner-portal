@@ -124,3 +124,12 @@
     border-radius: 17px !important;
   }
 }
+
+// for submenu
+::ng-deep .ant-dropdown-menu-submenu-expand-icon {
+  display: none;
+}
+
+::ng-deep .ant-dropdown-menu-submenu-title {
+  padding: 10px 16px;
+}

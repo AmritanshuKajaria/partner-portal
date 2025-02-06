@@ -335,7 +335,12 @@
         </tr>
       </ng-template>
 
+      <!-- common use of menuItems -->
       <nz-dropdown-menu #returnMenu="nzDropdownMenu">
+        <ng-container *ngTemplateOutlet="menuItems"></ng-container>
+      </nz-dropdown-menu>
+
+      <ng-template #menuItems>
         <ul nz-menu>
           <li nz-menu-item (click)="selectAction('returnDelivered')">
             Approve Credit
@@ -344,17 +349,12 @@
             Upload Credit Note
           </li>
         </ul>
-      </nz-dropdown-menu>
+      </ng-template>
 
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu>
-          <li
-            nz-dropdown
-            [nzDropdownMenu]="returnMenu"
-            nzTrigger="click"
-            nz-menu-item
-          >
-            Reclassify Return to Buyer’s Remorse
+          <li nz-submenu nzTitle="Reclassify Return to Buyer’s Remorse">
+            <ng-container *ngTemplateOutlet="menuItems"></ng-container>
           </li>
           <li nz-menu-item (click)="selectAction('appReportCarrierDamage')">
             Report Carrier Damage
