@@ -248,7 +248,8 @@ export class ReturnTableComponent implements OnInit {
       nzOnOk: () => {
         console.log(po_no);
       },
-      nzCancelText: 'Close',
+      nzOkText: 'Confirm',
+      nzCancelText: 'No',
       nzOnCancel: () => console.log('Close'),
       nzOkLoading: this.isLoading,
     });
@@ -261,7 +262,8 @@ export class ReturnTableComponent implements OnInit {
       nzOnOk: () => {
         console.log(po_no);
       },
-      nzCancelText: 'Close',
+      nzOkText: 'Confirm',
+      nzCancelText: 'No',
       nzOnCancel: () => console.log('Close'),
       nzOkLoading: this.isLoading,
     });

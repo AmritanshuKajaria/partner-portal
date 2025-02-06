@@ -270,7 +270,7 @@
                   nz-button
                   (click)="selectAction('returnInitiated')"
                 >
-                  Add RA#
+                  Add RA #
                 </button>
               </div>
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
@@ -310,7 +310,7 @@
                 style="border: 1px solid #28a745; color: #28a745"
                 nz-button
               >
-                Add RA#
+                Add RA #
               </button>
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
@@ -449,7 +449,7 @@
 <!-- Return Clarification modal-->
 <nz-modal
   [(nzVisible)]="ReturnClarification"
-  [nzTitle]="'Return Clarification (Return # ' + 123 + ')'"
+  [nzTitle]="'Return Clarification (Return# ' + 123 + ')'"
   (nzOnCancel)="ReturnClarification = false"
 >
   <ng-container *nzModalContent>
@@ -463,7 +463,7 @@
 <!-- Approve credit Modal -->
 <nz-modal
   [(nzVisible)]="approveCreditModelVisible"
-  nzTitle="Approve Return"
+  nzTitle="Approve Credit"
   (nzOnCancel)="approveCreditModelVisible = false"
 >
   <ng-container *nzModalContent>
@@ -489,7 +489,7 @@
 <!-- App Report Carrier Damage Modal -->
 <nz-modal
   [(nzVisible)]="appReportCarrierDamageModalVisible"
-  nzTitle="PO# 123456"
+  nzTitle="Report Carrier Damage"
   (nzOnCancel)="appReportCarrierDamageModalVisible = false"
 >
   <ng-container *nzModalContent>

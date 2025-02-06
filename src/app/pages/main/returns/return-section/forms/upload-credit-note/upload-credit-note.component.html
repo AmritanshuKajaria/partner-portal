@@ -2,20 +2,22 @@
   <div class="model-section">
     <form nz-form [formGroup]="uploadCreditNoteForm">
       <nz-form-item>
-        <nz-form-label [nzXs]="6">Add Custom CN</nz-form-label>
+        <nz-form-label [nzXs]="7">Add Custom CN #</nz-form-label>
         <nz-form-control nzErrorTip="CN is required!">
           <nz-input-group>
             <input
               formControlName="cn"
               type="text"
               nz-input
-              placeholder="Enter An CN"
+              placeholder="Enter Custom CN #"
             />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzXs]="6" nzRequired>Upload File</nz-form-label>
+        <nz-form-label [nzXs]="7">
+          Upload File<span style="color: red">*</span></nz-form-label
+        >
         <div class="Neon Neon-theme-dragdropbox">
           <input
             style="

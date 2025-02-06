@@ -15,7 +15,7 @@ export class AddRa {
   constructor() {
     // initialize addra form
     this.addRaForm = new FormGroup({
-      raInput: new FormControl(''),
+      raInput: new FormControl('', Validators.required),
     });
   }
 

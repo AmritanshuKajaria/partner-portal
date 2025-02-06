@@ -1,14 +1,16 @@
 <div class="model-section">
   <form nz-form [formGroup]="addRaForm">
     <nz-form-item>
-      <nz-form-label [nzXs]="3" nzRequired>RA</nz-form-label>
+      <nz-form-label
+        >Enter RA # <span style="color: red">*</span></nz-form-label
+      >
       <nz-form-control nzErrorTip="RA is required!">
         <nz-input-group>
           <input
             formControlName="raInput"
             type="text"
             nz-input
-            placeholder="Enter An Ra"
+            placeholder="Enter An Ra #"
           />
         </nz-input-group>
       </nz-form-control>
