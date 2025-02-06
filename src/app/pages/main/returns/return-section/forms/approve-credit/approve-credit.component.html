@@ -1,0 +1,52 @@
+<div class="return-approve">
+  <div class="model-section">
+    <form nz-form [formGroup]="approveCreditForm">
+      <nz-form-item>
+        <nz-form-label>Add Custom CN #</nz-form-label>
+        <nz-form-control nzErrorTip="CN is required!">
+          <nz-input-group>
+            <input
+              formControlName="cn"
+              type="text"
+              nz-input
+              placeholder="Enter Custom CN #"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </form>
+  </div>
+  <div class="model-footer">
+    <div class="model-action">
+      <button
+        nz-button
+        nzType="default"
+        style="color: black; margin-right: 5px"
+        (click)="close()"
+      >
+        Cancel
+      </button>
+      <button
+        nz-button
+        class="action-button"
+        (click)="submitForm()"
+        [nzType]="'primary'"
+        style="height: 35px; margin-top: 0px; margin-right: 10px"
+      >
+        <span
+          *ngIf="isLoading"
+          style="color: white; font-size: 16px"
+          nz-icon
+          nzType="loading"
+        ></span>
+        <span
+          *ngIf="!isLoading"
+          nz-icon
+          nzType="file-text"
+          nzTheme="outline"
+        ></span>
+        Save
+      </button>
+    </div>
+  </div>
+</div>

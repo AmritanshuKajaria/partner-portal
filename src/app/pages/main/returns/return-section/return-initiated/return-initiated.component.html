@@ -5,8 +5,9 @@
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
-    [tabName]="'Return Initiated'"
+    [tabName]="'returnInitiated'"
     (pageChange)="pageIndexChange($event)"
     (searchChange)="searchDataChanges($event)"
+    (filterChange)="filterDataChanges($event)"
   ></app-return-table>
 </div>
