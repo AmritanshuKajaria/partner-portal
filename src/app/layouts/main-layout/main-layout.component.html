@@ -40,15 +40,18 @@
       >
         <span nz-icon nzType="retweet" nzTheme="outline"></span>
         <span>Returns</span>
-      </li>
+      </li> -->
       <li
         nz-menu-item
+        *ngIf="
+          userPartnerDetails && userPartnerDetails?.payment_tab === 1
+        "
         routerLinkActive="active"
         routerLink="/main/payments/payment-section"
       >
         <span nz-icon nzType="dollar-circle" nzTheme="outline"></span>
         <span>Payments</span>
-      </li> -->
+      </li>
       <li nz-menu-item [ngClass]="
           router.url.includes('/main/promotions') ? 'active' : 'inactive'
         " routerLink="/main/promotions">
