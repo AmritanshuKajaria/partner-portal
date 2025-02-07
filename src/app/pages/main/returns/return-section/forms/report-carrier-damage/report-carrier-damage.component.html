@@ -1,27 +1,33 @@
 <div class="return-approve">
   <div class="model-section">
-    <form nz-form [formGroup]="approveCreditForm">
-      <nz-upload
-        class="avatar-uploader"
-        nzAction=""
-        nzName="avatar"
-        nzListType="picture-card"
-        [nzShowUploadList]="false"
-        (nzChange)="selectFiles($event)"
+    <div class="lebel-container">
+      <span
+        >PO # : <b>{{ poNo }}</b></span
       >
-        <ng-container *ngIf="!avatarUrl; else uploadedImage">
-          <span
-            class="upload-icon"
-            nz-icon
-            [nzType]="loading ? 'loading' : 'plus'"
-          ></span>
-          <div class="ant-upload-text">Upload</div>
-        </ng-container>
-        <ng-template #uploadedImage>
-          <img [src]="avatarUrl" style="width: 100%" />
-        </ng-template>
-      </nz-upload>
-    </form>
+    </div>
+    <div>
+      <div class="lebel-container">Upload Images :</div>
+      <div class="image-container">
+        <app-upload-image
+          [errorMessage]="'Please upload an image'"
+          [placeholder]="'Drag & Drop or Click to Upload'"
+          (imageSrcChange)="onImageSrcChange($event, 0)"
+          [showError]="showErrors[0]"
+        ></app-upload-image>
+        <app-upload-image
+          [errorMessage]="'Please upload an image'"
+          [placeholder]="'Drag & Drop or Click to Upload'"
+          (imageSrcChange)="onImageSrcChange($event, 1)"
+          [showError]="showErrors[1]"
+        ></app-upload-image>
+        <app-upload-image
+          [errorMessage]="'Please upload an image'"
+          [placeholder]="'Drag & Drop or Click to Upload'"
+          (imageSrcChange)="onImageSrcChange($event, 2)"
+          [showError]="showErrors[2]"
+        ></app-upload-image>
+      </div>
+    </div>
   </div>
   <div class="model-footer">
     <div class="model-action">
@@ -36,9 +42,8 @@
       <button
         nz-button
         class="action-button"
-        (click)="submitForm()"
+        (click)="onsubmit()"
         [nzType]="'primary'"
-        [disabled]="!approveCreditForm.get('uploadCreditNote')?.value"
         style="height: 35px; margin-top: 0px; margin-right: 10px"
       >
         <span

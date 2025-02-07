@@ -7,7 +7,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-ra.component.scss'],
 })
 export class AddRa {
-  @Output() closeModal = new EventEmitter();
+  @Output() close = new EventEmitter();
 
   addRaForm!: FormGroup;
   isLoading: boolean = false;
@@ -19,14 +19,23 @@ export class AddRa {
     });
   }
 
-  close() {
-    this.closeModal.emit();
+  handleCancel() {
+    this.close.emit();
   }
 
   // for addRa
   submitAddRaForm() {
+    if (this.addRaForm.invalid) {
+      for (const i in this.addRaForm.controls) {
+        this.addRaForm.controls[i].markAsDirty();
+        this.addRaForm.controls[i].updateValueAndValidity();
+      }
+      return;
+    }
+
     if (this.addRaForm.valid) {
       console.log(this.addRaForm.value.raInput);
+      this.close.emit();
     }
   }
 }

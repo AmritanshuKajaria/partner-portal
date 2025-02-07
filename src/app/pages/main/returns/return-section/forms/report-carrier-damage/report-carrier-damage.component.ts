@@ -1,6 +1,4 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NzUploadFile } from 'ng-zorro-antd/upload';
 
 @Component({
   selector: 'app-report-carrier-damage',
@@ -9,36 +7,42 @@ import { NzUploadFile } from 'ng-zorro-antd/upload';
 })
 export class ReportCarrierDamage implements OnInit {
   @Output() closeModal = new EventEmitter();
+  @Input() poNo: string = '';
 
-  approveCreditForm!: FormGroup;
-  loading?: boolean = false;
   isLoading: boolean = false;
-  selectFile: any;
-  avatarUrl?: string;
+  uploadedImages: any[] = [null, null, null];
+  showErrors: boolean[] = [false, false, false];
 
-  ngOnInit() {
-    this.approveCreditForm = new FormGroup({
-      uploadCreditNote: new FormControl('', Validators.required),
-    });
-  }
+  ngOnInit() {}
 
   close() {
     this.closeModal.emit();
   }
 
-  submitForm() {
-    if (this.approveCreditForm.valid) {
-      const formValue = this.approveCreditForm.value;
-      console.log('Form Value:', formValue);
+  validateImages(images: any[], errors: boolean[]): boolean {
+    let isValid = true;
+    images.forEach((image, index) => {
+      if (!image) {
+        errors[index] = true;
+        isValid = false;
+      } else {
+        errors[index] = false;
+      }
+    });
+    return isValid;
+  }
 
-      const data = new FormData();
-      data.append('cn', formValue.cn);
-      data.append('uploadCreditNote', this.selectFile);
-      console.log('data:', data);
+  onsubmit() {
+    const isValid = this.validateImages(this.uploadedImages, this.showErrors);
+    if (isValid) {
+      console.log(this.uploadedImages);
+
+      this.close();
     }
   }
 
-  selectFiles(event: any) {
-    this.selectFile = event?.target?.files[0];
+  onImageSrcChange(event: any, index: number) {
+    this.uploadedImages[index] = event;
+    this.showErrors[index] = false;
   }
 }

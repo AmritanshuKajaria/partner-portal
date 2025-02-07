@@ -1,0 +1,45 @@
+.image-container {
+  width: fit-content;
+  height: fit-content;
+  margin: 0px 5px;
+
+  .upload-box {
+    width: 150px;
+    height: 150px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .upload-box img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .upload-box input {
+    display: none;
+  }
+
+  .upload-box .placeholder {
+    text-align: center;
+    color: #aaa;
+  }
+
+  .upload-box .remove-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #fff;
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
+  }
+
+  .error-container {
+    display: flex;
+    justify-content: center;
+  }
+}

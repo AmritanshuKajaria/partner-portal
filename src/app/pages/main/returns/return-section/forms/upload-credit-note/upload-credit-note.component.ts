@@ -33,6 +33,8 @@ export class UploadCreditNote implements OnInit {
       data.append('cn', formValue.cn);
       data.append('uploadCreditNote', this.selectFile);
       console.log('data:', data);
+
+      this.close();
     }
   }
 
