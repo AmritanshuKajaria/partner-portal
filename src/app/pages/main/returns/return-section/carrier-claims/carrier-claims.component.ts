@@ -96,7 +96,9 @@ export class CarrierClaims implements OnInit {
           this.carrierClaimsList = response?.returns ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get In-Carrier-Claims Failed!'
+            response?.error_message
+              ? response?.error_message
+              : 'Get In-Carrier-Claims Failed!'
           );
         }
       },

@@ -118,7 +118,9 @@ export class UnitPriceConflictComponent implements OnInit {
             this.unitPriceConflictList = res.data;
           } else {
             this.message.error(
-              res?.error_message ?? 'Get agendas details failed!'
+              res?.error_message
+                ? res?.error_message
+                : 'Get agendas details failed!'
             );
           }
         },

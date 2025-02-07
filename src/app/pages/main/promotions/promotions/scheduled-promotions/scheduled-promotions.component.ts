@@ -83,7 +83,9 @@ export class ScheduledPromotionsComponent implements OnInit {
           this.scheduledPromotionsList = res.promos ?? [];
         } else {
           this.message.error(
-            res.error_message ?? 'Get Running/Scheduled Promotions Failed!'
+            res.error_message
+              ? res.error_message
+              : 'Get Running/Scheduled Promotions Failed!'
           );
         }
 
@@ -188,7 +190,9 @@ export class ScheduledPromotionsComponent implements OnInit {
           this.message.create('success', 'End date edit successfully!');
           this.addEndDateVisible = false;
         } else {
-          this.message.error(res?.error_message ?? 'End date edit failed!');
+          this.message.error(
+            res?.error_message ? res?.error_message : 'End date edit failed!'
+          );
         }
 
         this.isLoading = false;

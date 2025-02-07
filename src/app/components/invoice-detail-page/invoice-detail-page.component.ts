@@ -42,7 +42,9 @@ export class InvoiceDetailPageComponent implements OnInit {
           this.invoiceDetailData = res?.invoice ?? {};
         } else {
           this.message.error(
-            res?.error_message ?? 'Get Invoice Details Failed!'
+            res?.error_message
+              ? res?.error_message
+              : 'Get Invoice Details Failed!'
           );
           this.invoiceNotExist = res?.success ?? false;
         }

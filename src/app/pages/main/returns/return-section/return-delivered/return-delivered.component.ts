@@ -91,7 +91,9 @@ export class ReturnDelivered implements OnInit {
           this.returnReceivedList = response?.returns ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get Return Received Failed!'
+            response?.error_message
+              ? response?.error_message
+              : 'Get Return Received Failed!'
           );
         }
       },

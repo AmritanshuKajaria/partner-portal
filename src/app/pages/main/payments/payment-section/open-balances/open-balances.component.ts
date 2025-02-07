@@ -82,7 +82,9 @@ export class OpenBalancesComponent implements OnInit {
           this.openBalancesDataList = response?.open_balances ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get Open Balances Failed!'
+            response?.error_message
+              ? response?.error_message
+              : 'Get Open Balances Failed!'
           );
         }
       },

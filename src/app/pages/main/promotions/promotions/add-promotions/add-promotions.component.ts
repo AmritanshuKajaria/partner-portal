@@ -73,7 +73,9 @@ export class AddPromotionsComponent implements OnInit {
           a.click();
         } else {
           this.message.error(
-            res?.error_message ?? 'Template Downloaded Failed!'
+            res?.error_message
+              ? res?.error_message
+              : 'Template Downloaded Failed!'
           );
         }
       },

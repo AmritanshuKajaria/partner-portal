@@ -70,7 +70,9 @@ export class AllReturnComponent implements OnInit {
           this.allReturnList = response?.returns ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get All Return Failed!'
+            response?.error_message
+              ? response?.error_message
+              : 'Get All Return Failed!'
           );
         }
       },

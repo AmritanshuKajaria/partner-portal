@@ -64,7 +64,9 @@ export class ReturnInitiatedComponent implements OnInit {
           this.returnInitiatedList = res?.returns ?? [];
         } else {
           this.message.error(
-            res?.error_message ?? 'Get Return Initiated Failed!'
+            res?.error_message
+              ? res?.error_message
+              : 'Get Return Initiated Failed!'
           );
         }
       },

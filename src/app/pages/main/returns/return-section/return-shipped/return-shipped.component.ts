@@ -68,7 +68,9 @@ export class ReturnShipped implements OnInit {
           this.returnInTrasitList = response?.returns ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get Return In-Transit Failed!'
+            response?.error_message
+              ? response?.error_message
+              : 'Get Return In-Transit Failed!'
           );
         }
       },

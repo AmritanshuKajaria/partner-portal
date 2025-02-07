@@ -66,7 +66,9 @@ export class CompletedPromotionsComponent implements OnInit {
           this.completedPromotionsList = res.promos ?? [];
         } else {
           this.message.error(
-            res?.error_message ?? 'Get Completed Promtions Failed!'
+            res?.error_message
+              ? res?.error_message
+              : 'Get Completed Promtions Failed!'
           );
         }
 

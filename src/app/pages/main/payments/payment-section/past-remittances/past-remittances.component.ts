@@ -71,7 +71,9 @@ export class PastRemittancesComponent implements OnInit {
           this.pastRemittancesDataList = response?.past_remittances ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get Past Remittances Failed!'
+            response?.error_message
+              ? response?.error_message
+              : 'Get Past Remittances Failed!'
           );
         }
       },

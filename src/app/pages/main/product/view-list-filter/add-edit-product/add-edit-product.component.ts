@@ -404,7 +404,9 @@ export class AddEditProductComponent implements OnInit {
               this.message.create('success', 'Edit product successfully!');
               this.backButton();
             } else {
-              this.message.error(res?.error_message ?? 'Edit product fail!');
+              this.message.error(
+                res?.error_message ? res?.error_message : 'Edit product fail!'
+              );
             }
             this.isLoading = false;
           },
@@ -424,7 +426,9 @@ export class AddEditProductComponent implements OnInit {
               this.message.create('success', 'Add product successfully!');
               this.backButton();
             } else {
-              this.message.error(res?.error_message ?? 'Add product fail!');
+              this.message.error(
+                res?.error_message ? res?.error_message : 'Add product fail!'
+              );
             }
             this.isLoading = false;
           },

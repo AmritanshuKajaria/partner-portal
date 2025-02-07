@@ -284,8 +284,9 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message ??
-                'Export Transaction View Details Failed!'
+              response?.error_message
+                ? response?.error_message
+                : 'Export Transaction View Details Failed!'
             );
           }
         },
@@ -341,7 +342,9 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message ?? 'Export Open Balances Failed!'
+              response?.error_message
+                ? response?.error_message
+                : 'Export Open Balances Failed!'
             );
           }
         },
@@ -387,7 +390,9 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message ?? 'Export Past Remittances Failed!'
+              response?.error_message
+                ? response?.error_message
+                : 'Export Past Remittances Failed!'
             );
           }
         },
@@ -437,7 +442,9 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message ?? 'Export Retuns Failed!'
+              response?.error_message
+                ? response?.error_message
+                : 'Export Retuns Failed!'
             );
           }
         },

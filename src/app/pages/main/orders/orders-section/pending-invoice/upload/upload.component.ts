@@ -56,7 +56,9 @@ export class UploadComponent implements OnInit {
             this.message.create('success', 'Invoice upload successfully!');
             this.handleCancel(res?.feed_code);
           } else {
-            this.message.error(res?.error_message ?? 'Invoice upload failed!');
+            this.message.error(
+              res?.error_message ? res?.error_message : 'Invoice upload failed!'
+            );
           }
           this.isLoading = false;
         },

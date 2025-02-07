@@ -71,7 +71,9 @@ export class TransactionViewComponent implements OnInit {
           this.transactionViewDataList = response?.transactions ?? [];
         } else {
           this.message.error(
-            response?.error_message ?? 'Get Transaction View Details Failed!'
+            response?.error_message
+              ? response?.error_message
+              : 'Get Transaction View Details Failed!'
           );
         }
       },
