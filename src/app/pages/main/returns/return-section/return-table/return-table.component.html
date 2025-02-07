@@ -290,7 +290,10 @@
               </div>
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
-            <div style="display: flex" *ngIf="tabName === 'returnDelivered'">
+            <div
+              style="display: flex; justify-content: space-between"
+              *ngIf="tabName === 'returnDelivered'"
+            >
               <div class="action-btn">
                 <button
                   style="
@@ -316,17 +319,18 @@
             ></app-status-badge>
 
             <div
-              class="action-btn"
-              style="display: flex; align-items: center"
+              style="display: flex; justify-content: space-between"
               *ngIf="tabName === 'returnInitiated'"
             >
-              <button
-                (click)="selectAction('returnInitiated')"
-                style="border: 1px solid #28a745; color: #28a745"
-                nz-button
-              >
-                Add RA #
-              </button>
+              <div class="action-btn">
+                <button
+                  (click)="selectAction('returnInitiated')"
+                  style="border: 1px solid #28a745; color: #28a745"
+                  nz-button
+                >
+                  Add RA #
+                </button>
+              </div>
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
 
