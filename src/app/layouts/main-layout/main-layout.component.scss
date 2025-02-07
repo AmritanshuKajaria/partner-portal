@@ -301,3 +301,7 @@
     }
   }
 }
+
+::ng-deep .ant-dropdown-menu-sub {
+  padding: 0px 0px !important;
+}

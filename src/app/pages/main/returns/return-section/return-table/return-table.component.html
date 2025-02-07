@@ -138,10 +138,19 @@
             tabName === 'returnDelivered' ||
             tabName === 'returnInitiated'
           "
+          id="action"
+          class="action-column"
+          [nzWidth]="'227px'"
+          nzRight
         >
-          Action
+          <div>Action</div>
         </th>
-        <th *ngIf="tabName === 'carrierClaims' || tabName === 'all'">Status</th>
+        <th
+          [nzWidth]="'227px'"
+          *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
+        >
+          Status
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -251,7 +260,13 @@
               </li>
             </ul>
           </td>
-          <td>
+          <td
+            [nzRight]="
+              tabName === 'returnShipped' ||
+              tabName === 'returnDelivered' ||
+              tabName === 'returnInitiated'
+            "
+          >
             <div style="display: flex" *ngIf="tabName === 'returnShipped'">
               <div class="action-btn">
                 <button
@@ -335,12 +350,7 @@
         </tr>
       </ng-template>
 
-      <!-- common use of menuItems -->
       <nz-dropdown-menu #returnMenu="nzDropdownMenu">
-        <ng-container *ngTemplateOutlet="menuItems"></ng-container>
-      </nz-dropdown-menu>
-
-      <ng-template #menuItems>
         <ul nz-menu>
           <li nz-menu-item (click)="selectAction('returnDelivered')">
             Approve Credit
@@ -349,12 +359,23 @@
             Upload Credit Note
           </li>
         </ul>
-      </ng-template>
+      </nz-dropdown-menu>
 
       <nz-dropdown-menu #menu="nzDropdownMenu">
         <ul nz-menu>
-          <li nz-submenu nzTitle="Reclassify Return to Buyer’s Remorse">
-            <ng-container *ngTemplateOutlet="menuItems"></ng-container>
+          <li
+            nzTriggerSubMenuAction="click"
+            nz-submenu
+            nzTitle="Reclassify Return to Buyer’s Remorse"
+          >
+            <ul nz-menu>
+              <li nz-menu-item (click)="selectAction('returnDelivered')">
+                Approve Credit
+              </li>
+              <li nz-menu-item (click)="selectAction('uploadCreditNote')">
+                Upload Credit Note
+              </li>
+            </ul>
           </li>
           <li nz-menu-item (click)="selectAction('appReportCarrierDamage')">
             Report Carrier Damage
