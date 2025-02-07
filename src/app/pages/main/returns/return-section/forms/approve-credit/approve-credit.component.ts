@@ -27,5 +27,6 @@ export class ApproveCredit {
       const formValue = this.approveCreditForm.value;
       console.log('Form Value:', formValue);
     }
+    this.close();
   }
 }

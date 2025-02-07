@@ -30,6 +30,7 @@ import { SharedModule } from '../shared/shared.module';
 import { DateTimeComponent } from './date-time/date-time.component';
 import { EditPriceComponent } from './edit-price/edit-price.component';
 import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail-page.component';
+import { UploadImageComponent } from './upload-image/upload-image.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail
     DateTimeComponent,
     EditPriceComponent,
     InvoiceDetailPageComponent,
+    UploadImageComponent,
   ],
   exports: [
     StatusBadgeComponent,
@@ -80,6 +82,7 @@ import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail
     DateTimeComponent,
     EditPriceComponent,
     InvoiceDetailPageComponent,
+    UploadImageComponent,
   ],
   imports: [
     CommonModule,

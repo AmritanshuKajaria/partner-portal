@@ -516,10 +516,12 @@
   [(nzVisible)]="appReportCarrierDamageModalVisible"
   nzTitle="Report Carrier Damage"
   (nzOnCancel)="appReportCarrierDamageModalVisible = false"
+  nzWidth="540px"
 >
   <ng-container *nzModalContent>
     <app-report-carrier-damage
       (closeModal)="appReportCarrierDamageModalVisible = false"
+      [poNo]="'RAZ-7591'"
     ></app-report-carrier-damage>
   </ng-container>
 </nz-modal>
