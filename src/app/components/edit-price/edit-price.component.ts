@@ -106,7 +106,9 @@ export class EditPriceComponent implements OnInit {
                 this.handleCancel();
                 this.dataSavedSuccessful.emit(true);
               } else {
-                this.message.error(res?.error_message ?? 'Edit product fail!');
+                this.message.error(
+                  res?.error_message ? res?.error_message : 'Edit product fail!'
+                );
               }
               this.isLoading = false;
             },
@@ -127,7 +129,9 @@ export class EditPriceComponent implements OnInit {
                 this.handleCancel();
                 this.dataSavedSuccessful.emit(true);
               } else {
-                this.message.error(res?.error_message ?? 'Edit product fail!');
+                this.message.error(
+                  res?.error_message ? res?.error_message : 'Edit product fail!'
+                );
               }
               this.isLoading = false;
             },

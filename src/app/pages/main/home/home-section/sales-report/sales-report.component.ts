@@ -40,7 +40,9 @@ export class SalesReportComponent implements OnInit {
             this.totalUnitsSold += res.unit_sold;
           });
         } else {
-          this.message.error(res?.error_message ?? 'Get sales report failed!');
+          this.message.error(
+            res?.error_message ? res?.error_message : 'Get sales report failed!'
+          );
         }
       },
       error: (err) => {
@@ -74,7 +76,9 @@ export class SalesReportComponent implements OnInit {
           a.click();
         } else {
           this.message.error(
-            res?.error_message ?? 'Download Sales Report Failed!'
+            res?.error_message
+              ? res?.error_message
+              : 'Download Sales Report Failed!'
           );
         }
       },

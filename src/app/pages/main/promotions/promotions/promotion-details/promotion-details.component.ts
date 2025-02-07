@@ -39,7 +39,9 @@ export class PromotionDetailsComponent implements OnInit {
           this.viewData = res;
           this.promotionList = res.promo_deatils;
         } else {
-          this.message.error(res?.error_message ?? 'Get promotions failed!');
+          this.message.error(
+            res?.error_message ? res?.error_message : 'Get promotions failed!'
+          );
         }
       },
       error: (err) => {
@@ -70,7 +72,9 @@ export class PromotionDetailsComponent implements OnInit {
           a.click();
         } else {
           this.message.error(
-            res?.error_message ?? 'Download promotion details failed!'
+            res?.error_message
+              ? res?.error_message
+              : 'Download promotion details failed!'
           );
         }
       },

@@ -57,7 +57,9 @@ export class UploadModelComponent implements OnInit {
             this.handleCancel(res?.feed_code);
           } else {
             this.message.error(
-              res?.error_message ?? 'Inventory upload failed!'
+              res?.error_message
+                ? res?.error_message
+                : 'Inventory upload failed!'
             );
           }
           this.isLoading = false;

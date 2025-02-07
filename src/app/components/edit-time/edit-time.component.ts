@@ -90,7 +90,9 @@ export class EditTimeComponent implements OnInit {
             this.referenceCode = res?.reference_code;
             this.handleCancel();
           } else {
-            this.message.error(res?.error_message ?? 'Edit product fail!');
+            this.message.error(
+              res?.error_message ? res?.error_message : 'Edit product fail!'
+            );
           }
           this.isLoading = false;
         },

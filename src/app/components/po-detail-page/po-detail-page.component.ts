@@ -80,7 +80,9 @@ export class PoDetailPageComponent implements OnInit {
               this.message.success('Download po successfully!');
               window.open(res?.po_copy_url);
             } else {
-              this.message.error(res.error_message ?? 'Download po failed!');
+              this.message.error(
+                res.error_message ? res?.error_message : 'Download po failed!'
+              );
             }
           },
           error: (e) => {
@@ -97,7 +99,11 @@ export class PoDetailPageComponent implements OnInit {
               this.message.success('Download label successfully!');
               window.open(`https://${res?.label_url}`);
             } else {
-              this.message.error(res.error_message ?? 'Download label failed!');
+              this.message.error(
+                res.error_message
+                  ? res?.error_message
+                  : 'Download label failed!'
+              );
             }
           },
           error: (e) => {

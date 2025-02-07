@@ -87,7 +87,9 @@ export class ExportModelComponent implements OnInit {
               'Export mail has been sent successfully!'
             );
           } else {
-            this.message.error(response?.error_message ?? 'Export fail!');
+            this.message.error(
+              response?.error_message ? response?.error_message : 'Export fail!'
+            );
           }
           this.handleCancel();
           this.isLoading = false;
@@ -137,7 +139,9 @@ export class ExportModelComponent implements OnInit {
             );
             this.handleCancel();
           } else {
-            this.message.error(response?.error_message ?? 'Export fail!');
+            this.message.error(
+              response?.error_message ? response?.error_message : 'Export fail!'
+            );
           }
           this.isLoading = false;
         },
@@ -178,7 +182,9 @@ export class ExportModelComponent implements OnInit {
             );
             this.handleCancel();
           } else {
-            this.message.error(response?.error_message ?? 'Export fail!');
+            this.message.error(
+              response?.error_message ? response?.error_message : 'Export fail!'
+            );
           }
           this.isLoading = false;
         },
@@ -284,7 +290,9 @@ export class ExportModelComponent implements OnInit {
             );
             this.handleCancel();
           } else {
-            this.message.error(response?.error_message ?? 'Export fail!');
+            this.message.error(
+              response?.error_message ? response?.error_message : 'Export fail!'
+            );
           }
           this.isLoading = false;
         },
@@ -305,7 +313,9 @@ export class ExportModelComponent implements OnInit {
             );
             this.handleCancel();
           } else {
-            this.message.error(response?.error_message ?? 'Export fail!');
+            this.message.error(
+              response?.error_message ? response?.error_message : 'Export fail!'
+            );
           }
           this.isLoading = false;
         },
@@ -330,7 +340,9 @@ export class ExportModelComponent implements OnInit {
             );
             this.handleCancel();
           } else {
-            this.message.error(res?.error_message ?? 'Export fail!');
+            this.message.error(
+              res?.error_message ? res?.error_message : 'Export fail!'
+            );
           }
 
           this.isLoading = false;

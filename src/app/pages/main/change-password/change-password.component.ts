@@ -64,7 +64,9 @@ export class ChangePasswordComponent implements OnInit {
             this.router.navigate(['/main/dashboard']);
           } else {
             this.message.error(
-              res?.error_message ?? 'User password change failed!'
+              res?.error_message
+                ? res?.error_message
+                : 'User password change failed!'
             );
           }
         },
