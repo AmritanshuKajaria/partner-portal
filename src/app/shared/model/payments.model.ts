@@ -62,7 +62,6 @@ export interface Invoice {
   };
   invoice_detail?: {
     mpn?: string;
-    description?: string;
     qty?: string;
     total?: string;
     net_product_cost?: string;
