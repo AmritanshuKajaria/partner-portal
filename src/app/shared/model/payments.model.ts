@@ -133,6 +133,7 @@ export interface GetAllOpenBalances {
   applied_filters?: OpenBalancesFilters;
   searched?: boolean;
   applied_search_term?: string;
+  total_outstanding_balance?: string;
   open_balances?: OpenBalance[];
   error_message?: string;
 }

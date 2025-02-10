@@ -36,6 +36,7 @@ export class OpenBalancesComponent implements OnInit {
   badgeTotal: number = 0;
   search_term: string = '';
   openBalancesDataList: OpenBalance[] = [];
+  totalOutstandingBalance: string = '';
 
   invoice_start_date: string = '';
   invoice_end_date: string = '';
@@ -79,6 +80,8 @@ export class OpenBalancesComponent implements OnInit {
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
+          this.totalOutstandingBalance =
+            response?.total_outstanding_balance ?? '';
           this.openBalancesDataList = response?.open_balances ?? [];
         } else {
           this.message.error(

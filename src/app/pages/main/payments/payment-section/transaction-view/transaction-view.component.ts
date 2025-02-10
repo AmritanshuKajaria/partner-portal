@@ -39,6 +39,7 @@ export class TransactionViewComponent implements OnInit {
   tagInputRef!: ElementRef;
   tags: string[] = [];
   sidenavSection: any;
+  shouldTableVisible: boolean = false;
 
   constructor(
     private paymentService: PaymentService,
@@ -131,6 +132,10 @@ export class TransactionViewComponent implements OnInit {
       pull(this.tags, tag);
     } else {
       this.tags.splice(-1);
+    }
+
+    if (this.tags.length === 0) {
+      this.shouldTableVisible = false;
       this.transactionViewDataList = [];
     }
   }
@@ -145,6 +150,7 @@ export class TransactionViewComponent implements OnInit {
     this.pageIndex = 1;
     this.search_term = '';
 
+    this.shouldTableVisible = true;
     this.getPaymentList(this.pageIndex, this.search_term);
   }
 }

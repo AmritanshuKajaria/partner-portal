@@ -44,11 +44,7 @@
     </button>
   </div>
 
-  <div
-    *ngIf="
-      transactionViewDataList.length && tags.length && !submitButtonLoading
-    "
-  >
+  <div *ngIf="shouldTableVisible && !submitButtonLoading">
     <app-payment-table
       [listOfData]="transactionViewDataList"
       [total]="total"
