@@ -126,12 +126,27 @@ export class PastRemittancesComponent implements OnInit {
     const data: DownloadRemittance = {
       remittance_no: event.remittanceNo,
     };
-    this.paymentService
-      .downloadRemittance(data)
-      .subscribe((res: GetDownloadRemittance) => {
-        if (res.success) {
-          window.open(res?.remittance_url);
+    this.paymentService.downloadRemittance(data).subscribe({
+      next: (res: GetDownloadRemittance) => {
+        if (res.success && res.remittance_url) {
+          var objectUrl = res.remittance_url;
+          var a = document.createElement('a');
+          a.download = 'document';
+          a.href = objectUrl;
+          a.click();
+        } else {
+          this.message.error(
+            res?.error_message
+              ? res?.error_message
+              : 'Remittance Download Failed!'
+          );
         }
-      });
+      },
+      error: (e) => {
+        if (!e?.error_shown) {
+          this.message.error('Remittance Download Failed!');
+        }
+      },
+    });
   }
 }

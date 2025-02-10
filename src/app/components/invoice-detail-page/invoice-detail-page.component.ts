@@ -11,19 +11,17 @@ import { PaymentService } from 'src/app/shared/service/payment.service';
 })
 export class InvoiceDetailPageComponent implements OnInit {
   invoiceDetailData: Invoice = {};
+  invoiceDetails: InvoiceDetails = {};
 
-  invoiceStatusLabelMapping: any = {
-    '1': 'Paid',
-    '2': 'Processed',
-    '3': 'Processed (Non-Compliant Invoice Format)',
-    '4': 'Processed (Quantity and Price Error)',
+  invoiceTypeLabelMapping: any = {
+    3: 'Non-Compliant Invoice',
+    2: 'Quantity and Price Error',
+    4: 'Quantity and Price Error',
   };
 
   isLoading: boolean = false;
   invoiceNo: string = '';
   invoiceNotExist: boolean = true;
-
-  selectedOption: string = '1';
 
   constructor(
     private route: ActivatedRoute,
@@ -39,6 +37,7 @@ export class InvoiceDetailPageComponent implements OnInit {
       next: (res: InvoiceDetails) => {
         this.isLoading = false;
         if (res.success) {
+          this.invoiceDetails = res;
           this.invoiceDetailData = res?.invoice ?? {};
         } else {
           this.message.error(
@@ -56,19 +55,5 @@ export class InvoiceDetailPageComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    if (this.invoiceNo) {
-      const parts = this.invoiceNo.split('_');
-      const option = parts[parts.length - 1];
-      this.selectedOption = ['1', '2', '3', '4'].includes(option)
-        ? option
-        : '1';
-    }
-  }
-
-  getProcessedStatusLabel(option: string): string {
-    return this.invoiceStatusLabelMapping[option]
-      ?.replace('Processed ', '')
-      ?.replace(/[()]/g, '');
-  }
+  ngOnInit(): void {}
 }

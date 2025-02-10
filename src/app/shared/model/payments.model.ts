@@ -12,6 +12,7 @@ export interface GetDownloadRemittance {
   success?: boolean;
   processed_at?: string;
   remittance_url?: string;
+  error_message?: string;
 }
 
 export interface DownloadRemittance {
@@ -25,6 +26,7 @@ export interface InvoiceDetails {
   requested_invoice_no?: string;
   invoice?: Invoice;
   error_message?: string;
+  type?: number;
 }
 
 export interface Invoice {
@@ -60,10 +62,7 @@ export interface Invoice {
   };
   invoice_detail?: {
     mpn?: string;
-    description?: string;
-    product_name?: string;
     qty?: string;
-    unit_price?: string;
     total?: string;
     net_product_cost?: string;
     shipping_cost?: string;
