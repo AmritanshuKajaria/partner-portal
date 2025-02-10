@@ -7,18 +7,19 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { ListNgZorroModule } from 'src/app/shared/list-ng-zorro/list-ng-zorro.module';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RemittanceComponent } from './payment-section/remittance/remittance.component';
-import { ScheduledPaymentsComponent } from './payment-section/scheduled-payments/scheduled-payments.component';
-import { InvoicePaymentStatusComponent } from './payment-section/invoice-payment-status/invoice-payment-status.component';
+import { PastRemittancesComponent } from './payment-section/past-remittances/past-remittances.component';
+import { OpenBalancesComponent } from './payment-section/open-balances/open-balances.component';
+import { TransactionViewComponent } from './payment-section/transaction-view/transaction-view.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { PaymentTableComponent } from './payment-section/payment-table/payment-table.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 @NgModule({
   declarations: [
     PaymentSectionComponent,
-    RemittanceComponent,
-    ScheduledPaymentsComponent,
-    InvoicePaymentStatusComponent,
+    PastRemittancesComponent,
+    OpenBalancesComponent,
+    TransactionViewComponent,
     PaymentTableComponent,
   ],
   imports: [
@@ -30,6 +31,7 @@ import { PaymentTableComponent } from './payment-section/payment-table/payment-t
     ReactiveFormsModule,
     FormsModule,
     ComponentModule,
+    SharedModule,
   ],
 })
 export class PaymentsModule {}
