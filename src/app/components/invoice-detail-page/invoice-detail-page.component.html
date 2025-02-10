@@ -168,7 +168,6 @@
           <thead>
             <tr>
               <th id="mpn">MPN</th>
-              <th id="description">Description</th>
               <th id="qty">Qty</th>
               <th id="price">Unit Price</th>
               <th id="total">Total</th>
@@ -182,10 +181,9 @@
             >
               <tr>
                 <td>{{ data?.mpn }}</td>
-                <td>{{ data?.description }}</td>
                 <td>{{ data?.qty }}</td>
                 <td>
-                  {{ data?.unit_price | currency }}
+                  {{ data?.net_product_cost| currency }}
                 </td>
                 <td>{{ data?.total | currency }}</td>
               </tr>
