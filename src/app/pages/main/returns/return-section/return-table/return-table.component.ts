@@ -22,7 +22,7 @@ import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 })
 export class ReturnTableComponent implements OnInit {
   @ViewChild('mySidenav', { static: false }) sidenavSection!: ElementRef;
-  @Input() total: number = 1;
+  @Input() total: number = 0;
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;

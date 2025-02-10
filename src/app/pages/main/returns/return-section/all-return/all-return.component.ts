@@ -14,7 +14,7 @@ import {
 })
 export class AllReturnComponent implements OnInit {
   isLoading: boolean = false;
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
   search_term: string = '';

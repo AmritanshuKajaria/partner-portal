@@ -25,7 +25,7 @@ export class TransactionViewComponent implements OnInit {
 
   filterForm!: FormGroup;
   isLoading: boolean = false;
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
 

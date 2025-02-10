@@ -14,7 +14,7 @@ import { ReturnService } from 'src/app/shared/service/return.service';
 })
 export class ReturnDelivered implements OnInit {
   isLoading: boolean = false;
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
 

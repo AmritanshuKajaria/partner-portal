@@ -28,7 +28,7 @@ export class OpenBalancesComponent implements OnInit {
   exportType: boolean = false;
 
   isLoading: boolean = false;
-  total = 1;
+  total = 0;
   pageSize = 100;
   pageIndex = 1;
 
