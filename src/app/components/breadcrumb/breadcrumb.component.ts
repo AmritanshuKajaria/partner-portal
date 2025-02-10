@@ -32,7 +32,11 @@ export class BreadcrumbComponent implements OnInit {
       }
       this.breadcrumbList = this.path;
     }
-    if (this.path[0] === 'inventory-feeds' || this.path[0] === 'promotions') {
+    if (
+      this.path[0] === 'inventory-feeds' ||
+      this.path[0] === 'promotions' ||
+      this.path[0] === 'payments'
+    ) {
       this.path.pop();
       this.breadcrumbList = this.path;
     }

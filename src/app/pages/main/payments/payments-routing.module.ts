@@ -6,15 +6,15 @@ import { InvoiceDetailPageComponent } from 'src/app/components/invoice-detail-pa
 
 const routes: Routes = [
   {
-    path: 'payment-section',
+    path: '',
     component: PaymentSectionComponent,
   },
   {
-    path: 'payment-section/po-details/:poNo',
+    path: ':sub/po-details/:poNo',
     component: PoDetailPageComponent,
   },
   {
-    path: 'payment-section/invoice-details/:invoiceNo',
+    path: ':sub/invoice-details/:invoiceNo',
     component: InvoiceDetailPageComponent,
   },
 ];
