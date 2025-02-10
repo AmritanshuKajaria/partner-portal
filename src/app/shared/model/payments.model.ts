@@ -16,7 +16,6 @@ export interface GetDownloadRemittance {
 
 export interface DownloadRemittance {
   remittance_no: string;
-  file_type: string;
 }
 
 // Invoice
@@ -175,6 +174,7 @@ export interface GetAllPastRemittances {
   searched?: boolean;
   applied_search_term?: string;
   past_remittances?: PastRemittance[];
+  total_remittance?: string;
   error_message?: string;
 }
 

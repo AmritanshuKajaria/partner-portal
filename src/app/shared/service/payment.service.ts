@@ -113,13 +113,11 @@ export class PaymentService {
   }
 
   exportPastRemittances(data: PastRemittancesFilters) {
-    return this.http.post(this.url + '/export-past-remittances', data);
+    return this.http.post(this.url + '/export-remittance', data);
   }
 
   downloadRemittance(data: DownloadRemittance) {
-    let params = new HttpParams()
-      .set('remittance_no', data?.remittance_no)
-      .set('file_type', data?.file_type);
+    let params = new HttpParams().set('remittance_no', data?.remittance_no);
 
     return this.http.get(this.url + '/download-remittance', { params: params });
   }

@@ -274,7 +274,6 @@ export class ExportModelComponent implements OnInit {
 
       this.paymentService.exportTransactions(filters).subscribe({
         next: (response: any) => {
-          console.log(response);
           this.isLoading = false;
           if (response.success) {
             this.handleCancel();
@@ -332,7 +331,6 @@ export class ExportModelComponent implements OnInit {
 
       this.paymentService.exportOpenBalances(filters).subscribe({
         next: (response: any) => {
-          console.log(response);
           this.isLoading = false;
           if (response.success) {
             this.handleCancel();
@@ -380,7 +378,6 @@ export class ExportModelComponent implements OnInit {
 
       this.paymentService.exportPastRemittances(filters).subscribe({
         next: (response: any) => {
-          console.log(response);
           this.isLoading = false;
           if (response.success) {
             this.handleCancel();

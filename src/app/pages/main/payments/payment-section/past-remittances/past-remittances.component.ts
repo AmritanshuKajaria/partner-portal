@@ -31,6 +31,7 @@ export class PastRemittancesComponent implements OnInit {
   badgeTotal: number = 0;
   search_term: string = '';
   pastRemittancesDataList: PastRemittance[] = [];
+  totalRemittance: string = '';
 
   remittance_start_date: string = '';
   remittance_end_date: string = '';
@@ -68,6 +69,7 @@ export class PastRemittancesComponent implements OnInit {
         if (response.success) {
           this.total = response?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
+          this.totalRemittance = response?.total_remittance ?? '';
           this.pastRemittancesDataList = response?.past_remittances ?? [];
         } else {
           this.message.error(
@@ -120,9 +122,8 @@ export class PastRemittancesComponent implements OnInit {
   }
 
   // For Download
-  handleAction(event: { format: string; remittanceNo: string }) {
+  handleAction(event: { remittanceNo: string }) {
     const data: DownloadRemittance = {
-      file_type: event.format,
       remittance_no: event.remittanceNo,
     };
     this.paymentService
