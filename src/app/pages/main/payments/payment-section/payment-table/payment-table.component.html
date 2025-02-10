@@ -152,7 +152,7 @@
           >
             <a
               style="color: #1221c3"
-              [routerLink]="'invoice-details/' + data?.invoice_no"
+              [routerLink]="(tabName === 'openBalances' ? 'open-balances' : 'transaction-view') + '/invoice-details/' + data?.invoice_no"
             >
               <u
                 ><b>{{ data?.invoice_no }}</b></u
@@ -165,7 +165,7 @@
           >
             <a
               style="color: #1221c3"
-              [routerLink]="'po-details/' + data?.po_no"
+              [routerLink]="(tabName === 'openBalances' ? 'open-balances' : 'transaction-view') + '/po-details/' + data?.po_no"
             >
               <u
                 ><b>{{ data.po_no }}</b></u
