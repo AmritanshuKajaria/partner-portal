@@ -30,7 +30,7 @@
 
       <!-- Compare here string plus int value -->
       <li nz-menu-item *ngIf="
-          userPartnerDetails && (userPartnerDetails?.order_tab === 1 || userPartnerDetails?.order_tab === '1')
+          userPartnerDetails && userPartnerDetails?.order_tab === 1
         " routerLinkActive="active" routerLink="/main/orders/order-section">
         <span nz-icon nzType="shopping"></span>
         <span>Orders</span>
@@ -47,7 +47,7 @@
       <li
         nz-menu-item
         *ngIf="
-          userPartnerDetails && (userPartnerDetails?.payment_tab === 1 || userPartnerDetails?.payment_tab === '1')"
+          userPartnerDetails && userPartnerDetails?.payment_tab === 1"
         routerLinkActive="active"
         routerLink="/main/payments/payment-section"
       >

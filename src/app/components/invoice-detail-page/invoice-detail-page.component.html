@@ -75,7 +75,7 @@
               <div class="sub-section-one">
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="Status"
-                    ><b>{{ invoiceStatusLabelMapping[selectedOption] }}</b>
+                    ><b>{{ invoiceDetailData.invoice_status?.status }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
                 <nz-descriptions>
@@ -195,11 +195,11 @@
       </div>
 
       <!-- Second Table -->
-      <div *ngIf="selectedOption !== '1' && selectedOption !== '2'">
+      <div *ngIf="invoiceDetails?.type && (invoiceDetails?.type !== 1 && invoiceDetails?.type !== 5)">
         <div class="user-content">
           <div class="tab-header">
             <span>
-              {{ getProcessedStatusLabel(selectedOption) }}
+              {{ invoiceTypeLabelMapping[invoiceDetails.type!] }}
             </span>
           </div>
         </div>
@@ -215,9 +215,9 @@
               <tr>
                 <th></th>
                 <th>MPN</th>
-                <th *ngIf="selectedOption === '3'">Net Product Cost</th>
-                <th *ngIf="selectedOption === '3'">Shipping Charge</th>
-                <th *ngIf="selectedOption === '4'">Qty</th>
+                <th *ngIf="invoiceDetails?.type === 3">Net Product Cost</th>
+                <th *ngIf="invoiceDetails?.type === 3">Shipping Charge</th>
+                <th *ngIf="invoiceDetails?.type === 4 || invoiceDetails?.type === 2">Qty</th>
                 <th>Total</th>
               </tr>
             </thead>
@@ -225,13 +225,13 @@
               <tr>
                 <td style="font-weight: 500">PO</td>
                 <td>{{ invoiceDetailData.po_detail?.mpn }}</td>
-                <td *ngIf="selectedOption === '3'">
+                <td *ngIf="invoiceDetails?.type === 3">
                   {{ invoiceDetailData.po_detail?.net_product_cost | currency }}
                 </td>
-                <td *ngIf="selectedOption === '3'">
+                <td *ngIf="invoiceDetails?.type === 3">
                   {{ invoiceDetailData.po_detail?.shipping_cost | currency }}
                 </td>
-                <td *ngIf="selectedOption === '4'">
+                <td *ngIf="invoiceDetails?.type === 4 || invoiceDetails?.type === 2">
                   {{ invoiceDetailData.po_detail?.qty }}
                 </td>
                 <td>{{ invoiceDetailData.po_detail?.total | currency }}</td>
@@ -239,18 +239,18 @@
               <tr>
                 <td style="font-weight: 500">Invoice</td>
                 <td>{{ invoiceDetailData.invoice_detail?.mpn }}</td>
-                <td *ngIf="selectedOption === '3'">
+                <td *ngIf="invoiceDetails?.type === 3">
                   {{
                     invoiceDetailData.invoice_detail?.net_product_cost
                       | currency
                   }}
                 </td>
-                <td *ngIf="selectedOption === '3'">
+                <td *ngIf="invoiceDetails?.type === 3">
                   {{
                     invoiceDetailData.invoice_detail?.shipping_cost | currency
                   }}
                 </td>
-                <td *ngIf="selectedOption === '4'">
+                <td *ngIf="invoiceDetails?.type === 4 || invoiceDetails?.type === 2">
                   {{ invoiceDetailData.invoice_detail?.qty }}
                 </td>
                 <td>

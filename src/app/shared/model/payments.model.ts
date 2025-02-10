@@ -25,6 +25,7 @@ export interface InvoiceDetails {
   requested_invoice_no?: string;
   invoice?: Invoice;
   error_message?: string;
+  type?: number;
 }
 
 export interface Invoice {
@@ -61,7 +62,6 @@ export interface Invoice {
   invoice_detail?: {
     mpn?: string;
     description?: string;
-    product_name?: string;
     qty?: string;
     unit_price?: string;
     total?: string;
