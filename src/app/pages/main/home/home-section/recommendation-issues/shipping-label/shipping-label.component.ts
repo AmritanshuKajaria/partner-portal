@@ -73,7 +73,9 @@ export class ShippingLabelComponent implements OnInit {
             this.shippingLabelList = res.data;
           } else {
             this.message.error(
-              res?.error_message ?? 'Get agendas details failed!'
+              res?.error_message
+                ? res?.error_message
+                : 'Get agendas details failed!'
             );
           }
         },

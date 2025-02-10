@@ -97,7 +97,9 @@ export class MapConflictComponent implements OnInit {
             this.mapConflictList = res.data;
           } else {
             this.message.error(
-              res?.error_message ?? 'Get agendas details failed!'
+              res?.error_message
+                ? res?.error_message
+                : 'Get agendas details failed!'
             );
           }
         },

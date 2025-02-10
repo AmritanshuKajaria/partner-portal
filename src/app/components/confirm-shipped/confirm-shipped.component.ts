@@ -87,7 +87,9 @@ export class ConfirmShippedComponent implements OnInit {
           this.message.success('Mark shipped successfully!');
           this.handleCancel();
         } else {
-          this.message.error(res?.error_message ?? 'Mark shipped failed!');
+          this.message.error(
+            res?.error_message ? res?.error_message : 'Mark shipped failed!'
+          );
         }
         this.isLoading = false;
       },

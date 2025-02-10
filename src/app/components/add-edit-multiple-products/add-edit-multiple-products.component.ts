@@ -133,7 +133,9 @@ export class AddEditMultipleProductsComponent implements OnInit {
             a.click();
           } else {
             this.message.error(
-              res?.error_message ?? 'Template Download Failed!'
+              res?.error_message
+                ? res?.error_message
+                : 'Template Download Failed!'
             );
           }
         },
@@ -168,7 +170,11 @@ export class AddEditMultipleProductsComponent implements OnInit {
           a.href = objectUrl;
           a.click();
         } else {
-          this.message.error(res?.error_message ?? 'Template Download Failed!');
+          this.message.error(
+            res?.error_message
+              ? res?.error_message
+              : 'Template Download Failed!'
+          );
         }
       },
       error: (e) => {
@@ -209,7 +215,11 @@ export class AddEditMultipleProductsComponent implements OnInit {
           this.referenceCode = result?.reference_code;
           this.handleCancel();
         } else {
-          this.message.error(result?.error_message ?? 'Edit products fail!');
+          this.message.error(
+            result?.error_message
+              ? result?.error_message
+              : 'Edit products fail!'
+          );
         }
       },
       error: (err) => {

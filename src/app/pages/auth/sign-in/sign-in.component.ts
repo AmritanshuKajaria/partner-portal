@@ -83,7 +83,11 @@ export class SignInComponent implements OnInit {
               this.isLoading = false;
             }
           } else {
-            this.message.error(result?.error_message ?? 'User login failed!');
+            this.message.error(
+              result?.error_message
+                ? result?.error_message
+                : 'User login failed!'
+            );
             this.isLoading = false;
           }
         },

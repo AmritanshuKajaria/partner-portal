@@ -78,7 +78,9 @@ export class ResetPasswordComponent implements OnInit {
               // }
             } else {
               this.message.error(
-                result.error_message ?? 'Reset Password Failed'
+                result.error_message
+                  ? result?.error_message
+                  : 'Reset Password Failed'
               );
             }
           },

@@ -55,7 +55,9 @@ export class CancelOrderComponent implements OnInit {
           this.message.success('Order Cancelled Successfully!');
           this.handleCancel();
         } else {
-          this.message.error(res?.error_message ?? 'Order Cancelled Failed!');
+          this.message.error(
+            res?.error_message ? res?.error_message : 'Order Cancelled Failed!'
+          );
         }
       },
       error: (err) => {

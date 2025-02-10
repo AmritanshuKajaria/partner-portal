@@ -54,7 +54,9 @@ export class PoClarificationComponent implements OnInit {
           this.message.success('PO clarification successfully!');
           this.close.emit();
         } else {
-          this.message.error(res?.error_message ?? 'Failed to clarify PO.');
+          this.message.error(
+            res?.error_message ? res?.error_message : 'Failed to clarify PO.'
+          );
         }
       },
       error: (error: any) => {

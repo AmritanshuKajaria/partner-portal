@@ -1,0 +1,20 @@
+<div class="remittance-section">
+  <div>
+    Total Remittance (Last 30 Days):
+    <strong>{{ +totalRemittance | currency }}</strong>
+  </div>
+
+  <!-- Table componets -->
+  <app-payment-table
+    [listOfData]="pastRemittancesDataList"
+    [total]="total"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [isLoading]="isLoading"
+    [tabName]="'pastRemittances'"
+    (action)="handleAction($event)"
+    (pageChange)="pageIndexChange($event)"
+    (searchChange)="searchDataChanges($event)"
+    (filterChange)="filterDataChanges($event)"
+  ></app-payment-table>
+</div>

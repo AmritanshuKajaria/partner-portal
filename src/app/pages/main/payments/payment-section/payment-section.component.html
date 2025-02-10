@@ -1,17 +1,37 @@
 <div class="payment-section">
-  <app-section-header [header]="'Payment Section'"></app-section-header>
+  <app-section-header [header]="'Payments'"></app-section-header>
 
   <div class="body-section">
     <nz-tabset nzType="card">
-      <nz-tab nzTitle="Remittance">
-        <app-remittance></app-remittance>
+      <nz-tab nzTitle="Transaction View">
+        <ul style="padding-left: 14px">
+          <li>
+            The Transaction View tab provides a comprehensive overview of
+            invoice details, including key dates like due and payment dates,
+            tailored to a specific invoice number.
+          </li>
+        </ul>
+        <app-transaction-view></app-transaction-view
+      ></nz-tab>
+      <nz-tab nzTitle="Open Balances">
+        <ul style="padding-left: 14px">
+          <li>
+            The Open Balances tab displays the current outstanding balances and
+            credits due.
+          </li>
+        </ul>
+        <app-open-balances></app-open-balances
+      ></nz-tab>
+      <nz-tab nzTitle="Past Remittances">
+        <ul style="padding-left: 14px">
+          <li>
+            The Past Remittances tab offers a detailed history of previous
+            payments, highlighting each remittance and its corresponding paid
+            amount.
+          </li>
+        </ul>
+        <app-past-remittances></app-past-remittances>
       </nz-tab>
-      <nz-tab nzTitle="Scheduled Payments"
-        ><app-scheduled-payments></app-scheduled-payments
-      ></nz-tab>
-      <nz-tab nzTitle="Invoice Payment Status"
-        ><app-invoice-payment-status></app-invoice-payment-status
-      ></nz-tab>
     </nz-tabset>
   </div>
 </div>

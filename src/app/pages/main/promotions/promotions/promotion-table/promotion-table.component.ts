@@ -111,8 +111,9 @@ export class PromotionTableComponent implements OnInit {
                   );
                 } else {
                   this.message.error(
-                    res?.error_message ??
-                      `Cancel this promotion failed : ${promo_code}`
+                    res?.error_message
+                      ? res?.error_message
+                      : `Cancel this promotion failed : ${promo_code}`
                   );
                 }
               },
@@ -143,8 +144,9 @@ export class PromotionTableComponent implements OnInit {
                   );
                 } else {
                   this.message.error(
-                    res?.error_message ??
-                      `Stop this promotion failed : ${promo_code}`
+                    res?.error_message
+                      ? res?.error_message
+                      : `Stop this promotion failed : ${promo_code}`
                   );
                 }
               },
