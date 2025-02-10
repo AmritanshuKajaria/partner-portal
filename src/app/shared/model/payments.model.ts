@@ -12,6 +12,7 @@ export interface GetDownloadRemittance {
   success?: boolean;
   processed_at?: string;
   remittance_url?: string;
+  error_message?: string
 }
 
 export interface DownloadRemittance {
