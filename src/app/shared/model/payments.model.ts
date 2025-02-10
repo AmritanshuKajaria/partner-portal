@@ -179,8 +179,8 @@ export interface GetAllPastRemittances {
 }
 
 export interface PastRemittancesFilters {
-  filter_from_remittance_date?: string;
-  filter_to_remittance_date?: string;
+  filter_start_date?: string;
+  filter_end_date?: string;
 }
 
 export interface PastRemittance {

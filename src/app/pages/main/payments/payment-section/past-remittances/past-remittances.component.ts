@@ -58,8 +58,8 @@ export class PastRemittancesComponent implements OnInit {
     this.isLoading = true;
     const data: GetAllPastRemittancesPayload = {
       page: page,
-      filter_from_remittance_date: remittance_start_date,
-      filter_to_remittance_date: remittance_end_date,
+      filter_start_date: remittance_start_date,
+      filter_end_date: remittance_end_date,
       search_term: search_term,
     };
     this.paymentService.getAllPastRemittances(data).subscribe({

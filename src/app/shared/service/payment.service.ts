@@ -81,21 +81,17 @@ export class PaymentService {
   getAllPastRemittances(action: GetAllPastRemittancesPayload) {
     let params = new HttpParams().set('page', action.page);
 
-    if (action.filter_from_remittance_date) {
+    if (action.filter_start_date) {
       params = params.append(
-        'filter_from_remittance_date',
-        formatDate(
-          action?.filter_from_remittance_date,
-          'yyyy-MM-dd',
-          this.locale
-        )
+        'filter_start_date',
+        formatDate(action?.filter_start_date, 'yyyy-MM-dd', this.locale)
       );
     }
 
-    if (action.filter_to_remittance_date) {
+    if (action.filter_end_date) {
       params = params.append(
-        'filter_to_remittance_date',
-        formatDate(action?.filter_to_remittance_date, 'yyyy-MM-dd', this.locale)
+        'filter_end_date',
+        formatDate(action?.filter_end_date, 'yyyy-MM-dd', this.locale)
       );
     }
 
@@ -103,7 +99,7 @@ export class PaymentService {
       params = params.append('search_term', action?.search_term);
     }
 
-    return this.http.get(this.url + '/get-past-remittances', {
+    return this.http.get(this.url + '/past-remittances', {
       params: params,
     });
   }

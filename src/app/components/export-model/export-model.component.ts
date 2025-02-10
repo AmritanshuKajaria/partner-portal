@@ -359,7 +359,7 @@ export class ExportModelComponent implements OnInit {
       let filters: PastRemittancesFilters = {};
 
       if (this.listOfFilter?.remittance_start_date) {
-        filters['filter_from_remittance_date'] = this.exportType
+        filters['filter_start_date'] = this.exportType
           ? formatDate(
               this.listOfFilter?.remittance_start_date,
               'yyyy-MM-dd',
@@ -369,7 +369,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       if (this.listOfFilter?.remittance_end_date) {
-        filters['filter_to_remittance_date'] = this.exportType
+        filters['filter_end_date'] = this.exportType
           ? formatDate(
               this.listOfFilter?.remittance_end_date,
               'yyyy-MM-dd',
