@@ -27,6 +27,7 @@ export class PromotionTableComponent implements OnInit {
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
+  @Input() search_term: string = '';
   @Input() listOfData: any[] = [];
   @Input() tabName: string = '';
 

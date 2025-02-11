@@ -58,6 +58,8 @@
         [listOfFilter]="listOfFilter"
         [noOfFilter]="total"
         (close)="isExportVisible = false"
+        [isFilterApplied]="badgeTotal > 0"
+        [isSearchApplied]="search_term !== ''"
       ></app-export-model>
     </ng-container>
   </nz-modal>

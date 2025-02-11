@@ -359,6 +359,8 @@
         [listOfFilter]="listOfFilter"
         [noOfFilter]="total"
         (close)="handleCancel('download')"
+        [isFilterApplied]="badgeTotal > 0"
+        [isSearchApplied]="product_search !== ''"
       ></app-export-model>
     </ng-container>
   </nz-modal>

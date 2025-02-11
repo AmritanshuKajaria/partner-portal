@@ -270,6 +270,8 @@
       [listOfFilter]="listOfFilter"
       [noOfFilter]="total"
       (close)="handleCancel()"
+      [isFilterApplied]="badgeTotal > 0"
+      [isSearchApplied]="search_term !== ''"
     ></app-export-model>
   </ng-container>
 </nz-modal>

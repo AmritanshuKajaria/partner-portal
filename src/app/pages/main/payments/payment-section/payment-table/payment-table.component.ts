@@ -24,6 +24,7 @@ export class PaymentTableComponent implements OnInit {
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
+  @Input() search_term: string = '';
   @Input() listOfData: TableData[] = [];
   @Input() tabName: string = '';
   @Input() defaultFilters: any = {};
