@@ -34,6 +34,8 @@ export class ExportModelComponent implements OnInit {
   @Input() sectionName: string = '';
   @Input() code: string = '';
   @Input() showFilterOptions: boolean = true;
+  @Input() isFilterApplied = false;
+  @Input() isSearchApplied = false;
   userEmail: string = 'service@123stores.com';
   isDownloadVisible: boolean = false;
   isLoading: boolean = false;
