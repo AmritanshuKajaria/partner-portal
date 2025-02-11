@@ -1,8 +1,8 @@
 import { Component, Input, Renderer2 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import * as lodash from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 import { ProductService } from 'src/app/shared/service/product.service';
@@ -24,7 +24,7 @@ export class NewMultiProductCalculatorComponent {
 
   multiData: NewCalculatorMultiData[] = [];
   isExportVisible = false;
-  retailPricingSearch = new Subject<any>();
+  search_term: string = '';
   searchVal = '';
   editData: { mpn: string; current: number; new: number; sku: string } = {
     mpn: 'string',
@@ -41,6 +41,7 @@ export class NewMultiProductCalculatorComponent {
   extraData: {} = {};
 
   retailPriceErrorTimer: any;
+  searchForm!: FormGroup;
 
   constructor(
     private newCalculatorService: NewCalculatorService,
@@ -53,13 +54,10 @@ export class NewMultiProductCalculatorComponent {
     if (this.showCalculator) {
       this.getAllProductCalculatorList();
     }
-    this.retailPricingSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.pageIndex = 1;
-        this.searchVal = value.target.value;
-        this.getAllProductCalculatorList();
-      });
+
+    this.searchForm = new FormGroup({
+      search: new FormControl(''),
+    });
 
     this.renderer.listen('window', 'resize', () => {
       if (window.innerWidth > 1498) {
@@ -68,6 +66,16 @@ export class NewMultiProductCalculatorComponent {
         this.addScroll = true;
       }
     });
+  }
+
+  searchSubmit() {
+    const searchValue = this.searchForm.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.pageIndex = 1;
+      this.searchVal = this.search_term;
+      this.getAllProductCalculatorList();
+    }
   }
 
   // for - if path include / ex sku: 10243/25

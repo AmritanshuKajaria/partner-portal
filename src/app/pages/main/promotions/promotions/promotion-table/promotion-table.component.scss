@@ -1,201 +1,198 @@
-@import '../../../../../../assets/variable/variable.scss';
+@import "../../../../../../assets/variable/variable.scss";
 
 .promotion-table {
-    .action {
+  .action {
+    display: flex;
+    justify-content: end;
+    border: 1px solid $border;
+    padding: 10px;
+    margin-top: 10px;
+  }
+
+  form {
+    .search {
+      // width: 12%;
+      border-radius: 17px;
+    }
+
+    .search-button {
+      position: absolute;
+      right: 0;
+      z-index: 1;
+      border-top-right-radius: inherit;
+      border-bottom-right-radius: inherit;
+    }
+
+    ::ng-deep .ant-form-item {
+      display: inline-block;
+      float: right;
+      margin-left: 4px;
+    }
+  }
+
+  .filter-section {
+    width: 0;
+    position: fixed;
+    z-index: 10;
+    top: 90px;
+    right: 16px;
+    overflow-x: hidden;
+    transition: 0.5s;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    padding-top: 30px;
+    height: 90%;
+    overflow-y: scroll;
+    background-color: $white;
+
+    .filter-content {
+      padding: 5px 15px;
+
+      input {
+        height: 35px;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+
+      nz-select {
+        width: 100%;
+      }
+
+      ::ng-deep
+        .ant-select:not(.ant-select-customize-input)
+        .ant-select-selector,
+      .ant-picker {
+        border-radius: 5px !important;
+        height: 35px !important;
+        font-size: 16px;
+      }
+
+      h3 {
+        margin-top: 20px;
+      }
+    }
+
+    nz-divider {
+      margin-bottom: 10px;
+    }
+
+    ::ng-deep .ant-divider-horizontal.ant-divider-with-text-left::before {
+      width: 0% !important;
+    }
+
+    ::ng-deep .ant-divider-inner-text {
+      padding-left: 0px !important;
+    }
+  }
+
+  ::ng-deep .ant-tag {
+    background: #2121c31a;
+    font-weight: 600;
+  }
+
+  .filter-section a {
+    // padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+
+  .filter-section .closebtn {
+    position: absolute;
+    top: -10px;
+    right: 6px;
+    font-size: 36px;
+  }
+
+  .content-section {
+    transition: margin-left 0.5s;
+    // padding: 16px;
+
+    .clear-btn {
+      height: 28px !important;
+      padding: 0px 12px !important;
+      border-radius: 17px !important;
+    }
+
+    .view-edit-products-section-content {
+      padding: 0px 20px 20px 20px;
+
+      .action {
         display: flex;
         justify-content: end;
         border: 1px solid $border;
         padding: 10px;
         margin-top: 10px;
-    }
+      }
 
-    form {
-        .search {
-            // width: 12%;
-            border-radius: 17px;
-            float: right;
-        }
-
-
-        ::ng-deep .ant-form-item {
-            display: inline-block;
-            float: right;
-            margin-left: 4px;
-        }
-
-
-    }
-
-    .filter-section {
-        width: 0;
-        position: fixed;
-        z-index: 10;
-        top: 90px;
-        right: 16px;
-        overflow-x: hidden;
-        transition: 0.5s;
-        box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-        padding-top: 30px;
-        height: 90%;
-        overflow-y: scroll;
-        background-color: $white;
-
-        .filter-content {
-            padding: 5px 15px;
-
-            input {
-                height: 35px;
-                font-size: 16px;
-                border-radius: 5px;
-            }
-
-            nz-select {
-                width: 100%;
-            }
-
-            ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
-            .ant-picker {
-                border-radius: 5px !important;
-                height: 35px !important;
-                font-size: 16px;
-            }
-
-            h3 {
-                margin-top: 20px;
-            }
-        }
-
-        nz-divider {
-            margin-bottom: 10px;
-        }
-
-        ::ng-deep .ant-divider-horizontal.ant-divider-with-text-left::before {
-            width: 0% !important;
-
-        }
-
-        ::ng-deep .ant-divider-inner-text {
-            padding-left: 0px !important;
-        }
-    }
-
-    ::ng-deep .ant-tag {
-        background: #2121c31a;
-        font-weight: 600;
-    }
-
-    .filter-section a {
-        // padding: 8px 8px 8px 32px;
-        text-decoration: none;
-        font-size: 25px;
-        color: #818181;
-        display: block;
-        transition: 0.3s;
-    }
-
-    .filter-section .closebtn {
-        position: absolute;
-        top: -10px;
-        right: 6px;
-        font-size: 36px;
-    }
-
-    .content-section {
-        transition: margin-left .5s;
-        // padding: 16px;
-
-
-
-        .clear-btn {
-            height: 28px !important;
-            padding: 0px 12px !important;
-            border-radius: 17px !important;
-        }
-
-
-        .view-edit-products-section-content {
-            padding: 0px 20px 20px 20px;
-
-            .action {
-                display: flex;
-                justify-content: end;
-                border: 1px solid $border;
-                padding: 10px;
-                margin-top: 10px;
-            }
-
-            .tag-section {
-                border-left: 1px solid $border;
-                border-right: 1px solid $border;
-                padding-bottom: 13px;
-                padding-left: 10px;
-            }
-
-            form {
-                .search {
-                    // width: 12%;
-                    border-radius: 17px;
-                    float: right;
-                }
-
-
-                ::ng-deep .ant-form-item {
-                    display: inline-block;
-                    float: right;
-                    margin-left: 4px;
-                }
-
-
-            }
-
-
-            button {
-                float: right;
-                margin-left: 4px;
-
-            }
-        }
-    }
-
-    .tag-section {
+      .tag-section {
         border-left: 1px solid $border;
         border-right: 1px solid $border;
         padding-bottom: 13px;
         padding-left: 10px;
-    }
+      }
 
-    ::ng-deep .ant-tag {
-        padding: 3px 8px;
-        border-radius: 16px;
-    }
-
-    ::ng-deep .ant-divider-horizontal {
-        margin: 0px;
-    }
-
-    nz-select {
-        width: 100%;
-    }
-
-    .action-column {
-        width: 50px;
-        background-color: $white !important;
-        padding: 0;
-
-        div {
-            padding: 16px;
-            background-color: rgba(33, 33, 195, 0.08) !important;
+      form {
+        .search {
+          // width: 12%;
+          border-radius: 17px;
+          float: right;
         }
-    }
 
-    ::ng-deep .ant-tag {
-        background: #2121c31a;
-        font-weight: 600;
-    }
+        ::ng-deep .ant-form-item {
+          display: inline-block;
+          float: right;
+          margin-left: 4px;
+        }
+      }
 
-    .clear-btn {
-        height: 28px !important;
-        padding: 0px 12px !important;
-        border-radius: 17px !important;
+      button {
+        float: right;
+        margin-left: 4px;
+      }
     }
+  }
+
+  .tag-section {
+    border-left: 1px solid $border;
+    border-right: 1px solid $border;
+    padding-bottom: 13px;
+    padding-left: 10px;
+  }
+
+  ::ng-deep .ant-tag {
+    padding: 3px 8px;
+    border-radius: 16px;
+  }
+
+  ::ng-deep .ant-divider-horizontal {
+    margin: 0px;
+  }
+
+  nz-select {
+    width: 100%;
+  }
+
+  .action-column {
+    width: 50px;
+    background-color: $white !important;
+    padding: 0;
+
+    div {
+      padding: 16px;
+      background-color: rgba(33, 33, 195, 0.08) !important;
+    }
+  }
+
+  ::ng-deep .ant-tag {
+    background: #2121c31a;
+    font-weight: 600;
+  }
+
+  .clear-btn {
+    height: 28px !important;
+    padding: 0px 12px !important;
+    border-radius: 17px !important;
+  }
 }

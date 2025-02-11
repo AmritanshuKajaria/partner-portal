@@ -38,7 +38,7 @@ export class InventoryListComponent implements OnInit {
   exportType: boolean = false;
   searchInventory!: FormGroup;
   filter!: FormGroup;
-  accountSearch = new Subject<any>();
+
   badgeTotal: number = 0;
   clear_btn: boolean = false;
   selectDate: string = '';
@@ -54,6 +54,7 @@ export class InventoryListComponent implements OnInit {
   isVisible: boolean = false;
   referenceCode: string = '';
   AppDateFormate = AppDateFormate;
+  search_term: string = '';
 
   constructor(
     private router: Router,
@@ -66,20 +67,6 @@ export class InventoryListComponent implements OnInit {
         this.userPermissions = permission;
       }
     );
-    this.accountSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.inventory_search = value.target.value;
-        this.pageIndex = 1;
-        this.getInventoryList(
-          this.pageIndex,
-          this.inventory_search,
-          this.selectDate[0],
-          this.selectDate[1],
-          this.selectMethod,
-          this.selectResult
-        );
-      });
   }
 
   ngOnInit(): void {
@@ -99,6 +86,23 @@ export class InventoryListComponent implements OnInit {
       this.selectMethod,
       this.selectResult
     );
+  }
+
+  searchSubmit() {
+    const searchValue = this.searchInventory.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.inventory_search = this.search_term;
+      this.pageIndex = 1;
+      this.getInventoryList(
+        this.pageIndex,
+        this.inventory_search,
+        this.selectDate[0],
+        this.selectDate[1],
+        this.selectMethod,
+        this.selectResult
+      );
+    }
   }
 
   getInventoryList(

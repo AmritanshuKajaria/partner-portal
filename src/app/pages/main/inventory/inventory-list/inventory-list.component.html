@@ -49,13 +49,21 @@
         <form nz-form [formGroup]="searchInventory">
           <nz-form-item style="margin-bottom: 0 !important">
             <nz-form-control nzErrorTip="Please input your valid code!">
-              <nz-input-group nzPrefixIcon="search" class="search">
+              <nz-input-group class="search">
                 <input
-                  (keyup)="accountSearch.next($event)"
+                  class="search"
                   formControlName="search"
                   nz-input
                   placeholder="Search..."
                 />
+                <button
+                  nz-button
+                  nzType="primary"
+                  class="search-button"
+                  (click)="searchSubmit()"
+                >
+                  <span nz-icon nzType="search" nzTheme="outline"></span>
+                </button>
               </nz-input-group>
             </nz-form-control>
           </nz-form-item>

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
@@ -18,7 +19,8 @@ export class HomeFilterActionComponent implements OnInit {
   exportType: boolean = false;
   isDownloadVisible: boolean = false;
   isFiltersVisible: boolean = true;
-  accountSearch = new Subject<any>();
+  search_term: string = '';
+  searchForm!: FormGroup;
 
   constructor() {}
   ngOnInit(): void {
@@ -32,14 +34,20 @@ export class HomeFilterActionComponent implements OnInit {
       this.issueName !== '9' &&
       this.issueName !== '11' &&
       this.issueName !== '12';
-    this.accountSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.search.emit(value.target.value);
-      });
+    this.searchForm = new FormGroup({
+      search: new FormControl(''),
+    });
   }
 
   openFilterSection() {
     this.showFilter.emit();
+  }
+
+  searchSubmit() {
+    const searchValue = this.searchForm.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.search.emit(this.search_term);
+    }
   }
 }

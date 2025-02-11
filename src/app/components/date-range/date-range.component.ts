@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-date-range',
@@ -40,19 +39,21 @@ export class DateRangeComponent implements OnInit {
     // Custom: [],
   };
   searchForm!: FormGroup;
-  accountSearch = new Subject<any>();
+  search_term: string = '';
 
-  constructor() {
-    this.accountSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.searchChange.emit(value.target.value);
-      });
-  }
+  constructor() {}
   ngOnInit(): void {
     this.searchForm = new FormGroup({
       search: new FormControl(''),
     });
+  }
+
+  searchSubmit() {
+    const searchValue = this.searchForm.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.searchChange.emit(this.search_term);
+    }
   }
 
   exportData() {

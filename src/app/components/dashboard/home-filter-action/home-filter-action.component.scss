@@ -1,22 +1,28 @@
-@import '../../../../assets/variable/variable.scss';
+@import "../../../../assets/variable/variable.scss";
 
 .filter-action {
-    display: flex;
-    justify-content: end;
-    border: 1px solid $border;
-    padding: 10px;
-    margin-top: 10px;
+  display: flex;
+  justify-content: end;
+  border: 1px solid $border;
+  padding: 10px;
+  margin-top: 10px;
 
-    .search {
-        // width: 12%;
-        border-radius: 17px;
-        float: right;
-    }
+  .search {
+    // width: 12%;
+    border-radius: 17px;
+  }
 
+  .search-button {
+    position: absolute;
+    right: 0;
+    z-index: 1;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
 
-    ::ng-deep .ant-form-item {
-        display: inline-block;
-        float: right;
-        margin-left: 4px;
-    }
+  ::ng-deep .ant-form-item {
+    display: inline-block;
+    float: right;
+    margin-left: 4px;
+  }
 }

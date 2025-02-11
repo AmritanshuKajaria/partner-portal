@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { ProductService } from 'src/app/shared/service/product.service';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 import {
   GetAllProducts,
@@ -81,7 +80,7 @@ export class ViewListFilterComponent implements OnInit {
   listOfOption = ['Option 01', 'Option 02'];
   statusEnum: typeof StatusEnum = StatusEnum;
   productList: any[] = [];
-  accountSearch = new Subject<any>();
+  search_term: string = '';
   userPermissions: any = '';
   listOfFilter!: Filters;
   isVisible: boolean = false;
@@ -104,22 +103,6 @@ export class ViewListFilterComponent implements OnInit {
     userPermissionService.userPermission.subscribe((permission: any) => {
       this.userPermissions = permission;
     });
-    this.accountSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.product_search = value.target.value;
-        this.pageIndex = 1;
-        this.getProductList(
-          this.pageIndex,
-          this.selectStatus,
-          this.inventory,
-          this.selectBrand,
-          this.selectCollection,
-          this.selectCategory,
-          this.selectSales,
-          this.product_search
-        );
-      });
 
     this.userPermissionService.userPermission.subscribe((result: any) => {
       if (result.success) {
@@ -159,6 +142,25 @@ export class ViewListFilterComponent implements OnInit {
       this.selectSales,
       this.product_search
     );
+  }
+
+  searchSubmit() {
+    const searchValue = this.viewEditProducts.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.product_search = this.search_term;
+      this.pageIndex = 1;
+      this.getProductList(
+        this.pageIndex,
+        this.selectStatus,
+        this.inventory,
+        this.selectBrand,
+        this.selectCollection,
+        this.selectCategory,
+        this.selectSales,
+        this.product_search
+      );
+    }
   }
 
   getProductList(

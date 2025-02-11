@@ -64,11 +64,14 @@
       .search {
         // width: 12%;
         border-radius: 17px;
-        float: right;
+      }
 
-        .ant-input:disabled {
-          background-color: transparent !important;
-        }
+      .search-button {
+        position: absolute;
+        right: 0;
+        z-index: 1;
+        border-top-right-radius: inherit;
+        border-bottom-right-radius: inherit;
       }
 
       ::ng-deep .ant-form-item {
