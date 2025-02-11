@@ -24,6 +24,7 @@ export class PaymentTableComponent implements OnInit {
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
+  @Input() search_term: string = '';
   @Input() listOfData: TableData[] = [];
   @Input() tabName: string = '';
   @Input() defaultFilters: any = {};
@@ -37,7 +38,7 @@ export class PaymentTableComponent implements OnInit {
   badgeTotal: number = 0;
   isExportVisible: boolean = false;
   searchForm!: FormGroup;
-  accountSearch = new Subject<any>();
+
   clear_btn: boolean = false;
   appDateFormate = AppDateFormate;
 
@@ -53,13 +54,7 @@ export class PaymentTableComponent implements OnInit {
 
   pageSizeOptions = [100];
 
-  constructor() {
-    this.accountSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.searchChange.emit(value.target.value);
-      });
-  }
+  constructor() {}
   ngOnInit(): void {
     this.filter = new FormGroup({
       invoiceDate: new FormControl(null),
@@ -71,6 +66,14 @@ export class PaymentTableComponent implements OnInit {
       search: new FormControl(''),
     });
     this.listOfFilter = { ...this.defaultFilters };
+  }
+
+  searchSubmit() {
+    const searchValue = this.searchForm.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.searchChange.emit(this.search_term);
+    }
   }
 
   openNav() {

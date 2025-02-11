@@ -24,13 +24,21 @@
       <form nz-form [formGroup]="searchForm">
         <nz-form-item style="margin-bottom: 0 !important">
           <nz-form-control nzErrorTip="Please input your valid code!">
-            <nz-input-group nzPrefixIcon="search" class="search">
+            <nz-input-group class="search">
               <input
-                (keyup)="accountSearch.next($event)"
+                class="search"
                 formControlName="search"
                 nz-input
                 placeholder="Search..."
               />
+              <button
+                nz-button
+                nzType="primary"
+                class="search-button"
+                (click)="searchSubmit()"
+              >
+                <span nz-icon nzType="search" nzTheme="outline"></span>
+              </button>
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -152,7 +160,13 @@
           >
             <a
               style="color: #1221c3"
-              [routerLink]="(tabName === 'openBalances' ? 'open-balances' : 'transaction-view') + '/invoice-details/' + data?.invoice_no"
+              [routerLink]="
+                (tabName === 'openBalances'
+                  ? 'open-balances'
+                  : 'transaction-view') +
+                '/invoice-details/' +
+                data?.invoice_no
+              "
             >
               <u
                 ><b>{{ data?.invoice_no }}</b></u
@@ -165,7 +179,13 @@
           >
             <a
               style="color: #1221c3"
-              [routerLink]="(tabName === 'openBalances' ? 'open-balances' : 'transaction-view') + '/po-details/' + data?.po_no"
+              [routerLink]="
+                (tabName === 'openBalances'
+                  ? 'open-balances'
+                  : 'transaction-view') +
+                '/po-details/' +
+                data?.po_no
+              "
             >
               <u
                 ><b>{{ data.po_no }}</b></u
@@ -344,6 +364,8 @@
       [noOfFilter]="total"
       (close)="isExportVisible = false"
       [showFilterOptions]="tabName !== 'transactionView'"
+      [isFilterApplied]="badgeTotal > 0"
+      [isSearchApplied]="search_term !== ''"
     ></app-export-model>
   </ng-container>
 </nz-modal>

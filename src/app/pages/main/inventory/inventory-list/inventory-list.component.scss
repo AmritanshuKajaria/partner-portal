@@ -1,195 +1,197 @@
-@import'../../../../../assets/variable/variable.scss';
+@import "../../../../../assets/variable/variable.scss";
 
 .inventory-list-section {
-    border: 0 solid rgba(0, 0, 0, 0.125);
-    background-color: $white;
-    background-clip: border-box;
-    border-radius: 5px;
-    // min-height: 95%;
+  border: 0 solid rgba(0, 0, 0, 0.125);
+  background-color: $white;
+  background-clip: border-box;
+  border-radius: 5px;
+  // min-height: 95%;
 
-    .header-action-button {
+  .header-action-button {
+    display: flex;
+    justify-content: end;
+    padding: 10px 20px;
+    padding-bottom: 0;
+
+    button {
+      margin-left: 10px;
+    }
+  }
+
+  .body-section {
+    padding: 0px 20px 0px 20px;
+
+    ::ng-deep .ant-btn-icon-only.ant-btn-sm {
+      width: 13px;
+      height: 18px;
+      padding: 0px 0;
+      font-size: 14px;
+    }
+
+    ::ng-deep .ant-btn-circle.ant-btn-sm {
+      min-width: 18px;
+      border-radius: 50%;
+    }
+
+    .action-column {
+      width: 50px;
+      background-color: $white !important;
+      padding: 0;
+
+      div {
+        padding: 16px;
+        background-color: rgba(33, 33, 195, 0.08) !important;
+      }
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      border: 1px solid $border;
+      padding: 10px;
+      margin-top: 10px;
+
+      button {
+        border: 0;
+        margin-left: 5px;
+      }
+
+      .filter {
         display: flex;
-        justify-content: end;
-        padding: 10px 20px;
-        padding-bottom: 0;
 
-        button {
-            margin-left: 10px;
+        b {
+          margin-right: 10px;
+          display: flex;
+          align-items: center;
+          font-size: 16px;
         }
+      }
     }
 
-    .body-section {
-        padding: 0px 20px 0px 20px;
+    ::ng-deep .ant-picker {
+      border-radius: 5px;
+      height: 35px;
+    }
+  }
 
-        ::ng-deep .ant-btn-icon-only.ant-btn-sm {
-            width: 13px;
-            height: 18px;
-            padding: 0px 0;
-            font-size: 14px;
-        }
+  .tag-section {
+    border-left: 1px solid $border;
+    border-right: 1px solid $border;
+    padding-bottom: 13px;
+    padding-left: 10px;
+  }
 
-        ::ng-deep .ant-btn-circle.ant-btn-sm {
-            min-width: 18px;
-            border-radius: 50%;
-        }
+  ::ng-deep .ant-tag {
+    padding: 3px 8px;
+    border-radius: 16px;
+  }
 
-        .action-column {
-            width: 50px;
-            background-color: $white !important;
-            padding: 0;
+  ::ng-deep .ant-divider-horizontal {
+    margin: 0px;
+  }
 
-            div {
-                padding: 16px;
-                background-color: rgba(33, 33, 195, 0.08) !important;
-            }
-        }
+  nz-select {
+    width: 100%;
+  }
 
-        .button-group {
-            display: flex;
-            justify-content: end;
-            align-items: center;
-            border: 1px solid $border;
-            padding: 10px;
-            margin-top: 10px;
+  ::ng-deep .ant-tag {
+    background: #2121c31a;
+    font-weight: 600;
+  }
 
-            button {
-                border-radius: 20px;
-                border: 0;
-                margin-left: 5px;
-                height: 35px !important;
-            }
+  .clear-btn {
+    height: 28px !important;
+    padding: 0px 12px !important;
+    border-radius: 17px !important;
+  }
 
-            .filter {
-                display: flex;
-
-                b {
-                    margin-right: 10px;
-                    display: flex;
-                    align-items: center;
-                    font-size: 16px;
-                }
-            }
-        }
-
-        ::ng-deep .ant-picker {
-            border-radius: 5px;
-            height: 35px;
-        }
-
+  form {
+    .search {
+      // width: 12%;
+      border-radius: 17px;
     }
 
-    .tag-section {
-        border-left: 1px solid $border;
-        border-right: 1px solid $border;
-        padding-bottom: 13px;
-        padding-left: 10px;
+    .search-button {
+      position: absolute;
+      right: 0;
+      z-index: 1;
+      border-top-right-radius: inherit;
+      border-bottom-right-radius: inherit;
     }
 
-    ::ng-deep .ant-tag {
-        padding: 3px 8px;
-        border-radius: 16px;
+    ::ng-deep .ant-form-item {
+      display: inline-block;
+      float: right;
+      margin-left: 4px;
     }
-
-    ::ng-deep .ant-divider-horizontal {
-        margin: 0px;
-    }
-
-    nz-select {
-        width: 100%;
-    }
-
-    ::ng-deep .ant-tag {
-        background: #2121c31a;
-        font-weight: 600;
-    }
-
-    .clear-btn {
-        height: 28px !important;
-        padding: 0px 12px !important;
-        border-radius: 17px !important;
-    }
-
-    form {
-        .search {
-            // width: 12%;
-            border-radius: 17px;
-            float: right;
-        }
-
-
-        ::ng-deep .ant-form-item {
-            display: inline-block;
-            float: right;
-            margin-left: 4px;
-        }
-    }
+  }
 }
 
 .filter-section {
-    width: 0;
-    position: fixed;
-    z-index: 10;
-    top: 90px;
-    right: 16px;
-    overflow-x: hidden;
-    transition: 0.5s;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
-    padding-top: 30px;
-    height: 90%;
-    overflow-y: scroll;
-    background-color: $white;
+  width: 0;
+  position: fixed;
+  z-index: 10;
+  top: 90px;
+  right: 16px;
+  overflow-x: hidden;
+  transition: 0.5s;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  padding-top: 30px;
+  height: 90%;
+  overflow-y: scroll;
+  background-color: $white;
 
-    .filter-content {
-        padding: 5px 15px;
+  .filter-content {
+    padding: 5px 15px;
 
-        input {
-            height: 35px;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-
-        nz-select {
-            width: 100%;
-        }
-
-        ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
-        .ant-picker {
-            border-radius: 5px !important;
-            height: 35px !important;
-            font-size: 16px;
-        }
-
-        h3 {
-            margin-top: 20px;
-        }
+    input {
+      height: 35px;
+      font-size: 16px;
+      border-radius: 5px;
     }
 
-    nz-divider {
-        margin-bottom: 10px;
+    nz-select {
+      width: 100%;
     }
 
-    ::ng-deep .ant-divider-horizontal.ant-divider-with-text-left::before {
-        width: 0% !important;
-
+    ::ng-deep .ant-select:not(.ant-select-customize-input) .ant-select-selector,
+    .ant-picker {
+      border-radius: 5px !important;
+      height: 35px !important;
+      font-size: 16px;
     }
 
-    ::ng-deep .ant-divider-inner-text {
-        padding-left: 0px !important;
+    h3 {
+      margin-top: 20px;
     }
+  }
+
+  nz-divider {
+    margin-bottom: 10px;
+  }
+
+  ::ng-deep .ant-divider-horizontal.ant-divider-with-text-left::before {
+    width: 0% !important;
+  }
+
+  ::ng-deep .ant-divider-inner-text {
+    padding-left: 0px !important;
+  }
 }
 
 .filter-section a {
-    // padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
+  // padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
 }
 
 .filter-section .closebtn {
-    position: absolute;
-    top: -10px;
-    right: 6px;
-    font-size: 36px;
+  position: absolute;
+  top: -10px;
+  right: 6px;
+  font-size: 36px;
 }

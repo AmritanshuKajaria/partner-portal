@@ -19,6 +19,12 @@ import { ProductService } from 'src/app/shared/service/product.service';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 import { formatDate } from '@angular/common';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
+import {
+  OpenBalancesFilters,
+  PastRemittancesFilters,
+  TransactionFilters,
+} from 'src/app/shared/model/payments.model';
+import { PaymentService } from 'src/app/shared/service/payment.service';
 
 @Component({
   selector: 'app-export-model',
@@ -34,6 +40,8 @@ export class ExportModelComponent implements OnInit {
   @Input() sectionName: string = '';
   @Input() code: string = '';
   @Input() showFilterOptions: boolean = true;
+  @Input() isFilterApplied = false;
+  @Input() isSearchApplied = false;
   userEmail: string = 'service@123stores.com';
   isDownloadVisible: boolean = false;
   isLoading: boolean = false;
@@ -46,6 +54,7 @@ export class ExportModelComponent implements OnInit {
     private dashboardService: DashboardService,
     private ordersService: OrdersService,
     private newCalculatorService: NewCalculatorService,
+    private paymentService: PaymentService,
     @Inject(LOCALE_ID) public locale: string
   ) {}
   ngOnInit(): void {}
@@ -322,6 +331,143 @@ export class ExportModelComponent implements OnInit {
         error: (err: any) => {
           if (!err?.error_shown) {
             this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
+    } else if (this.sectionName === 'transactionView') {
+      let filters: TransactionFilters = {};
+
+      if (this.listOfFilter?.search_transactions) {
+        filters['search_transactions'] = this.exportType
+          ? this.listOfFilter?.search_transactions
+          : '';
+      }
+
+      this.paymentService.exportTransactions(filters).subscribe({
+        next: (response: any) => {
+          this.isLoading = false;
+          if (response.success) {
+            this.handleCancel();
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          } else {
+            this.message.error(
+              response?.error_message
+                ? response?.error_message
+                : 'Export Transaction View Details Failed!'
+            );
+          }
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Transaction View Details Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
+    } else if (this.sectionName === 'openBalances') {
+      let filters: OpenBalancesFilters = {};
+
+      if (this.listOfFilter?.invoice_start_date) {
+        filters['filter_from_invoice_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.invoice_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.invoice_end_date) {
+        filters['filter_to_invoice_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.invoice_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.type) {
+        filters['filter_type'] = this.exportType ? this.listOfFilter?.type : '';
+      }
+
+      if (this.listOfFilter?.due_date) {
+        filters['filter_due_date'] = this.exportType
+          ? formatDate(this.listOfFilter?.due_date, 'yyyy-MM-dd', this.locale)
+          : '';
+      }
+
+      this.paymentService.exportOpenBalances(filters).subscribe({
+        next: (response: any) => {
+          this.isLoading = false;
+          if (response.success) {
+            this.handleCancel();
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          } else {
+            this.message.error(
+              response?.error_message
+                ? response?.error_message
+                : 'Export Open Balances Failed!'
+            );
+          }
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Open Balances Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
+    } else if (this.sectionName === 'pastRemittances') {
+      let filters: PastRemittancesFilters = {};
+
+      if (this.listOfFilter?.remittance_start_date) {
+        filters['filter_start_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.remittance_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.remittance_end_date) {
+        filters['filter_end_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.remittance_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      this.paymentService.exportPastRemittances(filters).subscribe({
+        next: (response: any) => {
+          this.isLoading = false;
+          if (response.success) {
+            this.handleCancel();
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          } else {
+            this.message.error(
+              response?.error_message
+                ? response?.error_message
+                : 'Export Past Remittances Failed!'
+            );
+          }
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Past Remittances Failed!');
           }
           this.isLoading = false;
         },

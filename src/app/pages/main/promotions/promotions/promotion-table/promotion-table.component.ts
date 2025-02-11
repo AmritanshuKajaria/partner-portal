@@ -27,6 +27,7 @@ export class PromotionTableComponent implements OnInit {
   @Input() pageSize: number = 100;
   @Input() pageIndex: number = 1;
   @Input() isLoading: boolean = false;
+  @Input() search_term: string = '';
   @Input() listOfData: any[] = [];
   @Input() tabName: string = '';
 
@@ -39,7 +40,7 @@ export class PromotionTableComponent implements OnInit {
 
   pageSizeOptions = [100];
   filter!: FormGroup;
-  accountSearch = new Subject<any>();
+
   selectStatus: string = '';
   statusCount: number = 0;
   selectDate: string = '';
@@ -56,13 +57,7 @@ export class PromotionTableComponent implements OnInit {
     private message: NzMessageService,
     private router: Router,
     private modal: NzModalService
-  ) {
-    this.accountSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.searchChange.emit(value.target.value);
-      });
-  }
+  ) {}
   ngOnInit(): void {
     this.listOfFilter = {
       filter_open: this.tabName === 'Scheduled Promotions' ? true : false,
@@ -75,6 +70,14 @@ export class PromotionTableComponent implements OnInit {
     this.searchForm = new FormGroup({
       search: new FormControl(''),
     });
+  }
+
+  searchSubmit() {
+    const searchValue = this.searchForm.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.searchChange.emit(this.search_term);
+    }
   }
 
   pageIndexChange(page: number) {
