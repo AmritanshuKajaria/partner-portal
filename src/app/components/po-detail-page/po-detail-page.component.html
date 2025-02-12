@@ -349,16 +349,9 @@
     </div>
   </nz-spin>
 
-  <nz-modal
-    [(nzVisible)]="poClarification"
-    nzTitle="Create Ticket"
-    (nzOnCancel)="poClarification = false"
-  >
-    <ng-container *nzModalContent>
-      <app-po-clarification
-        [poNo]="poNo"
-        (close)="poClarification = false"
-      ></app-po-clarification>
-    </ng-container>
-  </nz-modal>
+  <app-po-clarification
+    [poNo]="poNo"
+    (close)="poClarification = false"
+    [isVisible]="poClarification"
+  ></app-po-clarification>
 </div>

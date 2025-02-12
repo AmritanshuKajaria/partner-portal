@@ -86,6 +86,14 @@
                     }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Remittance Date"
+                    ><b>{{
+                      invoiceDetailData.invoice_status?.remittance_date
+                        | customDate
+                    }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
               </div>
             </div>
           </div>
@@ -105,17 +113,17 @@
               <div class="sub-section-one">
                 <div>
                   <b>
-                    {{ invoiceDetailData.sold_to?.address_line1 }},
-                    {{ invoiceDetailData.sold_to?.city }},
-                    {{ invoiceDetailData.sold_to?.state_code }}
-                    {{ invoiceDetailData.sold_to?.postal_code }},
-                    {{ invoiceDetailData.sold_to?.country_code }}
+                    {{ invoiceDetailData.bill_to?.address_line1 }},
+                    {{ invoiceDetailData.bill_to?.city }},
+                    {{ invoiceDetailData.bill_to?.state_code }}
+                    {{ invoiceDetailData.bill_to?.postal_code }},
+                    {{ invoiceDetailData.bill_to?.country_code }}
                   </b>
                 </div>
                 <div>
                   <b
                     >Location Code :
-                    {{ invoiceDetailData.sold_to?.location_code }}</b
+                    {{ invoiceDetailData.bill_to?.location_code }}</b
                   >
                 </div>
               </div>
@@ -184,7 +192,7 @@
                 <td>{{ data?.mpn }}</td>
                 <td>{{ data?.qty }}</td>
                 <td>
-                  {{ data?.net_product_cost| currency }}
+                  {{ data?.net_product_cost | currency }}
                 </td>
                 <td>{{ data?.total | currency }}</td>
               </tr>
@@ -194,7 +202,13 @@
       </div>
 
       <!-- Second Table -->
-      <div *ngIf="invoiceDetails?.type && (invoiceDetails?.type !== 1 && invoiceDetails?.type !== 5)">
+      <div
+        *ngIf="
+          invoiceDetails?.type &&
+          invoiceDetails?.type !== 1 &&
+          invoiceDetails?.type !== 5
+        "
+      >
         <div class="user-content">
           <div class="tab-header">
             <span>
@@ -216,7 +230,13 @@
                 <th>MPN</th>
                 <th *ngIf="invoiceDetails?.type === 3">Net Product Cost</th>
                 <th *ngIf="invoiceDetails?.type === 3">Shipping Charge</th>
-                <th *ngIf="invoiceDetails?.type === 4 || invoiceDetails?.type === 2">Qty</th>
+                <th
+                  *ngIf="
+                    invoiceDetails?.type === 4 || invoiceDetails?.type === 2
+                  "
+                >
+                  Qty
+                </th>
                 <th>Total</th>
               </tr>
             </thead>
@@ -230,7 +250,11 @@
                 <td *ngIf="invoiceDetails?.type === 3">
                   {{ invoiceDetailData.po_detail?.shipping_cost | currency }}
                 </td>
-                <td *ngIf="invoiceDetails?.type === 4 || invoiceDetails?.type === 2">
+                <td
+                  *ngIf="
+                    invoiceDetails?.type === 4 || invoiceDetails?.type === 2
+                  "
+                >
                   {{ invoiceDetailData.po_detail?.qty }}
                 </td>
                 <td>{{ invoiceDetailData.po_detail?.total | currency }}</td>
@@ -249,7 +273,11 @@
                     invoiceDetailData.invoice_detail?.shipping_cost | currency
                   }}
                 </td>
-                <td *ngIf="invoiceDetails?.type === 4 || invoiceDetails?.type === 2">
+                <td
+                  *ngIf="
+                    invoiceDetails?.type === 4 || invoiceDetails?.type === 2
+                  "
+                >
                   {{ invoiceDetailData.invoice_detail?.qty }}
                 </td>
                 <td>

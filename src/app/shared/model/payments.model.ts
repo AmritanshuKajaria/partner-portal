@@ -39,8 +39,9 @@ export interface Invoice {
   invoice_status?: {
     status?: string;
     due_date?: string;
+    remittance_date?: string;
   };
-  sold_to?: {
+  bill_to?: {
     address_line1?: string;
     address_line2?: string;
     city?: string;

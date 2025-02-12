@@ -11,6 +11,7 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
 })
 export class PoClarificationComponent implements OnInit {
   @Input() poNo: string = '';
+  @Input() isVisible: boolean = false;
   @Output() close = new EventEmitter();
 
   isLoading: boolean = false;
@@ -69,6 +70,7 @@ export class PoClarificationComponent implements OnInit {
   }
 
   handleCancel() {
+    this.isVisible = false;
     this.close.emit();
   }
 }
