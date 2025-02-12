@@ -28,7 +28,7 @@ export class ChangePasswordComponent implements OnInit {
     specialChar: false,
   };
 
-  symbolTooltipLabel = "Symbols: ~`!@#$%^&*()_-+={[}]|\:;\"'<,>.?/";
+  symbolTooltipLabel = 'Symbols: ~`!@#$%^&*()_-+={[}]|:;"\'<,>.?/';
 
   constructor(
     private message: NzMessageService,
@@ -63,7 +63,7 @@ export class ChangePasswordComponent implements OnInit {
         ?.setErrors({ required: true });
     } else if (newPassword !== confirmPassword) {
       this.changePasswordForm.get('confirmPassword')?.setErrors({
-        customError: 'Password do not match.',
+        customError: 'Password do not match',
       });
     } else {
       this.changePasswordForm.get('confirmPassword')?.setErrors(null);
@@ -108,6 +108,7 @@ export class ChangePasswordComponent implements OnInit {
       };
       this.authService.changePassword(req).subscribe({
         next: (res: any) => {
+          this.isLoading = false;
           if (res.success) {
             this.message.success('User password changed!!');
             this.router.navigate(['/main/dashboard']);
@@ -118,7 +119,6 @@ export class ChangePasswordComponent implements OnInit {
                 : 'Password change failed!'
             );
           }
-          this.isLoading = false;
         },
         error: (err) => {
           if (!err?.error_shown) {

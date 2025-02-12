@@ -21,8 +21,15 @@ export class ResetPasswordComponent implements OnInit {
   newPasswordShow: boolean = true;
   resetForm!: FormGroup;
   token: string = '';
-  sameAsPassword: boolean = true;
-  submitError: boolean = false;
+  passwordValidationStatus = {
+    minLength: false,
+    uppercase: false,
+    lowercase: false,
+    number: false,
+    specialChar: false,
+  };
+
+  symbolTooltipLabel = 'Symbols: ~`!@#$%^&*()_-+={[}]|:;"\'<,>.?/';
 
   constructor(
     private fb: FormBuilder,
@@ -39,21 +46,58 @@ export class ResetPasswordComponent implements OnInit {
       newPassword: new FormControl('', [Validators.required]),
       confirmPassword: new FormControl('', [Validators.required]),
     });
+
+    this.resetForm.controls['newPassword'].valueChanges.subscribe((value) => {
+      this.validatePassword(value);
+      this.resetForm.controls['confirmPassword'].value && this.checkPassword();
+    });
   }
 
   checkPassword() {
-    if (
-      this.resetForm.controls['newPassword'].value ===
-      this.resetForm.controls['confirmPassword'].value
-    ) {
-      this.sameAsPassword = true;
+    const newPassword = this.resetForm.controls['newPassword'].value;
+    const confirmPassword = this.resetForm.controls['confirmPassword'].value;
+
+    if (!confirmPassword) {
+      this.resetForm.get('confirmPassword')?.setErrors({ required: true });
+    } else if (newPassword !== confirmPassword) {
+      this.resetForm.get('confirmPassword')?.setErrors({
+        customError: 'Password do not match',
+      });
     } else {
-      this.sameAsPassword = false;
+      this.resetForm.get('confirmPassword')?.setErrors(null);
+    }
+  }
+
+  validatePassword(password: string): void {
+    this.passwordValidationStatus['minLength'] =
+      RegExp(/^.{8,}$/).test(password);
+    this.passwordValidationStatus['uppercase'] = RegExp(/[A-Z]/).test(password);
+    this.passwordValidationStatus['lowercase'] = RegExp(/[a-z]/).test(password);
+    this.passwordValidationStatus['number'] = RegExp(/[0-9]/).test(password);
+    this.passwordValidationStatus['specialChar'] = RegExp(
+      /[~`!@#$%^&*()_\-+={[}\]|\\:;"'<,>.?/]/
+    ).test(password);
+
+    const isValidPassword =
+      this.passwordValidationStatus.minLength &&
+      this.passwordValidationStatus.uppercase &&
+      this.passwordValidationStatus.lowercase &&
+      this.passwordValidationStatus.number &&
+      this.passwordValidationStatus.specialChar;
+
+    if (!password) {
+      this.resetForm.get('newPassword')?.setErrors({ required: true });
+      return;
+    }
+
+    if (!isValidPassword) {
+      this.resetForm.get('newPassword')?.setErrors({
+        customError: 'Password must be strong',
+      });
     }
   }
 
   submitForm(): void {
-    this.submitError = true;
     if (this.resetForm.valid) {
       this.isLoading = true;
       if (this.token) {
@@ -61,8 +105,8 @@ export class ResetPasswordComponent implements OnInit {
           verification_token: this.token,
           new_password: this.resetForm.controls['newPassword'].value,
         };
-        this.authService.resetPassword(req).subscribe(
-          (result: any) => {
+        this.authService.resetPassword(req).subscribe({
+          next: (result: any) => {
             this.isLoading = false;
             if (result.success) {
               this.message.success('Reset password successfully!!');
@@ -76,10 +120,21 @@ export class ResetPasswordComponent implements OnInit {
               // } else {
               this.router.navigate(['/main/dashboard']);
               // }
+            } else {
+              this.message.error(
+                result?.error_message
+                  ? result?.error_message
+                  : 'Password change failed!'
+              );
             }
           },
-          (err) => (this.isLoading = false)
-        );
+          error: (err) => {
+            if (!err?.error_shown) {
+              this.message.error('Password change failed!');
+            }
+            this.isLoading = false;
+          },
+        });
         // } else {
         //   const req: ChangePasswordToken = {
         //     token: this.token,
