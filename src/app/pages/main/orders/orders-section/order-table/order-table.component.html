@@ -309,6 +309,13 @@
                   Download Label
                 </li>
                 <li
+                  *ngIf="showDownloadPackingSlip"
+                  (click)="selectAction(data?.po_no, 'Download Packing Slip')"
+                  nz-menu-item
+                >
+                  Download Packing Slip
+                </li>
+                <li
                   (click)="selectAction(data?.po_no, 'PO Clarification')"
                   nz-menu-item
                 >

@@ -26,6 +26,7 @@ export class PoDetailPageComponent implements OnInit {
   poNo: string = '';
   poClarification: boolean = false;
   showDownloadLabel: boolean = false;
+  showDownloadPackingSlip = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -66,6 +67,12 @@ export class PoDetailPageComponent implements OnInit {
     this.userPermissionService.userPermission.subscribe((permission: any) => {
       if (permission?.label_enabled && permission.label_enabled !== 0) {
         this.showDownloadLabel = true;
+      }
+      if (
+        permission?.is_packing_slip_enabled &&
+        permission.is_packing_slip_enabled !== 0
+      ) {
+        this.showDownloadPackingSlip = true;
       }
     });
   }
@@ -109,6 +116,27 @@ export class PoDetailPageComponent implements OnInit {
           error: (e) => {
             if (!e?.error_shown) {
               this.message.error('Download label failed!');
+            }
+          },
+        });
+        break;
+      case 'Download Packing Slip':
+        this.ordersService.downloadPackingSlip(this.poNo).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.message.success('Downloaded packing slip successfully!');
+              window.open(`${res?.packing_slip_url}`);
+            } else {
+              this.message.error(
+                res.error_message
+                  ? res?.error_message
+                  : 'Download packing slip failed!'
+              );
+            }
+          },
+          error: (e) => {
+            if (!e?.error_shown) {
+              this.message.error('Download packing slip failed!');
             }
           },
         });

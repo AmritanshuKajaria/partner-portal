@@ -130,6 +130,15 @@
                     >
                   </nz-descriptions-item>
                 </nz-descriptions>
+                <nz-descriptions *ngIf="showDownloadPackingSlip">
+                  <nz-descriptions-item nzTitle="Download Packing Slip"
+                    ><a
+                      class="link"
+                      (click)="downloadAction('Download Packing Slip')"
+                      >Click Here</a
+                    >
+                  </nz-descriptions-item>
+                </nz-descriptions>
                 <nz-descriptions>
                   <nz-descriptions-item nzTitle="PO Clarification"
                     ><a

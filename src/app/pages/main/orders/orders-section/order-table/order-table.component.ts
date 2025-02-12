@@ -33,6 +33,7 @@ export class OrderTableComponent implements OnInit {
   poClarification: boolean = false;
   trackingList: string[] = [];
   showDownloadLabel: boolean = false;
+  showDownloadPackingSlip = false;
 
   constructor(
     private ordersService: OrdersService,
@@ -44,6 +45,12 @@ export class OrderTableComponent implements OnInit {
     this.userPermissionService.userPermission.subscribe((permission: any) => {
       if (permission?.label_enabled && permission.label_enabled !== 0) {
         this.showDownloadLabel = true;
+      }
+      if (
+        permission?.is_packing_slip_enabled &&
+        permission.is_packing_slip_enabled !== 0
+      ) {
+        this.showDownloadPackingSlip = true;
       }
     });
   }
@@ -154,6 +161,26 @@ export class OrderTableComponent implements OnInit {
         error: (err) => {
           if (!err?.error_shown) {
             this.message.error('Download label failed!');
+          }
+        },
+      });
+    } else if (type === 'Download Packing Slip') {
+      this.ordersService.downloadPackingSlip(po_no).subscribe({
+        next: (res: any) => {
+          if (res.success) {
+            this.message.success('Downloaded packing slip successful');
+            window.open(`${res?.packing_slip_url}`);
+          } else {
+            this.message.error(
+              res?.error_message
+                ? res?.error_message
+                : 'Download packing slip failed!'
+            );
+          }
+        },
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Download packing slip failed!');
           }
         },
       });
