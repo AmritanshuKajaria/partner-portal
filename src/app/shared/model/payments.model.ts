@@ -42,13 +42,14 @@ export interface Invoice {
     remittance_date?: string;
   };
   bill_to?: {
+    name?: string,
+    phone?: string,
     address_line1?: string;
     address_line2?: string;
     city?: string;
     state_code?: string;
     postal_code?: string;
     country_code?: string;
-    location_code?: string;
   };
   ship_to?: {
     name?: string;
