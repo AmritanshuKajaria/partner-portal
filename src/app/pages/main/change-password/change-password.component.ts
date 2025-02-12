@@ -28,6 +28,8 @@ export class ChangePasswordComponent implements OnInit {
     specialChar: false,
   };
 
+  symbolTooltipLabel = "Symbols: ~`!@#$%^&*()_-+={[}]|\:;\"'<,>.?/";
+
   constructor(
     private message: NzMessageService,
     private authService: AuthService,
