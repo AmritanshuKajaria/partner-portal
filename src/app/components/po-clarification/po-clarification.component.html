@@ -1,110 +1,122 @@
-<div class="export-model">
-  <div style="padding: 15px">
-    <form [formGroup]="poClarificationForm">
-      <p style="font-weight: 700">
-        Kindly provide some details so we could investigation issue before
-        reaching out to you<span style="color: red">*</span>:
-      </p>
-      <nz-form-item>
-        <nz-form-control
-          [nzSm]="24"
-          [nzXs]="24"
-          nzErrorTip="Details is required!"
-        >
-          <nz-input-group>
-            <textarea formControlName="detail" nz-input></textarea>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-divider style="margin-top: 30px"></nz-divider>
-      <p>
-        If you'd like us to reach back to you regarding this Purchase Order,
-        kindly let us know whom we should reach out to and how we should reach
-        out.
-      </p>
-      <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24"
-          >Name <span style="color: red">*</span></nz-form-label
-        >
-        <nz-form-control [nzSm]="20" [nzXs]="24" nzErrorTip="Name is required!">
-          <nz-input-group>
-            <input
-              formControlName="name"
-              type="text"
-              nz-input
-              placeholder="Enter Name"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24"
-          >Email <span style="color: red">*</span></nz-form-label
-        >
-        <nz-form-control [nzSm]="20" [nzXs]="24" [nzErrorTip]="email">
-          <nz-input-group>
-            <input
-              formControlName="email"
-              type="text"
-              nz-input
-              placeholder="Enter Email"
-            />
-            <ng-template #email let-control>
-              <ng-container *ngIf="control.hasError('required')"
-                >Email is required!!<br
-              /></ng-container>
-              <ng-container *ngIf="control.hasError('email')"
-                >Please input valid Email!</ng-container
-              >
-            </ng-template>
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="4" [nzXs]="24">Phone </nz-form-label>
-        <nz-form-control
-          [nzSm]="20"
-          [nzXs]="24"
-          nzErrorTip="Phone is required!"
-        >
-          <nz-input-group>
-            <input
-              formControlName="phone"
-              type="text"
-              nz-input
-              placeholder="Enter Phone"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </div>
-  <div class="model-footer">
-    <div class="model-action" style="padding: 15px; padding-bottom: 0px">
-      <button
-        nz-button
-        nzType="default"
-        style="color: black; margin-right: 5px"
-        (click)="handleCancel()"
-      >
-        Cancel
-      </button>
-      <button
-        nz-button
-        style="margin-top: 0"
-        class="action-button"
-        [nzType]="'primary'"
-        [disabled]="isLoading"
-        (click)="submit()"
-      >
-        <span
-          *ngIf="isLoading"
-          style="color: white; font-size: 16px"
-          nz-icon
-          nzType="loading"
-        ></span>
-        Submit
-      </button>
+<nz-modal
+  [(nzVisible)]="isVisible"
+  nzTitle="Create Ticket"
+  (nzOnCancel)="handleCancel()"
+>
+  <ng-container *nzModalContent>
+    <div class="export-model">
+      <div style="padding: 15px">
+        <form [formGroup]="poClarificationForm">
+          <p style="font-weight: 700">
+            Kindly provide some details so we could investigation issue before
+            reaching out to you<span style="color: red">*</span>:
+          </p>
+          <nz-form-item>
+            <nz-form-control
+              [nzSm]="24"
+              [nzXs]="24"
+              nzErrorTip="Details is required!"
+            >
+              <nz-input-group>
+                <textarea formControlName="detail" nz-input></textarea>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-divider style="margin-top: 30px"></nz-divider>
+          <p>
+            If you'd like us to reach back to you regarding this Purchase Order,
+            kindly let us know whom we should reach out to and how we should
+            reach out.
+          </p>
+          <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24"
+              >Name <span style="color: red">*</span></nz-form-label
+            >
+            <nz-form-control
+              [nzSm]="20"
+              [nzXs]="24"
+              nzErrorTip="Name is required!"
+            >
+              <nz-input-group>
+                <input
+                  formControlName="name"
+                  type="text"
+                  nz-input
+                  placeholder="Enter Name"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24"
+              >Email <span style="color: red">*</span></nz-form-label
+            >
+            <nz-form-control [nzSm]="20" [nzXs]="24" [nzErrorTip]="email">
+              <nz-input-group>
+                <input
+                  formControlName="email"
+                  type="text"
+                  nz-input
+                  placeholder="Enter Email"
+                />
+                <ng-template #email let-control>
+                  <ng-container *ngIf="control.hasError('required')"
+                    >Email is required!!<br
+                  /></ng-container>
+                  <ng-container *ngIf="control.hasError('email')"
+                    >Please input valid Email!</ng-container
+                  >
+                </ng-template>
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item>
+            <nz-form-label [nzSm]="4" [nzXs]="24">Phone </nz-form-label>
+            <nz-form-control
+              [nzSm]="20"
+              [nzXs]="24"
+              nzErrorTip="Phone is required!"
+            >
+              <nz-input-group>
+                <input
+                  formControlName="phone"
+                  type="text"
+                  nz-input
+                  placeholder="Enter Phone"
+                />
+              </nz-input-group>
+            </nz-form-control>
+          </nz-form-item>
+        </form>
+      </div>
+      <div class="model-footer">
+        <div class="model-action" style="padding: 15px; padding-bottom: 0px">
+          <button
+            nz-button
+            nzType="default"
+            style="color: black; margin-right: 5px"
+            (click)="handleCancel()"
+          >
+            Cancel
+          </button>
+          <button
+            nz-button
+            style="margin-top: 0"
+            class="action-button"
+            [nzType]="'primary'"
+            [disabled]="isLoading"
+            (click)="submit()"
+          >
+            <span
+              *ngIf="isLoading"
+              style="color: white; font-size: 16px"
+              nz-icon
+              nzType="loading"
+            ></span>
+            Submit
+          </button>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </ng-container>
+</nz-modal>

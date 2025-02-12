@@ -140,13 +140,11 @@
         >
           Remittance Date
         </th>
-        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
-          Remarks
-        </th>
+
         <th *ngIf="tabName === 'pastRemittances'">No. Of Item(s)</th>
         <th *ngIf="tabName === 'pastRemittances'">Remittance Amount</th>
         <th nzRight class="action-column" *ngIf="tabName === 'pastRemittances'">
-          <div>Actions</div>
+          <div>Action</div>
         </th>
       </tr>
     </thead>
@@ -158,20 +156,25 @@
             *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
             style="white-space: nowrap"
           >
-            <a
-              style="color: #1221c3"
-              [routerLink]="
-                (tabName === 'openBalances'
-                  ? 'open-balances'
-                  : 'transaction-view') +
-                '/invoice-details/' +
-                data?.invoice_no
-              "
-            >
-              <u
-                ><b>{{ data?.invoice_no }}</b></u
+            <ng-container *ngIf="data?.type === 'Invoice'; else noLink">
+              <a
+                style="color: #1221c3"
+                [routerLink]="
+                  (tabName === 'openBalances'
+                    ? 'open-balances'
+                    : 'transaction-view') +
+                  '/invoice-details/' +
+                  data?.invoice_no
+                "
               >
-            </a>
+                <u
+                  ><b>{{ data?.invoice_no }}</b></u
+                >
+              </a>
+            </ng-container>
+            <ng-template #noLink>
+              <span>{{ data?.invoice_no }}</span>
+            </ng-template>
           </td>
           <td
             *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
@@ -250,11 +253,7 @@
               data?.remittance_date ? (data?.remittance_date | customDate) : ""
             }}</span>
           </td>
-          <td
-            *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
-          >
-            {{ data?.remarks }}
-          </td>
+
           <!-- For last tab -->
           <td *ngIf="tabName === 'pastRemittances'">{{ data?.no_of_items }}</td>
 
@@ -309,7 +308,7 @@
             (ngModelChange)="change(filter.value.type ? $event : '', 'type')"
             formControlName="type"
           >
-            <nz-option nzLabel="Credit Note" nzValue="Credit Note"></nz-option>
+            <nz-option nzLabel="Credit" nzValue="Credit"></nz-option>
             <nz-option nzLabel="Invoice" nzValue="Invoice"></nz-option>
           </nz-select>
 

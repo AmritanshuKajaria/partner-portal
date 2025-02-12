@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -9,8 +17,9 @@ import { OrdersService } from 'src/app/shared/service/orders.service';
   templateUrl: './po-clarification.component.html',
   styleUrls: ['./po-clarification.component.scss'],
 })
-export class PoClarificationComponent implements OnInit {
+export class PoClarificationComponent implements OnInit, OnChanges {
   @Input() poNo: string = '';
+  @Input() isVisible: boolean = false;
   @Output() close = new EventEmitter();
 
   isLoading: boolean = false;
@@ -26,7 +35,15 @@ export class PoClarificationComponent implements OnInit {
       detail: new FormControl('', [Validators.required]),
       name: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email]),
+      phone: new FormControl(''),
     });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // This is to reset the form when opening it again
+    if (changes['isVisible']?.currentValue) {
+      this.poClarificationForm.reset();
+    }
   }
 
   submit() {
@@ -69,6 +86,7 @@ export class PoClarificationComponent implements OnInit {
   }
 
   handleCancel() {
+    this.isVisible = false;
     this.close.emit();
   }
 }
