@@ -87,6 +87,11 @@ export class ChangePasswordComponent implements OnInit {
       this.passwordValidationStatus.number &&
       this.passwordValidationStatus.specialChar;
 
+    if (!password) {
+      this.changePasswordForm.get('newPassword')?.setErrors({ required: true });
+      return;
+    }
+
     if (!isValidPassword) {
       this.changePasswordForm.get('newPassword')?.setErrors({
         customError: 'Password must be strong',
