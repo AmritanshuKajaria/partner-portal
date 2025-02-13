@@ -16,6 +16,7 @@ export class UploadImageComponent {
   @ViewChild('fileInput') fileInput!: ElementRef;
   @Input() errorMessage: string = 'Please upload an image';
   @Input() placeholder: string = 'Drag & Drop or Click to Upload';
+  @Input() label: string = '';
   @Input() showError: boolean = false;
   @Output() imageSrcChange = new EventEmitter<string | ArrayBuffer | null>();
   imageSrc: string | ArrayBuffer | null = null;

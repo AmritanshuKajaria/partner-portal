@@ -93,35 +93,33 @@
         <th>Invoice No.</th>
         <th>Customer Name</th>
 
-        <th
-          *ngIf="
-            tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
-            tabName === 'all'
-          "
-        >
-          Return Delivery Date
-        </th>
-        <th
-          *ngIf="
-            tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
-            tabName === 'all'
-          "
-        >
-          Credit Amount Due
-        </th>
+        <ng-container *ngIf="tabName === 'returnDelivered'">
+          <ng-container
+            *ngTemplateOutlet="returnClassificationHeader"
+          ></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="tabName !== 'all'">
+          <ng-container
+            *ngTemplateOutlet="returnDeliveryDateHeader"
+          ></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="tabName !== 'all'">
+          <ng-container
+            *ngTemplateOutlet="creditAmountDueHeader"
+          ></ng-container>
+        </ng-container>
+
         <th>MPN</th>
-        <th
-          *ngIf="
-            tabName === 'returnShipped' ||
-            tabName === 'returnDelivered' ||
-            tabName === 'returnInitiated'
-          "
-        >
-          Return Classification
-        </th>
-        <th *ngIf="tabName === 'returnShipped'">RA #</th>
+
+        <ng-container *ngIf="tabName !== 'returnDelivered'">
+          <ng-container
+            *ngTemplateOutlet="returnClassificationHeader"
+          ></ng-container>
+        </ng-container>
+
+        <th *ngIf="tabName === 'returnShipped' || tabName === 'all'">RA #</th>
         <th
           *ngIf="
             tabName === 'returnShipped' ||
@@ -132,24 +130,23 @@
         >
           Tracking No.
         </th>
-        <th
-          *ngIf="
-            tabName === 'returnShipped' ||
-            tabName === 'returnDelivered' ||
-            tabName === 'returnInitiated'
-          "
-          id="action"
-          class="action-column"
-          [nzWidth]="'227px'"
-          nzRight
-        >
+
+        <ng-container *ngIf="tabName === 'all'">
+          <ng-container
+            *ngTemplateOutlet="returnDeliveryDateHeader"
+          ></ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="tabName === 'all'">
+          <ng-container
+            *ngTemplateOutlet="creditAmountDueHeader"
+          ></ng-container>
+        </ng-container>
+
+        <th *ngIf="tabName === 'returnShipped'">Shipped Date</th>
+        <ng-container *ngTemplateOutlet="statusHeader"></ng-container>
+        <th id="action" class="action-column" [nzWidth]="'227px'" nzRight>
           <div>Action</div>
-        </th>
-        <th
-          [nzWidth]="'227px'"
-          *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
-        >
-          Status
         </th>
       </tr>
     </thead>
@@ -166,30 +163,30 @@
           <td class="no-wrap">{{ data?.invoice_no }}</td>
           <td nzBreakWord>{{ data?.customer_name }}</td>
 
-          <td
-            *ngIf="
-              tabName === 'returnDelivered' ||
-              tabName === 'carrierClaims' ||
-              tabName === 'all'
-            "
-          >
-            <span class="date">
-              {{
-                data.return_delivery_date
-                  ? (data.return_delivery_date | customDate)
-                  : ""
-              }}
-            </span>
-          </td>
-          <td
-            *ngIf="
-              tabName === 'returnDelivered' ||
-              tabName === 'carrierClaims' ||
-              tabName === 'all'
-            "
-          >
-            {{ data?.credit_amount_due | currency }}
-          </td>
+          <ng-container *ngIf="tabName === 'returnDelivered'" class="no-wrap">
+            <ng-container
+              *ngTemplateOutlet="
+                returnClassificationCell;
+                context: { data: data }
+              "
+            ></ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="tabName !== 'all'">
+            <ng-container
+              *ngTemplateOutlet="
+                returnDeliveryDateCell;
+                context: { data: data }
+              "
+            ></ng-container>
+          </ng-container>
+
+          <ng-container *ngIf="tabName !== 'all'">
+            <ng-container
+              *ngTemplateOutlet="creditAmountDueCell; context: { data: data }"
+            ></ng-container>
+          </ng-container>
+
           <td>
             <div>
               <a
@@ -216,25 +213,40 @@
               </li>
             </ul>
           </td>
-          <td
-            *ngIf="
-              tabName === 'returnShipped' ||
-              tabName === 'returnDelivered' ||
-              tabName === 'returnInitiated'
-            "
-            class="no-wrap"
-          >
-            {{ data?.return_classification }}
-          </td>
-          <td *ngIf="tabName === 'returnShipped'">
-            <span *ngFor="let ra of data?.ra_number">
+
+          <ng-container *ngIf="tabName !== 'returnDelivered'" class="no-wrap">
+            <ng-container
+              *ngTemplateOutlet="
+                returnClassificationCell;
+                context: { data: data }
+              "
+            ></ng-container>
+          </ng-container>
+
+          <td *ngIf="tabName === 'returnShipped' || tabName === 'all'">
+            <span>
               <div>
-                <b class="no-wrap">{{ ra?.name }}</b>
+                <b class="no-wrap">Amazon</b>
               </div>
               <ul class="sub-section">
                 <li class="no-wrap">
                   <div class="sub-val">
-                    <span class="title">RA #:&nbsp;</span>{{ ra?.number }}
+                    <span class="title">RA #:&nbsp;</span
+                    >{{ data?.ra_number?.amazon_ra_number }}
+                  </div>
+                </li>
+              </ul>
+            </span>
+
+            <span>
+              <div>
+                <b class="no-wrap">Your</b>
+              </div>
+              <ul class="sub-section">
+                <li class="no-wrap">
+                  <div class="sub-val">
+                    <span class="title">RA #:&nbsp;</span
+                    >{{ data?.ra_number?.your_ra_number }}
                   </div>
                 </li>
               </ul>
@@ -260,13 +272,33 @@
               </li>
             </ul>
           </td>
-          <td
-            [nzRight]="
-              tabName === 'returnShipped' ||
-              tabName === 'returnDelivered' ||
-              tabName === 'returnInitiated'
-            "
-          >
+
+          <ng-container *ngIf="tabName === 'all'">
+            <ng-container
+              *ngTemplateOutlet="
+                returnDeliveryDateCell;
+                context: { data: data }
+              "
+            ></ng-container>
+          </ng-container>
+
+          <td *ngIf="tabName === 'all'" class="no-wrap">
+            <ng-container
+              *ngTemplateOutlet="creditAmountDueCell; context: { data: data }"
+            ></ng-container>
+          </td>
+
+          <td *ngIf="tabName === 'returnShipped'">
+            <span class="date">
+              {{ data.shipped_date ? (data.shipped_date | customDate) : "" }}
+            </span>
+          </td>
+
+          <ng-container
+            *ngTemplateOutlet="statusBadgesCell; context: { data: data }"
+          ></ng-container>
+
+          <td nzRight>
             <div style="display: flex" *ngIf="tabName === 'returnShipped'">
               <div class="action-btn">
                 <button
@@ -284,15 +316,66 @@
                   style="border: 1px solid #2121c3; color: #2121c3"
                   nz-button
                   (click)="selectAction('returnInitiated')"
+                  *ngIf="!data?.ra_number?.your_ra_number"
                 >
                   Add RA #
                 </button>
               </div>
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
+            <div style="display: flex" *ngIf="tabName === 'returnDelivered'">
+              <div class="action-btn long-text-button">
+                <button
+                  style="
+                    border: 1px solid #28a745;
+                    color: #28a745;
+                    margin-bottom: 8px;
+                  "
+                  nz-button
+                  (click)="selectAction('uploadCreditNote')"
+                >
+                  Approve Return
+                </button>
+                <button
+                  style="
+                    border: 1px solid #2121c3;
+                    color: #2121c3;
+                    margin-bottom: 8px;
+                  "
+                  nz-button
+                  (click)="selectAction('uploadCreditNote')"
+                >
+                  Reclassify Return to BR
+                </button>
+                <button
+                  style="
+                    border: 1px solid #ff4d4f;
+                    color: #ff4d4f;
+                    margin-bottom: 8px;
+                  "
+                  nz-button
+                  (click)="selectAction('appReportCarrierDamage')"
+                >
+                  Report Carrier Damage
+                </button>
+                <button
+                  style="
+                    border: 1px solid #ff4d4f;
+                    color: #ff4d4f;
+                    margin-bottom: 8px;
+                  "
+                  nz-button
+                  (click)="markAsLost(data?.po_no)"
+                >
+                  Mark as Lost
+                </button>
+              </div>
+              <ng-container [ngTemplateOutlet]="dots"></ng-container>
+            </div>
+
             <div
-              style="display: flex; justify-content: space-between"
-              *ngIf="tabName === 'returnDelivered'"
+              style="display: flex"
+              *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
             >
               <div class="action-btn">
                 <button
@@ -302,31 +385,31 @@
                     margin-bottom: 8px;
                   "
                   nz-button
-                  nz-dropdown
-                  [nzDropdownMenu]="returnMenu"
-                  nzTrigger="click"
+                  (click)="selectAction('uploadCreditNote')"
                 >
                   Approve Return
                 </button>
+                <button
+                  style="
+                    border: 1px solid #2121c3;
+                    color: #2121c3;
+                    margin-bottom: 8px;
+                  "
+                  nz-button
+                >
+                  Additional Details
+                </button>
               </div>
-              <app-three-dot-menu-btn [menu]="menu"></app-three-dot-menu-btn>
+              <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
 
-            <app-status-badge
-              *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
-              [type]="statusEnum.Success"
-              [text]="data?.refund_status"
-            ></app-status-badge>
-
-            <div
-              style="display: flex; justify-content: space-between"
-              *ngIf="tabName === 'returnInitiated'"
-            >
+            <div style="display: flex" *ngIf="tabName === 'returnInitiated'">
               <div class="action-btn">
                 <button
                   (click)="selectAction('returnInitiated')"
                   style="border: 1px solid #28a745; color: #28a745"
                   nz-button
+                  *ngIf="!data?.ra_number?.your_ra_number"
                 >
                   Add RA #
                 </button>
@@ -353,46 +436,6 @@
           </td>
         </tr>
       </ng-template>
-
-      <nz-dropdown-menu #returnMenu="nzDropdownMenu">
-        <ul nz-menu>
-          <li nz-menu-item (click)="selectAction('returnDelivered')">
-            Approve Credit
-          </li>
-          <li nz-menu-item (click)="selectAction('uploadCreditNote')">
-            Upload Credit Note
-          </li>
-        </ul>
-      </nz-dropdown-menu>
-
-      <nz-dropdown-menu #menu="nzDropdownMenu">
-        <ul nz-menu>
-          <li
-            nzTriggerSubMenuAction="click"
-            nz-submenu
-            nzTitle="Reclassify Return to Buyer’s Remorse"
-          >
-            <ul nz-menu>
-              <li nz-menu-item (click)="selectAction('returnDelivered')">
-                Approve Credit
-              </li>
-              <li nz-menu-item (click)="selectAction('uploadCreditNote')">
-                Upload Credit Note
-              </li>
-            </ul>
-          </li>
-          <li nz-menu-item (click)="selectAction('appReportCarrierDamage')">
-            Report Carrier Damage
-          </li>
-          <li
-            nz-menu-item
-            (click)="markAsLost(data?.po_no)"
-            *ngFor="let data of listOfData"
-          >
-            Return not received – Mark as Lost
-          </li>
-        </ul>
-      </nz-dropdown-menu>
     </tbody>
   </nz-table>
 
@@ -485,23 +528,10 @@
   </ng-container>
 </nz-modal>
 
-<!-- Approve credit Modal -->
-<nz-modal
-  [(nzVisible)]="approveCreditModelVisible"
-  nzTitle="Approve Credit"
-  (nzOnCancel)="approveCreditModelVisible = false"
->
-  <ng-container *nzModalContent>
-    <app-approve-credit
-      (closeModal)="approveCreditModelVisible = false"
-    ></app-approve-credit>
-  </ng-container>
-</nz-modal>
-
 <!-- Upload Credit Note Modal -->
 <nz-modal
   [(nzVisible)]="uploadCreditNoteModalVisible"
-  nzTitle="Upload Credit Note"
+  nzTitle="Approve Credit"
   (nzOnCancel)="uploadCreditNoteModalVisible = false"
 >
   <ng-container *nzModalContent>
@@ -545,3 +575,154 @@
     ></app-export-model>
   </ng-container>
 </nz-modal>
+
+<!-- calculation model -->
+<nz-modal
+  [(nzVisible)]="showCalculationModel"
+  nzTitle="Calculation"
+  (nzOnCancel)="showCalculationModel = false"
+>
+  <ng-container *nzModalContent>
+    <div style="padding: 10px 20px">
+      <div class="description-container">
+        <div class="description-item">
+          <span class="label">Cost of Product :</span>
+          <span class="value"
+            ><strong> {{ costData?.cost_of_product | currency }}</strong></span
+          >
+        </div>
+        <div class="description-item">
+          <span class="label">Original Shipping Cost : </span>
+          <span class="value"
+            ><strong>
+              {{ costData?.original_shipping_cost | currency }}</strong
+            ></span
+          >
+        </div>
+        <div class="description-item">
+          <span class="label">Cost of Return Shipping : </span>
+          <span class="value"
+            ><strong>
+              {{ costData?.cost_of_return_shipping | currency }}</strong
+            ></span
+          >
+        </div>
+        <div class="description-item">
+          <span class="label">Total : </span>
+          <span class="value"
+            ><strong> {{ costData?.total | currency }}</strong></span
+          >
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</nz-modal>
+
+<!-- th  Return Delivery Date -->
+<ng-template #returnDeliveryDateHeader>
+  <th
+    *ngIf="
+      tabName === 'returnDelivered' ||
+      tabName === 'carrierClaims' ||
+      tabName === 'all'
+    "
+  >
+    Return Delivery Date
+  </th>
+</ng-template>
+
+<!-- th  Credit Amount Due -->
+<ng-template #creditAmountDueHeader>
+  <th
+    *ngIf="
+      tabName === 'returnDelivered' ||
+      tabName === 'carrierClaims' ||
+      tabName === 'all'
+    "
+  >
+    Credit Amount Due
+  </th>
+</ng-template>
+
+<!-- th  Return Classification -->
+<ng-template #returnClassificationHeader>
+  <th
+    *ngIf="
+      tabName === 'returnShipped' ||
+      tabName === 'returnDelivered' ||
+      tabName === 'returnInitiated' ||
+      tabName === 'all'
+    "
+  >
+    Return Classification
+  </th>
+</ng-template>
+
+<!-- th  Status -->
+<ng-template #statusHeader>
+  <th
+    [nzWidth]="'227px'"
+    *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
+  >
+    Status
+  </th>
+</ng-template>
+
+<!-- td Return Delivery Date -->
+<ng-template #returnDeliveryDateCell let-data="data">
+  <td
+    *ngIf="
+      tabName === 'returnDelivered' ||
+      tabName === 'carrierClaims' ||
+      tabName === 'all'
+    "
+  >
+    <span class="date">
+      {{
+        data?.return_delivery_date
+          ? (data.return_delivery_date | customDate)
+          : ""
+      }}
+    </span>
+  </td>
+</ng-template>
+
+<!-- td Credit Amount Due -->
+<ng-template #creditAmountDueCell let-data="data">
+  <td
+    *ngIf="
+      tabName === 'returnDelivered' ||
+      tabName === 'carrierClaims' ||
+      tabName === 'all'
+    "
+  >
+    <div>
+      <strong>{{ data?.credit_amount_due | currency }}</strong>
+    </div>
+    <a class="link" (click)="showCalculation(data?.cost)">[View Calulation]</a>
+  </td>
+</ng-template>
+
+<!-- td Return Classification -->
+<ng-template #returnClassificationCell let-data="data">
+  <td
+    *ngIf="
+      tabName === 'returnShipped' ||
+      tabName === 'returnDelivered' ||
+      tabName === 'returnInitiated' ||
+      tabName === 'all'
+    "
+  >
+    {{ data?.return_classification }}
+  </td>
+</ng-template>
+
+<!-- td Status Badges -->
+<ng-template #statusBadgesCell let-data="data">
+  <td *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
+    <app-status-badge
+      [type]="data?.refund_status"
+      [text]="data?.refund_status"
+    ></app-status-badge>
+  </td>
+</ng-template>

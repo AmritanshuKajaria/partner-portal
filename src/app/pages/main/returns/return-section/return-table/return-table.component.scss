@@ -26,6 +26,7 @@
   .action-btn {
     padding-top: 6px;
     padding-left: 6px;
+    width: 170px;
     button {
       border-radius: 5px;
       font-size: 14px;
@@ -34,6 +35,13 @@
       padding: 0 10px !important;
       margin-right: 5px;
       width: 140px;
+    }
+  }
+
+  .long-text-button {
+    width: 200px;
+    button {
+      width: 170px !important;
     }
   }
 
@@ -153,4 +161,36 @@
 ::ng-deep .ant-dropdown-menu-submenu-title,
 ::ng-deep .ant-dropdown-menu-item {
   padding: 10px 16px;
+}
+
+// to show cross icon
+::ng-deep .confirm-modal {
+  .ant-modal-close {
+    color: $black !important;
+  }
+}
+
+.description-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 15px;
+}
+
+.description-item {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.label {
+  text-align: right;
+  grid-column: span 6;
+}
+
+.value {
+  text-align: left;
+  grid-column: span 6;
+  margin-left: 5px;
 }

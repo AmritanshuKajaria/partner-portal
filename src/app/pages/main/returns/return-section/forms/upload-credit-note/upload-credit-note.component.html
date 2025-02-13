@@ -2,8 +2,18 @@
   <div class="model-section">
     <form nz-form [formGroup]="uploadCreditNoteForm">
       <nz-form-item>
-        <nz-form-label [nzXs]="7">Add Custom CN #</nz-form-label>
-        <nz-form-control nzErrorTip="CN is required!">
+        <nz-form-label [nzXs]="7"
+          >Add Custom CN #<span style="color: red">*</span></nz-form-label
+        >
+        <nz-form-control
+          [nzValidateStatus]="
+            uploadCreditNoteForm.controls['cn'].invalid &&
+            uploadCreditNoteForm.controls['cn'].touched
+              ? 'error'
+              : ''
+          "
+          nzErrorTip="CN is required!"
+        >
           <nz-input-group>
             <input
               formControlName="cn"
@@ -15,9 +25,7 @@
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzXs]="7">
-          Upload File<span style="color: red">*</span></nz-form-label
-        >
+        <nz-form-label [nzXs]="7"> Upload File</nz-form-label>
         <div class="Neon Neon-theme-dragdropbox">
           <input
             style="
@@ -78,7 +86,7 @@
         class="action-button"
         (click)="submitForm()"
         [nzType]="'primary'"
-        [disabled]="!uploadCreditNoteForm.get('uploadCreditNote')?.value"
+        [disabled]="isLoading"
         style="height: 35px; margin-top: 0px; margin-right: 10px"
       >
         <span

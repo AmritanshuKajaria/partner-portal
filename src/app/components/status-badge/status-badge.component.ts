@@ -14,7 +14,7 @@ export enum StatusEnum {
   styleUrls: ['./status-badge.component.scss'],
 })
 export class StatusBadgeComponent implements OnInit {
-  @Input() type: StatusEnum = StatusEnum.Pending;
+  @Input() type: StatusEnum | string = StatusEnum.Pending;
   @Input() text: string | undefined = '';
   bgColor: string = '#3abe25';
 
@@ -33,6 +33,27 @@ export class StatusBadgeComponent implements OnInit {
         break;
       case 3:
         this.bgColor = 'orange';
+        break;
+      case 'Return Initiated':
+        this.bgColor = '#ffcc00';
+        break;
+      case 'Return Shipped':
+        this.bgColor = '#ff9900';
+        break;
+      case 'Return Delivered':
+        this.bgColor = '#66ccff';
+        break;
+      case 'Claim Approval Pending':
+        this.bgColor = '#ff6600';
+        break;
+      case 'Claim Approved':
+        this.bgColor = '#00cc66';
+        break;
+      case 'Claim Rejected':
+        this.bgColor = '#3abe25';
+        break;
+      case 'Completed':
+        this.bgColor = 'brown';
         break;
       default:
         this.bgColor = 'red';

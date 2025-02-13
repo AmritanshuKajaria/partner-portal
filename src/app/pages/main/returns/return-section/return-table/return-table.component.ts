@@ -42,11 +42,12 @@ export class ReturnTableComponent implements OnInit {
   searchForm!: FormGroup;
   addRaVisible: boolean = false;
   isExportVisible: boolean = false;
-  approveCreditModelVisible: boolean = false;
   listOfFilter: any = '';
   ReturnClarification: boolean = false;
   uploadCreditNoteModalVisible: boolean = false;
   appReportCarrierDamageModalVisible: boolean = false;
+  showCalculationModel: boolean = false;
+  costData: any = {};
 
   pageSizeOptions = [100];
   selectDate: string = '';
@@ -67,7 +68,11 @@ export class ReturnTableComponent implements OnInit {
     'Report Carrier Damage',
   ];
 
-  filterReturnClassificationOptions = ['A', 'B', 'C'];
+  filterReturnClassificationOptions = [
+    'Buyers Remorse',
+    'Mis-Ship',
+    'Defective',
+  ];
 
   constructor(private router: Router, private modal: NzModalService) {
     this.accountSearch
@@ -90,9 +95,7 @@ export class ReturnTableComponent implements OnInit {
   }
 
   selectAction(data: string) {
-    if (data === 'returnDelivered') {
-      this.approveCreditModelVisible = true;
-    } else if (data === 'returnInitiated') {
+    if (data === 'returnInitiated') {
       this.addRaVisible = true;
     } else if (data === 'returnClarification') {
       this.ReturnClarification = true;
@@ -248,6 +251,7 @@ export class ReturnTableComponent implements OnInit {
       nzOnOk: () => {
         console.log(po_no);
       },
+      nzClassName: 'confirm-modal',
       nzOkText: 'Confirm',
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Close'),
@@ -262,10 +266,16 @@ export class ReturnTableComponent implements OnInit {
       nzOnOk: () => {
         console.log(po_no);
       },
+      nzClassName: 'confirm-modal',
       nzOkText: 'Confirm',
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Close'),
       nzOkLoading: this.isLoading,
     });
+  }
+
+  showCalculation(data: any) {
+    this.showCalculationModel = true;
+    this.costData = data;
   }
 }

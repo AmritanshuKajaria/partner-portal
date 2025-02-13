@@ -15,8 +15,8 @@ export class UploadCreditNote implements OnInit {
 
   ngOnInit() {
     this.uploadCreditNoteForm = new FormGroup({
-      cn: new FormControl(''),
-      uploadCreditNote: new FormControl('', Validators.required),
+      cn: new FormControl('', Validators.required),
+      uploadCreditNote: new FormControl(''),
     });
   }
 
@@ -35,6 +35,8 @@ export class UploadCreditNote implements OnInit {
       console.log('data:', data);
 
       this.close();
+    } else {
+      this.uploadCreditNoteForm.markAllAsTouched();
     }
   }
 

@@ -10,8 +10,8 @@ interface Tracking {
 }
 
 interface RANumber {
-  name: string;
-  number: string;
+  amazon_ra_number: string;
+  your_ra_number: string;
 }
 
 export interface GetAllReturn {
@@ -46,12 +46,19 @@ export interface SingleReturn {
   porduct_mpn: string;
   porduct_qty: number;
   return_delivery_date: string;
-  credit_amount_due: number;
+  credit_amount_due: string;
+  cost: {
+    cost_of_product: string;
+    original_shipping_cost: string;
+    cost_of_return_shipping: string;
+    total: string;
+  };
+  shipped_date: string;
   return_qty: number;
   return_classification: string;
   refund_status?: string;
   tracking?: Tracking;
-  ra_number?: RANumber[];
+  ra_number?: RANumber;
 }
 
 export interface AddRaPayload {
