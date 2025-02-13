@@ -84,7 +84,7 @@
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
-    [nzScroll]="{ x: '100%' }"
+    [nzScroll]="{ x: tabName === 'returnInitiated' ? '1200px' : (tabName === 'returnShipped') ? '1600px' : tabName === 'returnDelivered' ? '1400px' :  '1800px' }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
@@ -119,7 +119,7 @@
           ></ng-container>
         </ng-container>
 
-        <th *ngIf="tabName === 'returnShipped' || tabName === 'all'">RA #</th>
+        <th *ngIf="tabName === 'returnShipped' || tabName === 'returnInitiated' || tabName === 'all'">RA #</th>
         <th
           *ngIf="
             tabName === 'returnShipped' ||
@@ -143,9 +143,9 @@
           ></ng-container>
         </ng-container>
 
-        <th *ngIf="tabName === 'returnShipped'">Shipped Date</th>
+        <th *ngIf="tabName === 'returnShipped'" nzWidth="200">Shipped Date</th>
         <ng-container *ngTemplateOutlet="statusHeader"></ng-container>
-        <th id="action" class="action-column" [nzWidth]="'227px'" nzRight>
+        <th id="action" class="action-column" nzRight>
           <div>Action</div>
         </th>
       </tr>
@@ -223,7 +223,7 @@
             ></ng-container>
           </ng-container>
 
-          <td *ngIf="tabName === 'returnShipped' || tabName === 'all'">
+          <td *ngIf="tabName === 'returnShipped' || tabName === 'returnInitiated' || tabName === 'all'">
             <span>
               <div>
                 <b class="no-wrap">Amazon</b>
@@ -298,14 +298,15 @@
             *ngTemplateOutlet="statusBadgesCell; context: { data: data }"
           ></ng-container>
 
-          <td nzRight>
+          <td nzRight style="width: 80px;">
             <div style="display: flex" *ngIf="tabName === 'returnShipped'">
-              <div class="action-btn">
+              <div class="action-btn" style="width: 152px;">
                 <button
                   style="
                     border: 1px solid #28a745;
                     color: #28a745;
                     margin-bottom: 8px;
+                    width: 140px;
                   "
                   nz-button
                   (click)="markAsReceived(data?.po_no)"
@@ -313,7 +314,7 @@
                   Mark as Received
                 </button>
                 <button
-                  style="border: 1px solid #2121c3; color: #2121c3"
+                  style="border: 1px solid #2121c3; color: #2121c3; width: 140px;"
                   nz-button
                   (click)="selectAction('returnInitiated')"
                   *ngIf="!data?.ra_number?.your_ra_number"
@@ -324,12 +325,13 @@
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
             <div style="display: flex" *ngIf="tabName === 'returnDelivered'">
-              <div class="action-btn long-text-button">
+              <div class="action-btn long-text-button" style="width: 197px;">
                 <button
                   style="
                     border: 1px solid #28a745;
                     color: #28a745;
                     margin-bottom: 8px;
+                    width: 185px;
                   "
                   nz-button
                   (click)="selectAction('uploadCreditNote')"
@@ -341,6 +343,7 @@
                     border: 1px solid #2121c3;
                     color: #2121c3;
                     margin-bottom: 8px;
+                    width: 185px;
                   "
                   nz-button
                   (click)="selectAction('uploadCreditNote')"
@@ -352,6 +355,7 @@
                     border: 1px solid #ff4d4f;
                     color: #ff4d4f;
                     margin-bottom: 8px;
+                    width: 185px;
                   "
                   nz-button
                   (click)="selectAction('appReportCarrierDamage')"
@@ -363,6 +367,7 @@
                     border: 1px solid #ff4d4f;
                     color: #ff4d4f;
                     margin-bottom: 8px;
+                    width: 185px;
                   "
                   nz-button
                   (click)="markAsLost(data?.po_no)"
@@ -377,12 +382,13 @@
               style="display: flex"
               *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
             >
-              <div class="action-btn">
+              <div class="action-btn" style="width: 197px;" *ngIf="tabName === 'carrierClaims'">
                 <button
                   style="
                     border: 1px solid #28a745;
                     color: #28a745;
                     margin-bottom: 8px;
+                    width: 185px;
                   "
                   nz-button
                   (click)="selectAction('uploadCreditNote')"
@@ -394,6 +400,7 @@
                     border: 1px solid #2121c3;
                     color: #2121c3;
                     margin-bottom: 8px;
+                    width: 185px;
                   "
                   nz-button
                 >
@@ -404,10 +411,10 @@
             </div>
 
             <div style="display: flex" *ngIf="tabName === 'returnInitiated'">
-              <div class="action-btn">
+              <div class="action-btn" style="width: 132px;">
                 <button
                   (click)="selectAction('returnInitiated')"
-                  style="border: 1px solid #28a745; color: #28a745"
+                  style="border: 1px solid #28a745; color: #28a745; width: 120px;"
                   nz-button
                   *ngIf="!data?.ra_number?.your_ra_number"
                 >
@@ -517,7 +524,7 @@
 <!-- Return Clarification modal-->
 <nz-modal
   [(nzVisible)]="ReturnClarification"
-  [nzTitle]="'Return Clarification (Return# ' + 123 + ')'"
+  nzTitle="Create Ticket"
   (nzOnCancel)="ReturnClarification = false"
 >
   <ng-container *nzModalContent>
@@ -533,6 +540,7 @@
   [(nzVisible)]="uploadCreditNoteModalVisible"
   nzTitle="Approve Credit"
   (nzOnCancel)="uploadCreditNoteModalVisible = false"
+  [nzWidth]="'545px'"
 >
   <ng-container *nzModalContent>
     <app-upload-credit-note
@@ -647,6 +655,7 @@
 <!-- th  Return Classification -->
 <ng-template #returnClassificationHeader>
   <th
+    [nzWidth]="'160px'"
     *ngIf="
       tabName === 'returnShipped' ||
       tabName === 'returnDelivered' ||
