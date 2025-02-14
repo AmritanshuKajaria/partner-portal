@@ -61,7 +61,7 @@ export class ResetPasswordComponent implements OnInit {
       this.resetForm.get('confirmPassword')?.setErrors({ required: true });
     } else if (newPassword !== confirmPassword) {
       this.resetForm.get('confirmPassword')?.setErrors({
-        customError: 'Password do not match',
+        customError: 'Password does not match',
       });
     } else {
       this.resetForm.get('confirmPassword')?.setErrors(null);
@@ -92,7 +92,7 @@ export class ResetPasswordComponent implements OnInit {
 
     if (!isValidPassword) {
       this.resetForm.get('newPassword')?.setErrors({
-        customError: 'Password must be strong',
+        customError: 'Password must meet all conditions',
       });
     }
   }
