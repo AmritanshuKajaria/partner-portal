@@ -63,7 +63,7 @@ export class ChangePasswordComponent implements OnInit {
         ?.setErrors({ required: true });
     } else if (newPassword !== confirmPassword) {
       this.changePasswordForm.get('confirmPassword')?.setErrors({
-        customError: 'Password do not match',
+        customError: 'Password does not match',
       });
     } else {
       this.changePasswordForm.get('confirmPassword')?.setErrors(null);
@@ -94,7 +94,7 @@ export class ChangePasswordComponent implements OnInit {
 
     if (!isValidPassword) {
       this.changePasswordForm.get('newPassword')?.setErrors({
-        customError: 'Password must be strong',
+        customError: 'Password must meet all conditions',
       });
     }
   }
