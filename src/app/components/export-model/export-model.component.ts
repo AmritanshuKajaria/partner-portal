@@ -403,27 +403,35 @@ export class ExportModelComponent implements OnInit {
     } else if (this.sectionName === 'return') {
       let filters: AppliedFilters = {};
 
-      if (this.listOfFilter?.start_date) {
+      if (this.listOfFilter?.filter_start_date) {
         filters['filter_start_date'] = this.exportType
-          ? formatDate(this.listOfFilter?.start_date, 'yyyy-MM-dd', this.locale)
+          ? formatDate(
+              this.listOfFilter?.filter_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
           : '';
       }
 
-      if (this.listOfFilter?.end_date) {
+      if (this.listOfFilter?.filter_end_date) {
         filters['filter_end_date'] = this.exportType
-          ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
+          ? formatDate(
+              this.listOfFilter?.filter_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
           : '';
       }
 
-      if (this.listOfFilter?.return_classification) {
+      if (this.listOfFilter?.filter_return_classification) {
         filters['filter_return_classification'] = this.exportType
-          ? this.listOfFilter?.return_classification
+          ? this.listOfFilter?.filter_return_classification
           : '';
       }
 
-      if (this.listOfFilter?.status) {
+      if (this.listOfFilter?.filter_status) {
         filters['filter_status'] = this.exportType
-          ? this.listOfFilter?.status
+          ? this.listOfFilter?.filter_status
           : '';
       }
 

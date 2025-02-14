@@ -361,7 +361,7 @@
                     width: 185px;
                   "
                   nz-button
-                  (click)="selectAction(data.po_no, 'uploadCreditNote')"
+                  (click)="selectAction(data.po_no, 'approveReturn')"
                 >
                   Approve Return
                 </button>
@@ -373,7 +373,7 @@
                     width: 185px;
                   "
                   nz-button
-                  (click)="selectAction(data.po_no, 'uploadCreditNote')"
+                  (click)="selectAction(data.po_no, 'reclassifyReturn')"
                 >
                   Reclassify Return to BR
                 </button>
@@ -422,7 +422,7 @@
                     width: 185px;
                   "
                   nz-button
-                  (click)="selectAction(data.po_no, 'uploadCreditNote')"
+                  (click)="selectAction(data.po_no, 'approveReturn')"
                 >
                   Approve Return
                 </button>
@@ -570,17 +570,34 @@
   </ng-container>
 </nz-modal>
 
-<!-- Upload Credit Note Modal -->
+<!-- Approve Credit Modal -->
 <nz-modal
-  [(nzVisible)]="uploadCreditNoteModalVisible"
+  [(nzVisible)]="approveReturnModalVisible"
   nzTitle="Approve Credit"
-  (nzOnCancel)="uploadCreditNoteModalVisible = false"
+  (nzOnCancel)="approveReturnModalVisible = false"
   [nzWidth]="'545px'"
 >
   <ng-container *nzModalContent>
     <app-upload-credit-note
+      [type]="'approveReturn'"
       [poNo]="poNo"
-      (closeModal)="uploadCreditNoteModalVisible = false"
+      (closeModal)="approveReturnModalVisible = false"
+    ></app-upload-credit-note>
+  </ng-container>
+</nz-modal>
+
+<!-- Reclassify Return Modal -->
+<nz-modal
+  [(nzVisible)]="reclassifyReturnModalVisible"
+  nzTitle="Reclassify Return"
+  (nzOnCancel)="reclassifyReturnModalVisible = false"
+  [nzWidth]="'545px'"
+>
+  <ng-container *nzModalContent>
+    <app-upload-credit-note
+      [type]="'reclassifyReturn'"
+      [poNo]="poNo"
+      (closeModal)="reclassifyReturnModalVisible = false"
     ></app-upload-credit-note>
   </ng-container>
 </nz-modal>

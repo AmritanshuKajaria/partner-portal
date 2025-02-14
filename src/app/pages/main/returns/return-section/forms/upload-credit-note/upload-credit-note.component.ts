@@ -11,6 +11,7 @@ import { ReturnService } from 'src/app/shared/service/return.service';
 })
 export class UploadCreditNote implements OnInit {
   @Input() poNo: string = '';
+  @Input() type: string = '';
   @Output() closeModal = new EventEmitter();
 
   uploadCreditNoteForm!: FormGroup;
@@ -53,27 +54,51 @@ export class UploadCreditNote implements OnInit {
     data.append('cn', creditNoteData.cn);
     data.append('uploaded_file', this.selectFile);
 
-    this.returnService.approveReturn(data).subscribe({
-      next: (res: any) => {
-        this.isLoading = false;
-        if (res.success) {
-          this.message.success('Approve credit request successfully!');
-          this.close();
-        } else {
-          this.message.error(
-            res?.error_message
-              ? res?.error_message
-              : 'Approve credit request Failed!'
-          );
-        }
-      },
-      error: (error: any) => {
-        this.isLoading = false;
-        if (!error?.error_shown) {
-          this.message.error('Approve credit request Failed!');
-        }
-      },
-    });
+    if (this.type === 'approveReturn') {
+      this.returnService.approveReturn(data).subscribe({
+        next: (res: any) => {
+          this.isLoading = false;
+          if (res.success) {
+            this.message.success('Approve credit request successfully!');
+            this.close();
+          } else {
+            this.message.error(
+              res?.error_message
+                ? res?.error_message
+                : 'Approve credit request Failed!'
+            );
+          }
+        },
+        error: (error: any) => {
+          this.isLoading = false;
+          if (!error?.error_shown) {
+            this.message.error('Approve credit request Failed!');
+          }
+        },
+      });
+    } else if (this.type === 'reclassifyReturn') {
+      this.returnService.reclassifyReturn(data).subscribe({
+        next: (res: any) => {
+          this.isLoading = false;
+          if (res.success) {
+            this.message.success('Reclassify Return request successfully!');
+            this.close();
+          } else {
+            this.message.error(
+              res?.error_message
+                ? res?.error_message
+                : 'Reclassify Return request Failed!'
+            );
+          }
+        },
+        error: (error: any) => {
+          this.isLoading = false;
+          if (!error?.error_shown) {
+            this.message.error('Reclassify Return request Failed!');
+          }
+        },
+      });
+    }
   }
 
   selectFiles(event: any) {

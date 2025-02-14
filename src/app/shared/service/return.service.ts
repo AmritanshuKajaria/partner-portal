@@ -283,7 +283,7 @@ export class ReturnService {
     return this.http.post(this.url + '/approve-return', data);
   }
 
-  reclassifyReturn(data: ReclssifyReturnPayload) {
+  reclassifyReturn(data: FormData) {
     return this.http.post(this.url + '/reclassify-return', data);
   }
 

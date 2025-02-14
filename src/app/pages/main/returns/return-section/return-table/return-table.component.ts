@@ -52,7 +52,8 @@ export class ReturnTableComponent implements OnInit {
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {};
   ReturnClarification: boolean = false;
-  uploadCreditNoteModalVisible: boolean = false;
+  approveReturnModalVisible: boolean = false;
+  reclassifyReturnModalVisible: boolean = false;
   appReportCarrierDamageModalVisible: boolean = false;
   showCalculationModel: boolean = false;
   costData!: Cost;
@@ -113,10 +114,12 @@ export class ReturnTableComponent implements OnInit {
       this.addRaVisible = true;
     } else if (type === 'returnClarification') {
       this.ReturnClarification = true;
-    } else if (type === 'uploadCreditNote') {
-      this.uploadCreditNoteModalVisible = true;
+    } else if (type === 'approveReturn') {
+      this.approveReturnModalVisible = true;
     } else if (type === 'appReportCarrierDamage') {
       this.appReportCarrierDamageModalVisible = true;
+    } else if (type === 'reclassifyReturn') {
+      this.reclassifyReturnModalVisible = true;
     } else {
       this.poNo = '';
     }

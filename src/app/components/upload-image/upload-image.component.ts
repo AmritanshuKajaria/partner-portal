@@ -18,7 +18,7 @@ export class UploadImageComponent {
   @Input() placeholder: string = 'Drag & Drop or Click to Upload';
   @Input() label: string = '';
   @Input() showError: boolean = false;
-  @Output() imageSrcChange = new EventEmitter<string | ArrayBuffer | null>();
+  @Output() imageSrcChange = new EventEmitter<File | null>();
   imageSrc: string | ArrayBuffer | null = null;
 
   onFileChange(event: any) {
@@ -27,7 +27,7 @@ export class UploadImageComponent {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imageSrc = reader.result;
-        this.imageSrcChange.emit(this.imageSrc);
+        this.imageSrcChange.emit(file);
         this.showError = false;
       };
       reader.readAsDataURL(file);
@@ -39,7 +39,7 @@ export class UploadImageComponent {
     event.preventDefault();
     this.imageSrc = null;
     this.fileInput.nativeElement.value = '';
-    this.imageSrcChange.emit(this.imageSrc);
+    this.imageSrcChange.emit(null);
   }
 
   onDrop(event: DragEvent) {
@@ -50,7 +50,7 @@ export class UploadImageComponent {
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imageSrc = reader.result;
-        this.imageSrcChange.emit(this.imageSrc);
+        this.imageSrcChange.emit(file);
         this.showError = false;
       };
       reader.readAsDataURL(file);
