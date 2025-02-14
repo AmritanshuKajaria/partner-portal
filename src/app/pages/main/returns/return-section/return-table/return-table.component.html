@@ -84,7 +84,16 @@
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
-    [nzScroll]="{ x: tabName === 'returnInitiated' ? '1200px' : (tabName === 'returnShipped') ? '1600px' : tabName === 'returnDelivered' ? '1400px' :  '1800px' }"
+    [nzScroll]="{
+      x:
+        tabName === 'returnInitiated'
+          ? '1200px'
+          : tabName === 'returnShipped'
+          ? '1600px'
+          : tabName === 'returnDelivered'
+          ? '1400px'
+          : '1800px'
+    }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
@@ -119,7 +128,15 @@
           ></ng-container>
         </ng-container>
 
-        <th *ngIf="tabName === 'returnShipped' || tabName === 'returnInitiated' || tabName === 'all'">RA #</th>
+        <th
+          *ngIf="
+            tabName === 'returnShipped' ||
+            tabName === 'returnInitiated' ||
+            tabName === 'all'
+          "
+        >
+          RA #
+        </th>
         <th
           *ngIf="
             tabName === 'returnShipped' ||
@@ -191,17 +208,17 @@
             <div>
               <a
                 (click)="
-                  navigatePage('products/details', { sku: data?.porduct_mpn })
+                  navigatePage('products/details', { sku: data?.product_mpn })
                 "
                 class="link no-wrap"
-                >{{ data?.porduct_mpn }}</a
+                >{{ data?.product_mpn }}</a
               >
             </div>
             <ul class="sub-section">
               <li class="no-wrap">
                 <div class="sub-val">
                   <span class="title">Order Qty&nbsp;&nbsp;-&nbsp;</span
-                  >{{ data?.porduct_qty }}
+                  >{{ data?.product_qty }}
                 </div>
               </li>
               <li class="no-wrap">
@@ -223,7 +240,13 @@
             ></ng-container>
           </ng-container>
 
-          <td *ngIf="tabName === 'returnShipped' || tabName === 'returnInitiated' || tabName === 'all'">
+          <td
+            *ngIf="
+              tabName === 'returnShipped' ||
+              tabName === 'returnInitiated' ||
+              tabName === 'all'
+            "
+          >
             <span>
               <div>
                 <b class="no-wrap">Amazon</b>
@@ -298,9 +321,9 @@
             *ngTemplateOutlet="statusBadgesCell; context: { data: data }"
           ></ng-container>
 
-          <td nzRight style="width: 80px;">
+          <td nzRight style="width: 80px">
             <div style="display: flex" *ngIf="tabName === 'returnShipped'">
-              <div class="action-btn" style="width: 152px;">
+              <div class="action-btn" style="width: 152px">
                 <button
                   style="
                     border: 1px solid #28a745;
@@ -314,9 +337,13 @@
                   Mark as Received
                 </button>
                 <button
-                  style="border: 1px solid #2121c3; color: #2121c3; width: 140px;"
+                  style="
+                    border: 1px solid #2121c3;
+                    color: #2121c3;
+                    width: 140px;
+                  "
                   nz-button
-                  (click)="selectAction('returnInitiated')"
+                  (click)="selectAction(data.po_no, 'returnInitiated')"
                   *ngIf="!data?.ra_number?.your_ra_number"
                 >
                   Add RA #
@@ -325,7 +352,7 @@
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
             <div style="display: flex" *ngIf="tabName === 'returnDelivered'">
-              <div class="action-btn long-text-button" style="width: 197px;">
+              <div class="action-btn long-text-button" style="width: 197px">
                 <button
                   style="
                     border: 1px solid #28a745;
@@ -334,7 +361,7 @@
                     width: 185px;
                   "
                   nz-button
-                  (click)="selectAction('uploadCreditNote')"
+                  (click)="selectAction(data.po_no, 'uploadCreditNote')"
                 >
                   Approve Return
                 </button>
@@ -346,7 +373,7 @@
                     width: 185px;
                   "
                   nz-button
-                  (click)="selectAction('uploadCreditNote')"
+                  (click)="selectAction(data.po_no, 'uploadCreditNote')"
                 >
                   Reclassify Return to BR
                 </button>
@@ -358,7 +385,7 @@
                     width: 185px;
                   "
                   nz-button
-                  (click)="selectAction('appReportCarrierDamage')"
+                  (click)="selectAction(data.po_no, 'appReportCarrierDamage')"
                 >
                   Report Carrier Damage
                 </button>
@@ -382,7 +409,11 @@
               style="display: flex"
               *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
             >
-              <div class="action-btn" style="width: 197px;" *ngIf="tabName === 'carrierClaims'">
+              <div
+                class="action-btn"
+                style="width: 197px"
+                *ngIf="tabName === 'carrierClaims'"
+              >
                 <button
                   style="
                     border: 1px solid #28a745;
@@ -391,7 +422,7 @@
                     width: 185px;
                   "
                   nz-button
-                  (click)="selectAction('uploadCreditNote')"
+                  (click)="selectAction(data.po_no, 'uploadCreditNote')"
                 >
                   Approve Return
                 </button>
@@ -411,10 +442,14 @@
             </div>
 
             <div style="display: flex" *ngIf="tabName === 'returnInitiated'">
-              <div class="action-btn" style="width: 132px;">
+              <div class="action-btn" style="width: 132px">
                 <button
-                  (click)="selectAction('returnInitiated')"
-                  style="border: 1px solid #28a745; color: #28a745; width: 120px;"
+                  (click)="selectAction(data.po_no, 'returnInitiated')"
+                  style="
+                    border: 1px solid #28a745;
+                    color: #28a745;
+                    width: 120px;
+                  "
                   nz-button
                   *ngIf="!data?.ra_number?.your_ra_number"
                 >
@@ -432,7 +467,7 @@
               <nz-dropdown-menu #menu="nzDropdownMenu">
                 <ul nz-menu>
                   <li
-                    (click)="selectAction('returnClarification')"
+                    (click)="selectAction(data.po_no, 'returnClarification')"
                     nz-menu-item
                   >
                     Return Clarification
@@ -517,7 +552,7 @@
   (nzOnCancel)="addRaVisible = false"
 >
   <ng-container *nzModalContent>
-    <app-add-ra (close)="addRaVisible = false"></app-add-ra
+    <app-add-ra [poNo]="poNo" (close)="addRaVisible = false"></app-add-ra
   ></ng-container>
 </nz-modal>
 
@@ -529,7 +564,7 @@
 >
   <ng-container *nzModalContent>
     <app-po-clarification
-      [poNo]="'123'"
+      [poNo]="poNo"
       (close)="ReturnClarification = false"
     ></app-po-clarification>
   </ng-container>
@@ -544,6 +579,7 @@
 >
   <ng-container *nzModalContent>
     <app-upload-credit-note
+      [poNo]="poNo"
       (closeModal)="uploadCreditNoteModalVisible = false"
     ></app-upload-credit-note>
   </ng-container>
@@ -559,7 +595,7 @@
   <ng-container *nzModalContent>
     <app-report-carrier-damage
       (closeModal)="appReportCarrierDamageModalVisible = false"
-      [poNo]="'RAZ-7591'"
+      [poNo]="poNo"
     ></app-report-carrier-damage>
   </ng-container>
 </nz-modal>
@@ -596,14 +632,14 @@
         <div class="description-item">
           <span class="label">Cost of Product :</span>
           <span class="value"
-            ><strong> {{ costData?.cost_of_product | currency }}</strong></span
+            ><strong> {{ costData.cost_of_product | currency }}</strong></span
           >
         </div>
         <div class="description-item">
           <span class="label">Original Shipping Cost : </span>
           <span class="value"
             ><strong>
-              {{ costData?.original_shipping_cost | currency }}</strong
+              {{ costData.original_shipping_cost | currency }}</strong
             ></span
           >
         </div>
@@ -611,14 +647,14 @@
           <span class="label">Cost of Return Shipping : </span>
           <span class="value"
             ><strong>
-              {{ costData?.cost_of_return_shipping | currency }}</strong
+              {{ costData.cost_of_return_shipping | currency }}</strong
             ></span
           >
         </div>
         <div class="description-item">
           <span class="label">Total : </span>
           <span class="value"
-            ><strong> {{ costData?.total | currency }}</strong></span
+            ><strong> {{ costData.total | currency }}</strong></span
           >
         </div>
       </div>

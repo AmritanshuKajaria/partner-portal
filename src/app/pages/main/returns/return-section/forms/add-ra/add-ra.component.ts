@@ -1,21 +1,30 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { AddRaPayload } from 'src/app/shared/model/returns.model';
+import { ReturnService } from 'src/app/shared/service/return.service';
 
 @Component({
   selector: 'app-add-ra',
   templateUrl: './add-ra.component.html',
   styleUrls: ['./add-ra.component.scss'],
 })
-export class AddRa {
+export class AddRa implements OnInit {
+  @Input() poNo: string = '';
   @Output() close = new EventEmitter();
 
   addRaForm!: FormGroup;
   isLoading: boolean = false;
 
-  constructor() {
+  constructor(
+    private returnService: ReturnService,
+    private message: NzMessageService
+  ) {}
+
+  ngOnInit() {
     // initialize addra form
     this.addRaForm = new FormGroup({
-      raInput: new FormControl('', Validators.required),
+      ra_number: new FormControl('', Validators.required),
     });
   }
 
@@ -33,9 +42,30 @@ export class AddRa {
       return;
     }
 
-    if (this.addRaForm.valid) {
-      console.log(this.addRaForm.value.raInput);
-      this.close.emit();
-    }
+    this.isLoading = true;
+    const data: AddRaPayload = {
+      po_no: this.poNo,
+      ra_number: this.addRaForm.value.ra_number,
+    };
+
+    this.returnService.addRa(data).subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        if (res.success) {
+          this.message.success('RA number added successfully!');
+          this.close.emit();
+        } else {
+          this.message.error(
+            res?.error_message ? res?.error_message : 'Failed to Add RA #!'
+          );
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        if (!error?.error_shown) {
+          this.message.error('Failed to Add RA #!');
+        }
+      },
+    });
   }
 }

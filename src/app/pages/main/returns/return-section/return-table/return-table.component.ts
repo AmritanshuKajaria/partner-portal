@@ -9,11 +9,18 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { SingleReturn } from 'src/app/shared/model/returns.model';
+import {
+  AppliedFilters,
+  Cost,
+  markAsLostPayload,
+  SingleReturn,
+} from 'src/app/shared/model/returns.model';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
+import { ReturnService } from 'src/app/shared/service/return.service';
 
 @Component({
   selector: 'app-return-table',
@@ -37,17 +44,18 @@ export class ReturnTableComponent implements OnInit {
   accountSearch = new Subject<any>();
   AppDateFormate = AppDateFormate;
 
+  poNo: string = '';
   statusEnum: typeof StatusEnum = StatusEnum;
   filter!: FormGroup;
   searchForm!: FormGroup;
   addRaVisible: boolean = false;
   isExportVisible: boolean = false;
-  listOfFilter: any = '';
+  listOfFilter: AppliedFilters = {};
   ReturnClarification: boolean = false;
   uploadCreditNoteModalVisible: boolean = false;
   appReportCarrierDamageModalVisible: boolean = false;
   showCalculationModel: boolean = false;
-  costData: any = {};
+  costData!: Cost;
 
   pageSizeOptions = [100];
   selectDate: string = '';
@@ -74,7 +82,12 @@ export class ReturnTableComponent implements OnInit {
     'Defective',
   ];
 
-  constructor(private router: Router, private modal: NzModalService) {
+  constructor(
+    private router: Router,
+    private modal: NzModalService,
+    private returnService: ReturnService,
+    private message: NzMessageService
+  ) {
     this.accountSearch
       .pipe(debounceTime(400), distinctUntilChanged())
       .subscribe((value: any) => {
@@ -94,15 +107,18 @@ export class ReturnTableComponent implements OnInit {
     });
   }
 
-  selectAction(data: string) {
-    if (data === 'returnInitiated') {
+  selectAction(po_no: string, type: string) {
+    this.poNo = po_no;
+    if (type === 'returnInitiated') {
       this.addRaVisible = true;
-    } else if (data === 'returnClarification') {
+    } else if (type === 'returnClarification') {
       this.ReturnClarification = true;
-    } else if (data === 'uploadCreditNote') {
+    } else if (type === 'uploadCreditNote') {
       this.uploadCreditNoteModalVisible = true;
-    } else if (data === 'appReportCarrierDamage') {
+    } else if (type === 'appReportCarrierDamage') {
       this.appReportCarrierDamageModalVisible = true;
+    } else {
+      this.poNo = '';
     }
   }
 
@@ -127,10 +143,10 @@ export class ReturnTableComponent implements OnInit {
     this.clear_btn = false;
     this.filter.reset();
     this.listOfFilter = {
-      start_date: this.selectDate[0] ?? '',
-      end_date: this.selectDate[1] ?? '',
-      return_classification: this.selectReturnClassification ?? '',
-      status: this.selectStatus ?? '',
+      filter_start_date: this.selectDate[0] ?? '',
+      filter_end_date: this.selectDate[1] ?? '',
+      filter_return_classification: this.selectReturnClassification ?? '',
+      filter_status: this.selectStatus ?? '',
     };
     this.filterChange.emit(this.listOfFilter);
   }
@@ -158,10 +174,10 @@ export class ReturnTableComponent implements OnInit {
           break;
       }
       this.listOfFilter = {
-        start_date: this.selectDate[0] ?? '',
-        end_date: this.selectDate[1] ?? '',
-        return_classification: this.selectReturnClassification ?? '',
-        status: this.selectStatus ?? '',
+        filter_start_date: this.selectDate[0] ?? '',
+        filter_end_date: this.selectDate[1] ?? '',
+        filter_return_classification: this.selectReturnClassification ?? '',
+        filter_status: this.selectStatus ?? '',
       };
       this.filterChange.emit(this.listOfFilter);
     }
@@ -196,10 +212,10 @@ export class ReturnTableComponent implements OnInit {
           break;
       }
       this.listOfFilter = {
-        start_date: this.selectDate[0] ?? '',
-        end_date: this.selectDate[1] ?? '',
-        return_classification: this.selectReturnClassification ?? '',
-        status: this.selectStatus ?? '',
+        filter_start_date: this.selectDate[0] ?? '',
+        filter_end_date: this.selectDate[1] ?? '',
+        filter_return_classification: this.selectReturnClassification ?? '',
+        filter_status: this.selectStatus ?? '',
       };
       this.filterChange.emit(this.listOfFilter);
     } else {
@@ -222,10 +238,10 @@ export class ReturnTableComponent implements OnInit {
             break;
         }
         this.listOfFilter = {
-          start_date: this.selectDate[0] ?? '',
-          end_date: this.selectDate[1] ?? '',
-          return_classification: this.selectReturnClassification ?? '',
-          status: this.selectStatus ?? '',
+          filter_start_date: this.selectDate[0] ?? '',
+          filter_end_date: this.selectDate[1] ?? '',
+          filter_return_classification: this.selectReturnClassification ?? '',
+          filter_status: this.selectStatus ?? '',
         };
         this.filterChange.emit(this.listOfFilter);
       }
@@ -249,7 +265,27 @@ export class ReturnTableComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Are you sure you want to mark this return as received?',
       nzOnOk: () => {
-        console.log(po_no);
+        const data: markAsLostPayload = {
+          po_no: po_no,
+        };
+        this.returnService.markAsReceived(data).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.message.success('Mark as received successfully!');
+            } else {
+              this.message.error(
+                res?.error_message
+                  ? res?.error_message
+                  : 'Failed to Mark as received!'
+              );
+            }
+          },
+          error: (error: any) => {
+            if (!error?.error_shown) {
+              this.message.error('Failed to Mark as received!');
+            }
+          },
+        });
       },
       nzClassName: 'confirm-modal',
       nzOkText: 'Confirm',
@@ -264,7 +300,27 @@ export class ReturnTableComponent implements OnInit {
       nzTitle:
         'Are you sure you want to file a claim with the carrier for this return?',
       nzOnOk: () => {
-        console.log(po_no);
+        const data: markAsLostPayload = {
+          po_no: po_no,
+        };
+        this.returnService.markAsLost(data).subscribe({
+          next: (res: any) => {
+            if (res.success) {
+              this.message.success('Mark as lost successfully!');
+            } else {
+              this.message.error(
+                res?.error_message
+                  ? res?.error_message
+                  : 'Failed to Mark as lost!'
+              );
+            }
+          },
+          error: (error: any) => {
+            if (!error?.error_shown) {
+              this.message.error('Failed to Mark as lost!');
+            }
+          },
+        });
       },
       nzClassName: 'confirm-modal',
       nzOkText: 'Confirm',
@@ -274,7 +330,7 @@ export class ReturnTableComponent implements OnInit {
     });
   }
 
-  showCalculation(data: any) {
+  showCalculation(data: Cost) {
     this.showCalculationModel = true;
     this.costData = data;
   }

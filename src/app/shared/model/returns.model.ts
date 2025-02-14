@@ -36,6 +36,12 @@ export interface AppliedFilters {
   filter_status?: string;
   filter_return_classification?: string;
 }
+export interface Cost {
+  cost_of_product: string;
+  original_shipping_cost: string;
+  cost_of_return_shipping: string;
+  total: string;
+}
 
 export interface GetAllReturnsPayload extends Pagination, AppliedFilters {}
 
@@ -43,16 +49,11 @@ export interface SingleReturn {
   po_no: string;
   invoice_no: string;
   customer_name: string;
-  porduct_mpn: string;
-  porduct_qty: number;
+  product_mpn: string;
+  product_qty: number;
   return_delivery_date: string;
   credit_amount_due: string;
-  cost: {
-    cost_of_product: string;
-    original_shipping_cost: string;
-    cost_of_return_shipping: string;
-    total: string;
-  };
+  cost: Cost;
   shipped_date: string;
   return_qty: number;
   return_classification: string;
@@ -63,7 +64,7 @@ export interface SingleReturn {
 
 export interface AddRaPayload {
   po_no: string;
-  ra_number: RANumber;
+  ra_number: string;
 }
 export interface markAsReceivedPayload {
   po_no: string;
@@ -71,11 +72,18 @@ export interface markAsReceivedPayload {
 export interface ApproveReturnPayload {
   po_no: string;
   cn: string;
-  credit_value: number;
-  uploaded_file: File;
+  uploaded_file?: File;
 }
 
-export interface ReportStatusPayload {
+export interface ReclssifyReturnPayload extends ApproveReturnPayload {}
+
+export interface ReportCarrierDamagePayload {
   po_no: string;
-  refund_status: string;
+  image1: File;
+  image2: File;
+  image3: File;
+}
+
+export interface markAsLostPayload {
+  po_no: string;
 }

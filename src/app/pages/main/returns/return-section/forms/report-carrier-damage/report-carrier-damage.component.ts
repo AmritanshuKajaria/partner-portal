@@ -1,4 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ReportCarrierDamagePayload } from 'src/app/shared/model/returns.model';
+import { ReturnService } from 'src/app/shared/service/return.service';
 
 @Component({
   selector: 'app-report-carrier-damage',
@@ -12,6 +15,11 @@ export class ReportCarrierDamage implements OnInit {
   isLoading: boolean = false;
   uploadedImages: any[] = [null, null, null];
   showErrors: boolean[] = [false, false, false];
+
+  constructor(
+    private returnService: ReturnService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit() {}
 
@@ -35,9 +43,40 @@ export class ReportCarrierDamage implements OnInit {
   onsubmit() {
     const isValid = this.validateImages(this.uploadedImages, this.showErrors);
     if (isValid) {
-      console.log(this.uploadedImages);
+      this.isLoading = true;
+      const carrierDamageData: ReportCarrierDamagePayload = {
+        po_no: this.poNo,
+        image1: this.uploadedImages[0],
+        image2: this.uploadedImages[1],
+        image3: this.uploadedImages[2],
+      };
+      const data = new FormData();
+      data.append('po_no', carrierDamageData.po_no);
+      data.append('image1', carrierDamageData.image1);
+      data.append('image2', carrierDamageData.image2);
+      data.append('image3', carrierDamageData.image3);
 
-      this.close();
+      this.returnService.reportCarrierDamage(data).subscribe({
+        next: (res: any) => {
+          this.isLoading = false;
+          if (res.success) {
+            this.message.success('Report carrier damage successfully!');
+            this.close();
+          } else {
+            this.message.error(
+              res?.error_message
+                ? res?.error_message
+                : 'Report carrier damage Failed!'
+            );
+          }
+        },
+        error: (error: any) => {
+          this.isLoading = false;
+          if (!error?.error_shown) {
+            this.message.error('Report carrier damage Failed!');
+          }
+        },
+      });
     }
   }
 

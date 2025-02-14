@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import {
+  AppliedFilters,
   GetAllReturn,
   GetAllReturnsPayload,
   SingleReturn,
@@ -136,11 +137,12 @@ export class CarrierClaims implements OnInit {
     );
   }
 
-  filterDataChanges(filters: any) {
-    (this.filter_start_date = filters?.start_date),
-      (this.filter_end_date = filters?.end_date),
-      (this.filter_return_classification = filters?.return_classification),
-      (this.filter_status = filters?.status),
+  filterDataChanges(filters: AppliedFilters) {
+    (this.filter_start_date = filters?.filter_start_date ?? ''),
+      (this.filter_end_date = filters?.filter_end_date ?? ''),
+      (this.filter_return_classification =
+        filters?.filter_return_classification ?? ''),
+      (this.filter_status = filters?.filter_status ?? ''),
       (this.pageIndex = 1);
     this.getReturnList(
       this.pageIndex,

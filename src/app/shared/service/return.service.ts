@@ -3,7 +3,14 @@ import { Inject, Injectable, LOCALE_ID } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
-import { AppliedFilters, GetAllReturnsPayload } from '../model/returns.model';
+import {
+  AddRaPayload,
+  AppliedFilters,
+  GetAllReturnsPayload,
+  markAsLostPayload,
+  markAsReceivedPayload,
+  ReclssifyReturnPayload,
+} from '../model/returns.model';
 import { formatDate } from '@angular/common';
 
 @Injectable({
@@ -71,8 +78,8 @@ export class ReturnService {
           po_no: 'RAZ-7591',
           invoice_no: '3707018-00',
           customer_name: 'Lavinia Macovschi ',
-          porduct_mpn: '123-TAC-1015',
-          porduct_qty: 1,
+          product_mpn: '123-TAC-1015',
+          product_qty: 1,
           return_qty: 1,
           return_classification: 'Mis-Ship',
           return_delivery_date: '2024-12-01',
@@ -98,8 +105,8 @@ export class ReturnService {
           po_no: 'RAZ-7592',
           invoice_no: '3707018-01',
           customer_name: 'John Doe',
-          porduct_mpn: '123-TAC-1016',
-          porduct_qty: 2,
+          product_mpn: '123-TAC-1016',
+          product_qty: 2,
           return_qty: 2,
           return_classification: 'Mis-Ship',
           return_delivery_date: '2024-12-02',
@@ -125,8 +132,8 @@ export class ReturnService {
           po_no: 'RAZ-7593',
           invoice_no: '3707018-02',
           customer_name: 'Jane Smith',
-          porduct_mpn: '123-TAC-1017',
-          porduct_qty: 3,
+          product_mpn: '123-TAC-1017',
+          product_qty: 3,
           return_qty: 3,
           return_classification: 'Mis-Ship',
           return_delivery_date: '2024-12-03',
@@ -152,8 +159,8 @@ export class ReturnService {
           po_no: 'RAZ-7594',
           invoice_no: '3707018-03',
           customer_name: 'Alice Johnson',
-          porduct_mpn: '123-TAC-1018',
-          porduct_qty: 4,
+          product_mpn: '123-TAC-1018',
+          product_qty: 4,
           return_qty: 4,
           return_classification: 'Mis-Ship',
           return_delivery_date: '2024-12-04',
@@ -179,8 +186,8 @@ export class ReturnService {
           po_no: 'RAZ-7595',
           invoice_no: '3707018-04',
           customer_name: 'Bob Brown',
-          porduct_mpn: '123-TAC-1019',
-          porduct_qty: 5,
+          product_mpn: '123-TAC-1019',
+          product_qty: 5,
           return_qty: 5,
           return_classification: 'Mis-Ship',
           return_delivery_date: '2024-12-05',
@@ -206,8 +213,8 @@ export class ReturnService {
           po_no: 'RAZ-7596',
           invoice_no: '3707018-05',
           customer_name: 'Charlie Davis',
-          porduct_mpn: '123-TAC-1020',
-          porduct_qty: 6,
+          product_mpn: '123-TAC-1020',
+          product_qty: 6,
           return_qty: 6,
           return_classification: 'Mis-Ship',
           return_delivery_date: '2024-12-06',
@@ -233,8 +240,8 @@ export class ReturnService {
           po_no: 'RAZ-7597',
           invoice_no: '3707018-06',
           customer_name: 'Diana Evans',
-          porduct_mpn: '123-TAC-1021',
-          porduct_qty: 7,
+          product_mpn: '123-TAC-1021',
+          product_qty: 7,
           return_qty: 7,
           return_classification: 'Mis-Ship',
           return_delivery_date: '2024-12-07',
@@ -262,5 +269,29 @@ export class ReturnService {
 
   exportReturns(data: AppliedFilters) {
     return this.http.post(this.url + '/export-returns', data);
+  }
+
+  addRa(data: AddRaPayload) {
+    return this.http.post(this.url + '/add-ra', data);
+  }
+
+  markAsReceived(data: markAsReceivedPayload) {
+    return this.http.post(this.url + '/mark-as-received', data);
+  }
+
+  approveReturn(data: FormData) {
+    return this.http.post(this.url + '/approve-return', data);
+  }
+
+  reclassifyReturn(data: ReclssifyReturnPayload) {
+    return this.http.post(this.url + '/reclassify-return', data);
+  }
+
+  reportCarrierDamage(data: FormData) {
+    return this.http.post(this.url + '/report-carrier-damage', data);
+  }
+
+  markAsLost(data: markAsLostPayload) {
+    return this.http.post(this.url + '/mark-as-lost', data);
   }
 }

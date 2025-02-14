@@ -1,5 +1,8 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApproveReturnPayload } from 'src/app/shared/model/returns.model';
+import { ReturnService } from 'src/app/shared/service/return.service';
 
 @Component({
   selector: 'app-upload-credit-note',
@@ -7,11 +10,17 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./upload-credit-note.component.scss'],
 })
 export class UploadCreditNote implements OnInit {
+  @Input() poNo: string = '';
   @Output() closeModal = new EventEmitter();
 
   uploadCreditNoteForm!: FormGroup;
   isLoading: boolean = false;
   selectFile: any;
+
+  constructor(
+    private returnService: ReturnService,
+    private message: NzMessageService
+  ) {}
 
   ngOnInit() {
     this.uploadCreditNoteForm = new FormGroup({
@@ -25,19 +34,46 @@ export class UploadCreditNote implements OnInit {
   }
 
   submitForm() {
-    if (this.uploadCreditNoteForm.valid) {
-      const formValue = this.uploadCreditNoteForm.value;
-      console.log('Form Value:', formValue);
-
-      const data = new FormData();
-      data.append('cn', formValue.cn);
-      data.append('uploadCreditNote', this.selectFile);
-      console.log('data:', data);
-
-      this.close();
-    } else {
-      this.uploadCreditNoteForm.markAllAsTouched();
+    if (this.uploadCreditNoteForm.invalid) {
+      for (const i in this.uploadCreditNoteForm.controls) {
+        this.uploadCreditNoteForm.controls[i].markAsDirty();
+        this.uploadCreditNoteForm.controls[i].updateValueAndValidity();
+      }
+      return;
     }
+
+    this.isLoading = true;
+    const creditNoteData: ApproveReturnPayload = {
+      po_no: this.poNo,
+      cn: this.uploadCreditNoteForm.controls['cn'].value,
+      uploaded_file: this.selectFile,
+    };
+    const data = new FormData();
+    data.append('po_no', creditNoteData.po_no);
+    data.append('cn', creditNoteData.cn);
+    data.append('uploaded_file', this.selectFile);
+
+    this.returnService.approveReturn(data).subscribe({
+      next: (res: any) => {
+        this.isLoading = false;
+        if (res.success) {
+          this.message.success('Approve credit request successfully!');
+          this.close();
+        } else {
+          this.message.error(
+            res?.error_message
+              ? res?.error_message
+              : 'Approve credit request Failed!'
+          );
+        }
+      },
+      error: (error: any) => {
+        this.isLoading = false;
+        if (!error?.error_shown) {
+          this.message.error('Approve credit request Failed!');
+        }
+      },
+    });
   }
 
   selectFiles(event: any) {

@@ -1,18 +1,18 @@
 <div class="model-section">
   <form nz-form [formGroup]="addRaForm">
     <nz-form-item>
-      <nz-form-label nzFor="raInput"
+      <nz-form-label nzFor="ra_number"
         >Enter RA # <span style="color: red">*</span></nz-form-label
       >
-      <nz-form-control [nzErrorTip]="raInput">
+      <nz-form-control [nzErrorTip]="ra_number">
         <nz-input-group>
           <input
-            formControlName="raInput"
+            formControlName="ra_number"
             type="text"
             nz-input
             placeholder="Enter An Ra #"
           />
-          <ng-template #raInput let-control>
+          <ng-template #ra_number let-control>
             <ng-container *ngIf="control.hasError('required')"
               >RA # is required!<br
             /></ng-container>
