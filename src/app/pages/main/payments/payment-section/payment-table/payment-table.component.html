@@ -21,7 +21,7 @@
       >
         <span nz-icon nzType="upload" nzTheme="outline"></span> Export
       </button>
-      <form nz-form [formGroup]="searchForm">
+      <form *ngIf="tabName !== 'transactionView'" nz-form [formGroup]="searchForm">
         <nz-form-item style="margin-bottom: 0 !important">
           <nz-form-control nzErrorTip="Please input your valid code!">
             <nz-input-group class="search">
