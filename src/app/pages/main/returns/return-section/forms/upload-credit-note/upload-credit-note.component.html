@@ -2,9 +2,7 @@
   <div class="model-section">
     <form nz-form [formGroup]="uploadCreditNoteForm">
       <nz-form-item>
-        <nz-form-label [nzXs]="7"
-          >Add Custom CN #<span style="color: red">*</span></nz-form-label
-        >
+        <nz-form-label [nzXs]="7">Add Custom CN #</nz-form-label>
         <nz-form-control
           [nzValidateStatus]="
             uploadCreditNoteForm.controls['cn'].invalid &&
