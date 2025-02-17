@@ -117,6 +117,13 @@ export class OrdersService {
     return this.http.get(this.url + '/download-label', { params: params });
   }
 
+  downloadPackingSlip(po_no: string) {
+    let params = new HttpParams().set('po_no', po_no);
+    return this.http.get(this.url + '/download-packing-slip', {
+      params: params,
+    });
+  }
+
   downloadPo(po_no: string) {
     let params = new HttpParams().set('po_no', po_no);
     return this.http.get(this.url + '/download-po', { params: params });

@@ -109,7 +109,9 @@
           <a
             class="link"
             style="color: black"
-            (click)="navigatePage('products/details', { sku: data?.porduct_sku })"
+            (click)="
+              navigatePage('products/details', { sku: data?.porduct_sku })
+            "
             >{{ data.porduct_mpn }}</a
           ><br />
           <app-asin [asin]="data?.porduct_asin"></app-asin>
@@ -337,18 +339,10 @@
   </nz-modal>
 </div>
 
-<nz-modal
-  [(nzVisible)]="poClarification"
-  [nzTitle]="'PO Clarification (PO# ' + poNo + ')'"
-  (nzOnCancel)="poClarification = false"
->
-  <ng-container *nzModalContent>
-    <app-po-clarification
-      [poNo]="poNo"
-      (close)="poClarification = false"
-    ></app-po-clarification>
-  </ng-container>
-</nz-modal>
+<app-po-clarification
+  [poNo]="poNo"
+  (close)="poClarification = false"
+></app-po-clarification>
 
 <nz-modal
   [(nzVisible)]="isConfirmShipped"

@@ -154,7 +154,21 @@
         <tr>
           <td>
             <a
-              [routerLink]="'po-details/' + data?.po_no"
+              [routerLink]="
+                (tabName === 'returnInitiated'
+                  ? 'return-initiated/'
+                  : tabName === 'returnShipped'
+                  ? 'return-shipped/'
+                  : tabName === 'returnDelivered'
+                  ? 'return-delivered/'
+                  : tabName === 'carrierClaims'
+                  ? 'carrier-claims/'
+                  : tabName === 'all'
+                  ? 'all/'
+                  : '') +
+                'po-details/' +
+                data?.po_no
+              "
               class="link no-wrap"
               >{{ data?.po_no }}</a
             >
@@ -501,18 +515,11 @@
 </nz-modal>
 
 <!-- Return Clarification modal-->
-<nz-modal
-  [(nzVisible)]="ReturnClarification"
-  nzTitle="Create Ticket"
-  (nzOnCancel)="ReturnClarification = false"
->
-  <ng-container *nzModalContent>
-    <app-po-clarification
-      [poNo]="poNo"
-      (close)="ReturnClarification = false"
-    ></app-po-clarification>
-  </ng-container>
-</nz-modal>
+<app-po-clarification
+  [poNo]="poNo"
+  (close)="ReturnClarification = false"
+  [isVisible]="ReturnClarification"
+></app-po-clarification>
 
 <!-- Approve Credit Modal -->
 <nz-modal

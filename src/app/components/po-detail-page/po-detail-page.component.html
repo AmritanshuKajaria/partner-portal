@@ -1,3 +1,4 @@
+<app-breadcrumb></app-breadcrumb>
 <div class="po-detail-page">
   <nz-spin [nzSpinning]="isLoading">
     <div class="user-content">
@@ -88,6 +89,11 @@
                     }}</b>
                   </nz-descriptions-item>
                 </nz-descriptions>
+                <nz-descriptions>
+                  <nz-descriptions-item nzTitle="Payment Terms"
+                    ><b>{{ poDetailData?.order_summary?.payment_terms }}</b>
+                  </nz-descriptions-item>
+                </nz-descriptions>
               </div>
             </div>
           </div>
@@ -115,11 +121,20 @@
                     >
                   </nz-descriptions-item>
                 </nz-descriptions>
-                <nz-descriptions>
+                <nz-descriptions *ngIf="showDownloadLabel">
                   <nz-descriptions-item nzTitle="Download Shipping Labels"
                     ><a
                       class="link"
                       (click)="downloadAction('Download Shipping Labels')"
+                      >Click Here</a
+                    >
+                  </nz-descriptions-item>
+                </nz-descriptions>
+                <nz-descriptions *ngIf="showDownloadPackingSlip">
+                  <nz-descriptions-item nzTitle="Download Packing Slip"
+                    ><a
+                      class="link"
+                      (click)="downloadAction('Download Packing Slip')"
                       >Click Here</a
                     >
                   </nz-descriptions-item>
@@ -256,8 +271,11 @@
                   <div *ngFor="let box of unit">
                     <div>Unit#: {{ unitIndex + 1 }} - Box#{{ box.box_no }}</div>
                     <div>
-                      Shipping Dims: {{ box.height }}" x {{ box.length }}" x
-                      {{ box.width }}" x {{ box.weight }}" lbs
+                      Shipping Dims: {{ box.length }}" x {{ box.width }}" x
+                      {{ box.height }}", {{ box.weight }} lbs
+                    </div>
+                    <div *ngIf="box.tracking_no">
+                      Tracking No: {{ box.tracking_no }}
                     </div>
                   </div>
                   <br />
@@ -322,7 +340,8 @@
               <td colspan="2" style="text-align: end">Defective Allowance</td>
               <td style="text-align: center">
                 {{
-                  +poDetailData?.order_item[0]?.allowances?.daOnInvoice | currency
+                  +poDetailData?.order_item[0]?.allowances?.daOnInvoice
+                    | currency
                 }}
               </td>
             </tr>
@@ -339,16 +358,9 @@
     </div>
   </nz-spin>
 
-  <nz-modal
-    [(nzVisible)]="poClarification"
-    nzTitle="Create Ticket"
-    (nzOnCancel)="poClarification = false"
-  >
-    <ng-container *nzModalContent>
-      <app-po-clarification
-        [poNo]="poNo"
-        (close)="poClarification = false"
-      ></app-po-clarification>
-    </ng-container>
-  </nz-modal>
+  <app-po-clarification
+    [poNo]="poNo"
+    (close)="poClarification = false"
+    [isVisible]="poClarification"
+  ></app-po-clarification>
 </div>
