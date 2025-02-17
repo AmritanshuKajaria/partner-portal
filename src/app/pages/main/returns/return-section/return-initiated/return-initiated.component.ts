@@ -25,6 +25,7 @@ export class ReturnInitiatedComponent implements OnInit {
   filter_end_date: string = '';
   filter_return_classification: string = '';
 
+  defaultFilters: AppliedFilters = { filter_return_type: '1' };
   returnInitiatedList: SingleReturn[] = [];
 
   constructor(

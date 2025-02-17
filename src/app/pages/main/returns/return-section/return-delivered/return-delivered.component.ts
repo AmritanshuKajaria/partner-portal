@@ -23,6 +23,7 @@ export class ReturnDelivered implements OnInit {
   filter_start_date: string = '';
   filter_end_date: string = '';
   filter_return_classification: string = '';
+  defaultFilters: AppliedFilters = { filter_return_type: '3' };
 
   badgeTotal: number = 0;
   ranges = {

@@ -41,6 +41,8 @@ export class ExportModelComponent implements OnInit {
   @Input() sectionName: string = '';
   @Input() code: string = '';
   @Input() showFilterOptions: boolean = true;
+  @Input() isFilterApplied = false;
+  @Input() isSearchApplied = false;
   userEmail: string = 'service@123stores.com';
   isDownloadVisible: boolean = false;
   isLoading: boolean = false;
@@ -403,6 +405,7 @@ export class ExportModelComponent implements OnInit {
     } else if (this.sectionName === 'return') {
       let filters: AppliedFilters = {};
 
+      filters['filter_return_type'] = this.listOfFilter?.filter_return_type;
       if (this.listOfFilter?.filter_start_date) {
         filters['filter_start_date'] = this.exportType
           ? formatDate(

@@ -27,6 +27,7 @@ export class CarrierClaims implements OnInit {
   filter_end_date: string = '';
   filter_status: string = '';
   filter_return_classification: string = '';
+  defaultFilters: AppliedFilters = { filter_return_type: '4' };
 
   ranges = {
     Today: [new Date(), new Date()],

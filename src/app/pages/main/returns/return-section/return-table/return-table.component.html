@@ -24,13 +24,21 @@
       <form nz-form [formGroup]="searchForm">
         <nz-form-item style="margin-bottom: 0 !important">
           <nz-form-control nzErrorTip="Please input your valid code!">
-            <nz-input-group nzPrefixIcon="search" class="search">
+            <nz-input-group class="search">
               <input
-                (keyup)="accountSearch.next($event)"
+                class="search"
                 formControlName="search"
                 nz-input
                 placeholder="Search..."
               />
+              <button
+                nz-button
+                nzType="primary"
+                class="search-button"
+                (click)="searchSubmit()"
+              >
+                <span nz-icon nzType="search" nzTheme="outline"></span>
+              </button>
             </nz-input-group>
           </nz-form-control>
         </nz-form-item>
@@ -81,6 +89,7 @@
     [nzPageSizeOptions]="pageSizeOptions"
     [nzFrontPagination]="false"
     [nzTotal]="total"
+    [nzShowTotal]="totalTemplate"
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
@@ -412,6 +421,9 @@
       </ng-template>
     </tbody>
   </nz-table>
+  <ng-template #totalTemplate let-total
+    >Total <b>{{ total }}</b> items</ng-template
+  >
 
   <!-- sidebar -->
   <div #mySidenav class="filter-section">
@@ -565,6 +577,8 @@
       [listOfFilter]="listOfFilter"
       [noOfFilter]="total"
       (close)="handleCancel()"
+      [isFilterApplied]="badgeTotal > 0"
+      [isSearchApplied]="search_term !== ''"
     ></app-export-model>
   </ng-container>
 </nz-modal>

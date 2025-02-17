@@ -4,8 +4,22 @@
       <nz-form-control>
         <nz-input-group>
           <nz-radio-group style="display: grid" [(ngModel)]="exportType">
-            <label nz-radio [nzValue]="false">All</label>
-            <label nz-radio [nzValue]="true">Filtered ({{ noOfFilter }})</label>
+            <label nz-radio [nzValue]="false"
+              >All
+              {{
+                !isSearchApplied && !isFilterApplied
+                  ? "(" + noOfFilter + ")"
+                  : ""
+              }}</label
+            >
+            <label nz-radio [nzValue]="true" [nzDisabled]="!isFilterApplied"
+              >Filtered
+              {{
+                !isSearchApplied && isFilterApplied
+                  ? "(" + noOfFilter + ")"
+                  : ""
+              }}</label
+            >
           </nz-radio-group>
         </nz-input-group>
       </nz-form-control>

@@ -35,6 +35,7 @@ export interface AppliedFilters {
   filter_end_date?: string;
   filter_status?: string;
   filter_return_classification?: string;
+  filter_return_type?: string;
 }
 export interface Cost {
   cost_of_product: string;

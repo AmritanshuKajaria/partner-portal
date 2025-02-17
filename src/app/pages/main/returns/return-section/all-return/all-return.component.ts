@@ -28,6 +28,7 @@ export class AllReturnComponent implements OnInit {
   filter_status: string = '';
   filter_return_classification: string = '';
 
+  defaultFilters: AppliedFilters = { filter_return_type: '5' };
   allReturnList: SingleReturn[] = [];
 
   constructor(

@@ -24,6 +24,7 @@ export class ReturnShipped implements OnInit {
   filter_start_date: string = '';
   filter_end_date: string = '';
   filter_return_classification: string = '';
+  defaultFilters: AppliedFilters = { filter_return_type: '2' };
 
   returnInTrasitList: SingleReturn[] = [];
 

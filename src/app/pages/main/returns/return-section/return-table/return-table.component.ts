@@ -11,7 +11,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import {
   AppliedFilters,
@@ -36,12 +35,13 @@ export class ReturnTableComponent implements OnInit {
   @Input() listOfData: SingleReturn[] = [];
   @Input() tabName: string = '';
   @Input() badgeTotal: number = 0;
+  @Input() search_term: string = '';
+  @Input() defaultFilters: AppliedFilters = {};
 
   @Output() pageChange = new EventEmitter();
   @Output() filterChange = new EventEmitter();
   @Output() searchChange = new EventEmitter();
 
-  accountSearch = new Subject<any>();
   AppDateFormate = AppDateFormate;
 
   poNo: string = '';
@@ -89,12 +89,6 @@ export class ReturnTableComponent implements OnInit {
     private returnService: ReturnService,
     private message: NzMessageService
   ) {
-    this.accountSearch
-      .pipe(debounceTime(400), distinctUntilChanged())
-      .subscribe((value: any) => {
-        this.searchChange.emit(value.target.value);
-      });
-
     this.searchForm = new FormGroup({
       search: new FormControl(''),
     });
@@ -106,6 +100,20 @@ export class ReturnTableComponent implements OnInit {
       returnClassification: new FormControl(''),
       status: new FormControl(''),
     });
+
+    this.searchForm = new FormGroup({
+      search: new FormControl(''),
+    });
+
+    this.listOfFilter = { ...this.defaultFilters };
+  }
+
+  searchSubmit() {
+    const searchValue = this.searchForm.get('search')?.value;
+    if (this.search_term !== searchValue) {
+      this.search_term = searchValue;
+      this.searchChange.emit(this.search_term);
+    }
   }
 
   selectAction(po_no: string, type: string) {
@@ -146,6 +154,7 @@ export class ReturnTableComponent implements OnInit {
     this.clear_btn = false;
     this.filter.reset();
     this.listOfFilter = {
+      ...this.listOfFilter,
       filter_start_date: this.selectDate[0] ?? '',
       filter_end_date: this.selectDate[1] ?? '',
       filter_return_classification: this.selectReturnClassification ?? '',
@@ -177,6 +186,7 @@ export class ReturnTableComponent implements OnInit {
           break;
       }
       this.listOfFilter = {
+        ...this.listOfFilter,
         filter_start_date: this.selectDate[0] ?? '',
         filter_end_date: this.selectDate[1] ?? '',
         filter_return_classification: this.selectReturnClassification ?? '',
@@ -215,6 +225,7 @@ export class ReturnTableComponent implements OnInit {
           break;
       }
       this.listOfFilter = {
+        ...this.listOfFilter,
         filter_start_date: this.selectDate[0] ?? '',
         filter_end_date: this.selectDate[1] ?? '',
         filter_return_classification: this.selectReturnClassification ?? '',
@@ -241,6 +252,7 @@ export class ReturnTableComponent implements OnInit {
             break;
         }
         this.listOfFilter = {
+          ...this.listOfFilter,
           filter_start_date: this.selectDate[0] ?? '',
           filter_end_date: this.selectDate[1] ?? '',
           filter_return_classification: this.selectReturnClassification ?? '',
