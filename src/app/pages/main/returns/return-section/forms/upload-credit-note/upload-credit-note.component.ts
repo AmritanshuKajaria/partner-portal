@@ -51,8 +51,11 @@ export class UploadCreditNote implements OnInit {
     };
     const data = new FormData();
     data.append('po_no', creditNoteData.po_no);
-    data.append('cn', creditNoteData.cn);
-    data.append('uploaded_file', this.selectFile);
+    data.append('credit_note_no', creditNoteData.cn);
+    data.append(
+      'uploaded_file',
+      creditNoteData.uploaded_file ? creditNoteData.uploaded_file : ''
+    );
 
     if (this.type === 'approveReturn') {
       this.returnService.approveReturn(data).subscribe({

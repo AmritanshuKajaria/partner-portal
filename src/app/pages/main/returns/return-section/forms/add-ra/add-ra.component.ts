@@ -24,7 +24,7 @@ export class AddRa implements OnInit {
   ngOnInit() {
     // initialize addra form
     this.addRaForm = new FormGroup({
-      ra_number: new FormControl('', Validators.required),
+      ra: new FormControl('', Validators.required),
     });
   }
 
@@ -45,7 +45,7 @@ export class AddRa implements OnInit {
     this.isLoading = true;
     const data: AddRaPayload = {
       po_no: this.poNo,
-      ra_number: this.addRaForm.value.ra_number,
+      ra: this.addRaForm.value.ra,
     };
 
     this.returnService.addRa(data).subscribe({

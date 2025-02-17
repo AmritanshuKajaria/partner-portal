@@ -56,7 +56,7 @@ export class ReturnTableComponent implements OnInit {
   reclassifyReturnModalVisible: boolean = false;
   appReportCarrierDamageModalVisible: boolean = false;
   showCalculationModel: boolean = false;
-  costData!: Cost;
+  costData?: Cost;
 
   pageSizeOptions = [100];
   selectDate: string = '';
@@ -68,13 +68,12 @@ export class ReturnTableComponent implements OnInit {
   returnClassificationCount: number = 0;
 
   filterStatusOptions = [
-    'Pending Approval',
-    'Claim Approved',
-    'Claim Denied',
-    'Approve Credit',
-    'Upload Credit',
-    'Reclassify to Buyers Remorse',
-    'Report Carrier Damage',
+    { name: 'Return Initiated', value: '1' },
+    { name: 'Return Shipped', value: '2' },
+    { name: 'Return Delivered', value: '3' },
+    { name: 'Completed', value: '4' },
+    { name: 'Returns not applicable', value: '5' },
+    { name: 'Claim Exists', value: '6' },
   ];
 
   filterReturnClassificationOptions = [

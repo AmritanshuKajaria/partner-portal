@@ -56,7 +56,7 @@
       *ngIf="selectStatus"
       nzMode="closeable"
       (nzOnClose)="close('status')"
-      >{{ selectStatus }}</nz-tag
+      >{{ filterStatusOptions[+selectStatus - 1].name }}</nz-tag
     >
     <nz-tag
       *ngIf="selectReturnClassification"
@@ -493,8 +493,8 @@
           >
             <nz-option
               *ngFor="let status of filterStatusOptions"
-              [nzLabel]="status"
-              [nzValue]="status"
+              [nzLabel]="status.name"
+              [nzValue]="status.value"
             ></nz-option>
           </nz-select>
         </div>
@@ -602,14 +602,14 @@
         <div class="description-item">
           <span class="label">Cost of Product :</span>
           <span class="value"
-            ><strong> {{ costData.cost_of_product | currency }}</strong></span
+            ><strong> {{ costData?.cost_of_product | currency }}</strong></span
           >
         </div>
         <div class="description-item">
           <span class="label">Original Shipping Cost : </span>
           <span class="value"
             ><strong>
-              {{ costData.original_shipping_cost | currency }}</strong
+              {{ costData?.original_shipping_cost | currency }}</strong
             ></span
           >
         </div>
@@ -617,14 +617,14 @@
           <span class="label">Cost of Return Shipping : </span>
           <span class="value"
             ><strong>
-              {{ costData.cost_of_return_shipping | currency }}</strong
+              {{ costData?.cost_of_return_shipping | currency }}</strong
             ></span
           >
         </div>
         <div class="description-item">
           <span class="label">Total : </span>
           <span class="value"
-            ><strong> {{ costData.total | currency }}</strong></span
+            ><strong> {{ costData?.total | currency }}</strong></span
           >
         </div>
       </div>
@@ -694,6 +694,6 @@
 <!-- td Status Badges -->
 <ng-template #statusBadgesCell let-data="data">
   <td *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
-    {{ data?.refund_status }}
+    {{ data?.return_status }}
   </td>
 </ng-template>

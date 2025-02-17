@@ -58,14 +58,14 @@ export interface SingleReturn {
   shipped_date: string;
   return_qty: number;
   return_classification: string;
-  refund_status?: string;
+  return_status?: string;
   tracking?: Tracking;
   ra_number?: RANumber;
 }
 
 export interface AddRaPayload {
   po_no: string;
-  ra_number: string;
+  ra: string;
 }
 export interface markAsReceivedPayload {
   po_no: string;
