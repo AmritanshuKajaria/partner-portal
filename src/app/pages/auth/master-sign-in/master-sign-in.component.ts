@@ -65,20 +65,21 @@ export class MasterSignInComponent implements OnInit {
         password: this.loginForm.controls['password'].value,
         partner_code: this.loginForm.controls['partner_code'].value,
       };
-      this.authService.masterLogin(dataReq).subscribe(
-        (result: any) => {
+
+      this.authService.masterLogin(dataReq).subscribe({
+        next: (result: any) => {
           if (result.success) {
+            const res = result?.response ?? {};
             this.message.success('User login successfully!!');
-            this.authService.setAccessToken(result.access_token);
-            this.authService.setRefreshToken(result.refresh_token);
-            this.authService.saveUser(result.user_profile);
+            this.authService.setAccessToken(res.access_token);
+            this.authService.setRefreshToken(res.refresh_token);
+            this.authService.saveUser(res.user_profile);
             if (
               this.paramsObject?.return_to?.includes('support.123stores.com')
             ) {
               this.zendeskService.zendeskHelp().subscribe(
                 (res: any) => {
                   if (res.url) {
-                    // window.open(res?.url);
                     var a = document.createElement('a');
                     a.href = res?.url;
                     a.click();
@@ -92,15 +93,15 @@ export class MasterSignInComponent implements OnInit {
               this.isLoading = false;
             }
           } else {
-            this.message.error(result?.error_message);
+            this.message.error(result?.msg ? result?.msg : 'User login fail!!');
             this.isLoading = false;
           }
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           this.message.success('User login fail!!');
-        }
-      );
+        },
+      });
     }
   }
 }

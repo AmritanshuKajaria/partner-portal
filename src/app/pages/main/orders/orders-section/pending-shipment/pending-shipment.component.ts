@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -97,13 +98,16 @@ export class PendingShipmentComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (response: GetAllOrders) => {
-          if (response?.success) {
-            this.total = response?.pagination?.total_rows ?? 0;
-            this.pendingShipmentData = response?.orders ?? [];
+        next: (result: ApiResponce) => {
+          if (result?.success) {
+            const res: any = result?.response ?? {};
+            this.total = res?.pagination?.total_rows ?? 0;
+            this.pendingShipmentData = res?.orders ?? [];
             this.totalData.emit(+this.total);
           } else {
-            this.message.error('Get Shipment Pending Failed!');
+            this.message.error(
+              result?.msg ? result?.msg : 'Get Shipment Pending Failed!'
+            );
           }
           this.isLoading = false;
         },

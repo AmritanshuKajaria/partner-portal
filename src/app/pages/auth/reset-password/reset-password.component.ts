@@ -109,22 +109,21 @@ export class ResetPasswordComponent implements OnInit {
           next: (result: any) => {
             this.isLoading = false;
             if (result.success) {
+              const res = result?.response ?? {};
               this.message.success('Reset password successfully!!');
 
-              // this.authService.setAccessToken(result.access_token);
-              // this.authService.setRefreshToken(result.refresh_token);
-              // this.authService.saveUser(result.user_profile);
+              // this.authService.setAccessToken(res.access_token);
+              // this.authService.setRefreshToken(res.refresh_token);
+              // this.authService.saveUser(res.user_profile);
 
-              // if (result.user_profile.is_first) {
+              // if (res.user_profile.is_first) {
               //   this.router.navigate(['/auth/reset-password']);
               // } else {
               this.router.navigate(['/main/dashboard']);
               // }
             } else {
               this.message.error(
-                result?.error_message
-                  ? result?.error_message
-                  : 'Password change failed!'
+                result?.msg ? result?.msg : 'Password change failed!'
               );
             }
           },

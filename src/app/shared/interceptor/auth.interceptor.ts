@@ -26,7 +26,11 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): any {
     let authReq = req;
     const token = this.authService.getAccessToken();
-    if (token != null && !authReq.url.includes('api.ipify.org') && !authReq.url.includes('generate_zendesk_token')) {
+    if (
+      token != null &&
+      !authReq.url.includes('api.ipify.org') &&
+      !authReq.url.includes('generate_zendesk_token')
+    ) {
       authReq = this.addTokenHeader(req, token);
     }
 
@@ -65,14 +69,13 @@ export class AuthInterceptor implements HttpInterceptor {
       const token = this.authService.getRefreshToken();
       if (token)
         return this.authService.refreshToken({ refresh_token: token }).pipe(
-          switchMap((token: any) => {
+          switchMap((result: any) => {
+            const res = result?.response ?? {};
             this.isRefreshing = false;
-            this.authService.setAccessToken(token.access_token);
-            this.refreshTokenSubject.next(token.access_token);
+            this.authService.setAccessToken(res.access_token);
+            this.refreshTokenSubject.next(res.access_token);
 
-            return next.handle(
-              this.addTokenHeader(request, token.access_token)
-            );
+            return next.handle(this.addTokenHeader(request, res.access_token));
           }),
           catchError((err) => {
             this.isRefreshing = false;

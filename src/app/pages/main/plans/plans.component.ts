@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, takeUntil } from 'rxjs';
 import { PlanLabels } from 'src/app/shared/constants/constants';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
@@ -62,8 +63,8 @@ export class PlansComponent implements OnInit, OnDestroy {
       .updatePlanDetails(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res) => {
-          if (res) {
+        next: (result: ApiResponce) => {
+          if (result.success) {
             this.currentPlan = this.newPlan;
             this.freeTrialEligible = false;
             this.userPartnerDetails['current_plan'] = this.newPlan;
@@ -74,9 +75,16 @@ export class PlansComponent implements OnInit, OnDestroy {
             this.isLoading = false;
             this.dialogVisible = false;
             this.message.success('Plan Update Successfull');
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Update plan failed!'
+            );
           }
         },
-        error: (e) => {
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Update plan failed!');
+          }
           this.dialogVisible = false;
           this.isLoading = false;
           this.message.error('Plan Update Fail');

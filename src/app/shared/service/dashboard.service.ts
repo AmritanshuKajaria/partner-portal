@@ -81,7 +81,8 @@ export class DashboardService {
     const routeMap = new Map<string, string>();
     const promise = new Promise<any>((resolve) => {
       if (!this.routeConfigMap.value.size) {
-        this.getIssues().subscribe((res: any) => {
+        this.getIssues().subscribe((result: any) => {
+          const res = result?.response ?? {};
           res?.performance?.forEach((issue: any) => {
             routeMap.set(issue.code, issue);
           });

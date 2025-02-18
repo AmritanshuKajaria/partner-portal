@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -65,17 +66,23 @@ export class EditTimeComponent implements OnInit {
           data.product['product_status'] = this.editTimeForm.value.new;
           break;
       }
-      this.productService.editProduct(data).subscribe(
-        (res: any) => {
-          console.log(res);
+      this.productService.editProduct(data).subscribe({
+        next: (res: ApiResponce) => {
           if (res.success) {
             this.message.create('success', 'Edit product successfully!');
+          } else {
+            this.message.error(res?.msg ? res?.msg : 'Edit product failed!');
           }
           this.isLoading = false;
           this.handleCancel();
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Edit product failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 

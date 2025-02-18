@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 
@@ -99,33 +100,50 @@ export class EditPriceComponent implements OnInit {
       switch (this.section) {
         case 'Retail Price':
           data['retail_price'] = +this.editPriceForm.value.new;
-          this.productService.editProductRetailPrice(data).subscribe(
-            (res: any) => {
+          this.productService.editProductRetailPrice(data).subscribe({
+            next: (res: ApiResponce) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
                 this.dataSavedSuccessful.emit(true);
+              } else {
+                this.message.error(
+                  res?.msg ? res?.msg : 'Edit product failed!'
+                );
               }
               this.isLoading = false;
             },
-            (err) => (this.isLoading = false)
-          );
+            error: (err) => {
+              if (!err?.error_shown) {
+                this.message.error('Edit product failed!');
+              }
+              this.isLoading = false;
+            },
+          });
           break;
         case 'Unit Price':
           data['mpn'] = this.editData.mpn;
           data['unit_price'] = +this.editPriceForm.value.new;
 
-          this.productService.editProduct(data).subscribe(
-            (res: any) => {
+          this.productService.editProduct(data).subscribe({
+            next: (res: ApiResponce) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
-                this.handleCancel();
-                this.dataSavedSuccessful.emit(true);
+              } else {
+                this.message.error(
+                  res?.msg ? res?.msg : 'Edit product failed!'
+                );
+              }
+              this.isLoading = false;
+              this.handleCancel();
+            },
+            error: (err) => {
+              if (!err?.error_shown) {
+                this.message.error('Edit product failed!');
               }
               this.isLoading = false;
             },
-            (err) => (this.isLoading = false)
-          );
+          });
           break;
       }
     }

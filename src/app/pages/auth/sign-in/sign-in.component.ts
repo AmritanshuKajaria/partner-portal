@@ -56,13 +56,14 @@ export class SignInComponent implements OnInit {
         email: this.loginForm.controls['email'].value,
         password: this.loginForm.controls['password'].value,
       };
-      this.authService.login(dataReq).subscribe(
-        (result: any) => {
+      this.authService.login(dataReq).subscribe({
+        next: (result: any) => {
           if (result.success) {
+            const res = result?.response ?? {};
             this.message.success('User login successfully!!');
-            this.authService.setAccessToken(result.access_token);
-            this.authService.setRefreshToken(result.refresh_token);
-            this.authService.saveUser(result.user_profile);
+            this.authService.setAccessToken(res.access_token);
+            this.authService.setRefreshToken(res.refresh_token);
+            this.authService.saveUser(res.user_profile);
             if (
               this.paramsObject?.return_to?.includes('support.123stores.com')
             ) {
@@ -83,15 +84,15 @@ export class SignInComponent implements OnInit {
               this.isLoading = false;
             }
           } else {
-            this.message.error(result?.error_message);
+            this.message.error(result?.msg ? result?.msg : 'User login fail!!');
             this.isLoading = false;
           }
         },
-        (err) => {
+        error: (err) => {
           this.isLoading = false;
           this.message.success('User login fail!!');
-        }
-      );
+        },
+      });
     }
   }
 }

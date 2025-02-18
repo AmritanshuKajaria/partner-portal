@@ -26,6 +26,7 @@ import {
 } from 'src/app/shared/model/payments.model';
 import { AppliedFilters } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-export-model',
@@ -89,20 +90,29 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_sales_tier
         : '';
 
-      this.productService.exportProducts(filters).subscribe(
-        (response: any) => {
-          console.log(response);
+      this.productService.exportProducts(filters).subscribe({
+        next: (response: any) => {
           if (response.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              response?.msg ? response?.msg : 'Export product failed!'
+            );
           }
-          this.handleCancel();
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export product failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'inventory') {
       let filters: any = {};
       filters['filter_start_date'] = this.exportType
@@ -123,20 +133,28 @@ export class ExportModelComponent implements OnInit {
       filters['filter_feed_result'] = this.exportType
         ? this.listOfFilter?.filter_inventory_result
         : '';
-      this.inventoryService.inventoryFeedHistory(filters).subscribe(
-        (response: any) => {
-          console.log(response);
-          if (response.success) {
+      this.inventoryService.inventoryFeedHistory(filters).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Export inventory failed!'
+            );
           }
-          this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export inventory failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'promotion') {
       let filters: any = {};
 
@@ -149,20 +167,28 @@ export class ExportModelComponent implements OnInit {
       filters['filter_end_date'] = this.exportType
         ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
         : '';
-      this.promotionsService.exportPromo(filters).subscribe(
-        (response: any) => {
-          console.log(response);
-          if (response.success) {
+      this.promotionsService.exportPromo(filters).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Export promotion failed!'
+            );
           }
-          this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export promotion failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'order') {
       let filters: any = {};
 
@@ -467,20 +493,29 @@ export class ExportModelComponent implements OnInit {
       const data: ExportDash = {
         code: this.code,
       };
-      this.dashboardService.exportData(data).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
+      this.dashboardService.exportData(data).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Export agendas failed!'
+            );
           }
-          this.handleCancel();
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export agendas failed!');
+          }
+
+          this.isLoading = false;
+        },
+      });
     }
   }
 

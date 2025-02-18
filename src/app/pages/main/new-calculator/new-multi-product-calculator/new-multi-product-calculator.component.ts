@@ -3,6 +3,7 @@ import * as lodash from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 
@@ -80,14 +81,25 @@ export class NewMultiProductCalculatorComponent {
       search_term: this.searchVal,
     };
     this.newCalculatorService.getMultiProductCalculatorList(data).subscribe({
-      next: (res: any) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        this.total = res.pagination?.total_rows ?? 0;
-        this.multiProductList = res.products ?? [];
-
-        this.multiData = lodash.cloneDeep(this.multiProductList);
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.total = res.pagination?.total_rows ?? 0;
+          this.multiProductList = res.products ?? [];
+          this.multiData = lodash.cloneDeep(this.multiProductList);
+        } else {
+          this.message.error(
+            result?.msg ? result?.msg : 'Get multiproduct calculator failed!'
+          );
+        }
       },
-      error: (err) => (this.isLoading = false),
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get multiproduct calculator failed!');
+        }
+        this.isLoading = false;
+      },
     });
   }
 

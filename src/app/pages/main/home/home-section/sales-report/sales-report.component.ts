@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   DashboardService,
   SalesReport,
@@ -30,10 +31,10 @@ export class SalesReportComponent implements OnInit {
       type: this.type,
     };
     dashboardService.salesReport(reqData).subscribe({
-      next: (res: any) => {
-        console.log(res);
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        if (res.success) {
+        if (result.success) {
+          const res: any = result?.response ?? {};
           this.reportList = res.data;
           this.reportList.map((res: any) => {
             this.totalSales += res.amount_sold;
@@ -41,7 +42,7 @@ export class SalesReportComponent implements OnInit {
           });
         } else {
           this.message.error(
-            res?.error_message ? res?.error_message : 'Get sales report failed!'
+            result?.msg ? result?.msg : 'Get sales report failed!'
           );
         }
       },
@@ -66,9 +67,10 @@ export class SalesReportComponent implements OnInit {
       type: this.type,
     };
     this.dashboardService.downloadSalesReport(reqData).subscribe({
-      next: (res: any) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        if (res.success) {
+        if (result.success) {
+          const res: any = result?.response ?? {};
           var objectUrl = res.sales_report;
           var a = document.createElement('a');
           a.download = 'document';
@@ -76,9 +78,7 @@ export class SalesReportComponent implements OnInit {
           a.click();
         } else {
           this.message.error(
-            res?.error_message
-              ? res?.error_message
-              : 'Download Sales Report Failed!'
+            result?.msg ? result?.msg : 'Download Sales Report Failed!'
           );
         }
       },

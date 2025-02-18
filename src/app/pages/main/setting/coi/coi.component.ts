@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PartnerService } from 'src/app/shared/service/partner.service';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-coi',
@@ -124,18 +125,22 @@ export class COIComponent implements OnInit {
   // downloadFile(file: NzUploadFile): void {
   downloadFile(data: any) {
     this.partnerService.getPartnerPdf(data?.fileId).subscribe({
-      next: (res: any) => {
-        // Create a temporary link to download the file
-        const link = document.createElement('a');
-        link.href = res?.url;
-        link.download = this.fileList?.name;
-        link.click();
+      next: (result: ApiResponce) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          // Create a temporary link to download the file
+          const link = document.createElement('a');
+          link.href = res?.url;
+          link.download = this.fileList?.name;
+          link.click();
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Date Update Failed!');
+        }
       },
-      error: (error: any) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Date Update Failed!'
-        );
+      error: (err: any) => {
+        if (!err?.error_shown) {
+          this.message.error('Date Update Failed!');
+        }
       },
     });
   }

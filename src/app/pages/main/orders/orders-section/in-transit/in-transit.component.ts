@@ -10,6 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -85,16 +86,19 @@ export class InTransitComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (response: GetAllOrders) => {
-          if (response.success) {
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            const res: GetAllOrders = result?.response ?? {};
             this.isLoading = false;
-            this.total = response?.pagination?.total_rows ?? 0;
+            this.total = res?.pagination?.total_rows ?? 0;
             this.totalData.emit(this.total);
-            this.inTransitData = response.orders ?? [];
+            this.inTransitData = res.orders ?? [];
           } else {
-            this.message.error('Get Orders In Transite Failed!');
-            this.isLoading = false;
+            this.message.error(
+              result?.msg ? result?.msg : 'Get Orders In Transite Failed!'
+            );
           }
+          this.isLoading = false;
         },
         error: (err) => {
           if (!err?.error_shown) {
