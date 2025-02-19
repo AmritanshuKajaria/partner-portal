@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllReturn,
@@ -63,16 +64,15 @@ export class ReturnShipped implements OnInit {
       filter_return_classification: return_classification,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (response: GetAllReturn) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        if (response.success) {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.returnInTrasitList = response?.returns ?? [];
+        if (result.success) {
+          const res: GetAllReturn = result?.response ?? {};
+          this.total = res?.pagination?.total_rows ?? 0;
+          this.returnInTrasitList = res?.returns ?? [];
         } else {
           this.message.error(
-            response?.error_message
-              ? response?.error_message
-              : 'Get Return In-Transit Failed!'
+            result?.msg ? result?.msg : 'Get Return In-Transit Failed!'
           );
         }
       },

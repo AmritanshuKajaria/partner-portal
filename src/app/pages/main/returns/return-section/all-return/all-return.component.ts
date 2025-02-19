@@ -8,6 +8,7 @@ import {
   GetAllReturnsPayload,
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 @Component({
   selector: 'app-all-return',
   templateUrl: './all-return.component.html',
@@ -65,16 +66,15 @@ export class AllReturnComponent implements OnInit {
       filter_return_classification: return_classification,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (response: GetAllReturn) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        if (response.success) {
-          this.total = response?.pagination?.total_rows ?? 0;
-          this.allReturnList = response?.returns ?? [];
+        if (result.success) {
+          const res: GetAllReturn = result?.response ?? {};
+          this.total = res?.pagination?.total_rows ?? 0;
+          this.allReturnList = res?.returns ?? [];
         } else {
           this.message.error(
-            response?.error_message
-              ? response?.error_message
-              : 'Get All Return Failed!'
+            result?.msg ? result?.msg : 'Get All Return Failed!'
           );
         }
       },

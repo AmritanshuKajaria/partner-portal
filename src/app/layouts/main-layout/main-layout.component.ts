@@ -119,10 +119,19 @@ export class MainLayoutComponent implements OnInit {
   // }
 
   logOutUser() {
-    this.authService.logout().subscribe((res: any) => {
-      if (res.success) {
-        this.authService.logOutUser();
-      }
+    this.authService.logout().subscribe({
+      next: (result: ApiResponce) => {
+        if (result.success) {
+          this.authService.logOutUser();
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Logout failed!');
+        }
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Logout failed!');
+        }
+      },
     });
   }
 }

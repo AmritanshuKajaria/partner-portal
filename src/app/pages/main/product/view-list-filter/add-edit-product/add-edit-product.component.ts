@@ -157,9 +157,9 @@ export class AddEditProductComponent implements OnInit {
         this.isMainLoading = true;
         this.editSku = this.sku;
         this.productService.getProduct(this.sku).subscribe({
-          next: (result: any) => {
+          next: (result: ApiResponce) => {
             if (result.success) {
-              const res = result?.response ?? {};
+              const res: any = result?.response ?? {};
               this.isMainLoading = false;
               this.editData = res.products;
 
@@ -238,7 +238,7 @@ export class AddEditProductComponent implements OnInit {
               if (result.msg === 'SKU param missing') {
                 this.message.create('warning', result.msg);
               } else {
-                this.message.create('error', result.msg);
+                this.message.create('error', result.msg ?? '');
               }
               this.addShippingDimensionsOfBoxes();
             }

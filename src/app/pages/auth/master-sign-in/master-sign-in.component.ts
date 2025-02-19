@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoginReq, LoginRes } from 'src/app/shared/model/auth.model';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 
@@ -67,9 +68,9 @@ export class MasterSignInComponent implements OnInit {
       };
 
       this.authService.masterLogin(dataReq).subscribe({
-        next: (result: any) => {
+        next: (result: ApiResponce) => {
           if (result.success) {
-            const res = result?.response ?? {};
+            const res: any = result?.response ?? {};
             this.message.success('User login successfully!!');
             this.authService.setAccessToken(res.access_token);
             this.authService.setRefreshToken(res.refresh_token);
@@ -93,13 +94,17 @@ export class MasterSignInComponent implements OnInit {
               this.isLoading = false;
             }
           } else {
-            this.message.error(result?.msg ? result?.msg : 'User login fail!!');
+            this.message.error(
+              result?.msg ? result?.msg : 'Master login failed!'
+            );
             this.isLoading = false;
           }
         },
         error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Master login failed!');
+          }
           this.isLoading = false;
-          this.message.success('User login fail!!');
         },
       });
     }

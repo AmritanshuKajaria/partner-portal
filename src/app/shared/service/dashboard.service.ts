@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { BehaviorSubject, timeout } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ApiResponce } from '../model/common.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 export interface ExportDash {
   code: string;
@@ -26,7 +28,11 @@ export class DashboardService {
     new Map<string, any>()
   );
   agendasList: BehaviorSubject<any> = new BehaviorSubject(null);
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private message: NzMessageService
+  ) {}
 
   dashboardSales() {
     return this.http.get(this.url + '/dashboard-overview');
@@ -81,17 +87,32 @@ export class DashboardService {
     const routeMap = new Map<string, string>();
     const promise = new Promise<any>((resolve) => {
       if (!this.routeConfigMap.value.size) {
-        this.getIssues().subscribe((result: any) => {
-          const res = result?.response ?? {};
-          res?.performance?.forEach((issue: any) => {
-            routeMap.set(issue.code, issue);
-          });
-          res?.recommendation?.forEach((issue: any) => {
-            routeMap.set(issue.code, issue);
-          });
-          this.agendasList.next(res);
-          this.routeConfigMap.next(routeMap);
-          resolve(this.routeConfigMap);
+        this.getIssues().subscribe({
+          next: (result: ApiResponce) => {
+            if (result.success) {
+              const res: any = result?.response ?? {};
+              res?.performance?.forEach((issue: any) => {
+                routeMap.set(issue.code, issue);
+              });
+              res?.recommendation?.forEach((issue: any) => {
+                routeMap.set(issue.code, issue);
+              });
+              this.agendasList.next(res);
+              this.routeConfigMap.next(routeMap);
+            } else {
+              this.message.error(
+                result?.msg ? result?.msg : 'Get issues failed!'
+              );
+            }
+            resolve(this.routeConfigMap);
+          },
+          error: (err: any) => {
+            if (!err?.error_shown) {
+              this.message.error('Get issues failed!');
+            }
+            console.error('Error fetching issues:', err);
+            resolve(this.routeConfigMap);
+          },
         });
       } else {
         resolve(this.routeConfigMap);

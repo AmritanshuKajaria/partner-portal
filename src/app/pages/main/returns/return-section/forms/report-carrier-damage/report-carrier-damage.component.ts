@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { ReportCarrierDamagePayload } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 
@@ -57,16 +58,14 @@ export class ReportCarrierDamage implements OnInit {
       data.append('image3', carrierDamageData.image3);
 
       this.returnService.reportCarrierDamage(data).subscribe({
-        next: (res: any) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (res.success) {
+          if (result.success) {
             this.message.success('Report carrier damage successfully!');
             this.close();
           } else {
             this.message.error(
-              res?.error_message
-                ? res?.error_message
-                : 'Report carrier damage Failed!'
+              result?.msg ? result?.msg : 'Report carrier damage Failed!'
             );
           }
         },
