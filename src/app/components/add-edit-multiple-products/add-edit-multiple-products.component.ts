@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   DownloadTemplates,
   ProductService,
@@ -123,8 +124,9 @@ export class AddEditMultipleProductsComponent implements OnInit {
         include_data: event,
       };
       this.productService.downloadTemplates(data).subscribe({
-        next: (res: any) => {
-          if (res.success) {
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            const res: any = result?.response ?? {};
             this.message.create('success', 'Template Downloaded Successfully!');
             var objectUrl = res.template_url;
             var a = document.createElement('a');
@@ -133,9 +135,7 @@ export class AddEditMultipleProductsComponent implements OnInit {
             a.click();
           } else {
             this.message.error(
-              res?.error_message
-                ? res?.error_message
-                : 'Template Download Failed!'
+              result?.msg ? result?.msg : 'Template Download Failed!'
             );
           }
         },
@@ -161,8 +161,9 @@ export class AddEditMultipleProductsComponent implements OnInit {
       include_data: false,
     };
     this.productService.downloadTemplates(data).subscribe({
-      next: (res: any) => {
-        if (res.success) {
+      next: (result: ApiResponce) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
           this.message.create('success', 'Template Downloaded Successfully!');
           var objectUrl = res.template_url;
           var a = document.createElement('a');
@@ -171,9 +172,7 @@ export class AddEditMultipleProductsComponent implements OnInit {
           a.click();
         } else {
           this.message.error(
-            res?.error_message
-              ? res?.error_message
-              : 'Template Download Failed!'
+            result?.msg ? result?.msg : 'Template Download Failed!'
           );
         }
       },
@@ -209,17 +208,14 @@ export class AddEditMultipleProductsComponent implements OnInit {
     data.append('uploaded_file', this.selectFile);
 
     this.productService.productAddEditUpload(data).subscribe({
-      next: (result: any) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
         if (result.success) {
-          this.referenceCode = result?.reference_code;
+          const res: any = result?.response ?? {};
+          this.referenceCode = res.reference_code;
           this.handleCancel();
         } else {
-          this.message.error(
-            result?.error_message
-              ? result?.error_message
-              : 'Edit products fail!'
-          );
+          this.message.error(result?.msg ? result?.msg : 'Edit products fail!');
         }
       },
       error: (err) => {

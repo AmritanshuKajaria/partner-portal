@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -65,14 +66,14 @@ export class PoClarificationComponent implements OnInit, OnChanges {
     };
 
     this.ordersService.clarificationOrders(data).subscribe({
-      next: (res: any) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        if (res.success) {
+        if (result.success) {
           this.message.success('PO clarification successfully!');
           this.close.emit();
         } else {
           this.message.error(
-            res?.error_message ? res?.error_message : 'Failed to clarify PO.'
+            result?.msg ? result?.msg : 'Failed to clarify PO.'
           );
         }
       },

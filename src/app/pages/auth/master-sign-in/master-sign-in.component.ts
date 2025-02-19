@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoginReq, LoginRes } from 'src/app/shared/model/auth.model';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 
@@ -66,17 +67,18 @@ export class MasterSignInComponent implements OnInit {
         partner_code: this.loginForm.controls['partner_code'].value,
       };
       this.authService.masterLogin(dataReq).subscribe({
-        next: (result: any) => {
+        next: (result: ApiResponce) => {
           if (result.success) {
+            const res: any = result?.response ?? {};
             this.message.success('User Login Successful');
-            this.authService.setAccessToken(result.access_token);
-            this.authService.setRefreshToken(result.refresh_token);
-            this.authService.saveUser(result.user_profile);
+            this.authService.setAccessToken(res.access_token);
+            this.authService.setRefreshToken(res.refresh_token);
+            this.authService.saveUser(res.user_profile);
             if (
               this.paramsObject?.return_to?.includes('support.123stores.com')
             ) {
-              this.zendeskService.zendeskHelp().subscribe({
-                next: (res: any) => {
+              this.zendeskService.zendeskHelp().subscribe(
+                (res: any) => {
                   if (res.url) {
                     // window.open(res?.url);
                     var a = document.createElement('a');
@@ -85,19 +87,15 @@ export class MasterSignInComponent implements OnInit {
                   }
                   this.isLoading = false;
                 },
-                error: (err) => {
-                  this.isLoading = false;
-                },
-              });
+                (err) => (this.isLoading = false)
+              );
             } else {
               this.router.navigate(['/main/dashboard']);
               this.isLoading = false;
             }
           } else {
             this.message.error(
-              result?.error_message
-                ? result?.error_message
-                : 'Master login failed!'
+              result?.msg ? result?.msg : 'Master login failed!'
             );
             this.isLoading = false;
           }

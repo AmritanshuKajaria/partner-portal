@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ForgotPasswordReq } from 'src/app/shared/model/auth.model';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
@@ -36,25 +37,23 @@ export class ForgotPasswordComponent implements OnInit {
       const req: ForgotPasswordReq = {
         email: this.forgotForm.controls['email'].value,
       };
-      this.authService.forgotPassword(req).subscribe(
-        (res: any) => {
+      this.authService.forgotPassword(req).subscribe({
+        next: (res: ApiResponce) => {
           this.isLoading = false;
           if (res.success) {
             this.message.success('Sent mail successfully!!');
             this.router.navigate(['/auth/login']);
           } else {
-            this.message.error(
-              res.error_message ? res?.error_message : 'Send mail failed!'
-            );
+            this.message.error(res?.msg ? res?.msg : 'Send mail failed!');
           }
         },
-        (err) => {
+        error: (err) => {
           if (!err?.error_shown) {
             this.message.error('Send mail failed!');
           }
           this.isLoading = false;
-        }
-      );
+        },
+      });
     }
   }
 }
