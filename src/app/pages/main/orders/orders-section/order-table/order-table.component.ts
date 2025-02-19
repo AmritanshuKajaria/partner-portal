@@ -156,6 +156,25 @@ export class OrderTableComponent implements OnInit {
           }
         },
       });
+    } else if (type === 'Download Packing Slip') {
+      this.ordersService.downloadPackingSlip(po_no).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            const res: any = result?.response ?? {};
+            this.message.success('Downloaded packing slip successful');
+            window.open(`${res?.packing_slip_url}`);
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Download packing slip failed!'
+            );
+          }
+        },
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Download packing slip failed!');
+          }
+        },
+      });
     } else if (type === 'PO Clarification') {
       this.poNo = po_no;
       this.poClarification = true;

@@ -114,12 +114,14 @@ export class ChangePasswordComponent implements OnInit {
             this.message.success('User password changed!!');
             this.router.navigate(['/main/dashboard']);
           } else {
-            this.message.error(res?.msg ? res?.msg : 'Password change failed!');
+            this.message.error(
+              res?.msg ? res?.msg : 'User password change failed!'
+            );
           }
         },
         error: (err) => {
           if (!err?.error_shown) {
-            this.message.error('Password change failed!');
+            this.message.error('User password change failed!');
           }
           this.isLoading = false;
         },

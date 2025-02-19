@@ -148,22 +148,18 @@ export class LegalInfoComponent implements OnInit {
   // downloadFile(file: NzUploadFile): void {
   downloadFile(data: any) {
     this.partnerService.getPartnerPdf(data?.fileId).subscribe({
-      next: (result: ApiResponce) => {
-        if (result.success) {
-          const res: any = result?.response ?? {};
-          // Create a temporary link to download the file
-          const link = document.createElement('a');
-          link.href = res?.url;
-          link.download = this.fileList?.name;
-          link.click();
-        } else {
-          this.message.error(result?.msg ? result?.msg : 'Date Update Failed!');
-        }
+      next: (res: any) => {
+        // Create a temporary link to download the file
+        const link = document.createElement('a');
+        link.href = res?.url;
+        link.download = this.fileList?.name;
+        link.click();
       },
-      error: (err: any) => {
-        if (!err?.error_shown) {
-          this.message.error('Date Update Failed!');
-        }
+      error: (error: any) => {
+        this.message.create(
+          'error',
+          error?.error_message?.[0] || 'Date Update Failed!'
+        );
       },
     });
   }

@@ -61,7 +61,7 @@ export class SignInComponent implements OnInit {
         next: (result: ApiResponce) => {
           if (result.success) {
             const res: any = result?.response ?? {};
-            this.message.success('User login successfully!!');
+            this.message.success('User Login Successful');
             this.authService.setAccessToken(res.access_token);
             this.authService.setRefreshToken(res.refresh_token);
             this.authService.saveUser(res.user_profile);
@@ -90,8 +90,10 @@ export class SignInComponent implements OnInit {
           }
         },
         error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('User login failed!');
+          }
           this.isLoading = false;
-          this.message.success('User login fail!!');
         },
       });
     }

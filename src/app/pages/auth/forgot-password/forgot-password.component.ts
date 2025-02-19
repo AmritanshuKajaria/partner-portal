@@ -41,15 +41,15 @@ export class ForgotPasswordComponent implements OnInit {
         next: (res: ApiResponce) => {
           this.isLoading = false;
           if (res.success) {
-            this.message.success('Send mail successfully!!');
+            this.message.success('Sent mail successfully!!');
             this.router.navigate(['/auth/login']);
           } else {
-            this.message.error(res?.msg ? res?.msg : 'Forgot password failed!');
+            this.message.error(res?.msg ? res?.msg : 'Send mail failed!');
           }
         },
         error: (err) => {
           if (!err?.error_shown) {
-            this.message.error('Forgot password failed!');
+            this.message.error('Send mail failed!');
           }
           this.isLoading = false;
         },

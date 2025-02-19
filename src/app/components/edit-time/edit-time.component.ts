@@ -26,6 +26,8 @@ export class EditTimeComponent implements OnInit {
   isLoading: boolean = false;
   submitError: boolean = false;
 
+  referenceCode = '';
+
   constructor(
     private productService: ProductService,
     private message: NzMessageService
@@ -67,18 +69,21 @@ export class EditTimeComponent implements OnInit {
           break;
       }
       this.productService.editProduct(data).subscribe({
-        next: (res: ApiResponce) => {
-          if (res.success) {
-            this.message.create('success', 'Edit product successfully!');
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            const res: any = result?.response ?? {};
+            this.referenceCode = res?.reference_code;
+            this.handleCancel();
           } else {
-            this.message.error(res?.msg ? res?.msg : 'Edit product failed!');
+            this.message.error(
+              result?.msg ? result?.msg : 'Edit product fail!'
+            );
           }
           this.isLoading = false;
-          this.handleCancel();
         },
         error: (err) => {
           if (!err?.error_shown) {
-            this.message.error('Edit product failed!');
+            this.message.error('Edit product fail!');
           }
           this.isLoading = false;
         },

@@ -12,6 +12,7 @@ import { PaymentService } from 'src/app/shared/service/payment.service';
 })
 export class InvoiceDetailPageComponent implements OnInit {
   invoiceDetailData: Invoice = {};
+  invoiceDetails: InvoiceDetails = {};
 
   invoiceStatusLabelMapping: any = {
     '1': 'Paid',
@@ -41,6 +42,7 @@ export class InvoiceDetailPageComponent implements OnInit {
         this.isLoading = false;
         if (result.success) {
           const res: InvoiceDetails = result?.response ?? {};
+          this.invoiceDetails = res;
           this.invoiceDetailData = res?.invoice ?? {};
         } else {
           this.message.error(

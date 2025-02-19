@@ -89,7 +89,6 @@ export class InTransitComponent implements OnInit {
         next: (result: ApiResponce) => {
           if (result.success) {
             const res: GetAllOrders = result?.response ?? {};
-            this.isLoading = false;
             this.total = res?.pagination?.total_rows ?? 0;
             this.totalData.emit(this.total);
             this.inTransitData = res.orders ?? [];

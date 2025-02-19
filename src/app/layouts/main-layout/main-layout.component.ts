@@ -92,14 +92,12 @@ export class MainLayoutComponent implements OnInit {
             this.userPartnerDetails = res;
             this.userPermissionService.userPermission.next(res);
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Get partner failed!'
-            );
+            this.message.error(result?.msg ? result?.msg : 'Get partner fail!');
           }
         },
         error: (err) => {
           if (!err?.error_shown) {
-            this.message.error('Get partner failed!');
+            this.message.error('Get partner fail!');
           }
         },
       });

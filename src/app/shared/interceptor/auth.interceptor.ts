@@ -80,8 +80,9 @@ export class AuthInterceptor implements HttpInterceptor {
           }),
           catchError((err) => {
             this.isRefreshing = false;
-            this.authService.logout();
-            return throwError(err);
+            // this.authService.logout();
+            this.authService.clearToken();
+            return (window.location.href = '/auth/login');
           })
         );
     }

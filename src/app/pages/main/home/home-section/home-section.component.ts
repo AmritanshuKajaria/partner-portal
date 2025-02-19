@@ -194,13 +194,13 @@ export class HomeSectionComponent implements OnInit {
           );
         } else {
           this.message.error(
-            result?.msg ? result?.msg : 'Get dashboard sales data failed!'
+            result?.msg ? result?.msg : 'Get dashboard sales data fail!'
           );
         }
       },
       error: (err) => {
         if (!err?.error_shown) {
-          this.message.error('Get dashboard sales data failed!');
+          this.message.error('Get dashboard sales data fail!');
         }
       },
     });

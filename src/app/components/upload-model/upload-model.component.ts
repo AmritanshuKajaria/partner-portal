@@ -49,19 +49,18 @@ export class UploadModelComponent implements OnInit {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.create('success', 'Inventory upload successfully!');
-            this.handleCancel(res.feed_code);
+            this.handleCancel(res?.feed_code);
           } else {
             this.message.error(
-              result?.msg ? result?.msg : 'Inventory feed upload failed!'
+              result?.msg ? result?.msg : 'Inventory upload failed!'
             );
           }
           this.isLoading = false;
         },
         error: (err) => {
           if (!err?.error_shown) {
-            this.message.error('Inventory feed upload failed!');
+            this.message.error('Inventory upload failed!');
           }
-          this.handleCancel('');
           this.isLoading = false;
         },
       });

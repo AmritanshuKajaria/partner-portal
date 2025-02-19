@@ -93,24 +93,22 @@ export class ExportModelComponent implements OnInit {
         : '';
 
       this.productService.exportProducts(filters).subscribe({
-        next: (response: any) => {
-          if (response.success) {
+        next: (result: ApiResponce) => {
+          if (result.success) {
             this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
           } else {
-            this.message.error(
-              response?.msg ? response?.msg : 'Export product failed!'
-            );
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
 
           this.isLoading = false;
         },
         error: (err: any) => {
           if (!err?.error_shown) {
-            this.message.error('Export product failed!');
+            this.message.error('Export fail!');
           }
           this.isLoading = false;
         },
@@ -172,21 +170,19 @@ export class ExportModelComponent implements OnInit {
       this.promotionsService.exportPromo(filters).subscribe({
         next: (result: ApiResponce) => {
           if (result.success) {
-            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Export promotion failed!'
-            );
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
           this.isLoading = false;
         },
         error: (err: any) => {
           if (!err?.error_shown) {
-            this.message.error('Export promotion failed!');
+            this.message.error('Export fail!');
           }
           this.isLoading = false;
         },
@@ -282,21 +278,19 @@ export class ExportModelComponent implements OnInit {
       this.ordersService.exportOrders(filters).subscribe({
         next: (result: ApiResponce) => {
           if (result.success) {
-            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Export orders failed!'
-            );
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
           this.isLoading = false;
         },
         error: (err: any) => {
           if (!err?.error_shown) {
-            this.message.error('Export orders failed!');
+            this.message.error('Export fail!');
           }
           this.isLoading = false;
         },
@@ -523,23 +517,21 @@ export class ExportModelComponent implements OnInit {
       this.dashboardService.exportData(data).subscribe({
         next: (result: ApiResponce) => {
           if (result.success) {
-            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Export agendas failed!'
-            );
-          }
-          this.isLoading = false;
-        },
-        error: (err: any) => {
-          if (!err?.error_shown) {
-            this.message.error('Export agendas failed!');
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
 
+          this.isLoading = false;
+        },
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
           this.isLoading = false;
         },
       });

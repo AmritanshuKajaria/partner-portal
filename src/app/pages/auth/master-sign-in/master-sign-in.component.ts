@@ -71,7 +71,7 @@ export class MasterSignInComponent implements OnInit {
         next: (result: ApiResponce) => {
           if (result.success) {
             const res: any = result?.response ?? {};
-            this.message.success('User login successfully!!');
+            this.message.success('User Login Successful');
             this.authService.setAccessToken(res.access_token);
             this.authService.setRefreshToken(res.refresh_token);
             this.authService.saveUser(res.user_profile);
@@ -81,6 +81,7 @@ export class MasterSignInComponent implements OnInit {
               this.zendeskService.zendeskHelp().subscribe(
                 (res: any) => {
                   if (res.url) {
+                    // window.open(res?.url);
                     var a = document.createElement('a');
                     a.href = res?.url;
                     a.click();

@@ -128,18 +128,22 @@ export class PastRemittancesComponent implements OnInit {
     };
     this.paymentService.downloadRemittance(data).subscribe({
       next: (result: ApiResponce) => {
-        if (result.success) {
-          const res: GetDownloadRemittance = result?.response ?? {};
-          window.open(res?.remittance_url);
+        const res: GetDownloadRemittance = result?.response ?? {};
+        if (result.success && res.remittance_url) {
+          var objectUrl = res.remittance_url;
+          var a = document.createElement('a');
+          a.download = 'document';
+          a.href = objectUrl;
+          a.click();
         } else {
           this.message.error(
-            result?.msg ? result?.msg : 'Download Remittance Failed!'
+            result?.msg ? result?.msg : 'Remittance Download Failed!'
           );
         }
       },
       error: (err) => {
         if (!err?.error_shown) {
-          this.message.error('Download Remittance Failed!');
+          this.message.error('Remittance Download Failed!');
         }
       },
     });

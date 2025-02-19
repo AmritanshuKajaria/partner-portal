@@ -107,15 +107,13 @@ export class EditPriceComponent implements OnInit {
                 this.handleCancel();
                 this.dataSavedSuccessful.emit(true);
               } else {
-                this.message.error(
-                  res?.msg ? res?.msg : 'Edit product failed!'
-                );
+                this.message.error(res?.msg ? res?.msg : 'Edit product fail!');
               }
               this.isLoading = false;
             },
             error: (err) => {
               if (!err?.error_shown) {
-                this.message.error('Edit product failed!');
+                this.message.error('Edit product fail!');
               }
               this.isLoading = false;
             },
@@ -129,17 +127,16 @@ export class EditPriceComponent implements OnInit {
             next: (res: ApiResponce) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
+                this.handleCancel();
+                this.dataSavedSuccessful.emit(true);
               } else {
-                this.message.error(
-                  res?.msg ? res?.msg : 'Edit product failed!'
-                );
+                this.message.error(res?.msg ? res?.msg : 'Edit product fail!');
               }
               this.isLoading = false;
-              this.handleCancel();
             },
             error: (err) => {
               if (!err?.error_shown) {
-                this.message.error('Edit product failed!');
+                this.message.error('Edit product fail!');
               }
               this.isLoading = false;
             },

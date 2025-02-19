@@ -400,14 +400,15 @@ export class AddEditProductComponent implements OnInit {
       if (this.editSection) {
         data['sku'] = this.sku;
         this.productService.editProduct(data).subscribe({
-          next: (res: any) => {
-            if (res.success) {
+          next: (result: ApiResponce) => {
+            if (result.success) {
+              const res: any = result?.response ?? {};
               this.resReferenceCode = res?.reference_code;
               this.message.create('success', 'Edit product successfully!');
               this.backButton();
             } else {
               this.message.error(
-                res?.error_message ? res?.error_message : 'Edit product fail!'
+                result?.msg ? result?.msg : 'Edit product fail!'
               );
             }
             this.isLoading = false;
