@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { restrictedReasonList } from 'src/app/shared/constants/constants';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -151,8 +152,9 @@ export class AddEditProductComponent implements OnInit {
         this.isMainLoading = true;
         this.editSku = this.sku;
         this.productService.getProduct(this.sku).subscribe({
-          next: (res: any) => {
-            if (res.success) {
+          next: (result: ApiResponse) => {
+            if (result.success) {
+              const res: any = result?.response ?? {};
               this.isMainLoading = false;
               this.editData = res.products;
 
@@ -228,10 +230,10 @@ export class AddEditProductComponent implements OnInit {
                 );
               }
             } else {
-              if (res.error_message === 'SKU param missing') {
-                this.message.create('warning', res.error_message);
+              if (result.msg === 'SKU param missing') {
+                this.message.create('warning', result.msg);
               } else {
-                this.message.create('error', res.error_message);
+                this.message.create('error', result.msg ?? '');
               }
               this.addShippingDimensionsOfBoxes();
             }
@@ -404,14 +406,15 @@ export class AddEditProductComponent implements OnInit {
       if (this.editSection) {
         data['sku'] = this.sku;
         this.productService.editProduct(data).subscribe({
-          next: (res: any) => {
-            if (res.success) {
+          next: (result: ApiResponse) => {
+            if (result.success) {
+              const res: any = result?.response ?? {};
               this.resReferenceCode = res?.reference_code;
               this.message.create('success', 'Edit product successfully!');
               this.backButton();
             } else {
               this.message.error(
-                res?.error_message ? res?.error_message : 'Edit product fail!'
+                result?.msg ? result?.msg : 'Edit product fail!'
               );
             }
             this.isLoading = false;
@@ -425,15 +428,15 @@ export class AddEditProductComponent implements OnInit {
         });
       } else {
         this.productService.createProduct(data).subscribe({
-          next: (res: any) => {
-            console.log(res);
-            if (res.success) {
+          next: (result: ApiResponse) => {
+            if (result.success) {
+              const res: any = result?.response ?? {};
               this.resReferenceCode = res?.reference_code;
               this.message.create('success', 'Add product successfully!');
               this.backButton();
             } else {
               this.message.error(
-                res?.error_message ? res?.error_message : 'Add product fail!'
+                result?.msg ? result?.msg : 'Add product fail!'
               );
             }
             this.isLoading = false;

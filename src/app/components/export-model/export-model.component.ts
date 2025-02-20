@@ -25,6 +25,7 @@ import {
   TransactionFilters,
 } from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-export-model',
@@ -89,25 +90,23 @@ export class ExportModelComponent implements OnInit {
         : '';
 
       this.productService.exportProducts(filters).subscribe({
-        next: (response: any) => {
-          if (response.success) {
+        next: (result: ApiResponse) => {
+          if (result.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
           } else {
-            this.message.error(
-              response?.error_message ? response?.error_message : 'Export fail!'
-            );
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
           this.handleCancel();
           this.isLoading = false;
         },
-        error: (err) => {
+        error: (err: any) => {
           if (!err?.error_shown) {
             this.message.error('Export fail!');
-            this.isLoading = false;
           }
+          this.isLoading = false;
         },
       });
     } else if (this.sectionName === 'inventory') {
