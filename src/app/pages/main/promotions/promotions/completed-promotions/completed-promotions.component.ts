@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { Promotions } from 'src/app/shared/model/promotion.model';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 
@@ -60,15 +61,14 @@ export class CompletedPromotionsComponent implements OnInit {
       open: false,
     };
     this.promotionsService.getAllPromotions(data).subscribe({
-      next: (res: any) => {
-        if (res?.success) {
+      next: (result: ApiResponse) => {
+        if (result?.success) {
+          const res: any = result?.response ?? {};
           this.total = res.pagination?.total_rows ?? 0;
           this.completedPromotionsList = res.promos ?? [];
         } else {
           this.message.error(
-            res?.error_message
-              ? res?.error_message
-              : 'Get Completed Promtions Failed!'
+            result?.msg ? result?.msg : 'Get Completed Promtions Failed!'
           );
         }
 

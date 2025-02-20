@@ -16,6 +16,7 @@ import { StopPromotions } from 'src/app/shared/model/promotion.model';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 @Component({
   selector: 'app-promotion-table',
   templateUrl: './promotion-table.component.html',
@@ -106,16 +107,16 @@ export class PromotionTableComponent implements OnInit {
             };
 
             this.promotionsService.cancelPromotions(data).subscribe({
-              next: (res: any) => {
-                if (res?.success) {
+              next: (result: ApiResponse) => {
+                if (result?.success) {
                   this.message.create(
                     'success',
                     `Cancel this promotion : ${promo_code}`
                   );
                 } else {
                   this.message.error(
-                    res?.error_message
-                      ? res?.error_message
+                    result?.msg
+                      ? result?.msg
                       : `Cancel this promotion failed : ${promo_code}`
                   );
                 }
@@ -139,16 +140,16 @@ export class PromotionTableComponent implements OnInit {
             };
 
             this.promotionsService.stopPromotions(dataNow).subscribe({
-              next: (res: any) => {
-                if (res?.success) {
+              next: (result: ApiResponse) => {
+                if (result?.success) {
                   this.message.create(
                     'success',
                     `Stop this promotion : ${promo_code}`
                   );
                 } else {
                   this.message.error(
-                    res?.error_message
-                      ? res?.error_message
+                    result?.msg
+                      ? result?.msg
                       : `Stop this promotion failed : ${promo_code}`
                   );
                 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { StopPromotions } from 'src/app/shared/model/promotion.model';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
@@ -33,14 +34,15 @@ export class PromotionDetailsComponent implements OnInit {
       promo_code: this.promoCode,
     };
     this.promotionsService.getPromotion(data).subscribe({
-      next: (res: any) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
-        if (res.success) {
+        if (result.success) {
+          const res: any = result?.response ?? {};
           this.viewData = res;
           this.promotionList = res.promo_deatils;
         } else {
           this.message.error(
-            res?.error_message ? res?.error_message : 'Get promotions failed!'
+            result?.msg ? result?.msg : 'Get promotions failed!'
           );
         }
       },
@@ -59,8 +61,9 @@ export class PromotionDetailsComponent implements OnInit {
       promo_code: promo_code,
     };
     this.promotionsService.downloadPromotionDetails(data).subscribe({
-      next: (res: any) => {
-        if (res.success) {
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
           this.message.create(
             'success',
             'Download promotion details successfully!'
@@ -72,9 +75,7 @@ export class PromotionDetailsComponent implements OnInit {
           a.click();
         } else {
           this.message.error(
-            res?.error_message
-              ? res?.error_message
-              : 'Download promotion details failed!'
+            result?.msg ? result?.msg : 'Download promotion details failed!'
           );
         }
       },
