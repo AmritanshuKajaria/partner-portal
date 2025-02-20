@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PartnerService } from 'src/app/shared/service/partner.service';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-coi',

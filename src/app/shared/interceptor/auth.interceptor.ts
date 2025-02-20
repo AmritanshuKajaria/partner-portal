@@ -11,6 +11,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
+import { ApiResponce } from '../model/common.model';
 
 const TOKEN_HEADER_KEY = 'x-access-token';
 
@@ -26,7 +27,11 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): any {
     let authReq = req;
     const token = this.authService.getAccessToken();
-    if (token != null && !authReq.url.includes('api.ipify.org') && !authReq.url.includes('generate_zendesk_token')) {
+    if (
+      token != null &&
+      !authReq.url.includes('api.ipify.org') &&
+      !authReq.url.includes('generate_zendesk_token')
+    ) {
       authReq = this.addTokenHeader(req, token);
     }
 
@@ -65,19 +70,19 @@ export class AuthInterceptor implements HttpInterceptor {
       const token = this.authService.getRefreshToken();
       if (token)
         return this.authService.refreshToken({ refresh_token: token }).pipe(
-          switchMap((token: any) => {
+          switchMap((result: ApiResponce) => {
+            const res: any = result?.response ?? {};
             this.isRefreshing = false;
-            this.authService.setAccessToken(token.access_token);
-            this.refreshTokenSubject.next(token.access_token);
+            this.authService.setAccessToken(res.access_token);
+            this.refreshTokenSubject.next(res.access_token);
 
-            return next.handle(
-              this.addTokenHeader(request, token.access_token)
-            );
+            return next.handle(this.addTokenHeader(request, res.access_token));
           }),
           catchError((err) => {
             this.isRefreshing = false;
-            this.authService.logout();
-            return throwError(err);
+            // this.authService.logout();
+            this.authService.clearToken();
+            return (window.location.href = '/auth/login');
           })
         );
     }

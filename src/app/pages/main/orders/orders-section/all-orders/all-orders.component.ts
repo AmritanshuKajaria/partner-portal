@@ -14,6 +14,7 @@ import {
   AppliedFilters,
   GetAllOrders,
 } from 'src/app/shared/model/orders.model';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -93,13 +94,16 @@ export class AllOrdersComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (response: GetAllOrders) => {
-          if (response.success) {
-            this.total = response?.pagination?.total_rows ?? 0;
-            this.allOrdersData = response?.orders ?? [];
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            const res: GetAllOrders = result?.response ?? {};
+            this.total = res?.pagination?.total_rows ?? 0;
+            this.allOrdersData = res?.orders ?? [];
             this.totalData.emit(+this.total);
           } else {
-            this.message.error('Get All Orders Failed!');
+            this.message.error(
+              result?.msg ? result?.msg : 'Get All Orders Failed!'
+            );
           }
 
           this.isLoading = false;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   ProcessedInventory,
   RejectInventory,
@@ -39,9 +40,10 @@ export class ViewInventoryComponent implements OnInit {
     };
     if (this.feedResult.toLocaleLowerCase() === 'processed') {
       this.inventoryService.inventoryFeed(data).subscribe({
-        next: (res: ProcessedInventory) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (res.success) {
+          if (result.success) {
+            const res: ProcessedInventory = result?.response ?? {};
             this.editData = res;
             this.total =
               (this.editData?.active_in_stock
@@ -79,7 +81,9 @@ export class ViewInventoryComponent implements OnInit {
                 ? this.editData?.stranded_in_feed_out_of_stock
                 : 0);
           } else {
-            this.message.error('Inventory Process Failed');
+            this.message.error(
+              result?.msg ? result?.msg : 'Inventory Process Failed'
+            );
           }
         },
         error: (err) => {
@@ -91,12 +95,15 @@ export class ViewInventoryComponent implements OnInit {
       });
     } else {
       this.inventoryService.inventoryFeedReject(data).subscribe({
-        next: (res: RejectInventory) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (res.success) {
+          if (result.success) {
+            const res: RejectInventory = result?.response ?? {};
             this.editData = res;
           } else {
-            this.message.error('Reject Inventory Feed Failed!');
+            this.message.error(
+              result?.msg ? result?.msg : 'Reject Inventory Feed Failed!'
+            );
           }
         },
         error: (err) => {

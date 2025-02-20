@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllReturn,
@@ -59,16 +60,15 @@ export class ReturnInitiatedComponent implements OnInit {
       filter_return_classification: return_classification,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (res: GetAllReturn) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        if (res.success) {
+        if (result.success) {
+          const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
           this.returnInitiatedList = res?.returns ?? [];
         } else {
           this.message.error(
-            res?.error_message
-              ? res?.error_message
-              : 'Get Return Initiated Failed!'
+            result?.msg ? result?.msg : 'Get Return Initiated Failed!'
           );
         }
       },

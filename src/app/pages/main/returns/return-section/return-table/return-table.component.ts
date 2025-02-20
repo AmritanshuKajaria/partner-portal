@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   Cost,
@@ -318,14 +319,12 @@ export class ReturnTableComponent implements OnInit {
           po_no: po_no,
         };
         this.returnService.markAsLost(data).subscribe({
-          next: (res: any) => {
-            if (res.success) {
+          next: (result: ApiResponce) => {
+            if (result.success) {
               this.message.success('Mark as lost successfully!');
             } else {
               this.message.error(
-                res?.error_message
-                  ? res?.error_message
-                  : 'Failed to Mark as lost!'
+                result?.msg ? result?.msg : 'Failed to Mark as lost!'
               );
             }
           },

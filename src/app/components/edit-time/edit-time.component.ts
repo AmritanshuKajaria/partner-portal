@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -24,6 +25,8 @@ export class EditTimeComponent implements OnInit {
   editTimeForm!: FormGroup;
   isLoading: boolean = false;
   submitError: boolean = false;
+
+  referenceCode = '';
 
   constructor(
     private productService: ProductService,
@@ -65,17 +68,26 @@ export class EditTimeComponent implements OnInit {
           data.product['product_status'] = this.editTimeForm.value.new;
           break;
       }
-      this.productService.editProduct(data).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
-            this.message.create('success', 'Edit product successfully!');
+      this.productService.editProduct(data).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            const res: any = result?.response ?? {};
+            this.referenceCode = res?.reference_code;
+            this.handleCancel();
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Edit product fail!'
+            );
           }
           this.isLoading = false;
-          this.handleCancel();
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Edit product fail!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 

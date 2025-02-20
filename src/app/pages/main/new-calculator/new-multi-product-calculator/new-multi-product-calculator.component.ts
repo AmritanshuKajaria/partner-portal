@@ -3,6 +3,7 @@ import * as lodash from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 
@@ -80,14 +81,48 @@ export class NewMultiProductCalculatorComponent {
       search_term: this.searchVal,
     };
     this.newCalculatorService.getMultiProductCalculatorList(data).subscribe({
-      next: (res: any) => {
+      next: (result: ApiResponce) => {
         this.isLoading = false;
-        this.total = res.pagination?.total_rows ?? 0;
-        this.multiProductList = res.products ?? [];
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.total = res.pagination?.total_rows ?? 0;
+          this.multiProductList = res.products ?? [];
 
-        this.multiData = lodash.cloneDeep(this.multiProductList);
+          this.multiProductList.forEach((product) => {
+            // set default pre and post slab percentage to 15 if no pre_slab and post_slab present
+            if (!product.pre_slab_percentage && !product.post_slab_percentage) {
+              product.pre_slab_percentage = 0.15;
+              product.post_slab_percentage = 0.15;
+            }
+
+            // Calculate the market place fees first
+            const calculatedPrices =
+              this.newCalculatorService.calculatePricesFromUnitPrice(
+                product.unit_price,
+                product.shipping_cost,
+                product.order_processing_fees_percentage,
+                product.slab_amt,
+                product.pre_slab_percentage,
+                product.post_slab_percentage
+              );
+
+            // set the amazon commission value
+            product.market_place_fees = calculatedPrices.market_place_fees;
+          });
+
+          this.multiData = lodash.cloneDeep(this.multiProductList);
+        } else {
+          this.message.error(
+            result?.msg ? result?.msg : 'Get multiproduct calculator failed!'
+          );
+        }
       },
-      error: (err) => (this.isLoading = false),
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get multiproduct calculator failed!');
+        }
+        this.isLoading = false;
+      },
     });
   }
 

@@ -1,5 +1,5 @@
 export interface GetAllInventory {
-  inventory_feeds: SingleInventory[];
+  inventory_feeds?: SingleInventory[];
   success?: boolean;
   processed_at?: string;
   pagination?: {

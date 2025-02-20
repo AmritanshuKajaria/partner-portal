@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { InventoryService } from 'src/app/shared/service/inventory.service';
 
 @Component({
@@ -43,20 +44,26 @@ export class UploadModelComponent implements OnInit {
       let formData = new FormData();
       formData.append('po_number', this.poNo);
       formData.append('uploaded_file', this.selectFile);
-      this.inventoryService.inventoryFeedUpload(formData).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
+      this.inventoryService.inventoryFeedUpload(formData).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            const res: any = result?.response ?? {};
             this.message.create('success', 'Inventory upload successfully!');
+            this.handleCancel(res?.feed_code);
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Inventory upload failed!'
+            );
           }
-          this.handleCancel(res?.feed_code);
           this.isLoading = false;
         },
-        (err) => {
-          this.handleCancel('');
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Inventory upload failed!');
+          }
           this.isLoading = false;
-        }
-      );
+        },
+      });
     } else {
       this.message.create('warning', 'Please upload your file.');
     }

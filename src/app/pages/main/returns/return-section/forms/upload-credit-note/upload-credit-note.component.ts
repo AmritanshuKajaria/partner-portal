@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponce } from 'src/app/shared/model/common.model';
 import { ApproveReturnPayload } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 
@@ -59,16 +60,14 @@ export class UploadCreditNote implements OnInit {
 
     if (this.type === 'approveReturn') {
       this.returnService.approveReturn(data).subscribe({
-        next: (res: any) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (res.success) {
+          if (result.success) {
             this.message.success('Approve credit request successfully!');
             this.close();
           } else {
             this.message.error(
-              res?.error_message
-                ? res?.error_message
-                : 'Approve credit request Failed!'
+              result?.msg ? result?.msg : 'Approve credit request Failed!'
             );
           }
         },
@@ -81,16 +80,14 @@ export class UploadCreditNote implements OnInit {
       });
     } else if (this.type === 'reclassifyReturn') {
       this.returnService.reclassifyReturn(data).subscribe({
-        next: (res: any) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (res.success) {
+          if (result.success) {
             this.message.success('Reclassify Return request successfully!');
             this.close();
           } else {
             this.message.error(
-              res?.error_message
-                ? res?.error_message
-                : 'Reclassify Return request Failed!'
+              result?.msg ? result?.msg : 'Reclassify Return request Failed!'
             );
           }
         },

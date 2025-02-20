@@ -26,6 +26,8 @@ import {
 } from 'src/app/shared/model/payments.model';
 import { AppliedFilters } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
+import { ApiResponce } from 'src/app/shared/model/common.model';
+import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 
 @Component({
   selector: 'app-export-model',
@@ -56,6 +58,7 @@ export class ExportModelComponent implements OnInit {
     private ordersService: OrdersService,
     private paymentService: PaymentService,
     private returnService: ReturnService,
+    private newCalculatorService: NewCalculatorService,
     @Inject(LOCALE_ID) public locale: string
   ) {}
   ngOnInit(): void {}
@@ -89,20 +92,27 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_sales_tier
         : '';
 
-      this.productService.exportProducts(filters).subscribe(
-        (response: any) => {
-          console.log(response);
-          if (response.success) {
+      this.productService.exportProducts(filters).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
-          this.handleCancel();
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'inventory') {
       let filters: any = {};
       filters['filter_start_date'] = this.exportType
@@ -123,20 +133,28 @@ export class ExportModelComponent implements OnInit {
       filters['filter_feed_result'] = this.exportType
         ? this.listOfFilter?.filter_inventory_result
         : '';
-      this.inventoryService.inventoryFeedHistory(filters).subscribe(
-        (response: any) => {
-          console.log(response);
-          if (response.success) {
+      this.inventoryService.inventoryFeedHistory(filters).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            this.handleCancel();
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Export inventory failed!'
+            );
           }
-          this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export inventory failed!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'promotion') {
       let filters: any = {};
 
@@ -149,20 +167,26 @@ export class ExportModelComponent implements OnInit {
       filters['filter_end_date'] = this.exportType
         ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
         : '';
-      this.promotionsService.exportPromo(filters).subscribe(
-        (response: any) => {
-          console.log(response);
-          if (response.success) {
+      this.promotionsService.exportPromo(filters).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
-          this.handleCancel();
           this.isLoading = false;
         },
-        (err: any) => (this.isLoading = false)
-      );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
     } else if (this.sectionName === 'order') {
       let filters: any = {};
 
@@ -252,18 +276,45 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_status_remark
         : '';
       this.ordersService.exportOrders(filters).subscribe({
-        next: (response: any) => {
-          this.handleCancel();
-          console.log(response);
-          if (response.success) {
+        next: (result: ApiResponce) => {
+          if (result.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
           this.isLoading = false;
         },
-        error: (err: any) => (this.isLoading = false),
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
+    } else if (this.sectionName === 'retailPricing') {
+      this.newCalculatorService.exportMultiProductCalculator().subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+            this.handleCancel();
+          } else {
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
+          }
+          this.isLoading = false;
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
       });
     } else if (this.sectionName === 'transactionView') {
       let filters: TransactionFilters = {};
@@ -275,9 +326,9 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportTransactions(filters).subscribe({
-        next: (response: any) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (response.success) {
+          if (result.success) {
             this.handleCancel();
             this.message.create(
               'success',
@@ -285,8 +336,8 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message
-                ? response?.error_message
+              result?.msg
+                ? result?.msg
                 : 'Export Transaction View Details Failed!'
             );
           }
@@ -332,9 +383,9 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportOpenBalances(filters).subscribe({
-        next: (response: any) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (response.success) {
+          if (result.success) {
             this.handleCancel();
             this.message.create(
               'success',
@@ -342,9 +393,7 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message
-                ? response?.error_message
-                : 'Export Open Balances Failed!'
+              result?.msg ? result?.msg : 'Export Open Balances Failed!'
             );
           }
         },
@@ -379,9 +428,9 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportPastRemittances(filters).subscribe({
-        next: (response: any) => {
+        next: (result: ApiResponce) => {
           this.isLoading = false;
-          if (response.success) {
+          if (result.success) {
             this.handleCancel();
             this.message.create(
               'success',
@@ -389,9 +438,7 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message
-                ? response?.error_message
-                : 'Export Past Remittances Failed!'
+              result?.msg ? result?.msg : 'Export Past Remittances Failed!'
             );
           }
         },
@@ -467,20 +514,27 @@ export class ExportModelComponent implements OnInit {
       const data: ExportDash = {
         code: this.code,
       };
-      this.dashboardService.exportData(data).subscribe(
-        (res: any) => {
-          console.log(res);
-          if (res.success) {
+      this.dashboardService.exportData(data).subscribe({
+        next: (result: ApiResponce) => {
+          if (result.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
+            this.handleCancel();
+          } else {
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
-          this.handleCancel();
+
           this.isLoading = false;
         },
-        (err) => (this.isLoading = false)
-      );
+        error: (err) => {
+          if (!err?.error_shown) {
+            this.message.error('Export fail!');
+          }
+          this.isLoading = false;
+        },
+      });
     }
   }
 
