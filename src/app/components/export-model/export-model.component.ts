@@ -486,10 +486,10 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.returnService.exportReturns(filters).subscribe({
-        next: (response: any) => {
-          console.log(response);
+        next: (result: ApiResponse) => {
+          console.log(result);
           this.isLoading = false;
-          if (response.success) {
+          if (result.success) {
             this.handleCancel();
             this.message.create(
               'success',
@@ -497,9 +497,7 @@ export class ExportModelComponent implements OnInit {
             );
           } else {
             this.message.error(
-              response?.error_message
-                ? response?.error_message
-                : 'Export Retuns Failed!'
+              result?.msg ? result?.msg : 'Export Retuns Failed!'
             );
           }
         },

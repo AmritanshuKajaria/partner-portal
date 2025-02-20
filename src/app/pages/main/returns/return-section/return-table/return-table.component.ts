@@ -284,14 +284,12 @@ export class ReturnTableComponent implements OnInit {
           po_no: po_no,
         };
         this.returnService.markAsReceived(data).subscribe({
-          next: (res: any) => {
-            if (res.success) {
+          next: (result: ApiResponse) => {
+            if (result.success) {
               this.message.success('Mark as received successfully!');
             } else {
               this.message.error(
-                res?.error_message
-                  ? res?.error_message
-                  : 'Failed to Mark as received!'
+                result?.msg ? result?.msg : 'Failed to Mark as received!'
               );
             }
           },
