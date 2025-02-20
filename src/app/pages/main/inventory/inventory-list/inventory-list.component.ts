@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   GetAllInventory,
   SingleInventory,
@@ -124,12 +125,15 @@ export class InventoryListComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (res: GetAllInventory | any) => {
-          if (res.success) {
+        next: (result: ApiResponse) => {
+          if (result.success) {
+            const res: GetAllInventory | any = result?.response ?? {};
             this.total = res.pagination?.total_rows ?? 0;
             this.inventoryList = res.inventory_feeds;
           } else {
-            this.message.error('Get All Inventory Failed!');
+            this.message.error(
+              result?.msg ? result?.msg : 'Get All Inventory Failed!'
+            );
           }
 
           this.isLoading = false;
