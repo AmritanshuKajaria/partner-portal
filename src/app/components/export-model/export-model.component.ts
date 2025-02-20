@@ -25,7 +25,7 @@ import {
   TransactionFilters,
 } from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-export-model',
@@ -90,7 +90,7 @@ export class ExportModelComponent implements OnInit {
         : '';
 
       this.productService.exportProducts(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.handleCancel();
             this.message.create(
@@ -140,7 +140,7 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_inventory_result
         : '';
       this.inventoryService.inventoryFeedHistory(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',
@@ -181,7 +181,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.promotionsService.exportPromo(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',
@@ -287,7 +287,7 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_status_remark
         : '';
       this.ordersService.exportOrders(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',
@@ -308,7 +308,7 @@ export class ExportModelComponent implements OnInit {
       });
     } else if (this.sectionName === 'retailPricing') {
       this.newCalculatorService.exportMultiProductCalculator().subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',
@@ -337,7 +337,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportTransactions(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.handleCancel();
@@ -394,7 +394,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportOpenBalances(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.handleCancel();
@@ -439,7 +439,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportPastRemittances(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.handleCancel();
@@ -465,7 +465,7 @@ export class ExportModelComponent implements OnInit {
         code: this.code,
       };
       this.dashboardService.exportData(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',

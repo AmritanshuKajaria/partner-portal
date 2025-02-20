@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { Invoice, InvoiceDetails } from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 
@@ -35,7 +35,7 @@ export class InvoiceDetailPageComponent implements OnInit {
     this.isLoading = true;
 
     this.paymentService.getSinglePayment(this.invoiceNo).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: InvoiceDetails = result?.response ?? {};

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -52,7 +52,7 @@ export class UploadComponent implements OnInit {
       formData.append('po_no', this.poNo);
       formData.append('uploaded_file', this.selectFile);
       this.ordersService.uploadInvoice(formData).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.create('success', 'Invoice upload successfully!');

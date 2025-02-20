@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { restrictedReasonList } from 'src/app/shared/constants/constants';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -86,7 +86,7 @@ export class EditTimeComponent implements OnInit {
           this.editTimeForm.value.restricted_reason;
       }
       this.productService.editProduct(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.referenceCode = res?.reference_code;

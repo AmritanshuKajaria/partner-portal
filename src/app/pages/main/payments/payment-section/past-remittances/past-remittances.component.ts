@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   DownloadRemittance,
   GetAllPastRemittances,
@@ -65,7 +65,7 @@ export class PastRemittancesComponent implements OnInit {
       search_term: search_term,
     };
     this.paymentService.getAllPastRemittances(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: GetAllPastRemittances = result?.response ?? {};
@@ -127,7 +127,7 @@ export class PastRemittancesComponent implements OnInit {
       remittance_no: event.remittanceNo,
     };
     this.paymentService.downloadRemittance(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         const res: GetDownloadRemittance = result?.response ?? {};
         if (result.success && res.remittance_url) {
           var objectUrl = res.remittance_url;

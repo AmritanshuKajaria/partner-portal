@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { Description } from 'src/app/shared/model/description.model';
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
 
@@ -87,7 +87,7 @@ export class LackOfSalesDemandComponent implements OnInit {
         product_search: this.product_search ? this.product_search : '',
       };
       this.dashboardService.getAgendasDataByCode(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             const res: any = result?.response ?? {};

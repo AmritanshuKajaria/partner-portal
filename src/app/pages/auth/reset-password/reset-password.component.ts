@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ResetPasswordReq } from 'src/app/shared/model/auth.model';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
@@ -107,7 +107,7 @@ export class ResetPasswordComponent implements OnInit {
           new_password: this.resetForm.controls['newPassword'].value,
         };
         this.authService.resetPassword(req).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             this.isLoading = false;
             if (result.success) {
               const res: any = result?.response ?? {};

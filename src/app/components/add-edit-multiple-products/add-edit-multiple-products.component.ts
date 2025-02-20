@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   DownloadTemplates,
   ProductService,
@@ -124,7 +124,7 @@ export class AddEditMultipleProductsComponent implements OnInit {
         include_data: event,
       };
       this.productService.downloadTemplates(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.create('success', 'Template Downloaded Successfully!');
@@ -161,7 +161,7 @@ export class AddEditMultipleProductsComponent implements OnInit {
       include_data: false,
     };
     this.productService.downloadTemplates(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         if (result.success) {
           const res: any = result?.response ?? {};
           this.message.create('success', 'Template Downloaded Successfully!');
@@ -208,7 +208,7 @@ export class AddEditMultipleProductsComponent implements OnInit {
     data.append('uploaded_file', this.selectFile);
 
     this.productService.productAddEditUpload(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: any = result?.response ?? {};

@@ -8,7 +8,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   GetAllTransactions,
   GetAllTransactionsPayload,
@@ -64,7 +64,7 @@ export class TransactionViewComponent implements OnInit {
     };
 
     this.paymentService.getAllTransactions(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         this.submitButtonLoading = false;
         if (result.success) {

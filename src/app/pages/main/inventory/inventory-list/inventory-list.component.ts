@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   GetAllInventory,
   SingleInventory,
@@ -125,7 +125,7 @@ export class InventoryListComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: GetAllInventory | any = result?.response ?? {};
             this.total = res.pagination?.total_rows ?? 0;

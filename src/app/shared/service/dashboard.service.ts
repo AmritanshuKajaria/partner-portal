@@ -4,7 +4,7 @@ import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { BehaviorSubject, timeout } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ApiResponce } from '../model/common.model';
+import { ApiResponse } from '../model/common.model';
 
 export interface ExportDash {
   code: string;
@@ -88,7 +88,7 @@ export class DashboardService {
     const promise = new Promise<any>((resolve) => {
       if (!this.routeConfigMap.value.size) {
         this.getIssues().subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               const res: any = result?.response ?? {};
               res?.performance?.forEach((issue: any) => {

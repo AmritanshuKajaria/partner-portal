@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { StopPromotions } from 'src/app/shared/model/promotion.model';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
@@ -34,7 +34,7 @@ export class PromotionDetailsComponent implements OnInit {
       promo_code: this.promoCode,
     };
     this.promotionsService.getPromotion(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: any = result?.response ?? {};
@@ -61,7 +61,7 @@ export class PromotionDetailsComponent implements OnInit {
       promo_code: promo_code,
     };
     this.promotionsService.downloadPromotionDetails(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         if (result.success) {
           const res: any = result?.response ?? {};
           this.message.create(

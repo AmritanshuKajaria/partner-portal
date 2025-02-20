@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { restrictedReasonList } from 'src/app/shared/constants/constants';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { ProductService } from 'src/app/shared/service/product.service';
 
 @Component({
@@ -152,7 +152,7 @@ export class AddEditProductComponent implements OnInit {
         this.isMainLoading = true;
         this.editSku = this.sku;
         this.productService.getProduct(this.sku).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.isMainLoading = false;
@@ -406,7 +406,7 @@ export class AddEditProductComponent implements OnInit {
       if (this.editSection) {
         data['sku'] = this.sku;
         this.productService.editProduct(data).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.resReferenceCode = res?.reference_code;
@@ -428,7 +428,7 @@ export class AddEditProductComponent implements OnInit {
         });
       } else {
         this.productService.createProduct(data).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.resReferenceCode = res?.reference_code;

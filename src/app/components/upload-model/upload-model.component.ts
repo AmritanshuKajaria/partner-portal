@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { InventoryService } from 'src/app/shared/service/inventory.service';
 
 @Component({
@@ -51,7 +51,7 @@ export class UploadModelComponent implements OnInit {
       let formData = new FormData();
       formData.append('uploaded_file', this.selectFile);
       this.inventoryService.inventoryFeedUpload(formData).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.create('success', 'Inventory upload successfully!');

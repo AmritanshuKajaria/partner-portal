@@ -5,7 +5,7 @@ import * as lodash from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, debounceTime, distinctUntilChanged } from 'rxjs';
 import { NewCalculatorMultiData } from 'src/app/shared/model/calculator.model';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 
@@ -96,7 +96,7 @@ export class NewMultiProductCalculatorComponent2 {
       search_term: this.searchVal,
     };
     this.newCalculatorService.getMultiProductCalculatorList(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: any = result?.response ?? {};

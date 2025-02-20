@@ -10,7 +10,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -81,7 +81,7 @@ export class DeliveredComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: GetAllOrders = result?.response ?? {};
             this.total = res?.pagination?.total_rows ?? 0;

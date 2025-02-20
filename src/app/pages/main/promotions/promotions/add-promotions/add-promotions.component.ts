@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { PromoTemplate } from 'src/app/shared/model/promotion.model';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { PromotionsService } from 'src/app/shared/service/promotions.service';
@@ -64,7 +64,7 @@ export class AddPromotionsComponent implements OnInit {
       include_data: event,
     };
     this.promotionsService.promoTemplate(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         if (result.success) {
           const res: any = result?.response ?? {};
           this.message.create('success', 'Template Downloaded Successfully!');
@@ -114,7 +114,7 @@ export class AddPromotionsComponent implements OnInit {
       formData.append('uploaded_file', this.selectFile);
 
       this.promotionsService.createPromotion(formData).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             const res: any = result?.response ?? {};

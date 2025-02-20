@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
 Chart.register(...registerables);
 
@@ -146,7 +146,7 @@ export class HomeSectionComponent implements OnInit {
 
   loadAPIs() {
     this.dashboardService.dashboardSales().subscribe({
-      next: async (result: ApiResponce) => {
+      next: async (result: ApiResponse) => {
         if (result.success) {
           const res: any = result?.response ?? {};
           this.todaySales = res?.sales_overview?.sales_today;
