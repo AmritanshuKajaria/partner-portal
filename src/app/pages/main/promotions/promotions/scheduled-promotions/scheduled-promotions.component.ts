@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   EditEndDatePromotions,
   Promotions,
@@ -77,15 +78,14 @@ export class ScheduledPromotionsComponent implements OnInit {
       open: true,
     };
     this.promotionsService.getAllPromotions(data).subscribe({
-      next: (res: any) => {
-        if (res.success) {
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
           this.total = res.pagination?.total_rows ?? 0;
           this.scheduledPromotionsList = res.promos ?? [];
         } else {
           this.message.error(
-            res.error_message
-              ? res?.error_message
-              : 'Get Running/Scheduled Promotions Failed!'
+            result.msg ? result.msg : 'Get Running/Scheduled Promotions Failed!'
           );
         }
 
@@ -185,13 +185,13 @@ export class ScheduledPromotionsComponent implements OnInit {
         : '';
     }
     this.promotionsService.editEndDatePromo(data).subscribe({
-      next: (res: any) => {
-        if (res.success) {
+      next: (result: ApiResponse) => {
+        if (result.success) {
           this.message.create('success', 'End date edit successfully!');
           this.addEndDateVisible = false;
         } else {
           this.message.error(
-            res?.error_message ? res?.error_message : 'End date edit failed!'
+            result?.msg ? result?.msg : 'End date edit failed!'
           );
         }
 

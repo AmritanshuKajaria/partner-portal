@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
 
 @Component({
@@ -66,16 +67,15 @@ export class StrandedInFeedComponent implements OnInit {
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
     if (this.code) {
       dashboardService.getAgendasDataByCode(this.code).subscribe({
-        next: (res: any) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
-          if (res.success) {
+          if (result.success) {
+            const res: any = result?.response ?? {};
             this.total = +(res.pagination?.total_rows ?? 0);
             this.strandedInFeedList = res.data;
           } else {
             this.message.error(
-              res?.error_message
-                ? res?.error_message
-                : 'Get agendas details failed!'
+              result?.msg ? result?.msg : 'Get agendas details failed!'
             );
           }
         },
