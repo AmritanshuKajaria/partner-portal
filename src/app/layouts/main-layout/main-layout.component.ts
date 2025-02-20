@@ -6,6 +6,8 @@ import { UserPermissionService } from 'src/app/shared/service/user-permission.se
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 import { PlanLabels } from 'src/app/shared/constants/constants';
+import { ApiResponse } from 'src/app/shared/model/common.model';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-main-layout',
@@ -27,7 +29,8 @@ export class MainLayoutComponent implements OnInit {
     private userPermissionService: UserPermissionService,
     private authService: AuthService,
     private dashboardService: DashboardService,
-    private zendeskService: ZendeskService
+    private zendeskService: ZendeskService,
+    private message: NzMessageService
   ) {}
 
   ngOnInit() {
@@ -85,10 +88,19 @@ export class MainLayoutComponent implements OnInit {
   // }
 
   logOutUser() {
-    this.authService.logout().subscribe((res: any) => {
-      if (res.success) {
-        this.authService.logOutUser();
-      }
+    this.authService.logout().subscribe({
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          this.authService.logOutUser();
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Logout failed!');
+        }
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Logout failed!');
+        }
+      },
     });
   }
 }
