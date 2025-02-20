@@ -10,7 +10,7 @@ import {
   GetAllProducts,
   SingleProduct,
 } from 'src/app/shared/model/product.model';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 
 export interface Filters {
   filter_product_status?: string;
@@ -185,7 +185,7 @@ export class ViewListFilterComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (result: ApiResponce): void => {
+        next: (result: ApiResponse): void => {
           if (result.success) {
             const res: GetAllProducts = result?.response ?? {};
             this.total = res.pagination?.total_rows ?? 0;

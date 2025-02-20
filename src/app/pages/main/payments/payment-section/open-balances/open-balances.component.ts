@@ -9,7 +9,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   GetAllOpenBalances,
   GetAllOpenBalancesPayload,
@@ -76,7 +76,7 @@ export class OpenBalancesComponent implements OnInit {
       filter_due_date: filter_due_date,
     };
     this.paymentService.getAllOpenBalances(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: GetAllOpenBalances = result?.response ?? {};

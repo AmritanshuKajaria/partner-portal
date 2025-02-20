@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { AddRaPayload } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 
@@ -50,7 +50,7 @@ export class AddRa implements OnInit {
     };
 
     this.returnService.addRa(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           this.message.success('RA number added successfully!');

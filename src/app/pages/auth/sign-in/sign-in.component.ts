@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoginReq, LoginRes } from 'src/app/shared/model/auth.model';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 
@@ -58,7 +58,7 @@ export class SignInComponent implements OnInit {
         password: this.loginForm.controls['password'].value,
       };
       this.authService.login(dataReq).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.success('User Login Successful');

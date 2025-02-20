@@ -11,7 +11,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
-import { ApiResponce } from '../model/common.model';
+import { ApiResponse } from '../model/common.model';
 
 const TOKEN_HEADER_KEY = 'x-access-token';
 
@@ -70,7 +70,7 @@ export class AuthInterceptor implements HttpInterceptor {
       const token = this.authService.getRefreshToken();
       if (token)
         return this.authService.refreshToken({ refresh_token: token }).pipe(
-          switchMap((result: ApiResponce) => {
+          switchMap((result: ApiResponse) => {
             const res: any = result?.response ?? {};
             this.isRefreshing = false;
             this.authService.setAccessToken(res.access_token);

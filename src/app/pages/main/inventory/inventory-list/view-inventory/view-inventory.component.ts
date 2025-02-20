@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   ProcessedInventory,
   RejectInventory,
@@ -40,7 +40,7 @@ export class ViewInventoryComponent implements OnInit {
     };
     if (this.feedResult.toLocaleLowerCase() === 'processed') {
       this.inventoryService.inventoryFeed(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             const res: ProcessedInventory = result?.response ?? {};
@@ -95,7 +95,7 @@ export class ViewInventoryComponent implements OnInit {
       });
     } else {
       this.inventoryService.inventoryFeedReject(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             const res: RejectInventory = result?.response ?? {};

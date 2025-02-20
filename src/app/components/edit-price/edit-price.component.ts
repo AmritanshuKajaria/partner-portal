@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 import { ProductService } from 'src/app/shared/service/product.service';
 
@@ -101,7 +101,7 @@ export class EditPriceComponent implements OnInit {
         case 'Retail Price':
           data['retail_price'] = +this.editPriceForm.value.new;
           this.productService.editProductRetailPrice(data).subscribe({
-            next: (res: ApiResponce) => {
+            next: (res: ApiResponse) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();
@@ -124,7 +124,7 @@ export class EditPriceComponent implements OnInit {
           data['unit_price'] = +this.editPriceForm.value.new;
 
           this.productService.editProduct(data).subscribe({
-            next: (res: ApiResponce) => {
+            next: (res: ApiResponse) => {
               if (res.success) {
                 this.message.create('success', 'Edit product successfully!');
                 this.handleCancel();

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
@@ -40,7 +40,7 @@ export class PoDetailPageComponent implements OnInit {
     });
     this.isLoading = true;
     ordersService.getSingleOrder(this.poNo).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         if (result.success) {
           const res: any = result?.response ?? {};
           res.order.order_item.map((item: any) => {
@@ -84,7 +84,7 @@ export class PoDetailPageComponent implements OnInit {
     switch (type) {
       case 'Download PO':
         this.ordersService.downloadPo(this.poNo).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.message.success('Download po successfully!');
@@ -104,7 +104,7 @@ export class PoDetailPageComponent implements OnInit {
         break;
       case 'Download Shipping Labels':
         this.ordersService.downloadLabel(this.poNo).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.message.success('Download label successfully!');
@@ -124,7 +124,7 @@ export class PoDetailPageComponent implements OnInit {
         break;
       case 'Download Packing Slip':
         this.ordersService.downloadPackingSlip(this.poNo).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.message.success('Downloaded packing slip successfully!');

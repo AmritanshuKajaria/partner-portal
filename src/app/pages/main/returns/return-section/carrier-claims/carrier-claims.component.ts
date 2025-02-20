@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllReturn,
@@ -92,7 +92,7 @@ export class CarrierClaims implements OnInit {
       filter_return_classification: return_classification,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};

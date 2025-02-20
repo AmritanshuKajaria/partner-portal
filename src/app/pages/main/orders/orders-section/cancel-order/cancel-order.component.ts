@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { CancelOrders } from 'src/app/shared/model/orders.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -50,7 +50,7 @@ export class CancelOrderComponent implements OnInit {
         this.cancelOrderForm.controls['otherOption'].value ?? '',
     };
     this.ordersService.cancelOrder(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result?.success) {
           this.message.success('Order Cancelled Successfully!');

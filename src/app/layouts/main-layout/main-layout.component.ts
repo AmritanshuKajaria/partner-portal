@@ -6,7 +6,7 @@ import { UserPermissionService } from 'src/app/shared/service/user-permission.se
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 import { PlanLabels } from 'src/app/shared/constants/constants';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { NzMessageService } from 'ng-zorro-antd/message';
 
 declare var zE: any;
@@ -84,7 +84,7 @@ export class MainLayoutComponent implements OnInit {
   getPartnerDetails() {
     if (this.loggedInUser) {
       this.userPermissionService.getPartnerPermission().subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.userPartnerName = res?.partner_display_name;
@@ -118,7 +118,7 @@ export class MainLayoutComponent implements OnInit {
 
   logOutUser() {
     this.authService.logout().subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         if (result.success) {
           this.authService.logOutUser();
         } else {

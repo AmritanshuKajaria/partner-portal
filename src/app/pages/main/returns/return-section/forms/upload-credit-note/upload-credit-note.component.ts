@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { ApproveReturnPayload } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 
@@ -60,7 +60,7 @@ export class UploadCreditNote implements OnInit {
 
     if (this.type === 'approveReturn') {
       this.returnService.approveReturn(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.message.success('Approve credit request successfully!');
@@ -80,7 +80,7 @@ export class UploadCreditNote implements OnInit {
       });
     } else if (this.type === 'reclassifyReturn') {
       this.returnService.reclassifyReturn(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.message.success('Reclassify Return request successfully!');

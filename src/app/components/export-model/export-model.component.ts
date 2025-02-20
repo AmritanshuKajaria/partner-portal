@@ -26,7 +26,7 @@ import {
 } from 'src/app/shared/model/payments.model';
 import { AppliedFilters } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { NewCalculatorService } from 'src/app/shared/service/new-calculator.service';
 
 @Component({
@@ -93,7 +93,7 @@ export class ExportModelComponent implements OnInit {
         : '';
 
       this.productService.exportProducts(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.handleCancel();
             this.message.create(
@@ -134,7 +134,7 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_inventory_result
         : '';
       this.inventoryService.inventoryFeedHistory(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.handleCancel();
             this.message.create(
@@ -168,7 +168,7 @@ export class ExportModelComponent implements OnInit {
         ? formatDate(this.listOfFilter?.end_date, 'yyyy-MM-dd', this.locale)
         : '';
       this.promotionsService.exportPromo(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',
@@ -276,7 +276,7 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_status_remark
         : '';
       this.ordersService.exportOrders(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',
@@ -297,7 +297,7 @@ export class ExportModelComponent implements OnInit {
       });
     } else if (this.sectionName === 'retailPricing') {
       this.newCalculatorService.exportMultiProductCalculator().subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',
@@ -326,7 +326,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportTransactions(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.handleCancel();
@@ -383,7 +383,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportOpenBalances(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.handleCancel();
@@ -428,7 +428,7 @@ export class ExportModelComponent implements OnInit {
       }
 
       this.paymentService.exportPastRemittances(filters).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           this.isLoading = false;
           if (result.success) {
             this.handleCancel();
@@ -515,7 +515,7 @@ export class ExportModelComponent implements OnInit {
         code: this.code,
       };
       this.dashboardService.exportData(data).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             this.message.create(
               'success',

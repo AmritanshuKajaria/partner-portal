@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   DashboardService,
   SalesReport,
@@ -31,7 +31,7 @@ export class SalesReportComponent implements OnInit {
       type: this.type,
     };
     dashboardService.salesReport(reqData).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: any = result?.response ?? {};
@@ -67,7 +67,7 @@ export class SalesReportComponent implements OnInit {
       type: this.type,
     };
     this.dashboardService.downloadSalesReport(reqData).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: any = result?.response ?? {};

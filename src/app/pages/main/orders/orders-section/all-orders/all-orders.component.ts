@@ -14,7 +14,7 @@ import {
   AppliedFilters,
   GetAllOrders,
 } from 'src/app/shared/model/orders.model';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -94,7 +94,7 @@ export class AllOrdersComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: GetAllOrders = result?.response ?? {};
             this.total = res?.pagination?.total_rows ?? 0;

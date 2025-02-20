@@ -8,7 +8,7 @@ import {
   GetAllReturnsPayload,
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 @Component({
   selector: 'app-all-return',
   templateUrl: './all-return.component.html',
@@ -66,7 +66,7 @@ export class AllReturnComponent implements OnInit {
       filter_return_classification: return_classification,
     };
     this.returnService.getAllReturns(data).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};

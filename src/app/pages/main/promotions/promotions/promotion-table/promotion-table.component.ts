@@ -16,7 +16,7 @@ import { StopPromotions } from 'src/app/shared/model/promotion.model';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 @Component({
   selector: 'app-promotion-table',
   templateUrl: './promotion-table.component.html',
@@ -100,7 +100,7 @@ export class PromotionTableComponent implements OnInit {
             };
 
             this.promotionsService.cancelPromotions(data).subscribe({
-              next: (result: ApiResponce) => {
+              next: (result: ApiResponse) => {
                 if (result?.success) {
                   this.message.create(
                     'success',
@@ -133,7 +133,7 @@ export class PromotionTableComponent implements OnInit {
             };
 
             this.promotionsService.stopPromotions(dataNow).subscribe({
-              next: (result: ApiResponce) => {
+              next: (result: ApiResponse) => {
                 if (result?.success) {
                   this.message.create(
                     'success',

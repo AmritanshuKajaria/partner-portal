@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { ApiResponce } from 'src/app/shared/model/common.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
@@ -55,7 +55,7 @@ export class OrderTableComponent implements OnInit {
       nzTitle: 'Please click OK to Acknowledge this PO?',
       nzOnOk: () => {
         this.ordersService.acknowledgeOrders(po_no).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               this.message.success('Order acknowledged successfully!');
             } else {
@@ -96,7 +96,7 @@ export class OrderTableComponent implements OnInit {
       nzTitle: 'Please click OK to Cancel this PO?',
       nzOnOk: () => {
         this.ordersService.acceptCancellation(po_no).subscribe({
-          next: (result: ApiResponce) => {
+          next: (result: ApiResponse) => {
             if (result.success) {
               this.message.success('Accept cancellation successfully!');
             } else {
@@ -120,7 +120,7 @@ export class OrderTableComponent implements OnInit {
   selectAction(po_no: string, type: string) {
     if (type === 'Download PO') {
       this.ordersService.downloadPo(po_no).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.success('Download po successfully!');
@@ -139,7 +139,7 @@ export class OrderTableComponent implements OnInit {
       });
     } else if (type === 'Download Label') {
       this.ordersService.downloadLabel(po_no).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.success('Download label successfully!');
@@ -158,7 +158,7 @@ export class OrderTableComponent implements OnInit {
       });
     } else if (type === 'Download Packing Slip') {
       this.ordersService.downloadPackingSlip(po_no).subscribe({
-        next: (result: ApiResponce) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result?.response ?? {};
             this.message.success('Downloaded packing slip successful');
@@ -189,7 +189,7 @@ export class OrderTableComponent implements OnInit {
 
   getDownloadInvoice(po_no: string) {
     this.ordersService.downloadInvoice(po_no).subscribe({
-      next: (result: ApiResponce) => {
+      next: (result: ApiResponse) => {
         if (result.success) {
           const res: any = result?.response ?? {};
           this.message.success('Download invoice successfully!');
