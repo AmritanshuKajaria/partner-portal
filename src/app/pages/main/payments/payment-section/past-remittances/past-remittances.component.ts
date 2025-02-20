@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   DownloadRemittance,
   GetAllPastRemittances,
@@ -64,18 +65,17 @@ export class PastRemittancesComponent implements OnInit {
       search_term: search_term,
     };
     this.paymentService.getAllPastRemittances(data).subscribe({
-      next: (response: GetAllPastRemittances) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
-        if (response.success) {
-          this.total = response?.pagination?.total_rows ?? 0;
+        if (result.success) {
+          const res: GetAllPastRemittances = result.response ?? {};
+          this.total = res?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
-          this.totalRemittance = response?.total_remittance ?? '';
-          this.pastRemittancesDataList = response?.past_remittances ?? [];
+          this.totalRemittance = res?.total_remittance ?? '';
+          this.pastRemittancesDataList = res?.past_remittances ?? [];
         } else {
           this.message.error(
-            response?.error_message
-              ? response?.error_message
-              : 'Get Past Remittances Failed!'
+            result?.msg ? result?.msg : 'Get Past Remittances Failed!'
           );
         }
       },
@@ -127,8 +127,9 @@ export class PastRemittancesComponent implements OnInit {
       remittance_no: event.remittanceNo,
     };
     this.paymentService.downloadRemittance(data).subscribe({
-      next: (res: GetDownloadRemittance) => {
-        if (res.success && res.remittance_url) {
+      next: (result: ApiResponse) => {
+        const res: GetDownloadRemittance = result?.response ?? {};
+        if (result.success && res.remittance_url) {
           var objectUrl = res.remittance_url;
           var a = document.createElement('a');
           a.download = 'document';
@@ -136,9 +137,7 @@ export class PastRemittancesComponent implements OnInit {
           a.click();
         } else {
           this.message.error(
-            res?.error_message
-              ? res?.error_message
-              : 'Remittance Download Failed!'
+            result?.msg ? result?.msg : 'Remittance Download Failed!'
           );
         }
       },

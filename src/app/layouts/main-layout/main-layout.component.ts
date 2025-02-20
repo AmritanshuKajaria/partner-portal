@@ -66,7 +66,8 @@ export class MainLayoutComponent implements OnInit {
     if (this.loggedInUser) {
       this.userPermissionService
         .getPartnerPermission()
-        .subscribe((res: any) => {
+        .subscribe((result: ApiResponse) => {
+          const res: any = result.response ?? {};
           this.userPartnerName = res?.partner_display_name;
           this.userPartnerCode = res?.partner_code;
           this.userPartnerDetails = res;

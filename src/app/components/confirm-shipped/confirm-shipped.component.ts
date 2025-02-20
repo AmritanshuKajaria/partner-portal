@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import * as moment from 'moment';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -82,13 +83,13 @@ export class ConfirmShippedComponent implements OnInit {
       ),
     };
     this.ordersService.markOrderShipped(data).subscribe({
-      next: (res: any) => {
-        if (res.success) {
+      next: (result: ApiResponse) => {
+        if (result.success) {
           this.message.success('Mark shipped successfully!');
           this.handleCancel();
         } else {
           this.message.error(
-            res?.error_message ? res?.error_message : 'Mark shipped failed!'
+            result?.msg ? result?.msg : 'Mark shipped failed!'
           );
         }
         this.isLoading = false;

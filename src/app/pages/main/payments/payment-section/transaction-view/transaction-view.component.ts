@@ -8,6 +8,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   GetAllTransactions,
   GetAllTransactionsPayload,
@@ -63,18 +64,17 @@ export class TransactionViewComponent implements OnInit {
     };
 
     this.paymentService.getAllTransactions(data).subscribe({
-      next: (response: GetAllTransactions) => {
+      next: (result: ApiResponse) => {
         this.isLoading = false;
         this.submitButtonLoading = false;
-        if (response.success) {
-          this.total = response?.pagination?.total_rows ?? 0;
+        if (result.success) {
+          const res: GetAllTransactions = result?.response ?? {};
+          this.total = res?.pagination?.total_rows ?? 0;
           this.totalData.emit(+this.total);
-          this.transactionViewDataList = response?.transactions ?? [];
+          this.transactionViewDataList = res?.transactions ?? [];
         } else {
           this.message.error(
-            response?.error_message
-              ? response?.error_message
-              : 'Get Transaction View Details Failed!'
+            result?.msg ? result?.msg : 'Get Transaction View Details Failed!'
           );
         }
       },

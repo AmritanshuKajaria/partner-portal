@@ -144,53 +144,56 @@ export class HomeSectionComponent implements OnInit {
   ngOnInit(): void {}
 
   loadAPIs() {
-    this.dashboardService.dashboardSales().subscribe(async (result: any) => {
-      if (result.success) {
-        this.todaySales = result?.sales_overview?.sales_today;
-        this.salesWTD = result?.sales_overview?.sales_wtd;
-        this.salesMTD = result?.sales_overview?.sales_mtd;
+    this.dashboardService
+      .dashboardSales()
+      .subscribe(async (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result.response ?? {};
+          this.todaySales = res?.sales_overview?.sales_today;
+          this.salesWTD = res?.sales_overview?.sales_wtd;
+          this.salesMTD = res?.sales_overview?.sales_mtd;
 
-        this.chartOneData = [
-          result?.catalog_overview?.Active,
-          result?.catalog_overview?.Discontinued,
-          result?.catalog_overview?.LTL,
-          result?.catalog_overview['Partner Restricted'],
-          result?.catalog_overview?.Suppressed,
-        ];
-        await this.chartOneLabel.map((res: string, index) => {
-          this.chartOneLegend.push({
-            label: res,
-            color: this.chartOneColor[index],
-            data: this.chartOneData[index],
+          this.chartOneData = [
+            res?.catalog_overview?.Active,
+            res?.catalog_overview?.Discontinued,
+            res?.catalog_overview?.LTL,
+            res?.catalog_overview['Partner Restricted'],
+            res?.catalog_overview?.Suppressed,
+          ];
+          await this.chartOneLabel.map((res: string, index) => {
+            this.chartOneLegend.push({
+              label: res,
+              color: this.chartOneColor[index],
+              data: this.chartOneData[index],
+            });
           });
-        });
-        await this.createChart(
-          this.chartOneLabel,
-          this.chartOneData,
-          this.chartOneColor,
-          this.doughnutChart1.nativeElement
-        );
+          await this.createChart(
+            this.chartOneLabel,
+            this.chartOneData,
+            this.chartOneColor,
+            this.doughnutChart1.nativeElement
+          );
 
-        this.chartTwoData = [
-          result?.buybox_overview?.stores123,
-          result?.buybox_overview?.no_bb,
-          result?.buybox_overview?.others,
-        ];
-        await this.chartTwoLabel.map((res: string, index) => {
-          this.chartTwoLegend.push({
-            label: res,
-            color: this.chartTwoColor[index],
-            data: this.chartTwoData[index],
+          this.chartTwoData = [
+            res?.buybox_overview?.stores123,
+            res?.buybox_overview?.no_bb,
+            res?.buybox_overview?.others,
+          ];
+          await this.chartTwoLabel.map((res: string, index) => {
+            this.chartTwoLegend.push({
+              label: res,
+              color: this.chartTwoColor[index],
+              data: this.chartTwoData[index],
+            });
           });
-        });
-        await this.createChart(
-          this.chartTwoLabel,
-          this.chartTwoData,
-          this.chartTwoColor,
-          this.doughnutChart2.nativeElement
-        );
-      }
-    });
+          await this.createChart(
+            this.chartTwoLabel,
+            this.chartTwoData,
+            this.chartTwoColor,
+            this.doughnutChart2.nativeElement
+          );
+        }
+      });
     // this.dashboardService.dashboardCatalog().subscribe(async (res: any) => {
     //   if (res.success) {
     //     this.chartOneData = [
