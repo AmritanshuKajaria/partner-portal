@@ -97,7 +97,7 @@ export class DashboardService {
               res?.recommendation?.forEach((issue: any) => {
                 routeMap.set(issue.code, issue);
               });
-              this.agendasList.next(res);
+              this.agendasList.next(result);
               this.routeConfigMap.next(routeMap);
             } else {
               this.message.error(

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { Chart, registerables } from 'chart.js';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { DashboardService } from 'src/app/shared/service/dashboard.service';
 Chart.register(...registerables);
 
@@ -113,10 +114,11 @@ export class HomeSectionComponent implements OnInit {
     this.isLoading = true;
     this.loadAPIs();
     this.dashboardService.agendasList.subscribe({
-      next: (res: any) => {
-        if (res) {
+      next: (result?: ApiResponse) => {
+        if (result) {
           this.isLoading = false;
-          if (res.success) {
+          if (result.success) {
+            const res: any = result?.response ?? {};
             this.performanceIssuesList = [];
             res.performance.map((result: any, index: number) => {
               if (this.urlsMap.get(result?.code)) {
