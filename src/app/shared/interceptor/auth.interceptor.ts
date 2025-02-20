@@ -12,6 +12,7 @@ import { BehaviorSubject, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from '../service/auth.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from '../model/common.model';
 
 const TOKEN_HEADER_KEY = 'x-access-token';
 
@@ -85,14 +86,13 @@ export class AuthInterceptor implements HttpInterceptor {
       const token = this.authService.getRefreshToken();
       if (token)
         return this.authService.refreshToken({ refresh_token: token }).pipe(
-          switchMap((token: any) => {
+          switchMap((result: ApiResponse) => {
+            const res: any = result?.response ?? {};
             this.isRefreshing = false;
-            this.authService.setAccessToken(token.access_token);
-            this.refreshTokenSubject.next(token.access_token);
+            this.authService.setAccessToken(res.access_token);
+            this.refreshTokenSubject.next(res.access_token);
 
-            return next.handle(
-              this.addTokenHeader(request, token.access_token)
-            );
+            return next.handle(this.addTokenHeader(request, res.access_token));
           }),
           catchError((err) => {
             this.isRefreshing = false;

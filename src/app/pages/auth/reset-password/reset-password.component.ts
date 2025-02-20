@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ResetPasswordReq } from 'src/app/shared/model/auth.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
@@ -106,25 +107,24 @@ export class ResetPasswordComponent implements OnInit {
           new_password: this.resetForm.controls['newPassword'].value,
         };
         this.authService.resetPassword(req).subscribe({
-          next: (result: any) => {
+          next: (result: ApiResponse) => {
             this.isLoading = false;
             if (result.success) {
+              const res: any = result?.response ?? {};
               this.message.success('Reset Password Successful');
 
-              // this.authService.setAccessToken(result.access_token);
-              // this.authService.setRefreshToken(result.refresh_token);
-              // this.authService.saveUser(result.user_profile);
+              // this.authService.setAccessToken(res.access_token);
+              // this.authService.setRefreshToken(res.refresh_token);
+              // this.authService.saveUser(res.user_profile);
 
-              // if (result.user_profile.is_first) {
+              // if (res.user_profile.is_first) {
               //   this.router.navigate(['/auth/reset-password']);
               // } else {
               this.router.navigate(['/auth/login']);
               // }
             } else {
               this.message.error(
-                result?.error_message
-                  ? result?.error_message
-                  : 'Reset Password Failed'
+                result?.msg ? result?.msg : 'Reset Password Failed'
               );
             }
           },

@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ChangePassword } from 'src/app/shared/model/auth.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 
 @Component({
@@ -107,16 +108,14 @@ export class ChangePasswordComponent implements OnInit {
         new_password: this.changePasswordForm.controls['newPassword'].value,
       };
       this.authService.changePassword(req).subscribe({
-        next: (res: any) => {
+        next: (res: ApiResponse) => {
           this.isLoading = false;
           if (res.success) {
             this.message.success('User password changed!!');
             this.router.navigate(['/main/dashboard']);
           } else {
             this.message.error(
-              res?.error_message
-                ? res?.error_message
-                : 'User password change failed!'
+              res?.msg ? res?.msg : 'User password change failed!'
             );
           }
         },

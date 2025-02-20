@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { LoginReq, LoginRes } from 'src/app/shared/model/auth.model';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { AuthService } from 'src/app/shared/service/auth.service';
 import { ZendeskService } from 'src/app/shared/service/zendesk.service';
 
@@ -57,12 +58,13 @@ export class SignInComponent implements OnInit {
         password: this.loginForm.controls['password'].value,
       };
       this.authService.login(dataReq).subscribe({
-        next: (result: any) => {
+        next: (result: ApiResponse) => {
           if (result.success) {
+            const res: any = result?.response ?? {};
             this.message.success('User Login Successful');
-            this.authService.setAccessToken(result.access_token);
-            this.authService.setRefreshToken(result.refresh_token);
-            this.authService.saveUser(result.user_profile);
+            this.authService.setAccessToken(res.access_token);
+            this.authService.setRefreshToken(res.refresh_token);
+            this.authService.saveUser(res.user_profile);
             if (
               this.paramsObject?.return_to?.includes('support.123stores.com')
             ) {
@@ -84,9 +86,7 @@ export class SignInComponent implements OnInit {
             }
           } else {
             this.message.error(
-              result?.error_message
-                ? result?.error_message
-                : 'User login failed!'
+              result?.msg ? result?.msg : 'User login failed!'
             );
             this.isLoading = false;
           }
