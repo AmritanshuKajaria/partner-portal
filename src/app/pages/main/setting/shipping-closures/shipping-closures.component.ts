@@ -13,6 +13,7 @@ import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PartnerService } from 'src/app/shared/service/partner.service';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-shipping-closures',
@@ -69,17 +70,22 @@ export class ShippingClosuresComponent implements OnInit {
   getPartnersData() {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
-      next: (res: any) => {
-        this.shippingClosureList = res.payload.upcomingShippingClosures;
-        this.newShippingClosureList = res.payload.upcomingShippingClosures;
-        this.oldShippingClosureList = res.payload.previousShippingClosures;
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.shippingClosureList = res.upcomingShippingClosures;
+          this.newShippingClosureList = res.upcomingShippingClosures;
+          this.oldShippingClosureList = res.previousShippingClosures;
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Get partner failed!');
+        }
+
         this.isLoading = false;
       },
-      error: (error) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Something went wrong fetching the data'
-        );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get partner failed!');
+        }
         this.isLoading = false;
       },
     });
@@ -149,8 +155,8 @@ export class ShippingClosuresComponent implements OnInit {
             isDeleted: 1,
           };
           this.partnerService.updatePartner(payload).subscribe({
-            next: (res: any) => {
-              resolve(res);
+            next: (result: ApiResponse) => {
+              resolve(result);
               this.message.create('success', 'Data Deleted Successfully!');
               this.getPartnersData();
             },
@@ -159,10 +165,7 @@ export class ShippingClosuresComponent implements OnInit {
             },
           });
         }).catch((error) => {
-          this.message.create(
-            'error',
-            error?.error_message?.[0] || 'Date Update Failed!'
-          ),
+          this.message.create('error', error?.msg || 'Date Update Failed!'),
             (this.isLoading = false);
         }),
     });
@@ -205,19 +208,25 @@ export class ShippingClosuresComponent implements OnInit {
       };
 
       this.partnerService.updatePartner(payload).subscribe({
-        next: (res) => {
-          this.message.create('success', 'Data Updated Successfully!');
-          this.formTypes.setValue('new');
-          this.showSection = this.section.TABLE;
+        next: (result: ApiResponse) => {
+          if (result.success) {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.formTypes.setValue('new');
+            this.showSection = this.section.TABLE;
+            // Fetch the updated partner data after a successful update
+            this.getPartnersData();
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Date Update Failed!'
+            );
+          }
+
           this.isSaving = false;
-          // Fetch the updated partner data after a successful update
-          this.getPartnersData();
         },
-        error: (error: any) => {
-          this.message.create(
-            'error',
-            error?.error_message?.[0] || 'Date Update Failed!'
-          );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Date Update Failed!');
+          }
           this.isSaving = false; // Ensure saving state is updated on error
         },
       });

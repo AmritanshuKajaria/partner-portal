@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { forkJoin } from 'rxjs';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { PartnerService } from 'src/app/shared/service/partner.service';
@@ -98,16 +99,21 @@ export class InventoryFeedComponent implements OnInit {
   getPartnersAndPatchForm() {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
-      next: (res: any) => {
-        this.inventoryFeedData = res.payload.inventoryDetails;
-        this.patchFormValue(this.inventoryFeedData);
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.inventoryFeedData = res.inventoryDetails;
+          this.patchFormValue(this.inventoryFeedData);
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Get partner failed!');
+        }
+
         this.isLoading = false;
       },
-      error: (error) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Something went wrong fetching the data'
-        );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get partner failed!');
+        }
         this.isLoading = false;
       },
     });
@@ -235,18 +241,23 @@ export class InventoryFeedComponent implements OnInit {
           : '',
       };
       this.partnerService.updatePartner(payload).subscribe({
-        next: (res) => {
-          this.message.create('success', 'Data Updated Successfully!');
-          this.isSaving = false;
+        next: (result: ApiResponse) => {
+          if (result.success) {
+            this.message.create('success', 'Data Updated Successfully!');
 
-          // Fetch the updated partner data after a successful update
-          this.getPartnersAndPatchForm();
+            // Fetch the updated partner data after a successful update
+            this.getPartnersAndPatchForm();
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Date Update Failed!'
+            );
+          }
+          this.isSaving = false;
         },
-        error: (error: any) => {
-          this.message.create(
-            'error',
-            error?.error_message?.[0] || 'Date Update Failed!'
-          );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Date Update Failed!');
+          }
           this.isSaving = false; // Ensure saving state is updated on error
         },
       });

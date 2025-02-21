@@ -73,16 +73,20 @@ export class COIComponent implements OnInit {
   getPartnersAndPatchForm() {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
-      next: (res: any) => {
-        this.coiData = res.payload.coiConfiguration;
-        this.patchFormValue(this.coiData);
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.coiData = res.coiConfiguration;
+          this.patchFormValue(this.coiData);
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Get partner failed!');
+        }
         this.isLoading = false;
       },
-      error: (error) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Something went wrong fetching the data'
-        );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get partner failed!');
+        }
         this.isLoading = false;
       },
     });
@@ -125,18 +129,24 @@ export class COIComponent implements OnInit {
   // downloadFile(file: NzUploadFile): void {
   downloadFile(data: any) {
     this.partnerService.getPartnerPdf(data?.fileId).subscribe({
-      next: (res: any) => {
-        // Create a temporary link to download the file
-        const link = document.createElement('a');
-        link.href = res?.url;
-        link.download = this.fileList?.name;
-        link.click();
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          // Create a temporary link to download the file
+          const link = document.createElement('a');
+          link.href = res?.url;
+          link.download = this.fileList?.name;
+          link.click();
+        } else {
+          this.message.error(
+            result?.msg ? result?.msg : 'Get partner pdf Failed!'
+          );
+        }
       },
-      error: (error: any) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Date Update Failed!'
-        );
+      error: (err: any) => {
+        if (!err?.error_shown) {
+          this.message.error('Get partner pdf Failed!');
+        }
       },
     });
   }
