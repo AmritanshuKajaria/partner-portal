@@ -131,21 +131,20 @@ export class NotificationEmailComponent implements OnInit {
         if (result.success) {
           const res: any = result?.response ?? {};
           this.allDataList.accountSetupUpdateNotifications =
-            res?.payload?.accountSetupUpdateNotifications;
+            res?.accountSetupUpdateNotifications;
           this.allDataList.catalogSetupUpdateNotifications =
-            res?.payload?.catalogSetupUpdateNotifications;
+            res?.catalogSetupUpdateNotifications;
           this.allDataList.inventoryProcessingNotification =
-            res?.payload?.inventoryProcessingNotification;
-          this.allDataList.invoicingNotifications =
-            res?.payload?.invoicingNotifications;
+            res?.inventoryProcessingNotification;
+          this.allDataList.invoicingNotifications = res?.invoicingNotifications;
           this.allDataList.orderProcessingNotification =
-            res?.payload?.orderProcessingNotification;
+            res?.orderProcessingNotification;
           this.allDataList.purchaseOrderNotification =
-            res?.payload?.purchaseOrderNotification;
+            res?.purchaseOrderNotification;
           this.allDataList.remittanceNotifications =
-            res?.payload?.remittanceNotifications;
+            res?.remittanceNotifications;
           this.allDataList.returnProcessingNotification =
-            res?.payload?.returnProcessingNotification;
+            res?.returnProcessingNotification;
           this.initializeForm(this.allDataList);
 
           // this.contactList = res.payload.contacts;
