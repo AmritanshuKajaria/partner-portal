@@ -7,6 +7,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllOrders,
@@ -80,10 +81,11 @@ export class NewOrdersComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (response: GetAllOrders) => {
-          if (response?.success) {
-            this.total = response?.pagination?.total_rows ?? 0;
-            this.newOrdersData = response?.orders ?? [];
+        next: (result: ApiResponse) => {
+          if (result?.success) {
+            const res: GetAllOrders = result.response ?? {};
+            this.total = res?.pagination?.total_rows ?? 0;
+            this.newOrdersData = res?.orders ?? [];
 
             this.totalData.emit(+this.total);
           } else {

@@ -9,10 +9,7 @@ export interface TableData extends Transaction, OpenBalance, PastRemittance {}
 
 // DownloadRemittance
 export interface GetDownloadRemittance {
-  success?: boolean;
-  processed_at?: string;
   remittance_url?: string;
-  error_message?: string;
 }
 
 export interface DownloadRemittance {
@@ -21,11 +18,8 @@ export interface DownloadRemittance {
 
 // Invoice
 export interface InvoiceDetails {
-  success?: boolean;
-  processed_at?: string;
   requested_invoice_no?: string;
   invoice?: Invoice;
-  error_message?: string;
   type?: number;
 }
 
@@ -42,8 +36,8 @@ export interface Invoice {
     remittance_date?: string;
   };
   bill_to?: {
-    name?: string,
-    phone?: string,
+    name?: string;
+    phone?: string;
     address_line1?: string;
     address_line2?: string;
     city?: string;
@@ -82,8 +76,6 @@ export interface PoDetail {
 
 // Transaction
 export interface GetAllTransactions {
-  success?: boolean;
-  processed_at?: string;
   pagination?: {
     total_rows?: number;
     current_page?: number;
@@ -94,7 +86,6 @@ export interface GetAllTransactions {
   searched?: boolean;
   applied_search_term?: string;
   transactions?: Transaction[];
-  error_message?: string;
 }
 
 export interface TransactionFilters {
@@ -122,8 +113,6 @@ export interface GetAllTransactionsPayload
 
 // OpenBalances
 export interface GetAllOpenBalances {
-  success?: boolean;
-  processed_at?: string;
   pagination?: {
     total_rows?: number;
     current_page?: number;
@@ -135,7 +124,6 @@ export interface GetAllOpenBalances {
   applied_search_term?: string;
   total_outstanding_balance?: string;
   open_balances?: OpenBalance[];
-  error_message?: string;
 }
 
 export interface OpenBalancesFilters {
@@ -163,8 +151,6 @@ export interface GetAllOpenBalancesPayload
 
 // PastRemittances
 export interface GetAllPastRemittances {
-  success?: boolean;
-  processed_at?: string;
   pagination?: {
     total_rows?: number;
     current_page?: number;
@@ -176,7 +162,6 @@ export interface GetAllPastRemittances {
   applied_search_term?: string;
   past_remittances?: PastRemittance[];
   total_remittance?: string;
-  error_message?: string;
 }
 
 export interface PastRemittancesFilters {

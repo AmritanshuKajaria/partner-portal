@@ -139,17 +139,15 @@ export class ExportModelComponent implements OnInit {
         ? this.listOfFilter?.filter_inventory_result
         : '';
       this.inventoryService.inventoryFeedHistory(filters).subscribe({
-        next: (response: any) => {
-          if (response.success) {
+        next: (result: ApiResponse) => {
+          if (result.success) {
             this.message.create(
               'success',
               'Export mail has been sent successfully!'
             );
             this.handleCancel();
           } else {
-            this.message.error(
-              response?.error_message ? response?.error_message : 'Export fail!'
-            );
+            this.message.error(result?.msg ? result?.msg : 'Export fail!');
           }
           this.isLoading = false;
         },

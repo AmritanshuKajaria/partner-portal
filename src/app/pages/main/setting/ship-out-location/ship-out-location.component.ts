@@ -17,6 +17,7 @@ import {
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PartnerService } from 'src/app/shared/service/partner.service';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-ship-out-location',
@@ -133,17 +134,22 @@ export class ShipOutLocationComponent implements OnInit {
   getPartnersAndPatchForm() {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
-      next: (res: any) => {
-        this.shipOutLocationList = res.payload.shipoutLocations;
-        this.activateList = res.payload.shipoutLocations;
-        this.deactivateList = res.payload.shipoutLocationsInactive;
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.shipOutLocationList = res.shipoutLocations;
+          this.activateList = res.shipoutLocations;
+          this.deactivateList = res.shipoutLocationsInactive;
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Get partner failed!');
+        }
+
         this.isLoading = false;
       },
-      error: (error) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Something went wrong fetching the data'
-        );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get partner failed!');
+        }
         this.isLoading = false;
       },
     });
@@ -205,8 +211,8 @@ export class ShipOutLocationComponent implements OnInit {
       nzOnOk: () =>
         new Promise((resolve, reject) => {
           this.partnerService.updatePartner(payload).subscribe({
-            next: (res) => {
-              resolve(res);
+            next: (result: ApiResponse) => {
+              resolve(result);
               this.message.create('success', 'Data Updated Successfully!');
               this.isLoading = true;
               this.formTypes.setValue('active');
@@ -220,10 +226,7 @@ export class ShipOutLocationComponent implements OnInit {
         }).catch((error) => {
           console.log(error);
 
-          this.message.create(
-            'error',
-            error?.error_message?.[0] || 'Date Update Failed!'
-          ),
+          this.message.create('error', error?.msg || 'Date Update Failed!'),
             (this.isLoading = false);
         }),
     });
@@ -323,20 +326,25 @@ export class ShipOutLocationComponent implements OnInit {
       };
 
       this.partnerService.updatePartner(payload).subscribe({
-        next: (res) => {
-          this.message.create('success', 'Data Updated Successfully!');
-          this.formTypes.setValue('active');
-          this.showSection = this.section.TABLE;
-          this.isSaving = false;
+        next: (result: ApiResponse) => {
+          if (result.success) {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.formTypes.setValue('active');
+            this.showSection = this.section.TABLE;
+            // Fetch the updated partner data after a successful update
+            this.getPartnersAndPatchForm();
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Date Update Failed!'
+            );
+          }
 
-          // Fetch the updated partner data after a successful update
-          this.getPartnersAndPatchForm();
+          this.isSaving = false;
         },
-        error: (error: any) => {
-          this.message.create(
-            'error',
-            error?.error_message?.[0] || 'Date Update Failed!'
-          );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Date Update Failed!');
+          }
           this.isSaving = false; // Ensure saving state is updated on error
         },
       });
