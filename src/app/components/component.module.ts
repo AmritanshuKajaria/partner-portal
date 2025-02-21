@@ -30,6 +30,7 @@ import { DateTimeComponent } from './date-time/date-time.component';
 import { ConfirmShippedComponent } from './confirm-shipped/confirm-shipped.component';
 import { EditPriceComponent } from './edit-price/edit-price.component';
 import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail-page.component';
+import { UploadImageComponent } from './upload-image/upload-image.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail
     DateTimeComponent,
     EditPriceComponent,
     InvoiceDetailPageComponent,
+    UploadImageComponent,
   ],
   imports: [
     CommonModule,
@@ -91,6 +93,7 @@ import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail
     DateTimeComponent,
     EditPriceComponent,
     InvoiceDetailPageComponent,
+    UploadImageComponent,
   ],
 })
 export class ComponentModule {}

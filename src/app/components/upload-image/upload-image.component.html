@@ -1,0 +1,28 @@
+<div class="image-container">
+  <div *ngIf="label">
+    {{ label }}<span style="color: red; font-weight: 500">*</span>
+  </div>
+  <div
+    class="upload-box"
+    (click)="fileInput.click()"
+    (drop)="onDrop($event)"
+    (dragover)="onDragOver($event)"
+  >
+    <input
+      type="file"
+      #fileInput
+      accept="image/png,image/jpeg,image/gif,image/bmp"
+      (change)="onFileChange($event)"
+    />
+    <div *ngIf="!imageSrc" class="placeholder">
+      {{ placeholder }}
+    </div>
+    <img *ngIf="imageSrc" [src]="imageSrc" />
+    <div *ngIf="imageSrc" class="remove-icon" (click)="removeImage($event)">
+      &#10006;
+    </div>
+  </div>
+  <div class="error-container" *ngIf="showError">
+    <span style="color: red">{{ errorMessage }}</span>
+  </div>
+</div>

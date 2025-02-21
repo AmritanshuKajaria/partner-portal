@@ -1,76 +1,15 @@
 <div class="return-initiated-section">
-  <app-date-range
-    (modelChange)="onChange($event)"
-    [badgeTotal]="badgeTotal"
-  ></app-date-range>
-  <!-- (filterChange)="openNav()" -->
-
   <app-return-table
     [listOfData]="returnInitiatedList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
-    [tabName]="'Return Initiated'"
-    (action)="addRaVisible = true"
+    [search_term]="search_term"
+    [tabName]="'returnInitiated'"
+    [defaultFilters]="defaultFilters"
+    (pageChange)="pageIndexChange($event)"
+    (searchChange)="searchDataChanges($event)"
+    (filterChange)="filterDataChanges($event)"
   ></app-return-table>
-
-  <nz-modal
-    [(nzVisible)]="addRaVisible"
-    nzTitle="Add RA #"
-    (nzOnCancel)="addRaVisible = false"
-  >
-    <ng-container *nzModalContent>
-      <div class="model-section">
-        <form nz-form [formGroup]="addRaForm">
-          <nz-form-item>
-            <nz-form-label [nzXs]="3" nzRequired>RA</nz-form-label>
-            <nz-form-control nzErrorTip="RA is required!">
-              <nz-input-group>
-                <input
-                  formControlName="raInput"
-                  type="text"
-                  nz-input
-                  placeholder="Enter An Ra"
-                />
-              </nz-input-group>
-            </nz-form-control>
-          </nz-form-item>
-        </form>
-      </div>
-      <div class="model-footer">
-        <div class="model-action">
-          <button
-            nz-button
-            nzType="default"
-            style="color: black; margin-right: 5px"
-            (click)="addRaVisible = false"
-          >
-            Cancel
-          </button>
-          <button
-            nz-button
-            class="action-button"
-            (click)="submitForm()"
-            [nzType]="'primary'"
-            style="height: 35px; margin-top: 0px; margin-right: 10px"
-          >
-            <span
-              *ngIf="isLoading"
-              style="color: white; font-size: 16px"
-              nz-icon
-              nzType="loading"
-            ></span>
-            <span
-              *ngIf="!isLoading"
-              nz-icon
-              nzType="file-text"
-              nzTheme="outline"
-            ></span>
-            Save
-          </button>
-        </div>
-      </div>
-    </ng-container>
-  </nz-modal>
 </div>

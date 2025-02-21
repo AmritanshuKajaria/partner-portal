@@ -5,11 +5,11 @@ import { PoDetailPageComponent } from 'src/app/components/po-detail-page/po-deta
 
 const routes: Routes = [
   {
-    path: 'return-section',
+    path: '',
     component: ReturnSectionComponent,
   },
   {
-    path: 'return-section/po-details/:poNo',
+    path: ':sub/po-details/:poNo',
     component: PoDetailPageComponent,
   },
 ];

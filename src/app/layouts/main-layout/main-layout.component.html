@@ -35,14 +35,15 @@
         <span nz-icon nzType="shopping"></span>
         <span>Orders</span>
       </li>
-      <!-- <li
-        nz-menu-item
+      <li
+        nz-menu-item *ngIf="
+          userPartnerDetails && userPartnerDetails?.return_tab === 1"
         routerLinkActive="active"
-        routerLink="/main/returns/return-section"
+        routerLink="/main/returns"
       >
         <span nz-icon nzType="retweet" nzTheme="outline"></span>
         <span>Returns</span>
-      </li> -->
+      </li>
       <!-- Compare here string plus int value -->
       <li
         nz-menu-item

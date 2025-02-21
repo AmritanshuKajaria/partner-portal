@@ -8,26 +8,26 @@ import {
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
-
 @Component({
-  selector: 'app-return-initiated',
-  templateUrl: './return-initiated.component.html',
-  styleUrls: ['./return-initiated.component.scss'],
+  selector: 'app-return-shipped',
+  templateUrl: './return-shipped.component.html',
+  styleUrls: ['./return-shipped.component.scss'],
 })
-export class ReturnInitiatedComponent implements OnInit {
+export class ReturnShipped implements OnInit {
   isLoading: boolean = false;
   total = 0;
   pageSize = 100;
   pageIndex = 1;
-  badgeTotal: number = 0;
 
+  addRaVisible: boolean = false;
+  badgeTotal: number = 0;
   search_term: string = '';
   filter_start_date: string = '';
   filter_end_date: string = '';
   filter_return_classification: string = '';
+  defaultFilters: AppliedFilters = { filter_return_type: '2' };
 
-  defaultFilters: AppliedFilters = { filter_return_type: '1' };
-  returnInitiatedList: SingleReturn[] = [];
+  returnInTrasitList: SingleReturn[] = [];
 
   constructor(
     private returnService: ReturnService,
@@ -43,6 +43,10 @@ export class ReturnInitiatedComponent implements OnInit {
   }
   ngOnInit(): void {}
 
+  onChange(result: Date[]): void {
+    console.log('From: ', result[0], ', to: ', result[1]);
+  }
+
   getReturnList(
     page: number,
     search_term?: string,
@@ -53,7 +57,7 @@ export class ReturnInitiatedComponent implements OnInit {
     this.isLoading = true;
     const data: GetAllReturnsPayload = {
       page: page,
-      return_type: '1',
+      return_type: '2',
       search_term: search_term,
       filter_start_date: start_date,
       filter_end_date: end_date,
@@ -65,16 +69,16 @@ export class ReturnInitiatedComponent implements OnInit {
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
-          this.returnInitiatedList = res?.returns ?? [];
+          this.returnInTrasitList = res?.returns ?? [];
         } else {
           this.message.error(
-            result?.msg ? result?.msg : 'Get Return Initiated Failed!'
+            result?.msg ? result?.msg : 'Get Return In-Transit Failed!'
           );
         }
       },
       error: (err) => {
         if (!err?.error_shown) {
-          this.message.error('Get Return Initiated Failed!');
+          this.message.error('Get Return In-Transit Failed!');
         }
         this.isLoading = false;
       },

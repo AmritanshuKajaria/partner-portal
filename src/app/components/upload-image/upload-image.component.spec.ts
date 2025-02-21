@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReturnReceivedComponent } from './return-received.component';
+import { UploadImageComponent } from './upload-image.component';
 
-describe('ReturnReceivedComponent', () => {
-  let component: ReturnReceivedComponent;
-  let fixture: ComponentFixture<ReturnReceivedComponent>;
+describe('UploadImageComponent', () => {
+  let component: UploadImageComponent;
+  let fixture: ComponentFixture<UploadImageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ReturnReceivedComponent ]
+      declarations: [ UploadImageComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ReturnReceivedComponent);
+    fixture = TestBed.createComponent(UploadImageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

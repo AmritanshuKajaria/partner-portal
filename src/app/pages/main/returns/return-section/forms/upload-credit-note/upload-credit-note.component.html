@@ -1,34 +1,29 @@
 <div class="return-approve">
   <div class="model-section">
-    <form nz-form [formGroup]="approveCreditForm">
+    <form nz-form [formGroup]="uploadCreditNoteForm">
       <nz-form-item>
-        <nz-form-label [nzXs]="5" nzRequired>Credit Value</nz-form-label>
-        <nz-form-control nzErrorTip="Credit Value is required!">
-          <nz-input-group nzPrefix="$">
-            <input
-              formControlName="creditValue"
-              type="text"
-              nz-input
-              placeholder="Enter An Credit Value"
-            />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzXs]="5" nzRequired>CN</nz-form-label>
-        <nz-form-control nzErrorTip="CN is required!">
+        <nz-form-label [nzXs]="7">Add Custom CN #</nz-form-label>
+        <nz-form-control
+          [nzValidateStatus]="
+            uploadCreditNoteForm.controls['cn'].invalid &&
+            uploadCreditNoteForm.controls['cn'].touched
+              ? 'error'
+              : ''
+          "
+          nzErrorTip="CN is required!"
+        >
           <nz-input-group>
             <input
               formControlName="cn"
               type="text"
               nz-input
-              placeholder="Enter An CN"
+              placeholder="Enter Custom CN #"
             />
           </nz-input-group>
         </nz-form-control>
       </nz-form-item>
       <nz-form-item>
-        <nz-form-label [nzXs]="5" nzRequired>CN</nz-form-label>
+        <nz-form-label [nzXs]="7"> Upload File</nz-form-label>
         <div class="Neon Neon-theme-dragdropbox">
           <input
             style="
@@ -47,8 +42,10 @@
             multiple="multiple"
             type="file"
             formControlName="uploadCreditNote"
+            (change)="selectFiles($event)"
             #modelvel
           />
+
           <div class="Neon-input-dragDrop">
             <div
               *ngIf="modelvel.value == ''; else elseBlock"
@@ -65,7 +62,7 @@
             </div>
             <ng-template #elseBlock
               ><span nz-icon nzType="file" nzTheme="outline"></span>
-              {{ approveCreditForm.value.uploadCreditNote }}</ng-template
+              {{ uploadCreditNoteForm.value.uploadCreditNote }}</ng-template
             >
           </div>
         </div>
@@ -87,6 +84,7 @@
         class="action-button"
         (click)="submitForm()"
         [nzType]="'primary'"
+        [disabled]="isLoading"
         style="height: 35px; margin-top: 0px; margin-right: 10px"
       >
         <span

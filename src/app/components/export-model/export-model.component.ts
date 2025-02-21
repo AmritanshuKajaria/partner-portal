@@ -26,6 +26,8 @@ import {
 } from 'src/app/shared/model/payments.model';
 import { PaymentService } from 'src/app/shared/service/payment.service';
 import { ApiResponse } from 'src/app/shared/model/common.model';
+import { ReturnService } from 'src/app/shared/service/return.service';
+import { ExportAppliedFilters } from 'src/app/shared/model/returns.model';
 
 @Component({
   selector: 'app-export-model',
@@ -56,6 +58,7 @@ export class ExportModelComponent implements OnInit {
     private ordersService: OrdersService,
     private newCalculatorService: NewCalculatorService,
     private paymentService: PaymentService,
+    private returnService: ReturnService,
     @Inject(LOCALE_ID) public locale: string
   ) {}
   ngOnInit(): void {}
@@ -455,6 +458,65 @@ export class ExportModelComponent implements OnInit {
         error: (err: any) => {
           if (!err?.error_shown) {
             this.message.error('Export Past Remittances Failed!');
+          }
+          this.isLoading = false;
+        },
+      });
+    } else if (this.sectionName === 'return') {
+      let filters: ExportAppliedFilters = {};
+
+      filters['filter_return_type'] = this.listOfFilter?.filter_return_type;
+      if (this.listOfFilter?.filter_start_date) {
+        filters['filter_start_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_start_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.filter_end_date) {
+        filters['filter_end_date'] = this.exportType
+          ? formatDate(
+              this.listOfFilter?.filter_end_date,
+              'yyyy-MM-dd',
+              this.locale
+            )
+          : '';
+      }
+
+      if (this.listOfFilter?.filter_return_classification) {
+        filters['filter_return_classification'] = this.exportType
+          ? this.listOfFilter?.filter_return_classification
+          : '';
+      }
+
+      if (this.listOfFilter?.filter_status) {
+        filters['filter_status'] = this.exportType
+          ? this.listOfFilter?.filter_status
+          : '';
+      }
+
+      this.returnService.exportReturns(filters).subscribe({
+        next: (result: ApiResponse) => {
+          console.log(result);
+          this.isLoading = false;
+          if (result.success) {
+            this.handleCancel();
+            this.message.create(
+              'success',
+              'Export mail has been sent successfully!'
+            );
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Export Retuns Failed!'
+            );
+          }
+        },
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Export Retuns Failed!');
           }
           this.isLoading = false;
         },

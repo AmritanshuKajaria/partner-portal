@@ -1,12 +1,12 @@
-<div class="all-return-section">
+<div class="carrier-claims">
   <app-return-table
-    [listOfData]="allReturnList"
+    [listOfData]="carrierClaimsList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
-    [tabName]="'all'"
     [search_term]="search_term"
+    [tabName]="'carrierClaims'"
     [defaultFilters]="defaultFilters"
     (pageChange)="pageIndexChange($event)"
     (searchChange)="searchDataChanges($event)"
