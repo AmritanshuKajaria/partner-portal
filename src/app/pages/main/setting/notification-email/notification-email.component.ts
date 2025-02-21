@@ -14,6 +14,7 @@ import { Section } from 'src/app/shared/constants/constants';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PartnerService } from 'src/app/shared/service/partner.service';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-notification-email',
@@ -126,33 +127,38 @@ export class NotificationEmailComponent implements OnInit {
   getPartnersAndPatchForm() {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
-      next: (res: any) => {
-        this.allDataList.accountSetupUpdateNotifications =
-          res?.payload?.accountSetupUpdateNotifications;
-        this.allDataList.catalogSetupUpdateNotifications =
-          res?.payload?.catalogSetupUpdateNotifications;
-        this.allDataList.inventoryProcessingNotification =
-          res?.payload?.inventoryProcessingNotification;
-        this.allDataList.invoicingNotifications =
-          res?.payload?.invoicingNotifications;
-        this.allDataList.orderProcessingNotification =
-          res?.payload?.orderProcessingNotification;
-        this.allDataList.purchaseOrderNotification =
-          res?.payload?.purchaseOrderNotification;
-        this.allDataList.remittanceNotifications =
-          res?.payload?.remittanceNotifications;
-        this.allDataList.returnProcessingNotification =
-          res?.payload?.returnProcessingNotification;
-        this.initializeForm(this.allDataList);
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.allDataList.accountSetupUpdateNotifications =
+            res?.payload?.accountSetupUpdateNotifications;
+          this.allDataList.catalogSetupUpdateNotifications =
+            res?.payload?.catalogSetupUpdateNotifications;
+          this.allDataList.inventoryProcessingNotification =
+            res?.payload?.inventoryProcessingNotification;
+          this.allDataList.invoicingNotifications =
+            res?.payload?.invoicingNotifications;
+          this.allDataList.orderProcessingNotification =
+            res?.payload?.orderProcessingNotification;
+          this.allDataList.purchaseOrderNotification =
+            res?.payload?.purchaseOrderNotification;
+          this.allDataList.remittanceNotifications =
+            res?.payload?.remittanceNotifications;
+          this.allDataList.returnProcessingNotification =
+            res?.payload?.returnProcessingNotification;
+          this.initializeForm(this.allDataList);
 
-        // this.contactList = res.payload.contacts;
+          // this.contactList = res.payload.contacts;
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Get partner failed!');
+        }
+
         this.isLoading = false;
       },
-      error: (error) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Something went wrong fetching the data'
-        );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get partner failed!');
+        }
         this.isLoading = false;
       },
     });
@@ -431,17 +437,23 @@ export class NotificationEmailComponent implements OnInit {
       }
 
       this.partnerService.updatePartner(payload).subscribe({
-        next: (res) => {
-          this.message.create('success', 'Data Updated Successfully!');
+        next: (result: ApiResponse) => {
+          if (result.success) {
+            this.message.create('success', 'Data Updated Successfully!');
+            // Fetch the updated partner data after a successful update
+            this.getPartnersAndPatchForm();
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Date Update Failed!'
+            );
+          }
+
           this.isSaving = false;
-          // Fetch the updated partner data after a successful update
-          this.getPartnersAndPatchForm();
         },
-        error: (error: any) => {
-          this.message.create(
-            'error',
-            error?.error_message?.[0] || 'Date Update Failed!'
-          );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Date Update Failed!');
+          }
           this.isSaving = false; // Ensure saving state is updated on error
         },
       });
@@ -480,18 +492,23 @@ export class NotificationEmailComponent implements OnInit {
       };
 
       this.partnerService.updatePartner(payload).subscribe({
-        next: (res) => {
-          this.message.create('success', 'Data Updated Successfully!');
+        next: (result: ApiResponse) => {
+          if (result.success) {
+            this.message.create('success', 'Data Updated Successfully!');
+            this.showSection = this.section.TABLE;
+            // Fetch the updated partner data after a successful update
+            this.getPartnersAndPatchForm();
+          } else {
+            this.message.error(
+              result?.msg ? result?.msg : 'Date Update Failed!'
+            );
+          }
           this.isSaving = false;
-          this.showSection = this.section.TABLE;
-          // Fetch the updated partner data after a successful update
-          this.getPartnersAndPatchForm();
         },
-        error: (error: any) => {
-          this.message.create(
-            'error',
-            error?.error_message?.[0] || 'Date Update Failed!'
-          );
+        error: (err: any) => {
+          if (!err?.error_shown) {
+            this.message.error('Date Update Failed!');
+          }
           this.isSaving = false; // Ensure saving state is updated on error
         },
       });

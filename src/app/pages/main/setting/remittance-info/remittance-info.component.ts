@@ -10,6 +10,7 @@ import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PartnerService } from 'src/app/shared/service/partner.service';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 
 @Component({
   selector: 'app-remittance-info',
@@ -57,16 +58,21 @@ export class RemittanceInfoComponent implements OnInit {
   getPartnersAndPatchForm() {
     this.isLoading = true;
     this.partnerService.getPartner().subscribe({
-      next: (res: any) => {
-        this.remittanceInfoData = res.payload;
-        this.patchFormValue(this.remittanceInfoData);
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result?.response ?? {};
+          this.remittanceInfoData = res;
+          this.patchFormValue(this.remittanceInfoData);
+        } else {
+          this.message.error(result?.msg ? result?.msg : 'Get partner failed!');
+        }
+
         this.isLoading = false;
       },
-      error: (error) => {
-        this.message.create(
-          'error',
-          error?.error_message?.[0] || 'Something went wrong fetching the data'
-        );
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Get partner failed!');
+        }
         this.isLoading = false;
       },
     });
