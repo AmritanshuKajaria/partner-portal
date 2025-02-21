@@ -1,0 +1,57 @@
+<div class="model-section">
+  <form nz-form [formGroup]="addRaForm">
+    <nz-form-item>
+      <nz-form-label nzFor="ra"
+        >Enter an RA # <span style="color: red">*</span></nz-form-label
+      >
+      <nz-form-control [nzErrorTip]="ra">
+        <nz-input-group>
+          <input
+            formControlName="ra"
+            type="text"
+            nz-input
+            placeholder="Enter An Ra #"
+          />
+          <ng-template #ra let-control>
+            <ng-container *ngIf="control.hasError('required')"
+              >RA # is required!<br
+            /></ng-container>
+          </ng-template>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+  </form>
+</div>
+<div class="model-footer">
+  <div class="model-action">
+    <button
+      nz-button
+      nzType="default"
+      style="color: black; margin-right: 5px"
+      (click)="handleCancel()"
+    >
+      Cancel
+    </button>
+    <button
+      nz-button
+      class="action-button"
+      (click)="submitAddRaForm()"
+      [nzType]="'primary'"
+      style="height: 35px; margin-top: 0px; margin-right: 10px"
+    >
+      <span
+        *ngIf="isLoading"
+        style="color: white; font-size: 16px"
+        nz-icon
+        nzType="loading"
+      ></span>
+      <span
+        *ngIf="!isLoading"
+        nz-icon
+        nzType="file-text"
+        nzTheme="outline"
+      ></span>
+      Save
+    </button>
+  </div>
+</div>

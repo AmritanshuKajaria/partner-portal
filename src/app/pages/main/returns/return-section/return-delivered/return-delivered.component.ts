@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
@@ -8,26 +9,51 @@ import {
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
-
 @Component({
-  selector: 'app-return-initiated',
-  templateUrl: './return-initiated.component.html',
-  styleUrls: ['./return-initiated.component.scss'],
+  selector: 'app-return-delivered',
+  templateUrl: './return-delivered.component.html',
+  styleUrls: ['./return-delivered.component.scss'],
 })
-export class ReturnInitiatedComponent implements OnInit {
+export class ReturnDelivered implements OnInit {
   isLoading: boolean = false;
   total = 0;
   pageSize = 100;
   pageIndex = 1;
-  badgeTotal: number = 0;
 
   search_term: string = '';
   filter_start_date: string = '';
   filter_end_date: string = '';
   filter_return_classification: string = '';
+  defaultFilters: AppliedFilters = { filter_return_type: '3' };
 
-  defaultFilters: AppliedFilters = { filter_return_type: '1' };
-  returnInitiatedList: SingleReturn[] = [];
+  badgeTotal: number = 0;
+  ranges = {
+    Today: [new Date(), new Date()],
+    YesterDay: [
+      new Date(new Date().setDate(new Date().getDate() - 1)),
+      new Date(new Date().setDate(new Date().getDate() - 1)),
+    ],
+    'Last 7 Days': [
+      new Date(new Date().setDate(new Date().getDate() - 6)),
+      new Date(new Date()),
+    ],
+    'Last 30 Days': [
+      new Date(new Date().setDate(new Date().getDate() - 29)),
+      new Date(new Date()),
+    ],
+    'This Month': [new Date(), endOfMonth(new Date())],
+    'Last Month': [
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 1,
+        new Date().getDate()
+      ),
+      new Date(),
+    ],
+    // Custom: [],
+  };
+
+  returnReceivedList: SingleReturn[] = [];
 
   constructor(
     private returnService: ReturnService,
@@ -53,7 +79,7 @@ export class ReturnInitiatedComponent implements OnInit {
     this.isLoading = true;
     const data: GetAllReturnsPayload = {
       page: page,
-      return_type: '1',
+      return_type: '3',
       search_term: search_term,
       filter_start_date: start_date,
       filter_end_date: end_date,
@@ -65,16 +91,16 @@ export class ReturnInitiatedComponent implements OnInit {
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
-          this.returnInitiatedList = res?.returns ?? [];
+          this.returnReceivedList = res?.returns ?? [];
         } else {
           this.message.error(
-            result?.msg ? result?.msg : 'Get Return Initiated Failed!'
+            result?.msg ? result?.msg : 'Get Return Received Failed!'
           );
         }
       },
       error: (err) => {
         if (!err?.error_shown) {
-          this.message.error('Get Return Initiated Failed!');
+          this.message.error('Get Return Received Failed!');
         }
         this.isLoading = false;
       },
@@ -117,5 +143,9 @@ export class ReturnInitiatedComponent implements OnInit {
       this.filter_end_date,
       this.filter_return_classification
     );
+  }
+
+  onChange(result: Date[]): void {
+    console.log('From: ', result[0], ', to: ', result[1]);
   }
 }

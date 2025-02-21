@@ -1,0 +1,18 @@
+@import "../../../../../../../assets/variable/variable.scss";
+
+.return-approve {
+  .model-section {
+    padding: 24px;
+    padding-bottom: 0px;
+
+    .image-container {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .lebel-container {
+      margin-bottom: 5px;
+      font-size: 16px;
+    }
+  }
+}

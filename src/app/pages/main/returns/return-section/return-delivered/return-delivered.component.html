@@ -1,11 +1,11 @@
-<div class="all-return-section">
+<div class="return-delivered">
   <app-return-table
-    [listOfData]="allReturnList"
+    [listOfData]="returnReceivedList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
-    [tabName]="'all'"
+    [tabName]="'returnDelivered'"
     [search_term]="search_term"
     [defaultFilters]="defaultFilters"
     (pageChange)="pageIndexChange($event)"

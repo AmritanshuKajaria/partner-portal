@@ -1,0 +1,68 @@
+<div class="return-approve">
+  <div class="model-section">
+    <div class="lebel-container">
+      <span
+        >PO #: <b>{{ poNo }}</b></span
+      >
+    </div>
+    <div>
+      <div class="lebel-container">Upload Images:</div>
+      <div class="image-container">
+        <app-upload-image
+          [label]="'Image 1'"
+          [errorMessage]="'Please upload an image'"
+          [placeholder]="'Drag & Drop or Click to Upload'"
+          (imageSrcChange)="onImageSrcChange($event, 0)"
+          [showError]="showErrors[0]"
+        ></app-upload-image>
+        <app-upload-image
+          [label]="'Image 2'"
+          [errorMessage]="'Please upload an image'"
+          [placeholder]="'Drag & Drop or Click to Upload'"
+          (imageSrcChange)="onImageSrcChange($event, 1)"
+          [showError]="showErrors[1]"
+        ></app-upload-image>
+        <app-upload-image
+          [label]="'Image 3'"
+          [errorMessage]="'Please upload an image'"
+          [placeholder]="'Drag & Drop or Click to Upload'"
+          (imageSrcChange)="onImageSrcChange($event, 2)"
+          [showError]="showErrors[2]"
+        ></app-upload-image>
+      </div>
+    </div>
+  </div>
+  <div class="model-footer">
+    <div class="model-action">
+      <button
+        nz-button
+        nzType="default"
+        style="color: black; margin-right: 5px"
+        (click)="close()"
+      >
+        Cancel
+      </button>
+      <button
+        nz-button
+        class="action-button"
+        (click)="onsubmit()"
+        [nzType]="'primary'"
+        style="height: 35px; margin-top: 0px; margin-right: 10px"
+      >
+        <span
+          *ngIf="isLoading"
+          style="color: white; font-size: 16px"
+          nz-icon
+          nzType="loading"
+        ></span>
+        <span
+          *ngIf="!isLoading"
+          nz-icon
+          nzType="file-text"
+          nzTheme="outline"
+        ></span>
+        Save
+      </button>
+    </div>
+  </div>
+</div>
