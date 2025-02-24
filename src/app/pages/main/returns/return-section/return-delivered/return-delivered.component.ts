@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApiResponse } from 'src/app/shared/model/common.model';
@@ -15,6 +15,8 @@ import { ReturnService } from 'src/app/shared/service/return.service';
   styleUrls: ['./return-delivered.component.scss'],
 })
 export class ReturnDelivered implements OnInit {
+  @Output() totalData = new EventEmitter();
+
   isLoading: boolean = false;
   total = 0;
   pageSize = 100;
@@ -92,6 +94,7 @@ export class ReturnDelivered implements OnInit {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
           this.returnReceivedList = res?.returns ?? [];
+          this.totalData.emit(+this.total);
         } else {
           this.message.error(
             result?.msg ? result?.msg : 'Get Return Received Failed!'

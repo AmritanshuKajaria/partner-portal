@@ -2,21 +2,123 @@
   <app-section-header [header]="'Returns'"></app-section-header>
 
   <div class="body-section">
-    <nz-tabset nzType="card">
-      <nz-tab nzTitle="Return Initiated">
-        <app-return-initiated></app-return-initiated>
+    <nz-tabset
+      [nzSelectedIndex]="selectedTab"
+      (nzSelectedIndexChange)="changeTabIndex($event)"
+      nzType="card"
+    >
+      <nz-tab [nzTitle]="returnInitiated">
+        <ng-template #returnInitiated>
+          <div
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <span style="margin-right: 5px">Return Initiated</span>
+            <nz-badge
+              *ngIf="returnInitiatedTotal > -1"
+              nzStandalone
+              [nzShowZero]="true"
+              [nzCount]="returnInitiatedTotal"
+              [nzStyle]="{
+                backgroundColor: selectedTab == 0 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 0 ? 'white' : '#999',
+                boxShadow: selectedTab == 0 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+              }"
+            ></nz-badge>
+          </div>
+        </ng-template>
+        <app-return-shipped
+          (totalData)="getTotal($event, 'returnInitiated')"
+        ></app-return-shipped>
       </nz-tab>
-      <nz-tab nzTitle="Return Shipped">
-        <app-return-shipped></app-return-shipped>
+      <nz-tab [nzTitle]="returnShipped">
+        <ng-template #returnShipped>
+          <div
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <span style="margin-right: 5px">Return Shipped</span>
+            <nz-badge
+              *ngIf="returnShippedTotal > -1"
+              nzStandalone
+              [nzShowZero]="true"
+              [nzCount]="returnShippedTotal"
+              [nzStyle]="{
+                backgroundColor: selectedTab == 1 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 1 ? 'white' : '#999',
+                boxShadow: selectedTab == 1 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+              }"
+            ></nz-badge>
+          </div>
+        </ng-template>
+        <app-return-shipped
+          (totalData)="getTotal($event, 'returnShipped')"
+        ></app-return-shipped>
       </nz-tab>
-      <nz-tab nzTitle="Return Delivered">
-        <app-return-delivered></app-return-delivered>
+      <nz-tab [nzTitle]="returnDelivered">
+        <ng-template #returnDelivered>
+          <div
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <span style="margin-right: 5px">Return Delivered</span>
+            <nz-badge
+              *ngIf="returnDeliveredTotal > -1"
+              nzStandalone
+              [nzShowZero]="true"
+              [nzCount]="returnDeliveredTotal"
+              [nzStyle]="{
+                backgroundColor: selectedTab == 2 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 2 ? 'white' : '#999',
+                boxShadow: selectedTab == 2 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+              }"
+            ></nz-badge>
+          </div>
+        </ng-template>
+        <app-return-delivered
+          (totalData)="getTotal($event, 'returnDelivered')"
+        ></app-return-delivered>
       </nz-tab>
-      <nz-tab nzTitle="Carrier Claims">
-        <app-carrier-claims></app-carrier-claims>
+      <nz-tab [nzTitle]="carrierClaims">
+        <ng-template #carrierClaims>
+          <div
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <span style="margin-right: 5px">Carrier Claims</span>
+            <nz-badge
+              *ngIf="carrierClaimsTotal > -1"
+              nzStandalone
+              [nzShowZero]="true"
+              [nzCount]="carrierClaimsTotal"
+              [nzStyle]="{
+                backgroundColor: selectedTab == 3 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 3 ? 'white' : '#999',
+                boxShadow: selectedTab == 3 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+              }"
+            ></nz-badge>
+          </div>
+        </ng-template>
+        <app-carrier-claims
+          (totalData)="getTotal($event, 'carrierClaims')"
+        ></app-carrier-claims>
       </nz-tab>
-      <nz-tab nzTitle="All">
-        <app-all-return></app-all-return>
+      <nz-tab [nzTitle]="allReturns">
+        <ng-template #allReturns>
+          <div
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <span style="margin-right: 5px">All</span>
+            <nz-badge
+              *ngIf="allTotal > -1"
+              nzStandalone
+              [nzShowZero]="true"
+              [nzCount]="allTotal"
+              [nzStyle]="{
+                backgroundColor: selectedTab == 4 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 4 ? 'white' : '#999',
+                boxShadow: selectedTab == 4 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+              }"
+            ></nz-badge>
+          </div>
+        </ng-template>
+        <app-all-return (totalData)="getTotal($event, 'all')"></app-all-return>
       </nz-tab>
     </nz-tabset>
   </div>
