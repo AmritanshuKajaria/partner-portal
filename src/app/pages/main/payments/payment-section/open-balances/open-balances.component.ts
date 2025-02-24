@@ -147,22 +147,22 @@ export class OpenBalancesComponent implements OnInit {
       nzTitle:
         'Please confirm below for the express payout of open balance by end of day at 2% discount.',
       nzOnOk: () => {
-        this.paymentService.expressPayout().subscribe({
-          next: (result: ApiResponse) => {
-            if (result.success) {
-              this.message.success('Express Payout Request successfully!');
-            } else {
-              this.message.error(
-                result?.msg ? result?.msg : 'Failed to Express Payout Request!'
-              );
-            }
-          },
-          error: (error: any) => {
-            if (!error?.error_shown) {
-              this.message.error('Failed to Express Payout Request!');
-            }
-          },
-        });
+        // this.paymentService.expressPayout().subscribe({
+        //   next: (result: ApiResponse) => {
+        //     if (result.success) {
+        //       this.message.success('Express Payout Request successfully!');
+        //     } else {
+        //       this.message.error(
+        //         result?.msg ? result?.msg : 'Failed to Express Payout Request!'
+        //       );
+        //     }
+        //   },
+        //   error: (error: any) => {
+        //     if (!error?.error_shown) {
+        //       this.message.error('Failed to Express Payout Request!');
+        //     }
+        //   },
+        // });
       },
       nzClassName: 'confirm-modal',
       nzOkText: 'Confirm',
