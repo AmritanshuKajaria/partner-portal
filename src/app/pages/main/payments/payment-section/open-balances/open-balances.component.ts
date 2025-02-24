@@ -9,6 +9,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { find, get, pull } from 'lodash';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzModalService } from 'ng-zorro-antd/modal';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   GetAllOpenBalances,
@@ -46,7 +47,8 @@ export class OpenBalancesComponent implements OnInit {
 
   constructor(
     private paymentService: PaymentService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private modal: NzModalService
   ) {
     this.getPaymentList(
       this.pageIndex,
@@ -138,5 +140,33 @@ export class OpenBalancesComponent implements OnInit {
       this.filter_type,
       this.filter_due_date
     );
+  }
+
+  expressPayoutModel() {
+    this.modal.confirm({
+      nzTitle:
+        'Please confirm below for the express payout of open balance by end of day at 2% discount.',
+      nzOnOk: () => {
+        this.paymentService.expressPayout().subscribe({
+          next: (result: ApiResponse) => {
+            if (result.success) {
+              this.message.success('Express Payout Request successfully!');
+            } else {
+              this.message.error(
+                result?.msg ? result?.msg : 'Failed to Express Payout Request!'
+              );
+            }
+          },
+          error: (error: any) => {
+            if (!error?.error_shown) {
+              this.message.error('Failed to Express Payout Request!');
+            }
+          },
+        });
+      },
+      nzClassName: 'confirm-modal',
+      nzOkText: 'Confirm',
+      nzOnCancel: () => console.log('Close'),
+    });
   }
 }

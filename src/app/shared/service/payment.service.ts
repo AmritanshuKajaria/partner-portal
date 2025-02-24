@@ -126,4 +126,8 @@ export class PaymentService {
     let params = new HttpParams().set('invoice_no', invoice_no);
     return this.http.get(this.url + '/invoice-details', { params: params });
   }
+
+  expressPayout() {
+    return this.http.post(this.url + '/express-payout', {});
+  }
 }

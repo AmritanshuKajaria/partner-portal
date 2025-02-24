@@ -167,3 +167,9 @@
 ::ng-deep .no-wrap {
     white-space: nowrap !important;
 }
+
+::ng-deep .confirm-modal {
+    .ant-modal-close > span {
+      color: $black !important;
+    }
+}

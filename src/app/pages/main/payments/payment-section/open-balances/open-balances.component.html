@@ -2,6 +2,15 @@
   <div>
     Total Outstanding Balance:
     <strong>{{ +totalOutstandingBalance | currency }}</strong>
+    <button
+      class="payout-button"
+      nz-button
+      nzType="primary"
+      nzShape="round"
+      (click)="expressPayoutModel()"
+    >
+      Express Payout
+    </button>
   </div>
 
   <!-- Table componets -->
