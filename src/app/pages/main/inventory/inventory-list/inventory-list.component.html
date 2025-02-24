@@ -117,7 +117,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      [nzScroll]="{ x: '100%', y: 'calc(100vh - 380px)' }"
       (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>

@@ -1,6 +1,19 @@
 @import "../../../../../../assets/variable/variable.scss";
 
 .payment-table {
+  ::ng-deep .ant-table table {
+    table-layout: fixed !important;
+  }
+
+  // for table scrollbar
+  ::ng-deep .nz-table-hide-scrollbar {
+    scrollbar-color: auto !important;
+  }
+
+  ::ng-deep .nz-table-out-bordered > .ant-table-container {
+    border: none !important;
+  }
+
   .action {
     display: flex;
     justify-content: end;

@@ -96,12 +96,15 @@
     [nzScroll]="{
       x:
         tabName === 'returnInitiated'
-          ? '1200px'
+          ? '1500px'
           : tabName === 'returnShipped'
-          ? '1600px'
+          ? '1800px'
           : tabName === 'returnDelivered'
-          ? '1400px'
-          : '1800px'
+          ? '2500px'
+          : tabName === 'carrierClaims'
+          ? '2400px'
+          : '2200px',
+      y: 'calc(100vh - 430px)'
     }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
