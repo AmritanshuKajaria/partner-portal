@@ -308,11 +308,6 @@
   }
 }
 
-// to change table layout
-::ng-deep .ant-table table {
-  table-layout: fixed !important;
-}
-
 // for table scrollbar
 ::ng-deep .nz-table-hide-scrollbar {
   scrollbar-color: auto !important;

@@ -1,9 +1,6 @@
 @import "../../../../../../assets/variable/variable.scss";
 
 .order-table {
-    ::ng-deep .ant-table table {
-        table-layout: fixed !important;
-    }
 
     td {
         button {

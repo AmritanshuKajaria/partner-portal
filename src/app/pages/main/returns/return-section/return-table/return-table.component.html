@@ -96,15 +96,13 @@
     [nzScroll]="{
       x:
         tabName === 'returnInitiated'
-          ? '1500px'
+          ? '1200px'
           : tabName === 'returnShipped'
-          ? '1800px'
+          ? '1600px'
           : tabName === 'returnDelivered'
-          ? '2500px'
-          : tabName === 'carrierClaims'
-          ? '2400px'
-          : '2200px',
-      y: 'calc(100vh - 430px)'
+          ? '1400px'
+          : '1800px',
+      y: 'calc(100vh - 420px)'
     }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
@@ -128,11 +126,20 @@
             tabName === 'carrierClaims' ||
             tabName === 'all'
           "
+          nzWidth="200px"
         >
           Tracking No.
         </th>
 
-        <ng-container *ngTemplateOutlet="creditAmountDueHeader"></ng-container>
+        <th
+          *ngIf="
+            tabName === 'returnDelivered' ||
+            tabName === 'carrierClaims' ||
+            tabName === 'all'
+          "
+        >
+          Credit Amount Due
+        </th>
 
         <th
           *ngIf="tabName === 'returnShipped' || tabName === 'all'"
@@ -141,13 +148,29 @@
           Shipped Date
         </th>
 
-        <ng-container
-          *ngTemplateOutlet="returnDeliveryDateHeader"
-        ></ng-container>
+        <th *ngIf="tabName === 'returnDelivered' || tabName === 'all'">
+          Return Delivery Date
+        </th>
 
-        <ng-container *ngTemplateOutlet="statusHeader"></ng-container>
+        <th
+          [nzWidth]="'227px'"
+          *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
+        >
+          Status
+        </th>
 
-        <th id="action" class="action-column" nzRight>
+        <th
+          [nzWidth]="
+            tabName === 'returnDelivered' || tabName === 'carrierClaims'
+              ? '250px'
+              : tabName === 'all'
+              ? '80px'
+              : '200px'
+          "
+          id="action"
+          class="action-column"
+          nzRight
+        >
           <div>Action</div>
         </th>
       </tr>
@@ -261,9 +284,20 @@
             </ul>
           </td>
 
-          <ng-container
-            *ngTemplateOutlet="creditAmountDueCell; context: { data: data }"
-          ></ng-container>
+          <td
+            *ngIf="
+              tabName === 'returnDelivered' ||
+              tabName === 'carrierClaims' ||
+              tabName === 'all'
+            "
+          >
+            <div>
+              <strong>{{ data?.credit_amount_due | currency }}</strong>
+            </div>
+            <a class="link" (click)="showCalculation(data.cost)"
+              >[View Details]</a
+            >
+          </td>
 
           <td *ngIf="tabName === 'returnShipped' || tabName === 'all'">
             <span class="date">
@@ -271,13 +305,19 @@
             </span>
           </td>
 
-          <ng-container
-            *ngTemplateOutlet="returnDeliveryDateCell; context: { data: data }"
-          ></ng-container>
+          <td *ngIf="tabName === 'returnDelivered' || tabName === 'all'">
+            <span class="date">
+              {{
+                data?.return_delivery_date
+                  ? (data.return_delivery_date | customDate)
+                  : ""
+              }}
+            </span>
+          </td>
 
-          <ng-container
-            *ngTemplateOutlet="statusBadgesCell; context: { data: data }"
-          ></ng-container>
+          <td *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
+            {{ data?.return_status }}
+          </td>
 
           <td nzRight style="width: 80px">
             <div style="display: flex" *ngIf="tabName === 'returnShipped'">
@@ -634,69 +674,3 @@
     </div>
   </ng-container>
 </nz-modal>
-
-<!-- th  Return Delivery Date -->
-<ng-template #returnDeliveryDateHeader>
-  <th *ngIf="tabName === 'returnDelivered' || tabName === 'all'">
-    Return Delivery Date
-  </th>
-</ng-template>
-
-<!-- th  Credit Amount Due -->
-<ng-template #creditAmountDueHeader>
-  <th
-    *ngIf="
-      tabName === 'returnDelivered' ||
-      tabName === 'carrierClaims' ||
-      tabName === 'all'
-    "
-  >
-    Credit Amount Due
-  </th>
-</ng-template>
-
-<!-- th  Status -->
-<ng-template #statusHeader>
-  <th
-    [nzWidth]="'227px'"
-    *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
-  >
-    Status
-  </th>
-</ng-template>
-
-<!-- td Return Delivery Date -->
-<ng-template #returnDeliveryDateCell let-data="data">
-  <td *ngIf="tabName === 'returnDelivered' || tabName === 'all'">
-    <span class="date">
-      {{
-        data?.return_delivery_date
-          ? (data.return_delivery_date | customDate)
-          : ""
-      }}
-    </span>
-  </td>
-</ng-template>
-
-<!-- td Credit Amount Due -->
-<ng-template #creditAmountDueCell let-data="data">
-  <td
-    *ngIf="
-      tabName === 'returnDelivered' ||
-      tabName === 'carrierClaims' ||
-      tabName === 'all'
-    "
-  >
-    <div>
-      <strong>{{ data?.credit_amount_due | currency }}</strong>
-    </div>
-    <a class="link" (click)="showCalculation(data?.cost)">[View Details]</a>
-  </td>
-</ng-template>
-
-<!-- td Status Badges -->
-<ng-template #statusBadgesCell let-data="data">
-  <td *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
-    {{ data?.return_status }}
-  </td>
-</ng-template>
