@@ -103,7 +103,10 @@
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
-    [nzScroll]="{ x: '100%', y: 'calc(100vh - 500px)' }"
+    [nzScroll]="{
+      x: tabName === 'pastRemittances' ? '800px' : '1400px',
+      y: 'calc(100vh - 580px)'
+    }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
@@ -147,7 +150,12 @@
 
         <th *ngIf="tabName === 'pastRemittances'">No. Of Item(s)</th>
         <th *ngIf="tabName === 'pastRemittances'">Remittance Amount</th>
-        <th nzRight class="action-column" *ngIf="tabName === 'pastRemittances'">
+        <th
+          nzWidth="100px"
+          nzRight
+          class="action-column"
+          *ngIf="tabName === 'pastRemittances'"
+        >
           <div>Action</div>
         </th>
       </tr>

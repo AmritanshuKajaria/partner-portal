@@ -84,7 +84,7 @@
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
-    [nzScroll]="{ x: '100%', y: 'calc(100vh - 470px)' }"
+    [nzScroll]="{ x: '1200px', y: 'calc(100vh - 470px)' }"
     (nzPageIndexChange)="pageIndexChange($event)"
   >
     <thead>
@@ -95,7 +95,7 @@
         <th>End Date</th>
         <th>Number of MPNs</th>
         <th>Status</th>
-        <th nzRight class="action-column"><div>Action</div></th>
+        <th nzWidth="100px" nzRight class="action-column"><div>Action</div></th>
       </tr>
     </thead>
     <tbody>

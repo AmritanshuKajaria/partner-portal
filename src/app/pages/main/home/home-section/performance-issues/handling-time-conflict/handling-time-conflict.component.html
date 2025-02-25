@@ -48,7 +48,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      [nzScroll]="{ x: '1600px', y: 'calc(100vh - 580px)' }"
       (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>
@@ -64,7 +64,9 @@
           </th>
           <th>No. of Conflicting Providers</th>
           <th>Conflicting Providers</th>
-          <th nzRight class="action-column"><div>Actions</div></th>
+          <th nzWidth="100px" nzRight class="action-column">
+            <div>Actions</div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -135,19 +137,18 @@
   </div>
 </div>
 <div *ngIf="isVisible">
-<app-edit-time
-[isVisible]="isVisible"
-[editData]="editData"
-[editLabel]="editLabel"
-[section]="'Handling Time'"
-(close)="onEditModelClose($event)"
-></app-edit-time>
+  <app-edit-time
+    [isVisible]="isVisible"
+    [editData]="editData"
+    [editLabel]="editLabel"
+    [section]="'Handling Time'"
+    (close)="onEditModelClose($event)"
+  ></app-edit-time>
 </div>
 
-
-  <app-show-reference-code
-    (close)="isReferenceCodeVisible = false"
-    [isVisible]="isReferenceCodeVisible"
-    [referenceCode]="referenceCode"
-    [subTitle]="'Edit product successfully initiated'"
+<app-show-reference-code
+  (close)="isReferenceCodeVisible = false"
+  [isVisible]="isReferenceCodeVisible"
+  [referenceCode]="referenceCode"
+  [subTitle]="'Edit product successfully initiated'"
 ></app-show-reference-code>
