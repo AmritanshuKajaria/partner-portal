@@ -46,7 +46,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      [nzScroll]="{ x: '1200px', y: 'calc(100vh - 510px)' }"
     >
       <thead>
         <tr>
@@ -57,7 +57,9 @@
           <th>Amazon ASIN</th>
           <th>Reason for Restriction</th>
           <th>Date of Restriction</th>
-          <th>Actions</th>
+          <th nzWidth="100px" nzRight class="action-column">
+            <div>Actions</div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -71,7 +73,7 @@
           </td>
           <td>{{ data?.reason_for_restriction }}</td>
           <td>{{ data?.date_of_restriction }}</td>
-          <td>
+          <td nzRight>
             <button
               nz-button
               nzType="primary"

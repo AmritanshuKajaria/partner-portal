@@ -47,14 +47,14 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      [nzScroll]="{ x: '100%', y: 'calc(100vh - 490px)' }"
     >
       <thead>
         <tr>
           <th>Sr. No.</th>
           <th>MPN</th>
           <th>Stock</th>
-          <th>Actions</th>
+          <th nzWidth="100px">Actions</th>
         </tr>
       </thead>
       <tbody>

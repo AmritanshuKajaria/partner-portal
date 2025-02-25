@@ -46,21 +46,23 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      [nzScroll]="{ x: '1500px', y: 'calc(100vh - 550px)' }"
     >
       <thead>
         <tr>
           <th style="max-width: 100px">Sr. No.</th>
           <th>MPN</th>
           <th>UPC</th>
-          <th>Product_Name</th>
+          <th nzWidth="230px">Product_Name</th>
           <th>Amazon ASIN</th>
           <th>Reason for Restriction</th>
           <th>Date of Restriction (if Available)</th>
           <th>No of Units sold (YTD)</th>
           <th>No of Units returned (YTD)</th>
           <th>Return %</th>
-          <th>Actions</th>
+          <th nzWidth="100px" nzRight class="action-column">
+            <div>Actions</div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -79,7 +81,7 @@
           <td>
             {{ data?.return_percentage }}
           </td>
-          <td>
+          <td nzRight>
             <button
               nz-button
               nzType="primary"

@@ -49,7 +49,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      [nzScroll]="{ x: '1000px', y: 'calc(100vh - 510px)' }"
       (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>
@@ -59,7 +59,7 @@
           <th>Product Name</th>
           <th>Amazon ASIN</th>
           <th>Stock</th>
-          <th nzRight class="action-column"><div>Actions</div></th>
+          <th nzWidth="80px" nzRight class="action-column"><div>Actions</div></th>
         </tr>
       </thead>
       <tbody>
