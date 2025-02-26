@@ -55,6 +55,7 @@ export class StrandedInFeedComponent implements OnInit {
   clear_btn: boolean = false;
   isMultipleProductsVisible: boolean = false;
   code: any = '';
+  scrollY: string | null = null;
 
   constructor(
     private router: Router,
@@ -97,7 +98,25 @@ export class StrandedInFeedComponent implements OnInit {
     //   (err) => (this.isLoading = false)
     // );
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (window.innerWidth >= 2232) {
+      return 'calc(100vh - 425px)';
+    } else if (window.innerWidth >= 1598) {
+      return 'calc(100vh - 440px)';
+    } else if (window.innerWidth >= 1378) {
+      return 'calc(100vh - 445px)';
+    } else if (window.innerWidth >= 1156) {
+      return 'calc(100vh - 465px)';
+    } else if (window.innerWidth >= 1034) {
+      return 'calc(100vh - 489px)';
+    } else {
+      return 'calc(100vh - 485px)';
+    }
+  }
 
   openNav() {
     this.sidenavSection.nativeElement.style.width = '280px';

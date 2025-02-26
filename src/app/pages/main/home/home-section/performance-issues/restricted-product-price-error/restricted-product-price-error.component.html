@@ -46,7 +46,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '1200px', y: 'calc(100vh - 530px)' }"
+      [nzScroll]="{ x: '1200px', y: scrollY }"
     >
       <thead>
         <tr>
@@ -59,7 +59,7 @@
           <th>Reason for Restriction</th>
           <th>Date of Restriction (if Available)</th>
           <th nzWidth="100px" nzRight class="action-column">
-            <div>Actions</div>
+            <div>Action</div>
           </th>
         </tr>
       </thead>

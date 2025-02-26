@@ -31,9 +31,40 @@ export class RecommendationIssueTableComponent implements OnInit {
   };
   editLabel: string[] = [];
   isVisible: boolean = false;
+  scrollY: string | null = null;
 
   constructor(private router: Router) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (this.tabName === 'Shipping Label') {
+      if (window.innerWidth >= 2232) {
+        return 'calc(100vh - 425px)';
+      } else if (window.innerWidth >= 1598) {
+        return 'calc(100vh - 482px)';
+      } else if (window.innerWidth >= 1378) {
+        return 'calc(100vh - 488px)';
+      } else if (window.innerWidth >= 1156) {
+        return 'calc(100vh - 508px)';
+      } else {
+        return `calc(100vh - 514px)`;
+      }
+    } else {
+      if (window.innerWidth >= 2232) {
+        return 'calc(100vh - 525px)';
+      } else if (window.innerWidth >= 1598) {
+        return 'calc(100vh - 550px)';
+      } else if (window.innerWidth >= 1378) {
+        return 'calc(100vh - 549px)';
+      } else if (window.innerWidth >= 1156) {
+        return 'calc(100vh - 559px)';
+      } else {
+        return 'calc(100vh - 594px)';
+      }
+    }
+  }
 
   // for - if path include / ex sku: 10243/25
   navigatePage(path: string, queryParams?: any) {

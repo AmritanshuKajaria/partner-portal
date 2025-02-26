@@ -64,6 +64,7 @@ export class IncompleteOfferComponent implements OnInit {
   product_search: string = '';
   referenceCode = '';
   isReferenceCodeVisible = false;
+  scrollY: string | null = null;
 
   constructor(
     private router: Router,
@@ -76,7 +77,23 @@ export class IncompleteOfferComponent implements OnInit {
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
     this.getData();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (window.innerWidth >= 2232) {
+      return 'calc(100vh - 465px)';
+    } else if (window.innerWidth >= 1378) {
+      return 'calc(100vh - 486px)';
+    } else if (window.innerWidth >= 1156) {
+      return 'calc(100vh - 524px)';
+    } else if (window.innerWidth >= 1034) {
+      return 'calc(100vh - 531px)';
+    } else {
+      return 'calc(100vh - 532px)';
+    }
+  }
 
   // for - if path include / ex sku: 10243/25
   navigatePage(path: string, queryParams?: any) {

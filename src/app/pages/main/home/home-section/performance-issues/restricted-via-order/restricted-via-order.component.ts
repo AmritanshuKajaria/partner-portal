@@ -55,6 +55,7 @@ export class RestrictedViaOrderComponent implements OnInit {
   // clear_btn: boolean = false;
   isMultipleProductsVisible: boolean = false;
   code: any = '';
+  scrollY: string | null = null;
 
   constructor(
     private router: Router,
@@ -98,7 +99,26 @@ export class RestrictedViaOrderComponent implements OnInit {
     //   (err) => (this.isLoading = false)
     // );
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (window.innerWidth >= 2232) {
+      return 'calc(100vh - 442px)';
+    } else if (window.innerWidth >= 1598) {
+      return 'calc(100vh - 455px)';
+    } else if (window.innerWidth >= 1378) {
+      return 'calc(100vh - 467px)';
+    } else if (window.innerWidth >= 1156) {
+      return 'calc(100vh - 483px)';
+    } else if (window.innerWidth >= 1034) {
+      return 'calc(100vh - 504px)';
+    } else {
+      return 'calc(100vh - 515px)';
+    }
+  }
 
   // openNav() {
   //   this.sidenavSection.nativeElement.style.width = '280px';

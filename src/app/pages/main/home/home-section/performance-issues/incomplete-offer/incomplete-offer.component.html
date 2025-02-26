@@ -48,7 +48,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '1000px', y: 'calc(100vh - 530px)' }"
+      [nzScroll]="{ x: '1000px', y: scrollY }"
       (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>
@@ -59,7 +59,9 @@
           <th>Amazon ASIN</th>
           <th>Recommendation</th>
           <!-- <th>Amazon Page Title</th> -->
-          <th nzWidth="80px" nzRight class="action-column"><div>Actions</div></th>
+          <th nzWidth="85px" nzRight class="action-column">
+            <div>Action</div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -149,20 +151,18 @@
   </div>
 </div>
 <div *ngIf="isVisible">
-<app-edit-time
-  [isVisible]="isVisible"
-  [editData]="editData"
-  [editLabel]="editLabel"
-  [section]="'Amazon ASIN'"
-  (close)="onEditModelClose($event)"
-></app-edit-time>
+  <app-edit-time
+    [isVisible]="isVisible"
+    [editData]="editData"
+    [editLabel]="editLabel"
+    [section]="'Amazon ASIN'"
+    (close)="onEditModelClose($event)"
+  ></app-edit-time>
 </div>
 
-
-  <app-show-reference-code
-    (close)="isReferenceCodeVisible = false"
-    [isVisible]="isReferenceCodeVisible"
-    [referenceCode]="referenceCode"
-    [subTitle]="'Edit product successfully initiated'"
+<app-show-reference-code
+  (close)="isReferenceCodeVisible = false"
+  [isVisible]="isReferenceCodeVisible"
+  [referenceCode]="referenceCode"
+  [subTitle]="'Edit product successfully initiated'"
 ></app-show-reference-code>
-

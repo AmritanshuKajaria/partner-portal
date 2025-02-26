@@ -46,7 +46,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '1500px', y: 'calc(100vh - 550px)' }"
+      [nzScroll]="{ x: '1500px', y: scrollY }"
     >
       <thead>
         <tr>
@@ -61,7 +61,7 @@
           <th>No of Units returned (YTD)</th>
           <th>Return %</th>
           <th nzWidth="100px" nzRight class="action-column">
-            <div>Actions</div>
+            <div>Action</div>
           </th>
         </tr>
       </thead>
