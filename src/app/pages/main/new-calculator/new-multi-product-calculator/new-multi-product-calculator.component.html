@@ -53,7 +53,7 @@
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
       nzTableLayout="fixed"
-      [nzScroll]="{ x: '1800px', y: 'calc(100vh - 580px)' }"
+      [nzScroll]="{ x: '1800px', y: scrollY }"
       (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>

@@ -43,6 +43,7 @@ export class NewMultiProductCalculatorComponent {
 
   retailPriceErrorTimer: any;
   searchForm!: FormGroup;
+  scrollY: string | null = null;
 
   constructor(
     private newCalculatorService: NewCalculatorService,
@@ -67,6 +68,19 @@ export class NewMultiProductCalculatorComponent {
         this.addScroll = true;
       }
     });
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (window.innerWidth >= 1344) {
+      return 'calc(100vh - 518px)';
+    } else if (window.innerWidth >= 1330) {
+      return 'calc(100vh - 540px)';
+    } else if (window.innerWidth >= 1065) {
+      return 'calc(100vh - 560px)';
+    } else {
+      return 'calc(100vh - 582px)';
+    }
   }
 
   searchSubmit() {
