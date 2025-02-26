@@ -103,17 +103,17 @@ export class RestrictedViaReturnsComponent implements OnInit {
 
   calculateWidth() {
     if (window.innerWidth >= 2232) {
-      return 'calc(100vh - 466px)';
+      return 'calc(100vh - 471px)';
     } else if (window.innerWidth >= 1598) {
-      return 'calc(100vh - 488px)';
+      return 'calc(100vh - 493px)';
     } else if (window.innerWidth >= 1378) {
-      return 'calc(100vh - 489px)';
+      return 'calc(100vh - 494px)';
     } else if (window.innerWidth >= 1156) {
-      return 'calc(100vh - 510px)';
+      return 'calc(100vh - 515px)';
     } else if (window.innerWidth >= 1034) {
-      return 'calc(100vh - 505px)';
+      return 'calc(100vh - 510px)';
     } else {
-      return 'calc(100vh - 525px)';
+      return 'calc(100vh - 530px)';
     }
   }
 

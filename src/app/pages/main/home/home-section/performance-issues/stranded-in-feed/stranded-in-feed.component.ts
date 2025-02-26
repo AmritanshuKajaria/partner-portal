@@ -104,17 +104,17 @@ export class StrandedInFeedComponent implements OnInit {
 
   calculateWidth() {
     if (window.innerWidth >= 2232) {
-      return 'calc(100vh - 425px)';
+      return 'calc(100vh - 430px)';
     } else if (window.innerWidth >= 1598) {
-      return 'calc(100vh - 440px)';
-    } else if (window.innerWidth >= 1378) {
       return 'calc(100vh - 445px)';
+    } else if (window.innerWidth >= 1378) {
+      return 'calc(100vh - 450px)';
     } else if (window.innerWidth >= 1156) {
-      return 'calc(100vh - 465px)';
+      return 'calc(100vh - 470px)';
     } else if (window.innerWidth >= 1034) {
-      return 'calc(100vh - 489px)';
+      return 'calc(100vh - 494px)';
     } else {
-      return 'calc(100vh - 485px)';
+      return 'calc(100vh - 490px)';
     }
   }
 

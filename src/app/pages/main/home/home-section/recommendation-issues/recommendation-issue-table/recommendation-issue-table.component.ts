@@ -31,87 +31,50 @@ export class RecommendationIssueTableComponent implements OnInit {
   };
   editLabel: string[] = [];
   isVisible: boolean = false;
-  // scrollY: string | null = null;
+  scrollY: string | null = null;
 
   constructor(private router: Router) {}
   ngOnInit(): void {
-    // this.scrollY = this.calculateWidth();
+    this.scrollY = this.calculateWidth();
   }
 
-  get scrollY() {
+  calculateWidth() {
     if (this.tabName === 'Shipping Label') {
       if (window.innerWidth >= 2232) {
-        return 'calc(100vh - 425px)';
+        return 'calc(100vh - 430px)';
       } else if (window.innerWidth >= 1598) {
-        return 'calc(100vh - 482px)';
+        return 'calc(100vh - 487px)';
       } else if (window.innerWidth >= 1378) {
-        return 'calc(100vh - 488px)';
+        return 'calc(100vh - 493px)';
       } else if (window.innerWidth >= 1156) {
-        return 'calc(100vh - 508px)';
+        return 'calc(100vh - 513px)';
       } else {
-        return `calc(100vh - 514px)`;
+        return `calc(100vh - 519px)`;
       }
     } else if (this.tabName === 'Products Losing Importance On Amazon') {
-      if (window.innerWidth >= 1256) {
-        return 'calc(100vh - 528px)';
-      } else if (window.innerWidth >= 1119) {
-        return 'calc(100vh - 566px)';
+      if (window.innerWidth >= 1364) {
+        return 'calc(100vh - 531px)';
+      } else if (window.innerWidth >= 1301) {
+        return 'calc(100vh - 550px)';
       } else if (window.innerWidth >= 1024) {
         return 'calc(100vh - 572px)';
       } else {
-        return 'calc(100vh - 569px)';
+        return 'calc(100vh - 580px)';
       }
     } else {
       if (window.innerWidth >= 2232) {
-        return 'calc(100vh - 525px)';
+        return 'calc(100vh - 530px)';
       } else if (window.innerWidth >= 1598) {
-        return 'calc(100vh - 550px)';
+        return 'calc(100vh - 555px)';
       } else if (window.innerWidth >= 1378) {
-        return 'calc(100vh - 549px)';
+        return 'calc(100vh - 554px)';
       } else if (window.innerWidth >= 1156) {
-        return 'calc(100vh - 559px)';
+        return 'calc(100vh - 564px)';
       } else {
-        return 'calc(100vh - 594px)';
+        return 'calc(100vh - 599px)';
       }
     }
   }
-  // calculateWidth() {
-  //   if (this.tabName === 'Shipping Label') {
-  //     if (window.innerWidth >= 2232) {
-  //       return 'calc(100vh - 425px)';
-  //     } else if (window.innerWidth >= 1598) {
-  //       return 'calc(100vh - 482px)';
-  //     } else if (window.innerWidth >= 1378) {
-  //       return 'calc(100vh - 488px)';
-  //     } else if (window.innerWidth >= 1156) {
-  //       return 'calc(100vh - 508px)';
-  //     } else {
-  //       return `calc(100vh - 514px)`;
-  //     }
-  //   } else if (this.tabName === 'Products Losing Importance On Amazon') {
-  //     if (window.innerWidth >= 1364) {
-  //       return 'calc(100vh - 534px)';
-  //     } else if (window.innerWidth >= 1296) {
-  //       return 'calc(100vh - 557px)';
-  //     } else if (window.innerWidth >= 1024) {
-  //       return 'calc(100vh - 572px)';
-  //     } else {
-  //       return 'calc(100vh - 569px)';
-  //     }
-  //   } else {
-  //     if (window.innerWidth >= 2232) {
-  //       return 'calc(100vh - 525px)';
-  //     } else if (window.innerWidth >= 1598) {
-  //       return 'calc(100vh - 550px)';
-  //     } else if (window.innerWidth >= 1378) {
-  //       return 'calc(100vh - 549px)';
-  //     } else if (window.innerWidth >= 1156) {
-  //       return 'calc(100vh - 559px)';
-  //     } else {
-  //       return 'calc(100vh - 594px)';
-  //     }
-  //   }
-  // }
 
   // for - if path include / ex sku: 10243/25
   navigatePage(path: string, queryParams?: any) {

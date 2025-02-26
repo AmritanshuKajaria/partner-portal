@@ -103,17 +103,17 @@ export class RestrictedProductPriceErrorComponent implements OnInit {
 
   calculateWidth() {
     if (window.innerWidth >= 2232) {
-      return 'calc(100vh - 442px)';
+      return 'calc(100vh - 447px)';
     } else if (window.innerWidth >= 1598) {
-      return 'calc(100vh - 456px)';
+      return 'calc(100vh - 461px)';
     } else if (window.innerWidth >= 1378) {
-      return 'calc(100vh - 483px)';
+      return 'calc(100vh - 488px)';
     } else if (window.innerWidth >= 1156) {
-      return 'calc(100vh - 500px)';
+      return 'calc(100vh - 505px)';
     } else if (window.innerWidth >= 1034) {
-      return 'calc(100vh - 510px)';
+      return 'calc(100vh - 515px)';
     } else {
-      return 'calc(100vh - 530px)';
+      return 'calc(100vh - 535px)';
     }
   }
 

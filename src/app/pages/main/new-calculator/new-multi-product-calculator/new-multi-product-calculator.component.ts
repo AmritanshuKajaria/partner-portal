@@ -73,13 +73,13 @@ export class NewMultiProductCalculatorComponent {
 
   calculateWidth() {
     if (window.innerWidth >= 1344) {
-      return 'calc(100vh - 518px)';
+      return 'calc(100vh - 523px)';
     } else if (window.innerWidth >= 1330) {
-      return 'calc(100vh - 540px)';
+      return 'calc(100vh - 545px)';
     } else if (window.innerWidth >= 1065) {
-      return 'calc(100vh - 560px)';
+      return 'calc(100vh - 565px)';
     } else {
-      return 'calc(100vh - 582px)';
+      return 'calc(100vh - 587px)';
     }
   }
 

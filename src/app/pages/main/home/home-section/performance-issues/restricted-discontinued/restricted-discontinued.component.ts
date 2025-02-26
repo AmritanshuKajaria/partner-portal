@@ -103,17 +103,17 @@ export class RestrictedDiscontinuedComponent implements OnInit {
 
   calculateWidth() {
     if (window.innerWidth >= 2232) {
-      return 'calc(100vh - 442px)';
+      return 'calc(100vh - 447px)';
     } else if (window.innerWidth >= 1598) {
-      return 'calc(100vh - 440px)';
+      return 'calc(100vh - 445px)';
     } else if (window.innerWidth >= 1378) {
-      return 'calc(100vh - 467px)';
+      return 'calc(100vh - 472px)';
     } else if (window.innerWidth >= 1156) {
-      return 'calc(100vh - 488px)';
+      return 'calc(100vh - 493px)';
     } else if (window.innerWidth >= 1034) {
-      return 'calc(100vh - 487px)';
+      return 'calc(100vh - 492px)';
     } else {
-      return 'calc(100vh - 506px)';
+      return 'calc(100vh - 511px)';
     }
   }
 

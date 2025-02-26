@@ -103,17 +103,17 @@ export class RestrictedCannotShipGroundComponent implements OnInit {
 
   calculateWidth() {
     if (window.innerWidth >= 2232) {
-      return 'calc(100vh - 455px)';
+      return 'calc(100vh - 460px)';
     } else if (window.innerWidth >= 1598) {
-      return 'calc(100vh - 465px)';
+      return 'calc(100vh - 470px)';
     } else if (window.innerWidth >= 1378) {
-      return 'calc(100vh - 473px)';
+      return 'calc(100vh - 478px)';
     } else if (window.innerWidth >= 1156) {
-      return 'calc(100vh - 491px)';
+      return 'calc(100vh - 496px)';
     } else if (window.innerWidth >= 1034) {
-      return 'calc(100vh - 489px)';
+      return 'calc(100vh - 494px)';
     } else {
-      return 'calc(100vh - 510px)';
+      return 'calc(100vh - 515px)';
     }
   }
 

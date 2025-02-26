@@ -83,15 +83,15 @@ export class IncompleteOfferComponent implements OnInit {
 
   calculateWidth() {
     if (window.innerWidth >= 2232) {
-      return 'calc(100vh - 465px)';
+      return 'calc(100vh - 470px)';
     } else if (window.innerWidth >= 1378) {
-      return 'calc(100vh - 486px)';
+      return 'calc(100vh - 491px)';
     } else if (window.innerWidth >= 1156) {
-      return 'calc(100vh - 524px)';
+      return 'calc(100vh - 529px)';
     } else if (window.innerWidth >= 1034) {
-      return 'calc(100vh - 531px)';
+      return 'calc(100vh - 536px)';
     } else {
-      return 'calc(100vh - 532px)';
+      return 'calc(100vh - 537px)';
     }
   }
 

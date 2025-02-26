@@ -103,17 +103,17 @@ export class UnitPriceConflictComponent implements OnInit {
 
   calculateWidth() {
     if (window.innerWidth >= 2232) {
-      return 'calc(100vh - 465px)';
+      return 'calc(100vh - 470px)';
     } else if (window.innerWidth >= 1598) {
-      return 'calc(100vh - 505px)';
+      return 'calc(100vh - 510px)';
     } else if (window.innerWidth >= 1378) {
-      return 'calc(100vh - 526px)';
+      return 'calc(100vh - 531px)';
     } else if (window.innerWidth >= 1156) {
-      return 'calc(100vh - 547px)';
+      return 'calc(100vh - 552px)';
     } else if (window.innerWidth >= 1034) {
-      return 'calc(100vh - 572px)';
+      return 'calc(100vh - 577px)';
     } else {
-      return 'calc(100vh - 590px)';
+      return 'calc(100vh - 595px)';
     }
   }
 

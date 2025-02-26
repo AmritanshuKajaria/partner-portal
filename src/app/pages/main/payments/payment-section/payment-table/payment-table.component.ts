@@ -73,21 +73,21 @@ export class PaymentTableComponent implements OnInit {
   calculateWidth() {
     if (this.tabName === 'transactionView') {
       if (window.innerWidth >= 1316) {
-        return 'calc(100vh - 548px)';
+        return 'calc(100vh - 553px)';
       } else if (window.innerWidth >= 1156) {
-        return 'calc(100vh - 569px)';
+        return 'calc(100vh - 574px)';
       } else if (window.innerWidth >= 1034) {
-        return 'calc(100vh - 572px)';
+        return 'calc(100vh - 577px)';
       } else {
-        return 'calc(100vh - 590px)';
+        return 'calc(100vh - 595px)';
       }
     } else if (this.tabName === 'openBalances') {
-      return 'calc(100vh - 464px)';
+      return 'calc(100vh - 469px)';
     } else {
       if (window.innerWidth >= 1316) {
-        return 'calc(100vh - 469px)';
+        return 'calc(100vh - 474px)';
       } else {
-        return 'calc(100vh - 490px)';
+        return 'calc(100vh - 495px)';
       }
     }
   }
