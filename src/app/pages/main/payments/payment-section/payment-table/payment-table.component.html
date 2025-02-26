@@ -105,13 +105,16 @@
     [nzLoading]="isLoading"
     [nzScroll]="{
       x: tabName === 'pastRemittances' ? '800px' : '1400px',
-      y: 'calc(100vh - 520px)'
+      y: scrollY
     }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
       <tr>
-        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+        <th
+          nzWidth="200px"
+          *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+        >
           Invoice #
         </th>
         <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">

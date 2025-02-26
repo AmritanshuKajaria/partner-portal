@@ -51,6 +51,18 @@ export class RecommendationIssueTableComponent implements OnInit {
       } else {
         return `calc(100vh - 514px)`;
       }
+    } else if (this.tabName === 'Products Losing Importance On Amazon') {
+      if (window.innerWidth >= 1364) {
+        return 'calc(100vh - 531px)';
+      } else if (window.innerWidth >= 1296) {
+        return 'calc(100vh - 534px)';
+      } else if (window.innerWidth >= 1294) {
+        return 'calc(100vh - 572px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 533px)';
+      } else {
+        return 'calc(100vh - 569px)';
+      }
     } else {
       if (window.innerWidth >= 2232) {
         return 'calc(100vh - 525px)';

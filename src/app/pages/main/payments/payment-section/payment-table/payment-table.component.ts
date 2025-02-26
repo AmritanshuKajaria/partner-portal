@@ -51,7 +51,7 @@ export class PaymentTableComponent implements OnInit {
   dateCount: number = 0;
 
   statusEnum: typeof StatusEnum = StatusEnum;
-
+  scrollY: string | null = null;
   pageSizeOptions = [100];
 
   constructor() {}
@@ -66,6 +66,30 @@ export class PaymentTableComponent implements OnInit {
       search: new FormControl(''),
     });
     this.listOfFilter = { ...this.defaultFilters };
+
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (this.tabName === 'transactionView') {
+      if (window.innerWidth >= 1316) {
+        return 'calc(100vh - 548px)';
+      } else if (window.innerWidth >= 1156) {
+        return 'calc(100vh - 569px)';
+      } else if (window.innerWidth >= 1034) {
+        return 'calc(100vh - 572px)';
+      } else {
+        return 'calc(100vh - 590px)';
+      }
+    } else if (this.tabName === 'openBalances') {
+      return 'calc(100vh - 464px)';
+    } else {
+      if (window.innerWidth >= 1316) {
+        return 'calc(100vh - 469px)';
+      } else {
+        return 'calc(100vh - 490px)';
+      }
+    }
   }
 
   searchSubmit() {
