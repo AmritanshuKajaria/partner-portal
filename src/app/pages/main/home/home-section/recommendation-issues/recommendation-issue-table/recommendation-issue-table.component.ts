@@ -39,39 +39,47 @@ export class RecommendationIssueTableComponent implements OnInit {
   }
 
   calculateWidth() {
-    if (this.tabName === 'Shipping Label') {
-      if (window.innerWidth >= 2232) {
-        return 'calc(100vh - 430px)';
-      } else if (window.innerWidth >= 1598) {
-        return 'calc(100vh - 487px)';
-      } else if (window.innerWidth >= 1378) {
-        return 'calc(100vh - 493px)';
-      } else if (window.innerWidth >= 1156) {
-        return 'calc(100vh - 513px)';
+    if (this.tabName === 'Price Correction') {
+      if (window.innerWidth >= 1296) {
+        return 'calc(100vh - 555px)';
+      } else if (window.innerWidth >= 1294) {
+        return 'calc(100vh - 579px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 598px)';
       } else {
-        return `calc(100vh - 519px)`;
+        return `calc(100vh - 596px)`;
+      }
+    } else if (this.tabName === 'Lack Of Sales Demand') {
+      if (window.innerWidth >= 1315) {
+        return 'calc(100vh - 535px)';
+      } else if (window.innerWidth >= 1296) {
+        return 'calc(100vh - 554px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 576px)';
+      } else {
+        return 'calc(100vh - 636px)';
       }
     } else if (this.tabName === 'Products Losing Importance On Amazon') {
       if (window.innerWidth >= 1364) {
-        return 'calc(100vh - 531px)';
-      } else if (window.innerWidth >= 1301) {
-        return 'calc(100vh - 550px)';
+        return 'calc(100vh - 534px)';
+      } else if (window.innerWidth >= 1296) {
+        return 'calc(100vh - 556px)';
       } else if (window.innerWidth >= 1024) {
-        return 'calc(100vh - 572px)';
+        return 'calc(100vh - 578px)';
       } else {
-        return 'calc(100vh - 580px)';
+        return 'calc(100vh - 636px)';
       }
     } else {
-      if (window.innerWidth >= 2232) {
-        return 'calc(100vh - 530px)';
-      } else if (window.innerWidth >= 1598) {
-        return 'calc(100vh - 555px)';
-      } else if (window.innerWidth >= 1378) {
-        return 'calc(100vh - 554px)';
-      } else if (window.innerWidth >= 1156) {
-        return 'calc(100vh - 564px)';
+      if (window.innerWidth >= 1775) {
+        return 'calc(100vh - 471px)';
+      } else if (window.innerWidth >= 1387) {
+        return 'calc(100vh - 489px)';
+      } else if (window.innerWidth >= 1140) {
+        return 'calc(100vh - 514px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 534px)';
       } else {
-        return 'calc(100vh - 599px)';
+        return 'calc(100vh - 536px)';
       }
     }
   }
