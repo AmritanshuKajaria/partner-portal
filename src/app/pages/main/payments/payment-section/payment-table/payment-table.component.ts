@@ -79,15 +79,15 @@ export class PaymentTableComponent implements OnInit {
       } else if (window.innerWidth >= 1034) {
         return 'calc(100vh - 577px)';
       } else {
-        return 'calc(100vh - 595px)';
+        return 'calc(100vh - 575px)';
       }
     } else if (this.tabName === 'openBalances') {
       return 'calc(100vh - 469px)';
     } else {
-      if (window.innerWidth >= 1316) {
-        return 'calc(100vh - 474px)';
+      if (window.innerWidth >= 1145) {
+        return 'calc(100vh - 469px)';
       } else {
-        return 'calc(100vh - 495px)';
+        return 'calc(100vh - 490px)';
       }
     }
   }
