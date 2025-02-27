@@ -46,7 +46,7 @@
       [nzPageSize]="pageSize"
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
-      [nzScroll]="{ x: '100%' }"
+      [nzScroll]="{ x: '1200px', y: scrollY }"
     >
       <thead>
         <tr>
@@ -57,7 +57,9 @@
           <th>Reason for Restriction</th>
           <th>Date of Restriction (if Available)</th>
           <th>Shipping Method</th>
-          <th>Actions</th>
+          <th nzWidth="100px" nzRight class="action-column">
+            <div>Action</div>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +74,7 @@
             <td>{{ data?.reason_for_restriction }}</td>
             <td>{{ data?.date_of_restriction }}</td>
             <td>{{ data?.shippingMethod }}</td>
-            <td>
+            <td nzRight>
               <button
                 nz-button
                 nzType="primary"

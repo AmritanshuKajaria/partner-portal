@@ -11,7 +11,7 @@
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
-    [nzScroll]="{ x: '100%' }"
+    [nzScroll]="{ x: '2000px', y: scrollY }"
     (nzPageIndexChange)="pageIndexChange($event)"
   >
     <thead>
@@ -19,7 +19,7 @@
         <th>MPN</th>
         <th>UPC</th>
         <th>Amazon ASIN</th>
-        <th>Product Name</th>
+        <th nzWidth="230px">Product Name</th>
         <th>Partner Unit Price provided to 123Stores</th>
         <th>Allowances</th>
         <th>Shipping Price</th>
@@ -56,7 +56,7 @@
         <th *ngIf="tabName === 'Shipping Label'">
           Potential Retail Price Reduction %
         </th>
-        <th nzRight class="action-column"><div>Action</div></th>
+        <th nzWidth="85px" nzRight class="action-column"><div>Action</div></th>
       </tr>
     </thead>
     <tbody>
@@ -140,18 +140,17 @@
 </div>
 <div *ngIf="isVisible">
   <app-edit-time
-  [isVisible]="isVisible"
-  [editData]="editData"
-  [editLabel]="editLabel"
-  [section]="'Unit Price'"
-  (close)="onEditModelClose($event)"
+    [isVisible]="isVisible"
+    [editData]="editData"
+    [editLabel]="editLabel"
+    [section]="'Unit Price'"
+    (close)="onEditModelClose($event)"
   ></app-edit-time>
 </div>
 
-
 <app-show-reference-code
-(close)="isReferenceCodeVisible = false"
-[isVisible]="isReferenceCodeVisible"
-[referenceCode]="referenceCode"
-[subTitle]="'Edit product successfully initiated'"
+  (close)="isReferenceCodeVisible = false"
+  [isVisible]="isReferenceCodeVisible"
+  [referenceCode]="referenceCode"
+  [subTitle]="'Edit product successfully initiated'"
 ></app-show-reference-code>

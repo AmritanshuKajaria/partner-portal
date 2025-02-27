@@ -8,7 +8,7 @@
      //  min-height: 95%;
 
      .body-section {
-         padding: 15px 10px;
+         padding: 15px 10px 0px 10px;
 
          ::ng-deep .ant-tabs>.ant-tabs-nav .ant-tabs-nav-wrap,
          .ant-tabs>div>.ant-tabs-nav .ant-tabs-nav-wrap {
@@ -28,7 +28,7 @@
 
          ::ng-deep.ant-tabs-card .ant-tabs-content>.ant-tabs-tabpane {
              background: $white;
-             padding: 15px;
+             padding: 15px 15px 0px 15px;
          }
 
          ::ng-deep.ant-tabs-card>.ant-tabs-nav::before {

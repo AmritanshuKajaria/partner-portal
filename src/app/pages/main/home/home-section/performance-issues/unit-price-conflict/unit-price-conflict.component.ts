@@ -85,6 +85,7 @@ export class UnitPriceConflictComponent implements OnInit {
   product_search: string = '';
   referenceCode = '';
   isReferenceCodeVisible = false;
+  scrollY: string | null = null;
 
   constructor(
     private router: Router,
@@ -96,7 +97,25 @@ export class UnitPriceConflictComponent implements OnInit {
     this.code = this.dashboardService.getLastSectionOfUrl(router.url);
     this.getData();
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (window.innerWidth >= 2232) {
+      return 'calc(100vh - 470px)';
+    } else if (window.innerWidth >= 1598) {
+      return 'calc(100vh - 510px)';
+    } else if (window.innerWidth >= 1378) {
+      return 'calc(100vh - 531px)';
+    } else if (window.innerWidth >= 1156) {
+      return 'calc(100vh - 552px)';
+    } else if (window.innerWidth >= 1034) {
+      return 'calc(100vh - 577px)';
+    } else {
+      return 'calc(100vh - 595px)';
+    }
+  }
 
   // for - if path include / ex sku: 10243/25
   navigatePage(path: string, queryParams?: any) {

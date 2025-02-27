@@ -152,7 +152,7 @@
         [nzPageIndex]="pageIndex"
         [nzLoading]="isLoading"
         [nzData]="productList"
-        [nzScroll]="{ x: '100%' }"
+        [nzScroll]="{ x: '1500px', y: 'calc(100vh - 380px)' }"
         (nzPageIndexChange)="pageIndexChange($event)"
       >
         <!-- (nzPageSizeChange)="pageSizeChange($event)" -->
@@ -169,7 +169,9 @@
             </th>
             <th class="text-center" style="width: 150px">Product Status</th>
             <th style="width: 150px">Inventory Status</th>
-            <th nzRight class="action-column"><div>Action</div></th>
+            <th nzWidth="85px" nzRight class="action-column">
+              <div>Action</div>
+            </th>
           </tr>
         </thead>
         <tbody>

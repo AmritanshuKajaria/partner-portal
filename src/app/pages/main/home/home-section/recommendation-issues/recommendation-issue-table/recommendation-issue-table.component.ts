@@ -31,9 +31,58 @@ export class RecommendationIssueTableComponent implements OnInit {
   };
   editLabel: string[] = [];
   isVisible: boolean = false;
+  scrollY: string | null = null;
 
   constructor(private router: Router) {}
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (this.tabName === 'Price Correction') {
+      if (window.innerWidth >= 1296) {
+        return 'calc(100vh - 555px)';
+      } else if (window.innerWidth >= 1294) {
+        return 'calc(100vh - 579px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 598px)';
+      } else {
+        return `calc(100vh - 596px)`;
+      }
+    } else if (this.tabName === 'Lack Of Sales Demand') {
+      if (window.innerWidth >= 1315) {
+        return 'calc(100vh - 535px)';
+      } else if (window.innerWidth >= 1296) {
+        return 'calc(100vh - 554px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 576px)';
+      } else {
+        return 'calc(100vh - 636px)';
+      }
+    } else if (this.tabName === 'Products Losing Importance On Amazon') {
+      if (window.innerWidth >= 1364) {
+        return 'calc(100vh - 534px)';
+      } else if (window.innerWidth >= 1296) {
+        return 'calc(100vh - 556px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 578px)';
+      } else {
+        return 'calc(100vh - 636px)';
+      }
+    } else {
+      if (window.innerWidth >= 1775) {
+        return 'calc(100vh - 471px)';
+      } else if (window.innerWidth >= 1387) {
+        return 'calc(100vh - 489px)';
+      } else if (window.innerWidth >= 1140) {
+        return 'calc(100vh - 514px)';
+      } else if (window.innerWidth >= 1024) {
+        return 'calc(100vh - 534px)';
+      } else {
+        return 'calc(100vh - 536px)';
+      }
+    }
+  }
 
   // for - if path include / ex sku: 10243/25
   navigatePage(path: string, queryParams?: any) {

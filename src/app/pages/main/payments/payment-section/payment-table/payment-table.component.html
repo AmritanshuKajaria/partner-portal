@@ -21,7 +21,11 @@
       >
         <span nz-icon nzType="upload" nzTheme="outline"></span> Export
       </button>
-      <form *ngIf="tabName !== 'transactionView'" nz-form [formGroup]="searchForm">
+      <form
+        *ngIf="tabName !== 'transactionView'"
+        nz-form
+        [formGroup]="searchForm"
+      >
         <nz-form-item style="margin-bottom: 0 !important">
           <nz-form-control nzErrorTip="Please input your valid code!">
             <nz-input-group class="search">
@@ -99,12 +103,18 @@
     [nzPageSize]="pageSize"
     [nzPageIndex]="pageIndex"
     [nzLoading]="isLoading"
-    [nzScroll]="{ x: '100%' }"
+    [nzScroll]="{
+      x: tabName === 'pastRemittances' ? '800px' : '1400px',
+      y: scrollY
+    }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
     <thead>
       <tr>
-        <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
+        <th
+          nzWidth="200px"
+          *ngIf="tabName === 'transactionView' || tabName === 'openBalances'"
+        >
           Invoice #
         </th>
         <th *ngIf="tabName === 'transactionView' || tabName === 'openBalances'">
@@ -143,7 +153,12 @@
 
         <th *ngIf="tabName === 'pastRemittances'">No. Of Item(s)</th>
         <th *ngIf="tabName === 'pastRemittances'">Remittance Amount</th>
-        <th nzRight class="action-column" *ngIf="tabName === 'pastRemittances'">
+        <th
+          nzWidth="85px"
+          nzRight
+          class="action-column"
+          *ngIf="tabName === 'pastRemittances'"
+        >
           <div>Action</div>
         </th>
       </tr>

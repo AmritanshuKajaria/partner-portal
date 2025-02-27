@@ -173,7 +173,7 @@
   //   color: $darkBlue;
   // }
 
-  ::ng-deep .ant-menu-inline>.ant-menu-submenu>.ant-menu-submenu-title {
+  ::ng-deep .ant-menu-inline > .ant-menu-submenu > .ant-menu-submenu-title {
     color: $white;
   }
 
@@ -306,4 +306,14 @@
       }
     }
   }
+}
+
+// for table scrollbar
+::ng-deep .nz-table-hide-scrollbar {
+  scrollbar-color: auto !important;
+}
+
+// to hide table border
+::ng-deep .nz-table-out-bordered > .ant-table-container {
+  border: none !important;
 }

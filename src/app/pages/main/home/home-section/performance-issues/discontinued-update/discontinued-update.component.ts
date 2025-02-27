@@ -64,6 +64,7 @@ export class DiscontinuedUpdateComponent implements OnInit {
   product_search: string = '';
   referenceCode = '';
   isReferenceCodeVisible = false;
+  scrollY: string | null = null;
 
   constructor(
     private router: Router,
@@ -85,7 +86,23 @@ export class DiscontinuedUpdateComponent implements OnInit {
     //   (err) => (this.isLoading = false)
     // );
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.scrollY = this.calculateWidth();
+  }
+
+  calculateWidth() {
+    if (window.innerWidth >= 2232) {
+      return 'calc(100vh - 430px)';
+    } else if (window.innerWidth >= 1598) {
+      return 'calc(100vh - 445px)';
+    } else if (window.innerWidth >= 1378) {
+      return 'calc(100vh - 469px)';
+    } else if (window.innerWidth >= 1156) {
+      return 'calc(100vh - 486px)';
+    } else {
+      return 'calc(100vh - 510px)';
+    }
+  }
 
   // for - if path include / ex sku: 10243/25
   navigatePage(path: string, queryParams?: any) {

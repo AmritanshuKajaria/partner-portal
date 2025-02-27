@@ -53,12 +53,12 @@
       [nzPageIndex]="pageIndex"
       [nzLoading]="isLoading"
       nzTableLayout="fixed"
-      [nzScroll]="addScroll ? { x: '100%' } : {}"
+      [nzScroll]="{ x: '1800px', y: scrollY }"
       (nzPageIndexChange)="pageIndexChange($event)"
     >
       <thead>
         <tr>
-          <th>
+          <th nzWidth="250px">
             <u>MPN</u>
             <div style="font-size: 12px">Product Name</div>
           </th>
@@ -72,7 +72,9 @@
           <th>123 Order Processing Fees</th>
           <!-- <th>Estimated Return Cost</th> -->
           <th>Retail Price</th>
-          <th nzRight class="action-column"><div>Actions</div></th>
+          <th nzRight nzWidth="100px" class="action-column">
+            <div>Action</div>
+          </th>
         </tr>
       </thead>
       <tbody>
