@@ -123,7 +123,8 @@
           *ngIf="
             tabName === 'returnShipped' ||
             tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
+            tabName === 'wipCarrier' ||
+            tabName === 'needAction' ||
             tabName === 'all'
           "
           nzWidth="200px"
@@ -134,7 +135,8 @@
         <th
           *ngIf="
             tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
+            tabName === 'wipCarrier' ||
+            tabName === 'needAction' ||
             tabName === 'all'
           "
         >
@@ -154,14 +156,20 @@
 
         <th
           [nzWidth]="'227px'"
-          *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
+          *ngIf="
+            tabName === 'wipCarrier' ||
+            tabName === 'needAction' ||
+            tabName === 'all'
+          "
         >
           Status
         </th>
 
         <th
           [nzWidth]="
-            tabName === 'returnDelivered' || tabName === 'carrierClaims'
+            tabName === 'returnDelivered' ||
+            tabName === 'wipCarrier' ||
+            tabName === 'needAction'
               ? '250px'
               : tabName === 'all'
               ? '85px'
@@ -187,7 +195,7 @@
                   ? 'return-shipped/'
                   : tabName === 'returnDelivered'
                   ? 'return-delivered/'
-                  : tabName === 'carrierClaims'
+                  : tabName === 'wipCarrier' || tabName === 'needAction'
                   ? 'carrier-claims/'
                   : tabName === 'all'
                   ? 'all/'
@@ -267,7 +275,8 @@
             *ngIf="
               tabName === 'returnShipped' ||
               tabName === 'returnDelivered' ||
-              tabName === 'carrierClaims' ||
+              tabName === 'wipCarrier' ||
+              tabName === 'needAction' ||
               tabName === 'all'
             "
           >
@@ -287,7 +296,8 @@
           <td
             *ngIf="
               tabName === 'returnDelivered' ||
-              tabName === 'carrierClaims' ||
+              tabName === 'wipCarrier' ||
+              tabName === 'needAction' ||
               tabName === 'all'
             "
           >
@@ -315,7 +325,13 @@
             </span>
           </td>
 
-          <td *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
+          <td
+            *ngIf="
+              tabName === 'wipCarrier' ||
+              tabName === 'needAction' ||
+              tabName === 'all'
+            "
+          >
             {{ data?.return_status }}
           </td>
 
@@ -361,7 +377,7 @@
                   nz-button
                   (click)="selectAction(data.po_no, 'approveReturn')"
                 >
-                  Approve Return
+                  Approve Credit
                 </button>
                 <button
                   style="
@@ -405,12 +421,16 @@
 
             <div
               style="display: flex"
-              *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
+              *ngIf="
+                tabName === 'wipCarrier' ||
+                tabName === 'needAction' ||
+                tabName === 'all'
+              "
             >
               <div
                 class="action-btn"
                 style="width: 197px"
-                *ngIf="tabName === 'carrierClaims'"
+                *ngIf="tabName === 'wipCarrier' || tabName === 'needAction'"
               >
                 <button
                   style="
@@ -422,7 +442,7 @@
                   nz-button
                   (click)="selectAction(data.po_no, 'approveReturn')"
                 >
-                  Approve Return
+                  Approve Credit
                 </button>
                 <button
                   style="
@@ -520,7 +540,13 @@
           ></nz-option>
         </nz-select>
 
-        <div *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
+        <div
+          *ngIf="
+            tabName === 'wipCarrier' ||
+            tabName === 'needAction' ||
+            tabName === 'all'
+          "
+        >
           <nz-divider
             style="margin-top: 20px"
             nzText="Status"

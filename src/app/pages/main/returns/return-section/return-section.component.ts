@@ -11,7 +11,8 @@ export class ReturnSectionComponent implements OnInit {
   returnInitiatedTotal: number = -1;
   returnShippedTotal: number = -1;
   returnDeliveredTotal: number = -1;
-  carrierClaimsTotal: number = -1;
+  wipCarrierTotal: number = -1;
+  needActionTotal: number = -1;
   allTotal: number = -1;
 
   constructor(private router: Router) {
@@ -35,8 +36,11 @@ export class ReturnSectionComponent implements OnInit {
       case 'returnDelivered':
         this.returnDeliveredTotal = total;
         break;
-      case 'carrierClaims':
-        this.carrierClaimsTotal = total;
+      case 'wipCarrier':
+        this.wipCarrierTotal = total;
+        break;
+      case 'needAction':
+        this.needActionTotal = total;
         break;
       case 'all':
         this.allTotal = total;

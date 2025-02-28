@@ -9,7 +9,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReturnInitiatedComponent } from './return-section/return-initiated/return-initiated.component';
 import { ReturnShipped } from './return-section/return-shipped/return-shipped.component';
 import { ReturnDelivered } from './return-section/return-delivered/return-delivered.component';
-import { CarrierClaims } from './return-section/carrier-claims/carrier-claims.component';
 import { AllReturnComponent } from './return-section/all-return/all-return.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { ReturnApproveComponent } from './return-section/return-approve/return-approve.component';
@@ -18,6 +17,8 @@ import { SharedModule } from '../../../shared/shared.module';
 import { UploadCreditNote } from './return-section/forms/upload-credit-note/upload-credit-note.component';
 import { ReportCarrierDamage } from './return-section/forms/report-carrier-damage/report-carrier-damage.component';
 import { AddRa } from './return-section/forms/add-ra/add-ra.component';
+import { NeedAction } from './return-section/need-action/need-action.component';
+import { WipCarrier } from './return-section/wip-carrier/wip-carrier.component';
 
 @NgModule({
   declarations: [
@@ -25,13 +26,14 @@ import { AddRa } from './return-section/forms/add-ra/add-ra.component';
     ReturnInitiatedComponent,
     ReturnShipped,
     ReturnDelivered,
-    CarrierClaims,
     AllReturnComponent,
     ReturnApproveComponent,
     UploadCreditNote,
     ReportCarrierDamage,
     AddRa,
     ReturnTableComponent,
+    NeedAction,
+    WipCarrier,
   ],
   imports: [
     CommonModule,

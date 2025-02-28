@@ -10,11 +10,11 @@ import {
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
-  selector: 'app-carrier-claims',
-  templateUrl: './carrier-claims.component.html',
-  styleUrls: ['./carrier-claims.component.scss'],
+  selector: 'app-need-action',
+  templateUrl: './need-action.component.html',
+  styleUrls: ['./need-action.component.scss'],
 })
-export class CarrierClaims implements OnInit {
+export class NeedAction implements OnInit {
   @Output() totalData = new EventEmitter();
 
   isLoading: boolean = false;
@@ -86,7 +86,7 @@ export class CarrierClaims implements OnInit {
     this.isLoading = true;
     const data: GetAllReturnsPayload = {
       page: page,
-      return_type: '4',
+      return_type: '5',
       search_term: search_term,
       filter_start_date: start_date,
       filter_end_date: end_date,
@@ -103,13 +103,13 @@ export class CarrierClaims implements OnInit {
           this.totalData.emit(+this.total);
         } else {
           this.message.error(
-            result?.msg ? result?.msg : 'Get In-Carrier-Claims Failed!'
+            result?.msg ? result?.msg : 'Get Wip-Carrier Failed!'
           );
         }
       },
       error: (err) => {
         if (!err?.error_shown) {
-          this.message.error('Get In-Carrier-Claims Failed!');
+          this.message.error('Get Wip-Carrier Failed!');
         }
         this.isLoading = false;
       },
