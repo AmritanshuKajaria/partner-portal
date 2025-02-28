@@ -365,7 +365,14 @@
               </div>
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
-            <div style="display: flex" *ngIf="tabName === 'returnDelivered'">
+            <div
+              style="display: flex"
+              *ngIf="
+                tabName === 'returnDelivered' ||
+                tabName === 'wipCarrier' ||
+                tabName === 'needAction'
+              "
+            >
               <div class="action-btn long-text-button" style="width: 197px">
                 <button
                   style="
@@ -380,6 +387,9 @@
                   Approve Credit
                 </button>
                 <button
+                  *ngIf="
+                    tabName === 'returnDelivered' || tabName === 'needAction'
+                  "
                   style="
                     border: 1px solid #2121c3;
                     color: #2121c3;
@@ -392,6 +402,7 @@
                   Reclassify Return to BR
                 </button>
                 <button
+                  *ngIf="tabName === 'returnDelivered'"
                   style="
                     border: 1px solid #ff4d4f;
                     color: #ff4d4f;
@@ -404,6 +415,7 @@
                   Report Carrier Damage
                 </button>
                 <button
+                  *ngIf="tabName === 'returnDelivered'"
                   style="
                     border: 1px solid #ff4d4f;
                     color: #ff4d4f;
@@ -415,39 +427,12 @@
                 >
                   Mark as Lost
                 </button>
-              </div>
-              <ng-container [ngTemplateOutlet]="dots"></ng-container>
-            </div>
-
-            <div
-              style="display: flex"
-              *ngIf="
-                tabName === 'wipCarrier' ||
-                tabName === 'needAction' ||
-                tabName === 'all'
-              "
-            >
-              <div
-                class="action-btn"
-                style="width: 197px"
-                *ngIf="tabName === 'wipCarrier' || tabName === 'needAction'"
-              >
                 <button
+                  (click)="selectAction(data.po_no, 'additionalDetails')"
+                  *ngIf="tabName === 'needAction'"
                   style="
-                    border: 1px solid #28a745;
-                    color: #28a745;
-                    margin-bottom: 8px;
-                    width: 185px;
-                  "
-                  nz-button
-                  (click)="selectAction(data.po_no, 'approveReturn')"
-                >
-                  Approve Credit
-                </button>
-                <button
-                  style="
-                    border: 1px solid #2121c3;
-                    color: #2121c3;
+                    border: 1px solid #f29d00;
+                    color: #f29d00;
                     margin-bottom: 8px;
                     width: 185px;
                   "
@@ -456,6 +441,10 @@
                   Additional Details
                 </button>
               </div>
+              <ng-container [ngTemplateOutlet]="dots"></ng-container>
+            </div>
+
+            <div style="display: flex" *ngIf="tabName === 'all'">
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
 
@@ -634,6 +623,21 @@
       (closeModal)="appReportCarrierDamageModalVisible = false"
       [poNo]="poNo"
     ></app-report-carrier-damage>
+  </ng-container>
+</nz-modal>
+
+<!-- App Additional Details Modal -->
+<nz-modal
+  [(nzVisible)]="appAdditionalDetailsModalVisible"
+  nzTitle="Additional Details"
+  (nzOnCancel)="appAdditionalDetailsModalVisible = false"
+  nzWidth="540px"
+>
+  <ng-container *nzModalContent>
+    <app-additional-details
+      (closeModal)="appAdditionalDetailsModalVisible = false"
+      [poNo]="poNo"
+    ></app-additional-details>
   </ng-container>
 </nz-modal>
 

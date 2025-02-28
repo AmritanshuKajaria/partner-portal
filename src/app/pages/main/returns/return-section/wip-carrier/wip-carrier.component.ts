@@ -58,7 +58,7 @@ export class WipCarrier implements OnInit {
     // Custom: [],
   };
 
-  carrierClaimsList: SingleReturn[] = [];
+  wipCarrierList: SingleReturn[] = [];
 
   constructor(
     private returnService: ReturnService,
@@ -99,7 +99,7 @@ export class WipCarrier implements OnInit {
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
-          this.carrierClaimsList = res?.returns ?? [];
+          this.wipCarrierList = res?.returns ?? [];
           this.totalData.emit(+this.total);
         } else {
           this.message.error(

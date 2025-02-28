@@ -58,7 +58,7 @@ export class NeedAction implements OnInit {
     // Custom: [],
   };
 
-  carrierClaimsList: SingleReturn[] = [];
+  needActionList: SingleReturn[] = [];
 
   constructor(
     private returnService: ReturnService,
@@ -99,7 +99,7 @@ export class NeedAction implements OnInit {
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
-          this.carrierClaimsList = res?.returns ?? [];
+          this.needActionList = res?.returns ?? [];
           this.totalData.emit(+this.total);
         } else {
           this.message.error(

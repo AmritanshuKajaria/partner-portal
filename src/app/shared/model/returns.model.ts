@@ -85,6 +85,13 @@ export interface ReportCarrierDamagePayload {
   image3: File;
 }
 
+export interface AdditionalDetailsPayload {
+  remarks: string;
+  image1: File;
+  image2: File;
+  image3: File;
+}
+
 export interface markAsLostPayload {
   po_no: string;
 }

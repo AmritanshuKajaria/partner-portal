@@ -338,6 +338,10 @@ export class ReturnService {
     return this.http.post(this.url + '/report-carrier-damage', data);
   }
 
+  additionalDetails(data: FormData) {
+    return this.http.post(this.url + '/additional-details', data);
+  }
+
   markAsLost(data: markAsLostPayload) {
     return this.http.post(this.url + '/mark-as-lost', data);
   }

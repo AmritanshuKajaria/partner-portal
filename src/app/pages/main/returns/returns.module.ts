@@ -19,6 +19,7 @@ import { ReportCarrierDamage } from './return-section/forms/report-carrier-damag
 import { AddRa } from './return-section/forms/add-ra/add-ra.component';
 import { NeedAction } from './return-section/need-action/need-action.component';
 import { WipCarrier } from './return-section/wip-carrier/wip-carrier.component';
+import { AdditionalDetailComponent } from './return-section/forms/additional-details/additional-details.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { WipCarrier } from './return-section/wip-carrier/wip-carrier.component';
     ReturnTableComponent,
     NeedAction,
     WipCarrier,
+    AdditionalDetailComponent,
   ],
   imports: [
     CommonModule,

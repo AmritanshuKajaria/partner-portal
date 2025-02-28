@@ -18,6 +18,7 @@ export class UploadImageComponent {
   @Input() placeholder: string = 'Drag & Drop or Click to Upload';
   @Input() label: string = '';
   @Input() showError: boolean = false;
+  @Input() isRequired: boolean = true;
   @Output() imageSrcChange = new EventEmitter<File | null>();
   imageSrc: string | ArrayBuffer | null = null;
 
