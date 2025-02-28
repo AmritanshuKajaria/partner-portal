@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { ReturnsRoutingModule } from './returns-routing.module';
 import { ReturnSectionComponent } from './return-section/return-section.component';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
@@ -16,7 +15,6 @@ import { ComponentModule } from 'src/app/components/component.module';
 import { ReturnApproveComponent } from './return-section/return-approve/return-approve.component';
 import { ReturnTableComponent } from './return-section/return-table/return-table.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { ApproveCredit } from './return-section/forms/approve-credit/approve-credit.component';
 import { UploadCreditNote } from './return-section/forms/upload-credit-note/upload-credit-note.component';
 import { ReportCarrierDamage } from './return-section/forms/report-carrier-damage/report-carrier-damage.component';
 import { AddRa } from './return-section/forms/add-ra/add-ra.component';
@@ -30,7 +28,6 @@ import { AddRa } from './return-section/forms/add-ra/add-ra.component';
     CarrierClaims,
     AllReturnComponent,
     ReturnApproveComponent,
-    ApproveCredit,
     UploadCreditNote,
     ReportCarrierDamage,
     AddRa,

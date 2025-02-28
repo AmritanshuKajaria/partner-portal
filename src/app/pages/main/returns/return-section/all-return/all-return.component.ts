@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { ReturnService } from 'src/app/shared/service/return.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -15,6 +15,8 @@ import { ApiResponse } from 'src/app/shared/model/common.model';
   styleUrls: ['./all-return.component.scss'],
 })
 export class AllReturnComponent implements OnInit {
+  @Output() totalData = new EventEmitter();
+
   isLoading: boolean = false;
   total = 0;
   pageSize = 100;
@@ -72,6 +74,7 @@ export class AllReturnComponent implements OnInit {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
           this.allReturnList = res?.returns ?? [];
+          this.totalData.emit(+this.total);
         } else {
           this.message.error(
             result?.msg ? result?.msg : 'Get All Return Failed!'

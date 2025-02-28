@@ -159,6 +159,20 @@
   }
 }
 
+::ng-deep .ant-table table {
+  table-layout: fixed !important;
+}
+
+// for table scrollbar
+::ng-deep .nz-table-hide-scrollbar {
+  scrollbar-color: auto !important;
+}
+
+// to hide table border
+::ng-deep .nz-table-out-bordered > .ant-table-container {
+  border: none !important;
+}
+
 // for submenu
 ::ng-deep .ant-dropdown-menu-submenu-expand-icon {
   display: none;

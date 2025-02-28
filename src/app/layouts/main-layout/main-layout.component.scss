@@ -144,6 +144,11 @@
     background-color: rgb(255 255 255 / 20%);
   }
 
+  ::ng-deep .ant-menu-item-selected {
+    color: $white;
+    background-color: $darkBlue;
+  }
+
   ::ng-deep .ant-menu-sub.ant-menu-inline {
     background-color: $darkBlue;
   }
@@ -260,6 +265,7 @@
   ::ng-deep .ant-dropdown-menu-item {
     padding: 10px 16px !important;
   }
+
   .profile {
     display: flex;
     align-items: center;
@@ -300,8 +306,4 @@
       }
     }
   }
-}
-
-::ng-deep .ant-dropdown-menu-sub {
-  padding: 0px 0px !important;
 }
