@@ -17,15 +17,17 @@ export class ZendeskService {
   };
   payload = {
     email: 'shalinmishra92@gmail.com',
-    name: 'Shalin Test',
     iat: Math.floor(Date.now() / 1000),
+    exp: Math.floor(Date.now() / 1000) + 5 * 60,
     jti:
       Math.random().toString(36).substring(2, 15) +
       Math.random().toString(36).substring(2, 15),
   };
-  ssosecret = 'Jw4JXJB6n6G0Lu8q7fYPHJyPLZLuQCU9nA7yto7XvBrLVfGI';
-  hostUrl = 'https://123stores5080.zendesk.com/access/jwt';
-  redirectUrl = 'https://123stores5080.zendesk.com/hc/en-us/requests';
+  ssosecret =
+    'c3cd80854f70fc7c654f035e9a3cb4d4c73d704a365a8e15b6f78ebd84eaf631';
+  hostUrl =
+    'https://test123stores.zohodesk.in/accounts/p/50025185799/signin/jwt/auth';
+  redirectUrl = 'https://test123stores.zohodesk.in/portal/en/myarea';
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 
@@ -40,7 +42,7 @@ export class ZendeskService {
       this.header
     );
     this.visited = true;
-    return `${this.hostUrl}?jwt=${token}&return_to=${this.redirectUrl}`;
+    return `${this.hostUrl}?return_to=${this.redirectUrl}&jwt=${token}`;
   }
 
   zendeskHelp() {
