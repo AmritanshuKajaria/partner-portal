@@ -26,9 +26,9 @@
             ></nz-badge>
           </div>
         </ng-template>
-        <app-return-shipped
+        <app-return-initiated
           (totalData)="getTotal($event, 'returnInitiated')"
-        ></app-return-shipped>
+        ></app-return-initiated>
       </nz-tab>
       <nz-tab [nzTitle]="returnShipped">
         <ng-template #returnShipped>

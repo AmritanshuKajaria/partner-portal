@@ -52,6 +52,7 @@ export interface SingleReturn {
   invoice_no: string;
   customer_name: string;
   product_mpn: string;
+  product_sku: string;
   product_qty: number;
   return_delivery_date: string;
   credit_amount_due: string;
