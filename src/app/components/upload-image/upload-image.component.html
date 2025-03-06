@@ -1,6 +1,7 @@
 <div class="image-container">
   <div *ngIf="label">
-    {{ label }}<span style="color: red; font-weight: 500">*</span>
+    {{ label
+    }}<span *ngIf="isRequired" style="color: red; font-weight: 500">*</span>
   </div>
   <div
     class="upload-box"

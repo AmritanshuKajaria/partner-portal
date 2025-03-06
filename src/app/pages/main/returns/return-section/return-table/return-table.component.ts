@@ -56,6 +56,7 @@ export class ReturnTableComponent implements OnInit {
   approveReturnModalVisible: boolean = false;
   reclassifyReturnModalVisible: boolean = false;
   appReportCarrierDamageModalVisible: boolean = false;
+  appAdditionalDetailsModalVisible: boolean = false;
   showCalculationModel: boolean = false;
   costData?: Cost;
 
@@ -128,6 +129,8 @@ export class ReturnTableComponent implements OnInit {
       this.appReportCarrierDamageModalVisible = true;
     } else if (type === 'reclassifyReturn') {
       this.reclassifyReturnModalVisible = true;
+    } else if (type === 'additionalDetails') {
+      this.appAdditionalDetailsModalVisible = true;
     } else {
       this.poNo = '';
     }

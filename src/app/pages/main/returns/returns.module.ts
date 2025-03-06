@@ -18,6 +18,9 @@ import { SharedModule } from '../../../shared/shared.module';
 import { UploadCreditNote } from './return-section/forms/upload-credit-note/upload-credit-note.component';
 import { ReportCarrierDamage } from './return-section/forms/report-carrier-damage/report-carrier-damage.component';
 import { AddRa } from './return-section/forms/add-ra/add-ra.component';
+import { InProgressComponent } from './return-section/in-progress/in-progress.component';
+import { NeedActionComponent } from './return-section/need-action/need-action.component';
+import { AdditionalDetailComponent } from './return-section/forms/additional-details/additional-details.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { AddRa } from './return-section/forms/add-ra/add-ra.component';
     ReportCarrierDamage,
     AddRa,
     ReturnTableComponent,
+    InProgressComponent,
+    NeedActionComponent,
+    AdditionalDetailComponent,
   ],
   imports: [
     CommonModule,

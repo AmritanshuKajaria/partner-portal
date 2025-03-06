@@ -26,7 +26,7 @@ export class UploadCreditNote implements OnInit {
 
   ngOnInit() {
     this.uploadCreditNoteForm = new FormGroup({
-      cn: new FormControl(''),
+      cn: new FormControl('', Validators.required),
       uploadCreditNote: new FormControl(''),
     });
   }
@@ -36,13 +36,13 @@ export class UploadCreditNote implements OnInit {
   }
 
   submitForm() {
-    // if (this.uploadCreditNoteForm.invalid) {
-    //   for (const i in this.uploadCreditNoteForm.controls) {
-    //     this.uploadCreditNoteForm.controls[i].markAsDirty();
-    //     this.uploadCreditNoteForm.controls[i].updateValueAndValidity();
-    //   }
-    //   return;
-    // }
+    if (this.uploadCreditNoteForm.invalid) {
+      for (const i in this.uploadCreditNoteForm.controls) {
+        this.uploadCreditNoteForm.controls[i].markAsDirty();
+        this.uploadCreditNoteForm.controls[i].updateValueAndValidity();
+      }
+      return;
+    }
 
     this.isLoading = true;
     const creditNoteData: ApproveReturnPayload = {

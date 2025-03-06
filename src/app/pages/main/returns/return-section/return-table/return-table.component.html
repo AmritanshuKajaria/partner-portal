@@ -98,10 +98,10 @@
         tabName === 'returnInitiated'
           ? '1300px'
           : tabName === 'returnShipped'
-          ? '1700px'
+          ? '1750px'
           : tabName === 'returnDelivered'
-          ? '1800px'
-          : '1900px',
+          ? '1850px'
+          : '1950px',
       y: 'calc(100vh - 432px)'
     }"
     (nzPageIndexChange)="onPageIndexChange($event)"
@@ -123,10 +123,11 @@
           *ngIf="
             tabName === 'returnShipped' ||
             tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
+            tabName === 'inProgress' ||
+            tabName === 'needAction' ||
             tabName === 'all'
           "
-          nzWidth="200px"
+          nzWidth="250px"
         >
           Tracking No.
         </th>
@@ -134,7 +135,8 @@
         <th
           *ngIf="
             tabName === 'returnDelivered' ||
-            tabName === 'carrierClaims' ||
+            tabName === 'inProgress' ||
+            tabName === 'needAction' ||
             tabName === 'all'
           "
         >
@@ -154,14 +156,20 @@
 
         <th
           [nzWidth]="'227px'"
-          *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
+          *ngIf="
+            tabName === 'inProgress' ||
+            tabName === 'needAction' ||
+            tabName === 'all'
+          "
         >
           Status
         </th>
 
         <th
           [nzWidth]="
-            tabName === 'returnDelivered' || tabName === 'carrierClaims'
+            tabName === 'returnDelivered' ||
+            tabName === 'inProgress' ||
+            tabName === 'needAction'
               ? '250px'
               : tabName === 'all'
               ? '85px'
@@ -187,7 +195,7 @@
                   ? 'return-shipped/'
                   : tabName === 'returnDelivered'
                   ? 'return-delivered/'
-                  : tabName === 'carrierClaims'
+                  : tabName === 'inProgress' || tabName === 'needAction'
                   ? 'carrier-claims/'
                   : tabName === 'all'
                   ? 'all/'
@@ -267,7 +275,8 @@
             *ngIf="
               tabName === 'returnShipped' ||
               tabName === 'returnDelivered' ||
-              tabName === 'carrierClaims' ||
+              tabName === 'inProgress' ||
+              tabName === 'needAction' ||
               tabName === 'all'
             "
           >
@@ -289,7 +298,8 @@
           <td
             *ngIf="
               tabName === 'returnDelivered' ||
-              tabName === 'carrierClaims' ||
+              tabName === 'inProgress' ||
+              tabName === 'needAction' ||
               tabName === 'all'
             "
           >
@@ -317,7 +327,13 @@
             </span>
           </td>
 
-          <td *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
+          <td
+            *ngIf="
+              tabName === 'inProgress' ||
+              tabName === 'needAction' ||
+              tabName === 'all'
+            "
+          >
             {{ data?.return_status }}
           </td>
 
@@ -351,7 +367,14 @@
               </div>
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
-            <div style="display: flex" *ngIf="tabName === 'returnDelivered'">
+            <div
+              style="display: flex"
+              *ngIf="
+                tabName === 'returnDelivered' ||
+                tabName === 'inProgress' ||
+                tabName === 'needAction'
+              "
+            >
               <div class="action-btn long-text-button" style="width: 197px">
                 <button
                   style="
@@ -363,9 +386,12 @@
                   nz-button
                   (click)="selectAction(data.po_no, 'approveReturn')"
                 >
-                  Approve Return
+                  Approve Credit
                 </button>
                 <button
+                  *ngIf="
+                    tabName === 'returnDelivered' || tabName === 'needAction'
+                  "
                   style="
                     border: 1px solid #2121c3;
                     color: #2121c3;
@@ -378,6 +404,7 @@
                   Reclassify Return to BR
                 </button>
                 <button
+                  *ngIf="tabName === 'returnDelivered'"
                   style="
                     border: 1px solid #ff4d4f;
                     color: #ff4d4f;
@@ -390,6 +417,7 @@
                   Report Carrier Damage
                 </button>
                 <button
+                  *ngIf="tabName === 'returnDelivered'"
                   style="
                     border: 1px solid #ff4d4f;
                     color: #ff4d4f;
@@ -401,35 +429,12 @@
                 >
                   Mark as Lost
                 </button>
-              </div>
-              <ng-container [ngTemplateOutlet]="dots"></ng-container>
-            </div>
-
-            <div
-              style="display: flex"
-              *ngIf="tabName === 'carrierClaims' || tabName === 'all'"
-            >
-              <div
-                class="action-btn"
-                style="width: 197px"
-                *ngIf="tabName === 'carrierClaims'"
-              >
                 <button
+                  (click)="selectAction(data.po_no, 'additionalDetails')"
+                  *ngIf="tabName === 'needAction'"
                   style="
-                    border: 1px solid #28a745;
-                    color: #28a745;
-                    margin-bottom: 8px;
-                    width: 185px;
-                  "
-                  nz-button
-                  (click)="selectAction(data.po_no, 'approveReturn')"
-                >
-                  Approve Return
-                </button>
-                <button
-                  style="
-                    border: 1px solid #2121c3;
-                    color: #2121c3;
+                    border: 1px solid #f29d00;
+                    color: #f29d00;
                     margin-bottom: 8px;
                     width: 185px;
                   "
@@ -438,6 +443,10 @@
                   Additional Details
                 </button>
               </div>
+              <ng-container [ngTemplateOutlet]="dots"></ng-container>
+            </div>
+
+            <div style="display: flex" *ngIf="tabName === 'all'">
               <ng-container [ngTemplateOutlet]="dots"></ng-container>
             </div>
 
@@ -522,7 +531,13 @@
           ></nz-option>
         </nz-select>
 
-        <div *ngIf="tabName === 'carrierClaims' || tabName === 'all'">
+        <div
+          *ngIf="
+            tabName === 'inProgress' ||
+            tabName === 'needAction' ||
+            tabName === 'all'
+          "
+        >
           <nz-divider
             style="margin-top: 20px"
             nzText="Status"
@@ -610,6 +625,21 @@
       (closeModal)="appReportCarrierDamageModalVisible = false"
       [poNo]="poNo"
     ></app-report-carrier-damage>
+  </ng-container>
+</nz-modal>
+
+<!-- App Additional Details Modal -->
+<nz-modal
+  [(nzVisible)]="appAdditionalDetailsModalVisible"
+  nzTitle="Additional Details"
+  (nzOnCancel)="appAdditionalDetailsModalVisible = false"
+  nzWidth="540px"
+>
+  <ng-container *nzModalContent>
+    <app-additional-details
+      (closeModal)="appAdditionalDetailsModalVisible = false"
+      [poNo]="poNo"
+    ></app-additional-details>
   </ng-container>
 </nz-modal>
 
