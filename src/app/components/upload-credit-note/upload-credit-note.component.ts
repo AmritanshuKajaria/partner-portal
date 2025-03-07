@@ -13,6 +13,7 @@ import { ReturnService } from 'src/app/shared/service/return.service';
 export class UploadCreditNote implements OnInit {
   @Input() poNo: string = '';
   @Input() type: string = '';
+  @Input() ReclassifyReturn: boolean = false;
   @Output() closeModal = new EventEmitter();
 
   uploadCreditNoteForm!: FormGroup;
@@ -26,7 +27,7 @@ export class UploadCreditNote implements OnInit {
 
   ngOnInit() {
     this.uploadCreditNoteForm = new FormGroup({
-      cn: new FormControl(''),
+      cn: new FormControl('', Validators.required),
       uploadCreditNote: new FormControl(''),
     });
   }
@@ -36,17 +37,18 @@ export class UploadCreditNote implements OnInit {
   }
 
   submitForm() {
-    // if (this.uploadCreditNoteForm.invalid) {
-    //   for (const i in this.uploadCreditNoteForm.controls) {
-    //     this.uploadCreditNoteForm.controls[i].markAsDirty();
-    //     this.uploadCreditNoteForm.controls[i].updateValueAndValidity();
-    //   }
-    //   return;
-    // }
+    if (this.uploadCreditNoteForm.invalid) {
+      for (const i in this.uploadCreditNoteForm.controls) {
+        this.uploadCreditNoteForm.controls[i].markAsDirty();
+        this.uploadCreditNoteForm.controls[i].updateValueAndValidity();
+      }
+      return;
+    }
 
     this.isLoading = true;
     const creditNoteData: ApproveReturnPayload = {
       po_no: this.poNo,
+      type: this.type,
       cn: this.uploadCreditNoteForm.controls['cn'].value,
       uploaded_file: this.selectFile,
     };
@@ -57,8 +59,9 @@ export class UploadCreditNote implements OnInit {
       'uploaded_file',
       creditNoteData.uploaded_file ? creditNoteData.uploaded_file : ''
     );
+    data.append('type', creditNoteData.type);
 
-    if (this.type === 'approveReturn') {
+    if (!this.ReclassifyReturn) {
       this.returnService.approveReturn(data).subscribe({
         next: (result: ApiResponse) => {
           this.isLoading = false;
@@ -78,7 +81,7 @@ export class UploadCreditNote implements OnInit {
           }
         },
       });
-    } else if (this.type === 'reclassifyReturn') {
+    } else {
       this.returnService.reclassifyReturn(data).subscribe({
         next: (result: ApiResponse) => {
           this.isLoading = false;

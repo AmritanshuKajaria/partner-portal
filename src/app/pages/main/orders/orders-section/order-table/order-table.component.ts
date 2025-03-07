@@ -4,7 +4,9 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
 import { ApiResponse } from 'src/app/shared/model/common.model';
+import { markAsLostPayload } from 'src/app/shared/model/returns.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
+import { ReturnService } from 'src/app/shared/service/return.service';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
@@ -28,6 +30,8 @@ export class OrderTableComponent implements OnInit {
   isConfirmShipped: boolean = false;
   isTracking: boolean = false;
   isUploadModelVisible: boolean = false;
+  approveReturnModalVisible: boolean = false;
+  appReportCarrierDamageModalVisible: boolean = false;
 
   pageSizeOptions = [100];
   poNo: string = '';
@@ -41,7 +45,8 @@ export class OrderTableComponent implements OnInit {
     private message: NzMessageService,
     private modal: NzModalService,
     private userPermissionService: UserPermissionService,
-    private router: Router
+    private router: Router,
+    private returnService: ReturnService
   ) {
     this.userPermissionService.userPermission.subscribe((permission: any) => {
       if (permission?.label_enabled && permission.label_enabled !== 0) {
@@ -188,6 +193,12 @@ export class OrderTableComponent implements OnInit {
     } else if (type === 'Upload Invoice') {
       this.poNo = po_no;
       this.isUploadModelVisible = true;
+    } else if (type === 'approveReturn') {
+      this.poNo = po_no;
+      this.approveReturnModalVisible = true;
+    } else if (type === 'appReportCarrierDamage') {
+      this.poNo = po_no;
+      this.appReportCarrierDamageModalVisible = true;
     } else {
       this.poNo = po_no;
       this.isCancelOrderVisible = true;
@@ -212,6 +223,40 @@ export class OrderTableComponent implements OnInit {
           this.message.error('Download invoice failed!');
         }
       },
+    });
+  }
+
+  markAsLost(po_no: any) {
+    this.modal.confirm({
+      nzTitle:
+        'Are you sure you want to file a claim with the carrier for this return?',
+      nzOnOk: () => {
+        const data: markAsLostPayload = {
+          po_no: po_no,
+          type: 'rts',
+        };
+        this.returnService.markAsLost(data).subscribe({
+          next: (result: ApiResponse) => {
+            if (result.success) {
+              this.message.success('Mark as lost successfully!');
+            } else {
+              this.message.error(
+                result?.msg ? result?.msg : 'Failed to Mark as lost!'
+              );
+            }
+          },
+          error: (error: any) => {
+            if (!error?.error_shown) {
+              this.message.error('Failed to Mark as lost!');
+            }
+          },
+        });
+      },
+      nzClassName: 'confirm-modal',
+      nzOkText: 'Confirm',
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Close'),
+      nzOkLoading: this.isLoading,
     });
   }
 }

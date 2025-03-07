@@ -52,6 +52,7 @@ export interface SingleReturn {
   invoice_no: string;
   customer_name: string;
   product_mpn: string;
+  product_sku: string;
   product_qty: number;
   return_delivery_date: string;
   credit_amount_due: string;
@@ -75,6 +76,7 @@ export interface ApproveReturnPayload {
   po_no: string;
   cn: string;
   uploaded_file?: File;
+  type: string;
 }
 
 export interface ReclssifyReturnPayload extends ApproveReturnPayload {}
@@ -84,8 +86,20 @@ export interface ReportCarrierDamagePayload {
   image1: File;
   image2: File;
   image3: File;
+  type: string;
+}
+
+export interface AdditionalDetailsPayload {
+  remarks: string;
+  image1: File;
+  image2: File;
+  image3: File;
 }
 
 export interface markAsLostPayload {
+  po_no: string;
+  type: string;
+}
+export interface markAsReceivedPayload {
   po_no: string;
 }

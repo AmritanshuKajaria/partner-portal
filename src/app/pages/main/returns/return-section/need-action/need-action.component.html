@@ -1,0 +1,15 @@
+<div class="carrier-claims">
+  <app-return-table
+    [listOfData]="needActionList"
+    [total]="total"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [isLoading]="isLoading"
+    [search_term]="search_term"
+    [tabName]="'needAction'"
+    [defaultFilters]="defaultFilters"
+    (pageChange)="pageIndexChange($event)"
+    (searchChange)="searchDataChanges($event)"
+    (filterChange)="filterDataChanges($event)"
+  ></app-return-table>
+</div>

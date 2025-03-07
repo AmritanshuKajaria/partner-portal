@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
@@ -15,6 +15,8 @@ import { ReturnService } from 'src/app/shared/service/return.service';
   styleUrls: ['./return-initiated.component.scss'],
 })
 export class ReturnInitiatedComponent implements OnInit {
+  @Output() totalData = new EventEmitter();
+
   isLoading: boolean = false;
   total = 0;
   pageSize = 100;
@@ -66,6 +68,7 @@ export class ReturnInitiatedComponent implements OnInit {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
           this.returnInitiatedList = res?.returns ?? [];
+          this.totalData.emit(+this.total);
         } else {
           this.message.error(
             result?.msg ? result?.msg : 'Get Return Initiated Failed!'

@@ -26,9 +26,9 @@
             ></nz-badge>
           </div>
         </ng-template>
-        <app-return-shipped
+        <app-return-initiated
           (totalData)="getTotal($event, 'returnInitiated')"
-        ></app-return-shipped>
+        ></app-return-initiated>
       </nz-tab>
       <nz-tab [nzTitle]="returnShipped">
         <ng-template #returnShipped>
@@ -76,17 +76,40 @@
           (totalData)="getTotal($event, 'returnDelivered')"
         ></app-return-delivered>
       </nz-tab>
-      <nz-tab [nzTitle]="carrierClaims">
-        <ng-template #carrierClaims>
+      <nz-tab [nzTitle]="needAction">
+        <ng-template #needAction>
           <div
             style="display: flex; align-items: center; justify-content: center"
           >
-            <span style="margin-right: 5px">Carrier Claims</span>
+            <span style="margin-right: 5px">Carrier Claims (Need Action)</span>
             <nz-badge
-              *ngIf="carrierClaimsTotal > -1"
+              *ngIf="needActionTotal > -1"
               nzStandalone
               [nzShowZero]="true"
-              [nzCount]="carrierClaimsTotal"
+              [nzCount]="needActionTotal"
+              [nzStyle]="{
+                backgroundColor: selectedTab == 4 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 4 ? 'white' : '#999',
+                boxShadow: selectedTab == 4 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+              }"
+            ></nz-badge>
+          </div>
+        </ng-template>
+        <app-need-action
+          (totalData)="getTotal($event, 'needAction')"
+        ></app-need-action>
+      </nz-tab>
+      <nz-tab [nzTitle]="inProgress">
+        <ng-template #inProgress>
+          <div
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <span style="margin-right: 5px">Carrier Claims (In Progress)</span>
+            <nz-badge
+              *ngIf="inProgressTotal > -1"
+              nzStandalone
+              [nzShowZero]="true"
+              [nzCount]="inProgressTotal"
               [nzStyle]="{
                 backgroundColor: selectedTab == 3 ? '#ff4d4f' : '#fff',
                 color: selectedTab == 3 ? 'white' : '#999',
@@ -95,10 +118,11 @@
             ></nz-badge>
           </div>
         </ng-template>
-        <app-carrier-claims
-          (totalData)="getTotal($event, 'carrierClaims')"
-        ></app-carrier-claims>
+        <app-in-progress
+          (totalData)="getTotal($event, 'inProgress')"
+        ></app-in-progress>
       </nz-tab>
+
       <nz-tab [nzTitle]="allReturns">
         <ng-template #allReturns>
           <div

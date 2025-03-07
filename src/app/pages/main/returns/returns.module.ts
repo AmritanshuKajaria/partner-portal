@@ -15,9 +15,10 @@ import { ComponentModule } from 'src/app/components/component.module';
 import { ReturnApproveComponent } from './return-section/return-approve/return-approve.component';
 import { ReturnTableComponent } from './return-section/return-table/return-table.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { UploadCreditNote } from './return-section/forms/upload-credit-note/upload-credit-note.component';
-import { ReportCarrierDamage } from './return-section/forms/report-carrier-damage/report-carrier-damage.component';
 import { AddRa } from './return-section/forms/add-ra/add-ra.component';
+import { InProgressComponent } from './return-section/in-progress/in-progress.component';
+import { NeedActionComponent } from './return-section/need-action/need-action.component';
+import { AdditionalDetailComponent } from './return-section/forms/additional-details/additional-details.component';
 
 @NgModule({
   declarations: [
@@ -28,10 +29,11 @@ import { AddRa } from './return-section/forms/add-ra/add-ra.component';
     CarrierClaims,
     AllReturnComponent,
     ReturnApproveComponent,
-    UploadCreditNote,
-    ReportCarrierDamage,
     AddRa,
     ReturnTableComponent,
+    InProgressComponent,
+    NeedActionComponent,
+    AdditionalDetailComponent,
   ],
   imports: [
     CommonModule,

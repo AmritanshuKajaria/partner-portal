@@ -12,6 +12,7 @@ import { ReturnService } from 'src/app/shared/service/return.service';
 export class ReportCarrierDamage implements OnInit {
   @Output() closeModal = new EventEmitter();
   @Input() poNo: string = '';
+  @Input() type: string = '';
 
   isLoading: boolean = false;
   uploadedImages: any[] = [null, null, null];
@@ -47,12 +48,14 @@ export class ReportCarrierDamage implements OnInit {
       this.isLoading = true;
       const carrierDamageData: ReportCarrierDamagePayload = {
         po_no: this.poNo,
+        type: this.type,
         image1: this.uploadedImages[0],
         image2: this.uploadedImages[1],
         image3: this.uploadedImages[2],
       };
       const data = new FormData();
       data.append('po_no', carrierDamageData.po_no);
+      data.append('type', carrierDamageData.type);
       data.append('image1', carrierDamageData.image1);
       data.append('image2', carrierDamageData.image2);
       data.append('image3', carrierDamageData.image3);

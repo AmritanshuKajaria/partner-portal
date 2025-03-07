@@ -100,6 +100,29 @@
           (totalData)="getTotal($event, 'pending-invoice')"
         ></app-pending-invoice
       ></nz-tab>
+      <nz-tab *ngIf="showRtsTab" [nzTitle]="returnToSenderTabTitle">
+        <ng-template #returnToSenderTabTitle>
+          <div
+            style="display: flex; align-items: center; justify-content: center"
+          >
+            <span style="margin-right: 5px">Return To Sender</span>
+            <nz-badge
+              *ngIf="returnToSenderTotal > -1"
+              nzStandalone
+              [nzShowZero]="true"
+              [nzCount]="returnToSenderTotal"
+              [nzStyle]="{
+                backgroundColor: selectedTab == 4 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 4 ? 'white' : '#999',
+                boxShadow: selectedTab == 4 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+              }"
+            ></nz-badge>
+          </div>
+        </ng-template>
+        <app-return-to-sender
+          (totalData)="getTotal($event, 'returnToSender')"
+        ></app-return-to-sender
+      ></nz-tab>
       <!-- <nz-tab [nzTitle]="inTransitTabTitle">
         <ng-template #inTransitTabTitle>
           <div
@@ -154,14 +177,14 @@
           >
             <span style="margin-right: 5px">All</span>
             <nz-badge
-              *ngIf="newTotal > -1"
+              *ngIf="allTotal > -1"
               nzStandalone
               [nzShowZero]="true"
               [nzCount]="allTotal"
               [nzStyle]="{
-                backgroundColor: selectedTab == 4 ? '#ff4d4f' : '#fff',
-                color: selectedTab == 4 ? 'white' : '#999',
-                boxShadow: selectedTab == 4 ? 'none' : '0 0 0 1px #d9d9d9 inset'
+                backgroundColor: selectedTab == 5 ? '#ff4d4f' : '#fff',
+                color: selectedTab == 5 ? 'white' : '#999',
+                boxShadow: selectedTab == 5 ? 'none' : '0 0 0 1px #d9d9d9 inset'
               }"
             ></nz-badge>
           </div>
