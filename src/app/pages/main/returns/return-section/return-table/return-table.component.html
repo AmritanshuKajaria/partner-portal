@@ -588,7 +588,7 @@
 >
   <ng-container *nzModalContent>
     <app-upload-credit-note
-      [type]="'approveReturn'"
+      [type]="tabName === 'returnDelivered' ? 'return' : 'claim'"
       [poNo]="poNo"
       (closeModal)="approveReturnModalVisible = false"
     ></app-upload-credit-note>

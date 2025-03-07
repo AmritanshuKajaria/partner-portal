@@ -15,54 +15,60 @@
       (ngModelChange)="changeValue(rangeDate ? $event : '', 'rangeDate')"
     ></nz-range-picker>
 
-    <nz-divider nzText="Ship Out Locations" nzOrientation="left"></nz-divider>
-    <nz-select
-      nzShowSearch
-      nzAllowClear
-      nzPlaceHolder="Select A Location"
-      [(ngModel)]="shipOutLocation"
-      (ngModelChange)="
-        changeValue(shipOutLocation ? $event : '', 'shipOutLocation')
-      "
-    >
-      <nz-option nzLabel="Ahmadabad" nzValue="Ahmadabad"></nz-option>
-      <nz-option nzLabel="Surat" nzValue="surat"></nz-option>
-      <nz-option nzLabel="Rajkot" nzValue="Rajkot"></nz-option>
-      <nz-option nzLabel="Bhavnagar" nzValue="Bhavnagar"></nz-option>
-    </nz-select>
+    <ng-container *ngIf="tabName !== 'returnToSender'">
+      <nz-divider nzText="Ship Out Locations" nzOrientation="left"></nz-divider>
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Select A Location"
+        [(ngModel)]="shipOutLocation"
+        (ngModelChange)="
+          changeValue(shipOutLocation ? $event : '', 'shipOutLocation')
+        "
+      >
+        <nz-option nzLabel="Ahmadabad" nzValue="Ahmadabad"></nz-option>
+        <nz-option nzLabel="Surat" nzValue="Surat"></nz-option>
+        <nz-option nzLabel="Rajkot" nzValue="Rajkot"></nz-option>
+        <nz-option nzLabel="Bhavnagar" nzValue="Bhavnagar"></nz-option>
+      </nz-select>
+    </ng-container>
 
-    <nz-divider
-      style="margin-top: 20px"
-      nzText="MPN"
-      nzOrientation="left"
-    ></nz-divider>
-    <nz-form-item>
-      <nz-form-control>
-        <nz-input-group>
-          <input
-            [(ngModel)]="mpn"
-            type="text"
-            nz-input
-            placeholder="Enter MPN"
-            (keyup)="accountSearch.next($event)"
-          />
-        </nz-input-group>
-      </nz-form-control>
-    </nz-form-item>
+    <ng-container *ngIf="tabName !== 'returnToSender'">
+      <nz-divider
+        style="margin-top: 20px"
+        nzText="MPN"
+        nzOrientation="left"
+      ></nz-divider>
+      <nz-form-item>
+        <nz-form-control>
+          <nz-input-group>
+            <input
+              [(ngModel)]="mpn"
+              type="text"
+              nz-input
+              placeholder="Enter MPN"
+              (keyup)="accountSearch.next($event)"
+            />
+          </nz-input-group>
+        </nz-form-control>
+      </nz-form-item>
+    </ng-container>
 
-    <nz-divider nzText="Carrier " nzOrientation="left"></nz-divider>
-    <nz-select
-      nzShowSearch
-      nzAllowClear
-      nzPlaceHolder="Select A Carrier "
-      [(ngModel)]="carrier"
-      (ngModelChange)="changeValue(carrier ? $event : '', 'carrier')"
-    >
-      <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
-      <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
-      <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
-      <nz-option nzLabel="Others" nzValue="Others"></nz-option>
-    </nz-select>
+    <ng-container *ngIf="tabName !== 'returnToSender'">
+      <nz-divider nzText="Carrier " nzOrientation="left"></nz-divider>
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Select A Carrier "
+        [(ngModel)]="carrier"
+        (ngModelChange)="changeValue(carrier ? $event : '', 'carrier')"
+      >
+        <nz-option nzLabel="UPS" nzValue="UPS"></nz-option>
+        <nz-option nzLabel="FedEx" nzValue="FedEx"></nz-option>
+        <nz-option nzLabel="USPS" nzValue="USPS"></nz-option>
+        <nz-option nzLabel="Others" nzValue="Others"></nz-option>
+      </nz-select>
+    </ng-container>
 
     <nz-divider
       *ngIf="tabName === 'new' || tabName === 'pendingShipment'"
@@ -129,13 +135,13 @@
 
     <!-- Ship Date -->
     <nz-divider
-      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
+      *ngIf="tabName === 'pending-invoice'"
       style="margin-top: 20px"
       nzText="Ship Date"
       nzOrientation="left"
     ></nz-divider>
     <nz-range-picker
-      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
+      *ngIf="tabName === 'pending-invoice'"
       [(ngModel)]="shipDate"
       [nzFormat]="appDateFormate"
       (ngModelChange)="changeValue(shipDate ? $event : '', 'shipDate')"
@@ -143,13 +149,13 @@
 
     <!-- Invoice status -->
     <nz-divider
-      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
+      *ngIf="tabName === 'pending-invoice'"
       style="margin-top: 20px"
       nzText="Remark"
       nzOrientation="left"
     ></nz-divider>
     <nz-select
-      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
+      *ngIf="tabName === 'pending-invoice'"
       nzShowSearch
       nzAllowClear
       nzPlaceHolder="Select A Remark"

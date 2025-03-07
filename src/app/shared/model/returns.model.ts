@@ -74,6 +74,7 @@ export interface ApproveReturnPayload {
   po_no: string;
   cn: string;
   uploaded_file?: File;
+  type: string;
 }
 
 export interface ReclssifyReturnPayload extends ApproveReturnPayload {}
