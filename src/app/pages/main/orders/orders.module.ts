@@ -20,6 +20,7 @@ import { OrderTableComponent } from './orders-section/order-table/order-table.co
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UploadComponent } from './orders-section/pending-invoice/upload/upload.component';
 import { PendingInvoiceComponent } from './orders-section/pending-invoice/pending-invoice.component';
+import { ReturnToSender } from './orders-section/return-to-sender/return-to-sender.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PendingInvoiceComponent } from './orders-section/pending-invoice/pendin
     OrderTableComponent,
     PendingInvoiceComponent,
     UploadComponent,
+    ReturnToSender,
   ],
   imports: [
     CommonModule,

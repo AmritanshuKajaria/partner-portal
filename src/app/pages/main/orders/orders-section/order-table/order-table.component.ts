@@ -28,6 +28,8 @@ export class OrderTableComponent implements OnInit {
   isConfirmShipped: boolean = false;
   isTracking: boolean = false;
   isUploadModelVisible: boolean = false;
+  approveReturnModalVisible: boolean = false;
+  appReportCarrierDamageModalVisible: boolean = false;
 
   pageSizeOptions = [100];
   poNo: string = '';
@@ -181,6 +183,12 @@ export class OrderTableComponent implements OnInit {
     } else if (type === 'Upload Invoice') {
       this.poNo = po_no;
       this.isUploadModelVisible = true;
+    } else if (type === 'approveReturn') {
+      this.poNo = po_no;
+      this.approveReturnModalVisible = true;
+    } else if (type === 'appReportCarrierDamage') {
+      this.poNo = po_no;
+      this.appReportCarrierDamageModalVisible = true;
     } else {
       this.poNo = po_no;
       this.isCancelOrderVisible = true;
@@ -205,6 +213,23 @@ export class OrderTableComponent implements OnInit {
           this.message.error('Download invoice failed!');
         }
       },
+    });
+  }
+
+  markAsLost(po_no: any) {
+    this.modal.confirm({
+      nzTitle:
+        'Are you sure you want to file a claim with the carrier for this return?',
+      nzOnOk: () => {
+        const data = {
+          po_no: po_no,
+        };
+      },
+      nzClassName: 'confirm-modal',
+      nzOkText: 'Confirm',
+      nzCancelText: 'No',
+      nzOnCancel: () => console.log('Close'),
+      nzOkLoading: this.isLoading,
     });
   }
 }

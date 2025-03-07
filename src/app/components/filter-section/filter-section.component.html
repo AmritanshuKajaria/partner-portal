@@ -129,13 +129,13 @@
 
     <!-- Ship Date -->
     <nz-divider
-      *ngIf="tabName === 'pending-invoice'"
+      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
       style="margin-top: 20px"
       nzText="Ship Date"
       nzOrientation="left"
     ></nz-divider>
     <nz-range-picker
-      *ngIf="tabName === 'pending-invoice'"
+      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
       [(ngModel)]="shipDate"
       [nzFormat]="appDateFormate"
       (ngModelChange)="changeValue(shipDate ? $event : '', 'shipDate')"
@@ -143,13 +143,13 @@
 
     <!-- Invoice status -->
     <nz-divider
-      *ngIf="tabName === 'pending-invoice'"
+      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
       style="margin-top: 20px"
       nzText="Remark"
       nzOrientation="left"
     ></nz-divider>
     <nz-select
-      *ngIf="tabName === 'pending-invoice'"
+      *ngIf="tabName === 'pending-invoice' || tabName === 'returnToSender'"
       nzShowSearch
       nzAllowClear
       nzPlaceHolder="Select A Remark"

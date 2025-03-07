@@ -16,6 +16,8 @@
           ? '1600px'
           : tabName === 'pending-shipment'
           ? '1400px'
+          : tabName === 'returnToSender'
+          ? '1500px'
           : '1200px',
       y: 'calc(100vh - 416px)'
     }"
@@ -57,13 +59,22 @@
         </th>
         <th
           id="ship_date"
-          *ngIf="tabName === 'pending-invoice' || tabName === 'All'"
+          *ngIf="
+            tabName === 'pending-invoice' ||
+            tabName === 'returnToSender' ||
+            tabName === 'All'
+          "
         >
           Ship Date
         </th>
         <th id="cancelled_date" *ngIf="tabName === 'All'">Cancelled Date</th>
         <th id="carrier" [nzWidth]="'160px'">Carrier</th>
-        <th id="invoice_no" *ngIf="tabName === 'All'">Invoice No.</th>
+        <th
+          id="invoice_no"
+          *ngIf="tabName === 'All' || tabName === 'returnToSender'"
+        >
+          Invoice No.
+        </th>
         <th
           id="Remark"
           *ngIf="
@@ -76,7 +87,13 @@
         <th
           id="action"
           class="action-column"
-          [nzWidth]="tabName === 'All' ? '78px' : '227px'"
+          [nzWidth]="
+            tabName === 'All'
+              ? '78px'
+              : tabName === 'returnToSender'
+              ? '225px'
+              : '227px'
+          "
           nzRight
         >
           <div>Action</div>
@@ -143,7 +160,9 @@
             }}
           </span>
         </td>
-        <td *ngIf="tabName !== 'pending-invoice'">
+        <td
+          *ngIf="tabName !== 'pending-invoice' && tabName !== 'returnToSender'"
+        >
           <div class="date">
             {{
               tabName === "Cancellation Requested"
@@ -156,7 +175,13 @@
             }}
           </div>
         </td>
-        <td *ngIf="tabName === 'pending-invoice' || tabName === 'All'">
+        <td
+          *ngIf="
+            tabName === 'pending-invoice' ||
+            tabName === 'returnToSender' ||
+            tabName === 'All'
+          "
+        >
           <div
             class="date"
             [ngStyle]="{ 'text-align': !data.ship_date ? 'center' : '' }"
@@ -186,7 +211,7 @@
             </a>
           </div>
         </td>
-        <td *ngIf="tabName === 'All'">
+        <td *ngIf="tabName === 'All' || tabName === 'returnToSender'">
           <a class="link" (click)="getDownloadInvoice(data?.po_no)">
             {{ data?.invoice_no }}
           </a>
@@ -281,6 +306,35 @@
               </button>
             </div>
             <ng-container [ngTemplateOutlet]="dots"></ng-container>
+          </div>
+
+          <!-- returnToSender -->
+          <div style="display: flex" *ngIf="tabName === 'returnToSender'">
+            <div class="action-btn">
+              <button
+                style="border: 1px solid #28a745; color: #28a745; width: 185px"
+                nz-button
+                (click)="selectAction(data.po_no, 'approveReturn')"
+              >
+                Approve Credit
+              </button>
+
+              <button
+                style="border: 1px solid #ff4d4f; color: #ff4d4f; width: 185px"
+                nz-button
+                (click)="selectAction(data.po_no, 'appReportCarrierDamage')"
+              >
+                Report Carrier Damage
+              </button>
+
+              <button
+                style="border: 1px solid #ff4d4f; color: #ff4d4f; width: 185px"
+                nz-button
+                (click)="markAsLost(data?.po_no)"
+              >
+                Mark as Lost
+              </button>
+            </div>
           </div>
 
           <!-- All -->
@@ -383,5 +437,36 @@
       [poNo]="poNo"
       (closeModel)="isUploadModelVisible = false"
     ></app-upload>
+  </ng-container>
+</nz-modal>
+
+<!-- Approve Credit Modal -->
+<nz-modal
+  [(nzVisible)]="approveReturnModalVisible"
+  nzTitle="Approve Credit"
+  (nzOnCancel)="approveReturnModalVisible = false"
+  [nzWidth]="'545px'"
+>
+  <ng-container *nzModalContent>
+    <app-upload-credit-note
+      [type]="'approveReturn'"
+      [poNo]="poNo"
+      (closeModal)="approveReturnModalVisible = false"
+    ></app-upload-credit-note>
+  </ng-container>
+</nz-modal>
+
+<!-- App Report Carrier Damage Modal -->
+<nz-modal
+  [(nzVisible)]="appReportCarrierDamageModalVisible"
+  nzTitle="Report Carrier Damage"
+  (nzOnCancel)="appReportCarrierDamageModalVisible = false"
+  nzWidth="540px"
+>
+  <ng-container *nzModalContent>
+    <app-report-carrier-damage
+      (closeModal)="appReportCarrierDamageModalVisible = false"
+      [poNo]="poNo"
+    ></app-report-carrier-damage>
   </ng-container>
 </nz-modal>

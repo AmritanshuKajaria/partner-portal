@@ -14,8 +14,6 @@ import { ComponentModule } from 'src/app/components/component.module';
 import { ReturnApproveComponent } from './return-section/return-approve/return-approve.component';
 import { ReturnTableComponent } from './return-section/return-table/return-table.component';
 import { SharedModule } from '../../../shared/shared.module';
-import { UploadCreditNote } from './return-section/forms/upload-credit-note/upload-credit-note.component';
-import { ReportCarrierDamage } from './return-section/forms/report-carrier-damage/report-carrier-damage.component';
 import { AddRa } from './return-section/forms/add-ra/add-ra.component';
 import { NeedAction } from './return-section/need-action/need-action.component';
 import { WipCarrier } from './return-section/wip-carrier/wip-carrier.component';
@@ -29,8 +27,6 @@ import { AdditionalDetailComponent } from './return-section/forms/additional-det
     ReturnDelivered,
     AllReturnComponent,
     ReturnApproveComponent,
-    UploadCreditNote,
-    ReportCarrierDamage,
     AddRa,
     ReturnTableComponent,
     NeedAction,

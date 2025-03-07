@@ -8,6 +8,7 @@ import {
   OrderAction,
 } from '../model/orders.model';
 import { formatDate } from '@angular/common';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -96,6 +97,77 @@ export class OrdersService {
     if (action.search_term) {
       params = params.append('search_term', action.search_term);
     }
+
+    return of({
+      success: true,
+      processed_at: '2025-03-07T04:38:07.000Z',
+      msg: '',
+      response: {
+        applied_filters: {
+          filter_po_status: '',
+          filter_sku: '',
+          filter_ship_out_location: '',
+          filter_carrier: '',
+          filter_committed_ship_date: '',
+          filter_from_po_date: '',
+          filter_to_po_date: '',
+        },
+        filtered: false,
+        searched: false,
+        orders: [
+          {
+            po_no: 'RAZ-8337',
+            location_code: 'CA-92324',
+            po_method: 'EDI',
+            po_datetime: '2025-03-04T15:09:12.000Z',
+            customer_name: 'Jack Wilcock ',
+            porduct_mpn: '13013208',
+            porduct_sku: '123-RAZ-13013208',
+            porduct_asin: 'B06XWK37NY',
+            porduct_qty: 1,
+            po_total: 87.22,
+            ship_date: '2025-03-07',
+            carrier: 'FEDEX',
+            invoice_no: '7218847',
+          },
+          {
+            po_no: 'RAZ-8338',
+            location_code: 'CA-92324',
+            po_method: 'EDI',
+            po_datetime: '2025-03-05T07:21:13.000Z',
+            customer_name: 'matt ',
+            porduct_mpn: '15055995',
+            porduct_sku: '123-RAZ-15055995',
+            porduct_asin: 'B01BV2CBYI',
+            porduct_qty: 1,
+            po_total: 65.95,
+            ship_date: '2025-03-07',
+            carrier: 'FEDEX',
+            invoice_no: '7218847',
+          },
+          {
+            po_no: 'RAZ-8339',
+            location_code: 'CA-92324',
+            po_method: 'EDI',
+            po_datetime: '2025-03-05T14:00:24.000Z',
+            customer_name: 'Emani ',
+            porduct_mpn: '13112195',
+            porduct_sku: '123-RAZ-13112195',
+            porduct_asin: 'B07X372GCB',
+            porduct_qty: 1,
+            po_total: 136.47,
+            ship_date: '2025-03-07',
+            carrier: 'FEDEX',
+            invoice_no: '7218847',
+          },
+        ],
+        pagination: {
+          total_rows: '3',
+          current_page: '1',
+          total_pages: 1,
+        },
+      },
+    });
     return this.http.get(this.url + '/orders', {
       params: params,
     });

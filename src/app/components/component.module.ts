@@ -31,6 +31,8 @@ import { DateTimeComponent } from './date-time/date-time.component';
 import { EditPriceComponent } from './edit-price/edit-price.component';
 import { InvoiceDetailPageComponent } from './invoice-detail-page/invoice-detail-page.component';
 import { UploadImageComponent } from './upload-image/upload-image.component';
+import { UploadCreditNote } from './upload-credit-note/upload-credit-note.component';
+import { ReportCarrierDamage } from './report-carrier-damage/report-carrier-damage.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,8 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
     EditPriceComponent,
     InvoiceDetailPageComponent,
     UploadImageComponent,
+    UploadCreditNote,
+    ReportCarrierDamage,
   ],
   exports: [
     StatusBadgeComponent,
@@ -83,6 +87,8 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
     EditPriceComponent,
     InvoiceDetailPageComponent,
     UploadImageComponent,
+    UploadCreditNote,
+    ReportCarrierDamage,
   ],
   imports: [
     CommonModule,
