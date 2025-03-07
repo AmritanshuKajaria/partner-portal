@@ -233,6 +233,7 @@ export class OrderTableComponent implements OnInit {
       nzOnOk: () => {
         const data: markAsLostPayload = {
           po_no: po_no,
+          type: 'rts',
         };
         this.returnService.markAsLost(data).subscribe({
           next: (result: ApiResponse) => {

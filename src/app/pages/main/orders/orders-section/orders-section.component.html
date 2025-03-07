@@ -100,7 +100,7 @@
           (totalData)="getTotal($event, 'pending-invoice')"
         ></app-pending-invoice
       ></nz-tab>
-      <nz-tab *ngIf="showRtsTab === '1'" [nzTitle]="returnToSenderTabTitle">
+      <nz-tab *ngIf="showRtsTab" [nzTitle]="returnToSenderTabTitle">
         <ng-template #returnToSenderTabTitle>
           <div
             style="display: flex; align-items: center; justify-content: center"

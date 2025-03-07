@@ -20,7 +20,7 @@ export class OrdersSectionComponent implements OnInit {
   allTotal: number = -1;
 
   destroy$: Subject<any> = new Subject();
-  showRtsTab: '0' | '1' = '0';
+  showRtsTab: boolean = false;
 
   constructor(
     private router: Router,
@@ -36,7 +36,7 @@ export class OrdersSectionComponent implements OnInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: any) => {
         if (res) {
-          this.showRtsTab = res?.return_to_sender === 1 ? '1' : '0';
+          this.showRtsTab = res?.return_to_sender === 1;
         }
       });
   }

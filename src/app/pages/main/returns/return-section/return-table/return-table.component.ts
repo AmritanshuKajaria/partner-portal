@@ -17,6 +17,7 @@ import {
   AppliedFilters,
   Cost,
   markAsLostPayload,
+  markAsReceivedPayload,
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
@@ -285,7 +286,7 @@ export class ReturnTableComponent implements OnInit {
     this.modal.confirm({
       nzTitle: 'Are you sure you want to mark this return as received?',
       nzOnOk: () => {
-        const data: markAsLostPayload = {
+        const data: markAsReceivedPayload = {
           po_no: po_no,
         };
         this.returnService.markAsReceived(data).subscribe({
@@ -320,6 +321,7 @@ export class ReturnTableComponent implements OnInit {
       nzOnOk: () => {
         const data: markAsLostPayload = {
           po_no: po_no,
+          type: 'return',
         };
         this.returnService.markAsLost(data).subscribe({
           next: (result: ApiResponse) => {

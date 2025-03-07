@@ -610,7 +610,8 @@
 >
   <ng-container *nzModalContent>
     <app-upload-credit-note
-      [type]="'reclassifyReturn'"
+      [type]="tabName === 'returnDelivered' ? 'return' : 'claim'"
+      [ReclassifyReturn]="true"
       [poNo]="poNo"
       (closeModal)="reclassifyReturnModalVisible = false"
     ></app-upload-credit-note>
@@ -626,6 +627,7 @@
 >
   <ng-container *nzModalContent>
     <app-report-carrier-damage
+      [type]="tabName === 'returnDelivered' ? 'return' : 'claim'"
       (closeModal)="appReportCarrierDamageModalVisible = false"
       [poNo]="poNo"
     ></app-report-carrier-damage>
