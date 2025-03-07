@@ -15,22 +15,24 @@
       (ngModelChange)="changeValue(rangeDate ? $event : '', 'rangeDate')"
     ></nz-range-picker>
 
-    <nz-divider nzText="Ship Out Locations" nzOrientation="left"></nz-divider>
-    <nz-select
-      nzShowSearch
-      nzAllowClear
-      nzPlaceHolder="Select A Location"
-      [(ngModel)]="shipOutLocation"
-      (ngModelChange)="
-        changeValue(shipOutLocation ? $event : '', 'shipOutLocation')
-      "
-    >
-      <nz-option
-        *ngFor="let item of listOfShipOutLocation"
-        [nzLabel]="item"
-        [nzValue]="item"
-      ></nz-option>
-    </nz-select>
+    <ng-container *ngIf="tabName !== 'returnToSender'">
+      <nz-divider nzText="Ship Out Locations" nzOrientation="left"></nz-divider>
+      <nz-select
+        nzShowSearch
+        nzAllowClear
+        nzPlaceHolder="Select A Location"
+        [(ngModel)]="shipOutLocation"
+        (ngModelChange)="
+          changeValue(shipOutLocation ? $event : '', 'shipOutLocation')
+        "
+      >
+        <nz-option
+          *ngFor="let item of listOfShipOutLocation"
+          [nzLabel]="item"
+          [nzValue]="item"
+        ></nz-option>
+      </nz-select>
+    </ng-container>
 
     <!-- All Status -->
     <nz-divider

@@ -20,6 +20,7 @@ import {
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
+import { OrdersService } from 'src/app/shared/service/orders.service';
 import { ReturnService } from 'src/app/shared/service/return.service';
 
 @Component({
@@ -88,7 +89,8 @@ export class ReturnTableComponent implements OnInit {
     private router: Router,
     private modal: NzModalService,
     private returnService: ReturnService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private ordersService: OrdersService
   ) {
     this.searchForm = new FormGroup({
       search: new FormControl(''),
@@ -341,6 +343,27 @@ export class ReturnTableComponent implements OnInit {
       nzCancelText: 'No',
       nzOnCancel: () => console.log('Close'),
       nzOkLoading: this.isLoading,
+    });
+  }
+
+  getDownloadInvoice(po_no: string) {
+    this.ordersService.downloadInvoice(po_no).subscribe({
+      next: (result: ApiResponse) => {
+        if (result.success) {
+          const res: any = result.response ?? {};
+          this.message.success('Download invoice successfully!');
+          window.open(res?.invoice_url);
+        } else {
+          this.message.error(
+            result?.msg ? result?.msg : 'Download invoice failed!'
+          );
+        }
+      },
+      error: (err) => {
+        if (!err?.error_shown) {
+          this.message.error('Download invoice failed!');
+        }
+      },
     });
   }
 

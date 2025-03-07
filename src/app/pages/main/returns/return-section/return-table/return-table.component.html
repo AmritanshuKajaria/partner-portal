@@ -207,7 +207,11 @@
               >{{ data?.po_no }}</a
             >
           </td>
-          <td class="no-wrap">{{ data?.invoice_no }}</td>
+          <td class="no-wrap">
+            <a class="link" (click)="getDownloadInvoice(data.po_no)">
+              {{ data?.invoice_no }}
+            </a>
+          </td>
           <td nzBreakWord>{{ data?.customer_name }}</td>
 
           <td>
@@ -590,7 +594,7 @@
 >
   <ng-container *nzModalContent>
     <app-upload-credit-note
-      [type]="'approveReturn'"
+      [type]="tabName === 'returnDelivered' ? 'return' : 'claim'"
       [poNo]="poNo"
       (closeModal)="approveReturnModalVisible = false"
     ></app-upload-credit-note>

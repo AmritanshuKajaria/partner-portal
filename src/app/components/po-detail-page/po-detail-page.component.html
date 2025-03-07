@@ -62,7 +62,8 @@
                     ><b>
                       {{
                         poDetailData?.order_summary?.po_date
-                          ? (poDetailData?.order_summary?.po_date | customDate)
+                          ? (poDetailData?.order_summary?.po_date
+                            | customDate : " HH:MM a")
                           : ""
                       }}</b
                     >

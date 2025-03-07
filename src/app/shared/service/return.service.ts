@@ -72,7 +72,7 @@ export class ReturnService {
   }
 
   approveReturn(data: FormData) {
-    return this.http.post(this.url + '/approve-return', data);
+    return this.http.post(this.url + '/approve-credit', data);
   }
 
   reclassifyReturn(data: FormData) {
@@ -84,7 +84,7 @@ export class ReturnService {
   }
 
   additionalDetails(data: FormData) {
-    return this.http.post(this.url + '/additional-details', data);
+    return this.http.post(this.url + '/additional-claim-details', data);
   }
 
   markAsLost(data: markAsLostPayload) {

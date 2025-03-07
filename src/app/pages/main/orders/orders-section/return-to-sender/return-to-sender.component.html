@@ -12,10 +12,7 @@
         (closeTag)="close($event)"
         (tagRemove)="tagRemove()"
         [badgeTotal]="badgeTotal"
-        [selectLocation]="selectLocation"
         [selectRangeDate]="selectRangeDate"
-        [selectShipDate]="selectShipDate"
-        [selectInvoiceStatus]="selectInvoiceStatus"
       ></app-filter-tag>
     </div>
 
@@ -33,12 +30,7 @@
     <app-filter-section
       (closeNav)="closeNav()"
       (changeData)="change($event)"
-      [shipOutLocation]="selectLocation"
-      [carrier]="selectCarrier"
-      [mpn]="selectMPN"
       [rangeDate]="selectRangeDate"
-      [shipDate]="selectShipDate"
-      [invoiceStatus]="selectInvoiceStatus"
       [tabName]="'returnToSender'"
     ></app-filter-section>
   </div>

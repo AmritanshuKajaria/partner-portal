@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
+import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
 @Component({
   selector: 'app-orders-section',
@@ -17,12 +19,26 @@ export class OrdersSectionComponent implements OnInit {
   deliveredTotal: number = -1;
   allTotal: number = -1;
 
-  constructor(private router: Router) {
+  destroy$: Subject<any> = new Subject();
+  showRtsTab: '0' | '1' = '0';
+
+  constructor(
+    private router: Router,
+    private userPermissionService: UserPermissionService
+  ) {
     const navigation = this.router.getCurrentNavigation();
     const state = navigation
       ? (navigation.extras.state as { index: number })
       : '';
     this.selectedTab = state ? state.index : 0;
+
+    this.userPermissionService.userPermission
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => {
+        if (res) {
+          this.showRtsTab = res?.return_to_sender === 1 ? '1' : '0';
+        }
+      });
   }
 
   ngOnInit(): void {}
@@ -58,5 +74,10 @@ export class OrdersSectionComponent implements OnInit {
 
   changeTabIndex(event: number) {
     this.selectedTab = event;
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(null);
+    this.destroy$.complete();
   }
 }

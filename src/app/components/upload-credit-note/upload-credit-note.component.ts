@@ -47,6 +47,7 @@ export class UploadCreditNote implements OnInit {
     this.isLoading = true;
     const creditNoteData: ApproveReturnPayload = {
       po_no: this.poNo,
+      type: this.type,
       cn: this.uploadCreditNoteForm.controls['cn'].value,
       uploaded_file: this.selectFile,
     };
@@ -57,8 +58,10 @@ export class UploadCreditNote implements OnInit {
       'uploaded_file',
       creditNoteData.uploaded_file ? creditNoteData.uploaded_file : ''
     );
+    if (this.type !== 'reclassifyReturn')
+      data.append('type', creditNoteData.type);
 
-    if (this.type === 'approveReturn') {
+    if (this.type !== 'reclassifyReturn') {
       this.returnService.approveReturn(data).subscribe({
         next: (result: ApiResponse) => {
           this.isLoading = false;
@@ -78,7 +81,7 @@ export class UploadCreditNote implements OnInit {
           }
         },
       });
-    } else if (this.type === 'reclassifyReturn') {
+    } else {
       this.returnService.reclassifyReturn(data).subscribe({
         next: (result: ApiResponse) => {
           this.isLoading = false;
