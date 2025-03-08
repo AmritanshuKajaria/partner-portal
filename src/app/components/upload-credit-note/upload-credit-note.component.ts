@@ -13,6 +13,7 @@ import { ReturnService } from 'src/app/shared/service/return.service';
 export class UploadCreditNote implements OnInit {
   @Input() poNo: string = '';
   @Input() type: string = '';
+  @Input() ReclassifyReturn: boolean = false;
   @Output() closeModal = new EventEmitter();
 
   uploadCreditNoteForm!: FormGroup;
@@ -58,10 +59,9 @@ export class UploadCreditNote implements OnInit {
       'uploaded_file',
       creditNoteData.uploaded_file ? creditNoteData.uploaded_file : ''
     );
-    if (this.type !== 'reclassifyReturn')
-      data.append('type', creditNoteData.type);
+    data.append('type', creditNoteData.type);
 
-    if (this.type !== 'reclassifyReturn') {
+    if (!this.ReclassifyReturn) {
       this.returnService.approveReturn(data).subscribe({
         next: (result: ApiResponse) => {
           this.isLoading = false;

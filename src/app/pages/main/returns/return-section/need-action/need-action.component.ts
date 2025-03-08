@@ -14,7 +14,7 @@ import { ReturnService } from 'src/app/shared/service/return.service';
   templateUrl: './need-action.component.html',
   styleUrls: ['./need-action.component.scss'],
 })
-export class NeedAction implements OnInit {
+export class NeedActionComponent implements OnInit {
   @Output() totalData = new EventEmitter();
 
   isLoading: boolean = false;
@@ -86,7 +86,7 @@ export class NeedAction implements OnInit {
     this.isLoading = true;
     const data: GetAllReturnsPayload = {
       page: page,
-      return_type: '5',
+      return_type: '4',
       search_term: search_term,
       filter_start_date: start_date,
       filter_end_date: end_date,

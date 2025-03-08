@@ -88,16 +88,15 @@ export class InTransitComponent implements OnInit {
       .subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            const res: GetAllOrders = result?.response ?? {};
+            const res: GetAllOrders = result.response ?? {};
+            this.isLoading = false;
             this.total = res?.pagination?.total_rows ?? 0;
             this.totalData.emit(this.total);
             this.inTransitData = res.orders ?? [];
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Get Orders In Transite Failed!'
-            );
+            this.message.error('Get Orders In Transite Failed!');
+            this.isLoading = false;
           }
-          this.isLoading = false;
         },
         error: (err) => {
           if (!err?.error_shown) {

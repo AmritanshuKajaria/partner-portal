@@ -54,7 +54,7 @@ export class UploadComponent implements OnInit {
       this.ordersService.uploadInvoice(formData).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            const res: any = result?.response ?? {};
+            const res: any = result.response ?? {};
             this.message.create('success', 'Invoice upload successfully!');
             this.handleCancel(res?.feed_code);
           } else {

@@ -1,38 +1,64 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
-import { ReturnService } from 'src/app/shared/service/return.service';
+import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllReturn,
   GetAllReturnsPayload,
   SingleReturn,
 } from 'src/app/shared/model/returns.model';
-import { ApiResponse } from 'src/app/shared/model/common.model';
+import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
-  selector: 'app-all-return',
-  templateUrl: './all-return.component.html',
-  styleUrls: ['./all-return.component.scss'],
+  selector: 'app-carrier-claims',
+  templateUrl: './carrier-claims.component.html',
+  styleUrls: ['./carrier-claims.component.scss'],
 })
-export class AllReturnComponent implements OnInit {
+export class CarrierClaims implements OnInit {
   @Output() totalData = new EventEmitter();
 
   isLoading: boolean = false;
   total = 0;
   pageSize = 100;
   pageIndex = 1;
-  search_term: string = '';
-  addRaVisible: boolean = false;
-  statusEnum: typeof StatusEnum = StatusEnum;
+
+  modelVisible: boolean = false;
   badgeTotal: number = 0;
 
+  search_term: string = '';
   filter_start_date: string = '';
   filter_end_date: string = '';
   filter_status: string = '';
   filter_return_classification: string = '';
+  defaultFilters: AppliedFilters = { filter_return_type: '4' };
 
-  defaultFilters: AppliedFilters = { filter_return_type: '6' };
-  allReturnList: SingleReturn[] = [];
+  ranges = {
+    Today: [new Date(), new Date()],
+    YesterDay: [
+      new Date(new Date().setDate(new Date().getDate() - 1)),
+      new Date(new Date().setDate(new Date().getDate() - 1)),
+    ],
+    'Last 7 Days': [
+      new Date(new Date().setDate(new Date().getDate() - 6)),
+      new Date(new Date()),
+    ],
+    'Last 30 Days': [
+      new Date(new Date().setDate(new Date().getDate() - 29)),
+      new Date(new Date()),
+    ],
+    'This Month': [new Date(), endOfMonth(new Date())],
+    'Last Month': [
+      new Date(
+        new Date().getFullYear(),
+        new Date().getMonth() - 1,
+        new Date().getDate()
+      ),
+      new Date(),
+    ],
+    // Custom: [],
+  };
+
+  carrierClaimsList: SingleReturn[] = [];
 
   constructor(
     private returnService: ReturnService,
@@ -60,7 +86,7 @@ export class AllReturnComponent implements OnInit {
     this.isLoading = true;
     const data: GetAllReturnsPayload = {
       page: page,
-      return_type: '6',
+      return_type: '4',
       search_term: search_term,
       filter_start_date: start_date,
       filter_end_date: end_date,
@@ -73,17 +99,17 @@ export class AllReturnComponent implements OnInit {
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
-          this.allReturnList = res?.returns ?? [];
+          this.carrierClaimsList = res?.returns ?? [];
           this.totalData.emit(+this.total);
         } else {
           this.message.error(
-            result?.msg ? result?.msg : 'Get All Return Failed!'
+            result?.msg ? result?.msg : 'Get In-Carrier-Claims Failed!'
           );
         }
       },
       error: (err) => {
         if (!err?.error_shown) {
-          this.message.error('Get All Return Failed!');
+          this.message.error('Get In-Carrier-Claims Failed!');
         }
         this.isLoading = false;
       },
@@ -130,9 +156,5 @@ export class AllReturnComponent implements OnInit {
       this.filter_return_classification,
       this.filter_status
     );
-  }
-
-  onChange(result: Date[]): void {
-    console.log('From: ', result[0], ', to: ', result[1]);
   }
 }

@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WipCarrier } from './wip-carrier.component';
+import { CarrierClaims } from './carrier-claims.component';
 
-describe('WipCarrier', () => {
-  let component: WipCarrier;
-  let fixture: ComponentFixture<WipCarrier>;
+describe('CarrierClaims', () => {
+  let component: CarrierClaims;
+  let fixture: ComponentFixture<CarrierClaims>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [WipCarrier],
+      declarations: [CarrierClaims],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(WipCarrier);
+    fixture = TestBed.createComponent(CarrierClaims);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

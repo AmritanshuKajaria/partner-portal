@@ -15,8 +15,6 @@ interface RANumber {
 }
 
 export interface GetAllReturn {
-  success?: boolean;
-  processed_at?: string;
   pagination?: {
     total_rows?: number;
     current_page?: number;
@@ -27,7 +25,6 @@ export interface GetAllReturn {
   searched?: boolean;
   applied_search_term?: string;
   returns?: SingleReturn[];
-  error_message?: string;
 }
 
 export interface AppliedFilters {
@@ -37,6 +34,10 @@ export interface AppliedFilters {
   filter_return_classification?: string;
   filter_return_type?: string;
 }
+
+// in export common component it's conflict with AppliedFilters of other tab
+export interface ExportAppliedFilters extends AppliedFilters {}
+
 export interface Cost {
   cost_of_product: string;
   original_shipping_cost: string;
@@ -51,6 +52,7 @@ export interface SingleReturn {
   invoice_no: string;
   customer_name: string;
   product_mpn: string;
+  product_sku: string;
   product_qty: number;
   return_delivery_date: string;
   credit_amount_due: string;
@@ -84,6 +86,7 @@ export interface ReportCarrierDamagePayload {
   image1: File;
   image2: File;
   image3: File;
+  type: string;
 }
 
 export interface AdditionalDetailsPayload {
@@ -94,5 +97,9 @@ export interface AdditionalDetailsPayload {
 }
 
 export interface markAsLostPayload {
+  po_no: string;
+  type: string;
+}
+export interface markAsReceivedPayload {
   po_no: string;
 }

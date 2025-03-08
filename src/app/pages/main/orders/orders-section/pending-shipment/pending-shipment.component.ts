@@ -32,7 +32,9 @@ export class PendingShipmentComponent implements OnInit {
   pendingShipmentData: any = [];
   clear_btn: boolean = false;
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '2',
+  };
 
   badgeTotal: number = 0;
   mpnCount: number = 0;
@@ -100,14 +102,12 @@ export class PendingShipmentComponent implements OnInit {
       .subscribe({
         next: (result: ApiResponse) => {
           if (result?.success) {
-            const res: any = result?.response ?? {};
+            const res: GetAllOrders = result?.response ?? {};
             this.total = res?.pagination?.total_rows ?? 0;
             this.pendingShipmentData = res?.orders ?? [];
             this.totalData.emit(+this.total);
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Get Shipment Pending Failed!'
-            );
+            this.message.error('Get Shipment Pending Failed!');
           }
           this.isLoading = false;
         },
@@ -232,7 +232,7 @@ export class PendingShipmentComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'Pending Shipment',
+        filter_po_list_type: '2',
         filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,
@@ -290,7 +290,7 @@ export class PendingShipmentComponent implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'Pending Shipment',
+          filter_po_list_type: '2',
           filter_mpn: this.selectMPN,
           filter_ship_out_location: this.selectLocation,
           filter_carrier: this.selectCarrier,
@@ -336,7 +336,7 @@ export class PendingShipmentComponent implements OnInit {
       this.search_term
     );
     this.listOfFilter = {
-      filter_po_list_type: 'Pending Shipment',
+      filter_po_list_type: '2',
       filter_mpn: this.selectMPN,
       filter_ship_out_location: this.selectLocation,
       filter_carrier: this.selectCarrier,
@@ -387,7 +387,7 @@ export class PendingShipmentComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'Pending Shipment',
+        filter_po_list_type: '2',
         filter_mpn: this.selectMPN,
         filter_ship_out_location: this.selectLocation,
         filter_carrier: this.selectCarrier,

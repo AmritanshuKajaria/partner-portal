@@ -7,11 +7,11 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllOrders,
 } from 'src/app/shared/model/orders.model';
-import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -44,7 +44,9 @@ export class NewOrdersComponent implements OnInit {
   search_term: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '1',
+  };
 
   constructor(
     private ordersService: OrdersService,
@@ -81,15 +83,13 @@ export class NewOrdersComponent implements OnInit {
       .subscribe({
         next: (result: ApiResponse) => {
           if (result?.success) {
-            const res: GetAllOrders = result?.response ?? {};
+            const res: GetAllOrders = result.response ?? {};
             this.total = res?.pagination?.total_rows ?? 0;
             this.newOrdersData = res?.orders ?? [];
 
             this.totalData.emit(+this.total);
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Get New Orders Failed!'
-            );
+            this.message.error('Get New Orders Failed!');
           }
 
           this.isLoading = false;
@@ -167,7 +167,7 @@ export class NewOrdersComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'New',
+        filter_po_list_type: '1',
         filter_ship_out_location: this.selectLocation,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
@@ -199,7 +199,7 @@ export class NewOrdersComponent implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'New',
+          filter_po_list_type: '1',
           filter_ship_out_location: this.selectLocation,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
@@ -229,7 +229,7 @@ export class NewOrdersComponent implements OnInit {
       this.selectRangeDate[1]
     );
     this.listOfFilter = {
-      filter_po_list_type: 'New',
+      filter_po_list_type: '1',
       filter_ship_out_location: this.selectLocation,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
@@ -264,7 +264,7 @@ export class NewOrdersComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'New',
+        filter_po_list_type: '1',
         filter_ship_out_location: this.selectLocation,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],

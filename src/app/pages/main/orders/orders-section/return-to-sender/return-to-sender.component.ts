@@ -39,7 +39,7 @@ export class ReturnToSender implements OnInit {
 
   isExportVisible: boolean = false;
   listOfFilter: AppliedFilters = {
-    filter_po_list_type: '4',
+    filter_po_list_type: '6',
   };
 
   constructor(
@@ -142,6 +142,7 @@ export class ReturnToSender implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
+        filter_po_list_type: '6',
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
       };
@@ -162,6 +163,7 @@ export class ReturnToSender implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
+          filter_po_list_type: '6',
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
         };
@@ -183,6 +185,7 @@ export class ReturnToSender implements OnInit {
       this.search_term
     );
     this.listOfFilter = {
+      filter_po_list_type: '6',
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
     };
@@ -205,6 +208,7 @@ export class ReturnToSender implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
+        filter_po_list_type: '6',
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
       };

@@ -10,11 +10,11 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { endOfMonth } from 'date-fns';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   AppliedFilters,
   GetAllOrders,
 } from 'src/app/shared/model/orders.model';
-import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
 @Component({
@@ -47,7 +47,9 @@ export class AllOrdersComponent implements OnInit {
   remarkStatus: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '5',
+  };
   statusEnum: typeof StatusEnum = StatusEnum;
 
   constructor(
@@ -94,16 +96,14 @@ export class AllOrdersComponent implements OnInit {
         search_term: search_term,
       })
       .subscribe({
-        next: (result: ApiResponse) => {
-          if (result.success) {
-            const res: GetAllOrders = result?.response ?? {};
+        next: (response: ApiResponse) => {
+          if (response.success) {
+            const res: GetAllOrders = response.response ?? {};
             this.total = res?.pagination?.total_rows ?? 0;
             this.allOrdersData = res?.orders ?? [];
             this.totalData.emit(+this.total);
           } else {
-            this.message.error(
-              result?.msg ? result?.msg : 'Get All Orders Failed!'
-            );
+            this.message.error('Get All Orders Failed!');
           }
 
           this.isLoading = false;
@@ -192,7 +192,7 @@ export class AllOrdersComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'All',
+        filter_po_list_type: '5',
         filter_ship_out_location: this.selectLocation,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
@@ -227,7 +227,7 @@ export class AllOrdersComponent implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'All',
+          filter_po_list_type: '5',
           filter_ship_out_location: this.selectLocation,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
@@ -262,7 +262,7 @@ export class AllOrdersComponent implements OnInit {
       this.search_term
     );
     this.listOfFilter = {
-      filter_po_list_type: 'All',
+      filter_po_list_type: '5',
       filter_ship_out_location: this.selectLocation,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
@@ -300,7 +300,7 @@ export class AllOrdersComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'All',
+        filter_po_list_type: '5',
         filter_ship_out_location: this.selectLocation,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],

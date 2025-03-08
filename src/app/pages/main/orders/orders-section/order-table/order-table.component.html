@@ -19,7 +19,7 @@
           : tabName === 'returnToSender'
           ? '1500px'
           : '1200px',
-      y: 'calc(100vh - 416px)'
+      y: 'calc(100vh - 422px)'
     }"
     (nzPageIndexChange)="onPageIndexChange($event)"
   >
@@ -363,6 +363,13 @@
                   Download Label
                 </li>
                 <li
+                  *ngIf="showDownloadPackingSlip"
+                  (click)="selectAction(data?.po_no, 'Download Packing Slip')"
+                  nz-menu-item
+                >
+                  Download Packing Slip
+                </li>
+                <li
                   (click)="selectAction(data?.po_no, 'PO Clarification')"
                   nz-menu-item
                 >
@@ -396,6 +403,7 @@
 <app-po-clarification
   [poNo]="poNo"
   (close)="poClarification = false"
+  [isVisible]="poClarification"
 ></app-po-clarification>
 
 <nz-modal
@@ -465,6 +473,7 @@
 >
   <ng-container *nzModalContent>
     <app-report-carrier-damage
+      [type]="'rts'"
       (closeModal)="appReportCarrierDamageModalVisible = false"
       [poNo]="poNo"
     ></app-report-carrier-damage>

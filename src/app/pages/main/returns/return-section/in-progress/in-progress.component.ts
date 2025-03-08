@@ -10,11 +10,11 @@ import {
 } from 'src/app/shared/model/returns.model';
 import { ReturnService } from 'src/app/shared/service/return.service';
 @Component({
-  selector: 'app-wip-carrier',
-  templateUrl: './wip-carrier.component.html',
-  styleUrls: ['./wip-carrier.component.scss'],
+  selector: 'app-in-progress',
+  templateUrl: './in-progress.component.html',
+  styleUrls: ['./in-progress.component.scss'],
 })
-export class WipCarrier implements OnInit {
+export class InProgressComponent implements OnInit {
   @Output() totalData = new EventEmitter();
 
   isLoading: boolean = false;
@@ -30,7 +30,7 @@ export class WipCarrier implements OnInit {
   filter_end_date: string = '';
   filter_status: string = '';
   filter_return_classification: string = '';
-  defaultFilters: AppliedFilters = { filter_return_type: '4' };
+  defaultFilters: AppliedFilters = { filter_return_type: '5' };
 
   ranges = {
     Today: [new Date(), new Date()],
@@ -58,7 +58,7 @@ export class WipCarrier implements OnInit {
     // Custom: [],
   };
 
-  wipCarrierList: SingleReturn[] = [];
+  inProgressCarrierList: SingleReturn[] = [];
 
   constructor(
     private returnService: ReturnService,
@@ -86,7 +86,7 @@ export class WipCarrier implements OnInit {
     this.isLoading = true;
     const data: GetAllReturnsPayload = {
       page: page,
-      return_type: '4',
+      return_type: '5',
       search_term: search_term,
       filter_start_date: start_date,
       filter_end_date: end_date,
@@ -99,17 +99,19 @@ export class WipCarrier implements OnInit {
         if (result.success) {
           const res: GetAllReturn = result?.response ?? {};
           this.total = res?.pagination?.total_rows ?? 0;
-          this.wipCarrierList = res?.returns ?? [];
+          this.inProgressCarrierList = res?.returns ?? [];
           this.totalData.emit(+this.total);
         } else {
           this.message.error(
-            result?.msg ? result?.msg : 'Get Wip-Carrier Failed!'
+            result?.msg
+              ? result?.msg
+              : 'Get Carrier Claims (In Progress) Failed!'
           );
         }
       },
       error: (err) => {
         if (!err?.error_shown) {
-          this.message.error('Get Wip-Carrier Failed!');
+          this.message.error('Get Carrier Claims (Need Action) Failed!');
         }
         this.isLoading = false;
       },

@@ -1,12 +1,12 @@
 <div class="carrier-claims">
   <app-return-table
-    [listOfData]="wipCarrierList"
+    [listOfData]="carrierClaimsList"
     [total]="total"
     [pageSize]="pageSize"
     [pageIndex]="pageIndex"
     [isLoading]="isLoading"
     [search_term]="search_term"
-    [tabName]="'wipCarrier'"
+    [tabName]="'carrierClaims'"
     [defaultFilters]="defaultFilters"
     (pageChange)="pageIndexChange($event)"
     (searchChange)="searchDataChanges($event)"

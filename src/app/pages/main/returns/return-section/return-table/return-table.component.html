@@ -96,12 +96,12 @@
     [nzScroll]="{
       x:
         tabName === 'returnInitiated'
-          ? '1200px'
+          ? '1300px'
           : tabName === 'returnShipped'
-          ? '1600px'
+          ? '1750px'
           : tabName === 'returnDelivered'
-          ? '1400px'
-          : '1800px',
+          ? '1850px'
+          : '1950px',
       y: 'calc(100vh - 432px)'
     }"
     (nzPageIndexChange)="onPageIndexChange($event)"
@@ -117,17 +117,17 @@
           Return Classification
         </th>
 
-        <th>RA #</th>
+        <th nzWidth="300px">RA #</th>
 
         <th
           *ngIf="
             tabName === 'returnShipped' ||
             tabName === 'returnDelivered' ||
-            tabName === 'wipCarrier' ||
+            tabName === 'inProgress' ||
             tabName === 'needAction' ||
             tabName === 'all'
           "
-          nzWidth="200px"
+          nzWidth="250px"
         >
           Tracking No.
         </th>
@@ -135,7 +135,7 @@
         <th
           *ngIf="
             tabName === 'returnDelivered' ||
-            tabName === 'wipCarrier' ||
+            tabName === 'inProgress' ||
             tabName === 'needAction' ||
             tabName === 'all'
           "
@@ -157,7 +157,7 @@
         <th
           [nzWidth]="'227px'"
           *ngIf="
-            tabName === 'wipCarrier' ||
+            tabName === 'inProgress' ||
             tabName === 'needAction' ||
             tabName === 'all'
           "
@@ -168,7 +168,7 @@
         <th
           [nzWidth]="
             tabName === 'returnDelivered' ||
-            tabName === 'wipCarrier' ||
+            tabName === 'inProgress' ||
             tabName === 'needAction'
               ? '250px'
               : tabName === 'all'
@@ -195,7 +195,7 @@
                   ? 'return-shipped/'
                   : tabName === 'returnDelivered'
                   ? 'return-delivered/'
-                  : tabName === 'wipCarrier' || tabName === 'needAction'
+                  : tabName === 'inProgress' || tabName === 'needAction'
                   ? 'carrier-claims/'
                   : tabName === 'all'
                   ? 'all/'
@@ -207,14 +207,18 @@
               >{{ data?.po_no }}</a
             >
           </td>
-          <td class="no-wrap">{{ data?.invoice_no }}</td>
+          <td class="no-wrap">
+            <a class="link" (click)="getDownloadInvoice(data.po_no)">
+              {{ data?.invoice_no }}
+            </a>
+          </td>
           <td nzBreakWord>{{ data?.customer_name }}</td>
 
           <td>
             <div>
               <a
                 (click)="
-                  navigatePage('products/details', { sku: data?.product_mpn })
+                  navigatePage('products/details', { sku: data?.product_sku })
                 "
                 class="link no-wrap"
                 >{{ data?.product_mpn }}</a
@@ -275,28 +279,30 @@
             *ngIf="
               tabName === 'returnShipped' ||
               tabName === 'returnDelivered' ||
-              tabName === 'wipCarrier' ||
+              tabName === 'inProgress' ||
               tabName === 'needAction' ||
               tabName === 'all'
             "
           >
-            <div>
-              <b class="no-wrap">{{ data?.tracking?.name }}</b>
+            <div *ngIf="data?.tracking?.number">
+              <div>
+                <b class="no-wrap">{{ data?.tracking?.name }}</b>
+              </div>
+              <ul class="sub-section">
+                <li>
+                  <div class="sub-val no-wrap">
+                    <span class="title">AWB:&nbsp;</span
+                    >{{ data?.tracking?.number }}
+                  </div>
+                </li>
+              </ul>
             </div>
-            <ul class="sub-section">
-              <li>
-                <div class="sub-val no-wrap">
-                  <span class="title">AWB:&nbsp;</span
-                  >{{ data?.tracking?.number }}
-                </div>
-              </li>
-            </ul>
           </td>
 
           <td
             *ngIf="
               tabName === 'returnDelivered' ||
-              tabName === 'wipCarrier' ||
+              tabName === 'inProgress' ||
               tabName === 'needAction' ||
               tabName === 'all'
             "
@@ -327,7 +333,7 @@
 
           <td
             *ngIf="
-              tabName === 'wipCarrier' ||
+              tabName === 'inProgress' ||
               tabName === 'needAction' ||
               tabName === 'all'
             "
@@ -369,7 +375,7 @@
               style="display: flex"
               *ngIf="
                 tabName === 'returnDelivered' ||
-                tabName === 'wipCarrier' ||
+                tabName === 'inProgress' ||
                 tabName === 'needAction'
               "
             >
@@ -531,7 +537,7 @@
 
         <div
           *ngIf="
-            tabName === 'wipCarrier' ||
+            tabName === 'inProgress' ||
             tabName === 'needAction' ||
             tabName === 'all'
           "
@@ -604,7 +610,8 @@
 >
   <ng-container *nzModalContent>
     <app-upload-credit-note
-      [type]="'reclassifyReturn'"
+      [type]="tabName === 'returnDelivered' ? 'return' : 'claim'"
+      [ReclassifyReturn]="true"
       [poNo]="poNo"
       (closeModal)="reclassifyReturnModalVisible = false"
     ></app-upload-credit-note>
@@ -620,6 +627,7 @@
 >
   <ng-container *nzModalContent>
     <app-report-carrier-damage
+      [type]="tabName === 'returnDelivered' ? 'return' : 'claim'"
       (closeModal)="appReportCarrierDamageModalVisible = false"
       [poNo]="poNo"
     ></app-report-carrier-damage>

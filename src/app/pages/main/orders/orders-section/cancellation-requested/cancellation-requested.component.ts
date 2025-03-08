@@ -44,7 +44,9 @@ export class CancellationRequestedComponent implements OnInit {
   remarkStatus: string = '';
 
   isExportVisible: boolean = false;
-  listOfFilter: AppliedFilters = {};
+  listOfFilter: AppliedFilters = {
+    filter_po_list_type: '3',
+  };
 
   constructor(
     private ordersService: OrdersService,
@@ -84,16 +86,13 @@ export class CancellationRequestedComponent implements OnInit {
       .subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            const res: GetAllOrders = result?.response ?? {};
+            const res: GetAllOrders = result.response ?? {};
             this.total = res?.pagination?.total_rows ?? 0;
             this.cancellationRequestedData = res?.orders ?? [];
+
             this.totalData.emit(+this.total);
           } else {
-            this.message.error(
-              result?.msg
-                ? result?.msg
-                : 'Get Buyer Cancellation Requested Failed!'
-            );
+            this.message.error('Get Buyer Cancellation Requested Failed!');
           }
           this.isLoading = false;
         },
@@ -178,7 +177,7 @@ export class CancellationRequestedComponent implements OnInit {
         this.search_term
       );
       this.listOfFilter = {
-        filter_po_list_type: 'Cancellation Requested',
+        filter_po_list_type: '3',
         filter_ship_out_location: this.selectLocation,
         filter_from_po_date: this.selectRangeDate[0],
         filter_to_po_date: this.selectRangeDate[1],
@@ -214,7 +213,7 @@ export class CancellationRequestedComponent implements OnInit {
           this.search_term
         );
         this.listOfFilter = {
-          filter_po_list_type: 'Cancellation Requested',
+          filter_po_list_type: '3',
           filter_ship_out_location: this.selectLocation,
           filter_from_po_date: this.selectRangeDate[0],
           filter_to_po_date: this.selectRangeDate[1],
@@ -248,7 +247,7 @@ export class CancellationRequestedComponent implements OnInit {
       this.search_term
     );
     this.listOfFilter = {
-      filter_po_list_type: 'Cancellation Requested',
+      filter_po_list_type: '3',
       filter_ship_out_location: this.selectLocation,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],
@@ -277,7 +276,7 @@ export class CancellationRequestedComponent implements OnInit {
       this.search_term
     );
     this.listOfFilter = {
-      filter_po_list_type: 'Cancellation Requested',
+      filter_po_list_type: '3',
       filter_ship_out_location: this.selectLocation,
       filter_from_po_date: this.selectRangeDate[0],
       filter_to_po_date: this.selectRangeDate[1],

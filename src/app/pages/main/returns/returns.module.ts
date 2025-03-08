@@ -9,14 +9,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ReturnInitiatedComponent } from './return-section/return-initiated/return-initiated.component';
 import { ReturnShipped } from './return-section/return-shipped/return-shipped.component';
 import { ReturnDelivered } from './return-section/return-delivered/return-delivered.component';
+import { CarrierClaims } from './return-section/carrier-claims/carrier-claims.component';
 import { AllReturnComponent } from './return-section/all-return/all-return.component';
 import { ComponentModule } from 'src/app/components/component.module';
 import { ReturnApproveComponent } from './return-section/return-approve/return-approve.component';
 import { ReturnTableComponent } from './return-section/return-table/return-table.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { AddRa } from './return-section/forms/add-ra/add-ra.component';
-import { NeedAction } from './return-section/need-action/need-action.component';
-import { WipCarrier } from './return-section/wip-carrier/wip-carrier.component';
+import { InProgressComponent } from './return-section/in-progress/in-progress.component';
+import { NeedActionComponent } from './return-section/need-action/need-action.component';
 import { AdditionalDetailComponent } from './return-section/forms/additional-details/additional-details.component';
 
 @NgModule({
@@ -25,12 +26,13 @@ import { AdditionalDetailComponent } from './return-section/forms/additional-det
     ReturnInitiatedComponent,
     ReturnShipped,
     ReturnDelivered,
+    CarrierClaims,
     AllReturnComponent,
     ReturnApproveComponent,
     AddRa,
     ReturnTableComponent,
-    NeedAction,
-    WipCarrier,
+    InProgressComponent,
+    NeedActionComponent,
     AdditionalDetailComponent,
   ],
   imports: [
