@@ -254,6 +254,13 @@
                 Acknowledge
               </button>
               <button
+                style="border: 1px solid #2121c3; color: #2121c3"
+                nz-button
+                (click)="markOrderShipped(data?.po_no)"
+              >
+                Confirm Shipped
+              </button>
+              <button
                 style="border: 1px solid #dc3545; color: #dc3545"
                 nz-button
                 (click)="selectAction(data?.po_no, 'Cancel Order')"
