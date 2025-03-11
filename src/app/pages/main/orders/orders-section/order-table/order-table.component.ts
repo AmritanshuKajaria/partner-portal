@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { StatusEnum } from 'src/app/components/status-badge/status-badge.component';
+import { resText } from 'src/app/shared/constants/constants';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import { markAsLostPayload } from 'src/app/shared/model/returns.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
@@ -69,7 +70,7 @@ export class OrderTableComponent implements OnInit {
         this.ordersService.acknowledgeOrders(po_no).subscribe({
           next: (result: ApiResponse) => {
             if (result.success) {
-              this.message.success('Order acknowledged successfully!');
+              this.message.success(resText);
             } else {
               this.message.error(
                 result?.msg ? result?.msg : 'Order acknowledge failed!'
@@ -110,7 +111,7 @@ export class OrderTableComponent implements OnInit {
         this.ordersService.acceptCancellation(po_no).subscribe({
           next: (result: ApiResponse) => {
             if (result.success) {
-              this.message.success('Accept cancellation successfully!');
+              this.message.success(resText);
             } else {
               this.message.error(
                 result?.msg ? result?.msg : 'Accept cancellation failed!'
@@ -238,7 +239,7 @@ export class OrderTableComponent implements OnInit {
         this.returnService.markAsLost(data).subscribe({
           next: (result: ApiResponse) => {
             if (result.success) {
-              this.message.success('Mark as lost successfully!');
+              this.message.success(resText);
             } else {
               this.message.error(
                 result?.msg ? result?.msg : 'Failed to Mark as lost!'

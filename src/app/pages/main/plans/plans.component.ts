@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Subject, takeUntil } from 'rxjs';
-import { PlanLabels } from 'src/app/shared/constants/constants';
+import { PlanLabels, resText } from 'src/app/shared/constants/constants';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import { UserPermissionService } from 'src/app/shared/service/user-permission.service';
 
@@ -74,7 +74,7 @@ export class PlansComponent implements OnInit, OnDestroy {
             );
             this.isLoading = false;
             this.dialogVisible = false;
-            this.message.success('Plan Update Successfull');
+            this.message.success(resText);
           }
         },
         error: (e) => {

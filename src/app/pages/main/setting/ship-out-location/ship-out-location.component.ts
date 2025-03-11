@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   FormAction,
+  resText,
   Section,
   TimeZone,
   USStates,
@@ -213,7 +214,7 @@ export class ShipOutLocationComponent implements OnInit {
           this.partnerService.updatePartner(payload).subscribe({
             next: (result: ApiResponse) => {
               resolve(result);
-              this.message.create('success', 'Data Updated Successfully!');
+              this.message.success(resText);
               this.isLoading = true;
               this.formTypes.setValue('active');
               // Fetch the updated partner data after a successful update
@@ -328,7 +329,7 @@ export class ShipOutLocationComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
             this.formTypes.setValue('active');
             this.showSection = this.section.TABLE;
             // Fetch the updated partner data after a successful update

@@ -8,7 +8,7 @@ import {
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Section, TimeZone } from 'src/app/shared/constants/constants';
+import { resText, Section, TimeZone } from 'src/app/shared/constants/constants';
 import { CommonService } from 'src/app/shared/service/common.service';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -157,7 +157,7 @@ export class ShippingClosuresComponent implements OnInit {
           this.partnerService.updatePartner(payload).subscribe({
             next: (result: ApiResponse) => {
               resolve(result);
-              this.message.create('success', 'Data Deleted Successfully!');
+              this.message.success(resText);
               this.getPartnersData();
             },
             error: (error) => {
@@ -210,7 +210,7 @@ export class ShippingClosuresComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
             this.formTypes.setValue('new');
             this.showSection = this.section.TABLE;
             // Fetch the updated partner data after a successful update

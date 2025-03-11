@@ -12,6 +12,7 @@ import { FormValidationService } from 'src/app/shared/service/form-validation.se
 import { PartnerService } from 'src/app/shared/service/partner.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ApiResponse } from 'src/app/shared/model/common.model';
+import { resText } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-map-handling',
@@ -153,7 +154,7 @@ export class MapHandlingComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
 
             // Fetch the updated partner data after a successful update
             this.getPartnersAndPatchForm();

@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import {
   EnabledCarriersOptions,
+  resText,
   ReturnProfileOptions,
 } from 'src/app/shared/constants/constants';
 import { CommonService } from 'src/app/shared/service/common.service';
@@ -235,7 +236,7 @@ export class OrderProcessingReturnComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
 
             // Fetch the updated partner data after a successful update
             this.getPartnersAndPatchForm();

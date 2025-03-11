@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { resText } from 'src/app/shared/constants/constants';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -55,7 +56,7 @@ export class UploadComponent implements OnInit {
         next: (result: ApiResponse) => {
           if (result.success) {
             const res: any = result.response ?? {};
-            this.message.create('success', 'Invoice upload successfully!');
+            this.message.success(resText);
             this.handleCancel(res?.feed_code);
           } else {
             this.message.error(
