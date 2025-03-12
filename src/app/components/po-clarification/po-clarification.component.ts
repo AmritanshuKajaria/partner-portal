@@ -10,6 +10,7 @@ import {
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { resText } from 'src/app/shared/constants/constants';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import { OrdersService } from 'src/app/shared/service/orders.service';
 
@@ -69,7 +70,7 @@ export class PoClarificationComponent implements OnInit, OnChanges {
       next: (result: ApiResponse) => {
         this.isLoading = false;
         if (result.success) {
-          this.message.success('PO clarification successfully!');
+          this.message.success(resText);
           this.close.emit();
         } else {
           this.message.error(

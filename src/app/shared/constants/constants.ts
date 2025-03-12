@@ -397,3 +397,6 @@ export const restrictedReasonList = [
   'Fragile - Cannot Ship Small Parcel',
   'Other Reason',
 ];
+
+export const resText =
+  'Your request has been successfully submitted and will be processed soon.';

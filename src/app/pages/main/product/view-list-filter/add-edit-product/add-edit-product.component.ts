@@ -10,7 +10,10 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { restrictedReasonList } from 'src/app/shared/constants/constants';
+import {
+  resText,
+  restrictedReasonList,
+} from 'src/app/shared/constants/constants';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import { ProductService } from 'src/app/shared/service/product.service';
 
@@ -410,7 +413,7 @@ export class AddEditProductComponent implements OnInit {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.resReferenceCode = res?.reference_code;
-              this.message.create('success', 'Edit product successfully!');
+              this.message.success(resText);
               this.backButton();
             } else {
               this.message.error(
@@ -432,7 +435,7 @@ export class AddEditProductComponent implements OnInit {
             if (result.success) {
               const res: any = result?.response ?? {};
               this.resReferenceCode = res?.reference_code;
-              this.message.create('success', 'Add product successfully!');
+              this.message.success(resText);
               this.backButton();
             } else {
               this.message.error(

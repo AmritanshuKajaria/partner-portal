@@ -10,7 +10,7 @@ import {
 import { Router } from '@angular/router';
 import * as moment from 'moment';
 import { NzModalService } from 'ng-zorro-antd/modal';
-import { Section } from 'src/app/shared/constants/constants';
+import { resText, Section } from 'src/app/shared/constants/constants';
 import { FormValidationService } from 'src/app/shared/service/form-validation.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PartnerService } from 'src/app/shared/service/partner.service';
@@ -438,7 +438,7 @@ export class NotificationEmailComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
             // Fetch the updated partner data after a successful update
             this.getPartnersAndPatchForm();
           } else {
@@ -493,7 +493,7 @@ export class NotificationEmailComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
             this.showSection = this.section.TABLE;
             // Fetch the updated partner data after a successful update
             this.getPartnersAndPatchForm();

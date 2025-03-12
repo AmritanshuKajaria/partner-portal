@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { resText } from 'src/app/shared/constants/constants';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import { PromoTemplate } from 'src/app/shared/model/promotion.model';
 import AppDateFormate from 'src/app/shared/pipes/custom-date.pipe';
@@ -118,7 +119,7 @@ export class AddPromotionsComponent implements OnInit {
           this.isLoading = false;
           if (result.success) {
             const res: any = result?.response ?? {};
-            // this.message.create('success', 'Add Promotion Successful');
+            this.message.success(resText);
             this.handleCancel(res.reference_code);
           } else {
             this.message.error(

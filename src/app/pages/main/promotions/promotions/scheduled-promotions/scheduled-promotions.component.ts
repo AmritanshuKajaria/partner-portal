@@ -2,6 +2,7 @@ import { formatDate } from '@angular/common';
 import { Component, Inject, LOCALE_ID, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { resText } from 'src/app/shared/constants/constants';
 import { ApiResponse } from 'src/app/shared/model/common.model';
 import {
   EditEndDatePromotions,
@@ -187,7 +188,7 @@ export class ScheduledPromotionsComponent implements OnInit {
     this.promotionsService.editEndDatePromo(data).subscribe({
       next: (result: ApiResponse) => {
         if (result.success) {
-          this.message.create('success', 'End date edit successfully!');
+          this.message.success(resText);
           this.addEndDateVisible = false;
         } else {
           this.message.error(

@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import {
   FormAction,
+  resText,
   Section,
   TimeZone,
 } from 'src/app/shared/constants/constants';
@@ -216,7 +217,7 @@ export class ContactComponent implements OnInit {
           this.partnerService.updatePartner(payload).subscribe({
             next: (result: ApiResponse) => {
               resolve(result);
-              this.message.create('success', 'Data Updated Successfully!');
+              this.message.success(resText);
               // Fetch the updated partner data after a successful update
               this.getPartnersAndPatchForm();
             },
@@ -296,7 +297,7 @@ export class ContactComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
             this.isSaving = false;
             this.contactId = '0';
             this.contactForm?.reset();

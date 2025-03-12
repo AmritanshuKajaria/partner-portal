@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import {
   FormAction,
+  resText,
   TimeZone,
   USStates,
 } from 'src/app/shared/constants/constants';
@@ -290,7 +291,7 @@ export class ReturnLocationComponent implements OnInit {
       this.partnerService.updatePartner(payload).subscribe({
         next: (result: ApiResponse) => {
           if (result.success) {
-            this.message.create('success', 'Data Updated Successfully!');
+            this.message.success(resText);
 
             // Fetch the updated partner data after a successful update
             this.getPartnersAndPatchForm();
